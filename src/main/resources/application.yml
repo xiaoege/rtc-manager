@@ -10,3 +10,7 @@ server:
 
 mybatis:
   mapperLocations: classpath:mapper/*.xml
+
+logging:
+  level:
+    com.rtc.manager.dao: debug
