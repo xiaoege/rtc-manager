@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.QccShareholderMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.QccShareholder">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="ratio" jdbcType="VARCHAR" property="ratio" />
+    <result column="subscribed_capital" jdbcType="VARCHAR" property="subscribedCapital" />
+    <result column="subscribed_capital_date" jdbcType="VARCHAR" property="subscribedCapitalDate" />
+    <result column="paid_capital" jdbcType="VARCHAR" property="paidCapital" />
+    <result column="paid_capital_date" jdbcType="VARCHAR" property="paidCapitalDate" />
+    <result column="subscribed_capital_way" jdbcType="VARCHAR" property="subscribedCapitalWay" />
+    <result column="paid_capital_way" jdbcType="VARCHAR" property="paidCapitalWay" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, name, ratio, subscribed_capital, subscribed_capital_date, paid_capital, 
+    paid_capital_date, subscribed_capital_way, paid_capital_way, gmt_create, gmt_modify, 
+    status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from qcc_shareholder
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from qcc_shareholder
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rtc.manager.entity.QccShareholder">
+    insert into qcc_shareholder (id, enterprise_id, name, 
+      ratio, subscribed_capital, subscribed_capital_date, 
+      paid_capital, paid_capital_date, subscribed_capital_way, 
+      paid_capital_way, gmt_create, gmt_modify, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{ratio,jdbcType=VARCHAR}, #{subscribedCapital,jdbcType=VARCHAR}, #{subscribedCapitalDate,jdbcType=VARCHAR}, 
+      #{paidCapital,jdbcType=VARCHAR}, #{paidCapitalDate,jdbcType=VARCHAR}, #{subscribedCapitalWay,jdbcType=VARCHAR}, 
+      #{paidCapitalWay,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.QccShareholder">
+    insert into qcc_shareholder
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="ratio != null">
+        ratio,
+      </if>
+      <if test="subscribedCapital != null">
+        subscribed_capital,
+      </if>
+      <if test="subscribedCapitalDate != null">
+        subscribed_capital_date,
+      </if>
+      <if test="paidCapital != null">
+        paid_capital,
+      </if>
+      <if test="paidCapitalDate != null">
+        paid_capital_date,
+      </if>
+      <if test="subscribedCapitalWay != null">
+        subscribed_capital_way,
+      </if>
+      <if test="paidCapitalWay != null">
+        paid_capital_way,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="ratio != null">
+        #{ratio,jdbcType=VARCHAR},
+      </if>
+      <if test="subscribedCapital != null">
+        #{subscribedCapital,jdbcType=VARCHAR},
+      </if>
+      <if test="subscribedCapitalDate != null">
+        #{subscribedCapitalDate,jdbcType=VARCHAR},
+      </if>
+      <if test="paidCapital != null">
+        #{paidCapital,jdbcType=VARCHAR},
+      </if>
+      <if test="paidCapitalDate != null">
+        #{paidCapitalDate,jdbcType=VARCHAR},
+      </if>
+      <if test="subscribedCapitalWay != null">
+        #{subscribedCapitalWay,jdbcType=VARCHAR},
+      </if>
+      <if test="paidCapitalWay != null">
+        #{paidCapitalWay,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.QccShareholder">
+    update qcc_shareholder
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="ratio != null">
+        ratio = #{ratio,jdbcType=VARCHAR},
+      </if>
+      <if test="subscribedCapital != null">
+        subscribed_capital = #{subscribedCapital,jdbcType=VARCHAR},
+      </if>
+      <if test="subscribedCapitalDate != null">
+        subscribed_capital_date = #{subscribedCapitalDate,jdbcType=VARCHAR},
+      </if>
+      <if test="paidCapital != null">
+        paid_capital = #{paidCapital,jdbcType=VARCHAR},
+      </if>
+      <if test="paidCapitalDate != null">
+        paid_capital_date = #{paidCapitalDate,jdbcType=VARCHAR},
+      </if>
+      <if test="subscribedCapitalWay != null">
+        subscribed_capital_way = #{subscribedCapitalWay,jdbcType=VARCHAR},
+      </if>
+      <if test="paidCapitalWay != null">
+        paid_capital_way = #{paidCapitalWay,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.QccShareholder">
+    update qcc_shareholder
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      ratio = #{ratio,jdbcType=VARCHAR},
+      subscribed_capital = #{subscribedCapital,jdbcType=VARCHAR},
+      subscribed_capital_date = #{subscribedCapitalDate,jdbcType=VARCHAR},
+      paid_capital = #{paidCapital,jdbcType=VARCHAR},
+      paid_capital_date = #{paidCapitalDate,jdbcType=VARCHAR},
+      subscribed_capital_way = #{subscribedCapitalWay,jdbcType=VARCHAR},
+      paid_capital_way = #{paidCapitalWay,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

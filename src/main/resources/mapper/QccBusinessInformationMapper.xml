@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.QccBusinessInformationMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.QccBusinessInformation">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="business_status" jdbcType="VARCHAR" property="businessStatus" />
+    <result column="establishment_date" jdbcType="VARCHAR" property="establishmentDate" />
+    <result column="registered_capital" jdbcType="VARCHAR" property="registeredCapital" />
+    <result column="paid_in_capital" jdbcType="VARCHAR" property="paidInCapital" />
+    <result column="check_date" jdbcType="VARCHAR" property="checkDate" />
+    <result column="unified_social_credit_code" jdbcType="VARCHAR" property="unifiedSocialCreditCode" />
+    <result column="organization_code" jdbcType="VARCHAR" property="organizationCode" />
+    <result column="business_registration_no" jdbcType="VARCHAR" property="businessRegistrationNo" />
+    <result column="taxpayer_registration_number" jdbcType="VARCHAR" property="taxpayerRegistrationNumber" />
+    <result column="import_export _enterprise_code" jdbcType="VARCHAR" property="importExportEnterpriseCode" />
+    <result column="industry" jdbcType="VARCHAR" property="industry" />
+    <result column="business_type" jdbcType="VARCHAR" property="businessType" />
+    <result column="business_term" jdbcType="VARCHAR" property="businessTerm" />
+    <result column="registration_authority" jdbcType="VARCHAR" property="registrationAuthority" />
+    <result column="staff_size" jdbcType="VARCHAR" property="staffSize" />
+    <result column="staff_insured" jdbcType="VARCHAR" property="staffInsured" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
+    <result column="old_name" jdbcType="VARCHAR" property="oldName" />
+    <result column="english_name" jdbcType="VARCHAR" property="englishName" />
+    <result column="business_address" jdbcType="VARCHAR" property="businessAddress" />
+    <result column="business_scope" jdbcType="VARCHAR" property="businessScope" />
+    <result column="legal_representative" jdbcType="VARCHAR" property="legalRepresentative" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, business_status, establishment_date, registered_capital, paid_in_capital, 
+    check_date, unified_social_credit_code, organization_code, business_registration_no, 
+    taxpayer_registration_number, "import_export _enterprise_code", industry, business_type, 
+    business_term, registration_authority, staff_size, staff_insured, area, old_name, 
+    english_name, business_address, business_scope, legal_representative, gmt_create, 
+    gmt_modify, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from qcc_business_information
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from qcc_business_information
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rtc.manager.entity.QccBusinessInformation">
+    insert into qcc_business_information (id, enterprise_id, business_status, 
+      establishment_date, registered_capital, paid_in_capital, 
+      check_date, unified_social_credit_code, organization_code, 
+      business_registration_no, taxpayer_registration_number, 
+      "import_export _enterprise_code", industry, business_type, 
+      business_term, registration_authority, staff_size, 
+      staff_insured, area, old_name, 
+      english_name, business_address, business_scope, 
+      legal_representative, gmt_create, gmt_modify, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{businessStatus,jdbcType=VARCHAR}, 
+      #{establishmentDate,jdbcType=VARCHAR}, #{registeredCapital,jdbcType=VARCHAR}, #{paidInCapital,jdbcType=VARCHAR}, 
+      #{checkDate,jdbcType=VARCHAR}, #{unifiedSocialCreditCode,jdbcType=VARCHAR}, #{organizationCode,jdbcType=VARCHAR}, 
+      #{businessRegistrationNo,jdbcType=VARCHAR}, #{taxpayerRegistrationNumber,jdbcType=VARCHAR}, 
+      #{importExportEnterpriseCode,jdbcType=VARCHAR}, #{industry,jdbcType=VARCHAR}, #{businessType,jdbcType=VARCHAR}, 
+      #{businessTerm,jdbcType=VARCHAR}, #{registrationAuthority,jdbcType=VARCHAR}, #{staffSize,jdbcType=VARCHAR}, 
+      #{staffInsured,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{oldName,jdbcType=VARCHAR}, 
+      #{englishName,jdbcType=VARCHAR}, #{businessAddress,jdbcType=VARCHAR}, #{businessScope,jdbcType=VARCHAR}, 
+      #{legalRepresentative,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.QccBusinessInformation">
+    insert into qcc_business_information
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="businessStatus != null">
+        business_status,
+      </if>
+      <if test="establishmentDate != null">
+        establishment_date,
+      </if>
+      <if test="registeredCapital != null">
+        registered_capital,
+      </if>
+      <if test="paidInCapital != null">
+        paid_in_capital,
+      </if>
+      <if test="checkDate != null">
+        check_date,
+      </if>
+      <if test="unifiedSocialCreditCode != null">
+        unified_social_credit_code,
+      </if>
+      <if test="organizationCode != null">
+        organization_code,
+      </if>
+      <if test="businessRegistrationNo != null">
+        business_registration_no,
+      </if>
+      <if test="taxpayerRegistrationNumber != null">
+        taxpayer_registration_number,
+      </if>
+      <if test="importExportEnterpriseCode != null">
+        "import_export _enterprise_code",
+      </if>
+      <if test="industry != null">
+        industry,
+      </if>
+      <if test="businessType != null">
+        business_type,
+      </if>
+      <if test="businessTerm != null">
+        business_term,
+      </if>
+      <if test="registrationAuthority != null">
+        registration_authority,
+      </if>
+      <if test="staffSize != null">
+        staff_size,
+      </if>
+      <if test="staffInsured != null">
+        staff_insured,
+      </if>
+      <if test="area != null">
+        area,
+      </if>
+      <if test="oldName != null">
+        old_name,
+      </if>
+      <if test="englishName != null">
+        english_name,
+      </if>
+      <if test="businessAddress != null">
+        business_address,
+      </if>
+      <if test="businessScope != null">
+        business_scope,
+      </if>
+      <if test="legalRepresentative != null">
+        legal_representative,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="businessStatus != null">
+        #{businessStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="establishmentDate != null">
+        #{establishmentDate,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredCapital != null">
+        #{registeredCapital,jdbcType=VARCHAR},
+      </if>
+      <if test="paidInCapital != null">
+        #{paidInCapital,jdbcType=VARCHAR},
+      </if>
+      <if test="checkDate != null">
+        #{checkDate,jdbcType=VARCHAR},
+      </if>
+      <if test="unifiedSocialCreditCode != null">
+        #{unifiedSocialCreditCode,jdbcType=VARCHAR},
+      </if>
+      <if test="organizationCode != null">
+        #{organizationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="businessRegistrationNo != null">
+        #{businessRegistrationNo,jdbcType=VARCHAR},
+      </if>
+      <if test="taxpayerRegistrationNumber != null">
+        #{taxpayerRegistrationNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="importExportEnterpriseCode != null">
+        #{importExportEnterpriseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null">
+        #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="businessType != null">
+        #{businessType,jdbcType=VARCHAR},
+      </if>
+      <if test="businessTerm != null">
+        #{businessTerm,jdbcType=VARCHAR},
+      </if>
+      <if test="registrationAuthority != null">
+        #{registrationAuthority,jdbcType=VARCHAR},
+      </if>
+      <if test="staffSize != null">
+        #{staffSize,jdbcType=VARCHAR},
+      </if>
+      <if test="staffInsured != null">
+        #{staffInsured,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="oldName != null">
+        #{oldName,jdbcType=VARCHAR},
+      </if>
+      <if test="englishName != null">
+        #{englishName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessAddress != null">
+        #{businessAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="businessScope != null">
+        #{businessScope,jdbcType=VARCHAR},
+      </if>
+      <if test="legalRepresentative != null">
+        #{legalRepresentative,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.QccBusinessInformation">
+    update qcc_business_information
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="businessStatus != null">
+        business_status = #{businessStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="establishmentDate != null">
+        establishment_date = #{establishmentDate,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredCapital != null">
+        registered_capital = #{registeredCapital,jdbcType=VARCHAR},
+      </if>
+      <if test="paidInCapital != null">
+        paid_in_capital = #{paidInCapital,jdbcType=VARCHAR},
+      </if>
+      <if test="checkDate != null">
+        check_date = #{checkDate,jdbcType=VARCHAR},
+      </if>
+      <if test="unifiedSocialCreditCode != null">
+        unified_social_credit_code = #{unifiedSocialCreditCode,jdbcType=VARCHAR},
+      </if>
+      <if test="organizationCode != null">
+        organization_code = #{organizationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="businessRegistrationNo != null">
+        business_registration_no = #{businessRegistrationNo,jdbcType=VARCHAR},
+      </if>
+      <if test="taxpayerRegistrationNumber != null">
+        taxpayer_registration_number = #{taxpayerRegistrationNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="importExportEnterpriseCode != null">
+        "import_export _enterprise_code" = #{importExportEnterpriseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null">
+        industry = #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="businessType != null">
+        business_type = #{businessType,jdbcType=VARCHAR},
+      </if>
+      <if test="businessTerm != null">
+        business_term = #{businessTerm,jdbcType=VARCHAR},
+      </if>
+      <if test="registrationAuthority != null">
+        registration_authority = #{registrationAuthority,jdbcType=VARCHAR},
+      </if>
+      <if test="staffSize != null">
+        staff_size = #{staffSize,jdbcType=VARCHAR},
+      </if>
+      <if test="staffInsured != null">
+        staff_insured = #{staffInsured,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="oldName != null">
+        old_name = #{oldName,jdbcType=VARCHAR},
+      </if>
+      <if test="englishName != null">
+        english_name = #{englishName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessAddress != null">
+        business_address = #{businessAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="businessScope != null">
+        business_scope = #{businessScope,jdbcType=VARCHAR},
+      </if>
+      <if test="legalRepresentative != null">
+        legal_representative = #{legalRepresentative,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.QccBusinessInformation">
+    update qcc_business_information
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      business_status = #{businessStatus,jdbcType=VARCHAR},
+      establishment_date = #{establishmentDate,jdbcType=VARCHAR},
+      registered_capital = #{registeredCapital,jdbcType=VARCHAR},
+      paid_in_capital = #{paidInCapital,jdbcType=VARCHAR},
+      check_date = #{checkDate,jdbcType=VARCHAR},
+      unified_social_credit_code = #{unifiedSocialCreditCode,jdbcType=VARCHAR},
+      organization_code = #{organizationCode,jdbcType=VARCHAR},
+      business_registration_no = #{businessRegistrationNo,jdbcType=VARCHAR},
+      taxpayer_registration_number = #{taxpayerRegistrationNumber,jdbcType=VARCHAR},
+      "import_export _enterprise_code" = #{importExportEnterpriseCode,jdbcType=VARCHAR},
+      industry = #{industry,jdbcType=VARCHAR},
+      business_type = #{businessType,jdbcType=VARCHAR},
+      business_term = #{businessTerm,jdbcType=VARCHAR},
+      registration_authority = #{registrationAuthority,jdbcType=VARCHAR},
+      staff_size = #{staffSize,jdbcType=VARCHAR},
+      staff_insured = #{staffInsured,jdbcType=VARCHAR},
+      area = #{area,jdbcType=VARCHAR},
+      old_name = #{oldName,jdbcType=VARCHAR},
+      english_name = #{englishName,jdbcType=VARCHAR},
+      business_address = #{businessAddress,jdbcType=VARCHAR},
+      business_scope = #{businessScope,jdbcType=VARCHAR},
+      legal_representative = #{legalRepresentative,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

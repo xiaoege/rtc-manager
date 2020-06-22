@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.QccAnnualReportMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.QccAnnualReport">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="uuid" jdbcType="VARCHAR" property="uuid" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="year" jdbcType="VARCHAR" property="year" />
+    <result column="unified_social_credit_code" jdbcType="VARCHAR" property="unifiedSocialCreditCode" />
+    <result column="registration_number" jdbcType="VARCHAR" property="registrationNumber" />
+    <result column="business_status" jdbcType="VARCHAR" property="businessStatus" />
+    <result column="business_telephone" jdbcType="VARCHAR" property="businessTelephone" />
+    <result column="e_mail" jdbcType="VARCHAR" property="eMail" />
+    <result column="post_code" jdbcType="VARCHAR" property="postCode" />
+    <result column="staff_number" jdbcType="VARCHAR" property="staffNumber" />
+    <result column="equity_transfer" jdbcType="VARCHAR" property="equityTransfer" />
+    <result column="purchase_equity" jdbcType="VARCHAR" property="purchaseEquity" />
+    <result column="postal_address" jdbcType="VARCHAR" property="postalAddress" />
+    <result column="total_assets" jdbcType="VARCHAR" property="totalAssets" />
+    <result column="total_equity" jdbcType="VARCHAR" property="totalEquity" />
+    <result column="total_operating_income" jdbcType="VARCHAR" property="totalOperatingIncome" />
+    <result column="total_profit" jdbcType="VARCHAR" property="totalProfit" />
+    <result column="net_profit" jdbcType="VARCHAR" property="netProfit" />
+    <result column="main_business_income" jdbcType="VARCHAR" property="mainBusinessIncome" />
+    <result column="total_tax" jdbcType="VARCHAR" property="totalTax" />
+    <result column="total_liabilities" jdbcType="VARCHAR" property="totalLiabilities" />
+    <result column="endowment_insurance" jdbcType="VARCHAR" property="endowmentInsurance" />
+    <result column="medical_insurance" jdbcType="VARCHAR" property="medicalInsurance" />
+    <result column="maternity insurance
+
+maternity insurance
+
+maternity_insurance" jdbcType="VARCHAR" property="maternityInsurance
+
+maternityInsurance
+
+maternityInsurance" />
+    <result column="unemployment_insurance" jdbcType="VARCHAR" property="unemploymentInsurance" />
+    <result column="employment_injury_insurance" jdbcType="VARCHAR" property="employmentInjuryInsurance" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, uuid, enterprise_id, year, unified_social_credit_code, registration_number, business_status, 
+    business_telephone, e_mail, post_code, staff_number, equity_transfer, purchase_equity, 
+    postal_address, total_assets, total_equity, total_operating_income, total_profit, 
+    net_profit, main_business_income, total_tax, total_liabilities, endowment_insurance, 
+    medical_insurance, "maternity insurance
+
+maternity insurance
+
+maternity_insurance", 
+    unemployment_insurance, employment_injury_insurance, gmt_create, gmt_modify, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from qcc_annual_report
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from qcc_annual_report
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rtc.manager.entity.QccAnnualReport">
+    insert into qcc_annual_report (id, uuid, enterprise_id, 
+      year, unified_social_credit_code, registration_number, 
+      business_status, business_telephone, e_mail, 
+      post_code, staff_number, equity_transfer, 
+      purchase_equity, postal_address, total_assets, 
+      total_equity, total_operating_income, total_profit, 
+      net_profit, main_business_income, total_tax, 
+      total_liabilities, endowment_insurance, medical_insurance, 
+      "maternity insurance
+
+maternity insurance
+
+maternity_insurance", 
+      unemployment_insurance, employment_injury_insurance, 
+      gmt_create, gmt_modify, status
+      )
+    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{enterpriseId,jdbcType=VARCHAR}, 
+      #{year,jdbcType=VARCHAR}, #{unifiedSocialCreditCode,jdbcType=VARCHAR}, #{registrationNumber,jdbcType=VARCHAR}, 
+      #{businessStatus,jdbcType=VARCHAR}, #{businessTelephone,jdbcType=VARCHAR}, #{eMail,jdbcType=VARCHAR}, 
+      #{postCode,jdbcType=VARCHAR}, #{staffNumber,jdbcType=VARCHAR}, #{equityTransfer,jdbcType=VARCHAR}, 
+      #{purchaseEquity,jdbcType=VARCHAR}, #{postalAddress,jdbcType=VARCHAR}, #{totalAssets,jdbcType=VARCHAR}, 
+      #{totalEquity,jdbcType=VARCHAR}, #{totalOperatingIncome,jdbcType=VARCHAR}, #{totalProfit,jdbcType=VARCHAR}, 
+      #{netProfit,jdbcType=VARCHAR}, #{mainBusinessIncome,jdbcType=VARCHAR}, #{totalTax,jdbcType=VARCHAR}, 
+      #{totalLiabilities,jdbcType=VARCHAR}, #{endowmentInsurance,jdbcType=VARCHAR}, #{medicalInsurance,jdbcType=VARCHAR}, 
+      #{maternityInsurance
+
+maternityInsurance
+
+maternityInsurance,jdbcType=VARCHAR}, 
+      #{unemploymentInsurance,jdbcType=VARCHAR}, #{employmentInjuryInsurance,jdbcType=VARCHAR}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.QccAnnualReport">
+    insert into qcc_annual_report
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="uuid != null">
+        uuid,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="year != null">
+        year,
+      </if>
+      <if test="unifiedSocialCreditCode != null">
+        unified_social_credit_code,
+      </if>
+      <if test="registrationNumber != null">
+        registration_number,
+      </if>
+      <if test="businessStatus != null">
+        business_status,
+      </if>
+      <if test="businessTelephone != null">
+        business_telephone,
+      </if>
+      <if test="eMail != null">
+        e_mail,
+      </if>
+      <if test="postCode != null">
+        post_code,
+      </if>
+      <if test="staffNumber != null">
+        staff_number,
+      </if>
+      <if test="equityTransfer != null">
+        equity_transfer,
+      </if>
+      <if test="purchaseEquity != null">
+        purchase_equity,
+      </if>
+      <if test="postalAddress != null">
+        postal_address,
+      </if>
+      <if test="totalAssets != null">
+        total_assets,
+      </if>
+      <if test="totalEquity != null">
+        total_equity,
+      </if>
+      <if test="totalOperatingIncome != null">
+        total_operating_income,
+      </if>
+      <if test="totalProfit != null">
+        total_profit,
+      </if>
+      <if test="netProfit != null">
+        net_profit,
+      </if>
+      <if test="mainBusinessIncome != null">
+        main_business_income,
+      </if>
+      <if test="totalTax != null">
+        total_tax,
+      </if>
+      <if test="totalLiabilities != null">
+        total_liabilities,
+      </if>
+      <if test="endowmentInsurance != null">
+        endowment_insurance,
+      </if>
+      <if test="medicalInsurance != null">
+        medical_insurance,
+      </if>
+      <if test="maternityInsurance
+
+maternityInsurance
+
+maternityInsurance != null">
+        "maternity insurance
+
+maternity insurance
+
+maternity_insurance",
+      </if>
+      <if test="unemploymentInsurance != null">
+        unemployment_insurance,
+      </if>
+      <if test="employmentInjuryInsurance != null">
+        employment_injury_insurance,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uuid != null">
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null">
+        #{year,jdbcType=VARCHAR},
+      </if>
+      <if test="unifiedSocialCreditCode != null">
+        #{unifiedSocialCreditCode,jdbcType=VARCHAR},
+      </if>
+      <if test="registrationNumber != null">
+        #{registrationNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="businessStatus != null">
+        #{businessStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="businessTelephone != null">
+        #{businessTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="eMail != null">
+        #{eMail,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null">
+        #{postCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffNumber != null">
+        #{staffNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="equityTransfer != null">
+        #{equityTransfer,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseEquity != null">
+        #{purchaseEquity,jdbcType=VARCHAR},
+      </if>
+      <if test="postalAddress != null">
+        #{postalAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="totalAssets != null">
+        #{totalAssets,jdbcType=VARCHAR},
+      </if>
+      <if test="totalEquity != null">
+        #{totalEquity,jdbcType=VARCHAR},
+      </if>
+      <if test="totalOperatingIncome != null">
+        #{totalOperatingIncome,jdbcType=VARCHAR},
+      </if>
+      <if test="totalProfit != null">
+        #{totalProfit,jdbcType=VARCHAR},
+      </if>
+      <if test="netProfit != null">
+        #{netProfit,jdbcType=VARCHAR},
+      </if>
+      <if test="mainBusinessIncome != null">
+        #{mainBusinessIncome,jdbcType=VARCHAR},
+      </if>
+      <if test="totalTax != null">
+        #{totalTax,jdbcType=VARCHAR},
+      </if>
+      <if test="totalLiabilities != null">
+        #{totalLiabilities,jdbcType=VARCHAR},
+      </if>
+      <if test="endowmentInsurance != null">
+        #{endowmentInsurance,jdbcType=VARCHAR},
+      </if>
+      <if test="medicalInsurance != null">
+        #{medicalInsurance,jdbcType=VARCHAR},
+      </if>
+      <if test="maternityInsurance
+
+maternityInsurance
+
+maternityInsurance != null">
+        #{maternityInsurance
+
+maternityInsurance
+
+maternityInsurance,jdbcType=VARCHAR},
+      </if>
+      <if test="unemploymentInsurance != null">
+        #{unemploymentInsurance,jdbcType=VARCHAR},
+      </if>
+      <if test="employmentInjuryInsurance != null">
+        #{employmentInjuryInsurance,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.QccAnnualReport">
+    update qcc_annual_report
+    <set>
+      <if test="uuid != null">
+        uuid = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null">
+        year = #{year,jdbcType=VARCHAR},
+      </if>
+      <if test="unifiedSocialCreditCode != null">
+        unified_social_credit_code = #{unifiedSocialCreditCode,jdbcType=VARCHAR},
+      </if>
+      <if test="registrationNumber != null">
+        registration_number = #{registrationNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="businessStatus != null">
+        business_status = #{businessStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="businessTelephone != null">
+        business_telephone = #{businessTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="eMail != null">
+        e_mail = #{eMail,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null">
+        post_code = #{postCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffNumber != null">
+        staff_number = #{staffNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="equityTransfer != null">
+        equity_transfer = #{equityTransfer,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseEquity != null">
+        purchase_equity = #{purchaseEquity,jdbcType=VARCHAR},
+      </if>
+      <if test="postalAddress != null">
+        postal_address = #{postalAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="totalAssets != null">
+        total_assets = #{totalAssets,jdbcType=VARCHAR},
+      </if>
+      <if test="totalEquity != null">
+        total_equity = #{totalEquity,jdbcType=VARCHAR},
+      </if>
+      <if test="totalOperatingIncome != null">
+        total_operating_income = #{totalOperatingIncome,jdbcType=VARCHAR},
+      </if>
+      <if test="totalProfit != null">
+        total_profit = #{totalProfit,jdbcType=VARCHAR},
+      </if>
+      <if test="netProfit != null">
+        net_profit = #{netProfit,jdbcType=VARCHAR},
+      </if>
+      <if test="mainBusinessIncome != null">
+        main_business_income = #{mainBusinessIncome,jdbcType=VARCHAR},
+      </if>
+      <if test="totalTax != null">
+        total_tax = #{totalTax,jdbcType=VARCHAR},
+      </if>
+      <if test="totalLiabilities != null">
+        total_liabilities = #{totalLiabilities,jdbcType=VARCHAR},
+      </if>
+      <if test="endowmentInsurance != null">
+        endowment_insurance = #{endowmentInsurance,jdbcType=VARCHAR},
+      </if>
+      <if test="medicalInsurance != null">
+        medical_insurance = #{medicalInsurance,jdbcType=VARCHAR},
+      </if>
+      <if test="maternityInsurance
+
+maternityInsurance
+
+maternityInsurance != null">
+        "maternity insurance
+
+maternity insurance
+
+maternity_insurance" = #{maternityInsurance
+
+maternityInsurance
+
+maternityInsurance,jdbcType=VARCHAR},
+      </if>
+      <if test="unemploymentInsurance != null">
+        unemployment_insurance = #{unemploymentInsurance,jdbcType=VARCHAR},
+      </if>
+      <if test="employmentInjuryInsurance != null">
+        employment_injury_insurance = #{employmentInjuryInsurance,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.QccAnnualReport">
+    update qcc_annual_report
+    set uuid = #{uuid,jdbcType=VARCHAR},
+      enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      year = #{year,jdbcType=VARCHAR},
+      unified_social_credit_code = #{unifiedSocialCreditCode,jdbcType=VARCHAR},
+      registration_number = #{registrationNumber,jdbcType=VARCHAR},
+      business_status = #{businessStatus,jdbcType=VARCHAR},
+      business_telephone = #{businessTelephone,jdbcType=VARCHAR},
+      e_mail = #{eMail,jdbcType=VARCHAR},
+      post_code = #{postCode,jdbcType=VARCHAR},
+      staff_number = #{staffNumber,jdbcType=VARCHAR},
+      equity_transfer = #{equityTransfer,jdbcType=VARCHAR},
+      purchase_equity = #{purchaseEquity,jdbcType=VARCHAR},
+      postal_address = #{postalAddress,jdbcType=VARCHAR},
+      total_assets = #{totalAssets,jdbcType=VARCHAR},
+      total_equity = #{totalEquity,jdbcType=VARCHAR},
+      total_operating_income = #{totalOperatingIncome,jdbcType=VARCHAR},
+      total_profit = #{totalProfit,jdbcType=VARCHAR},
+      net_profit = #{netProfit,jdbcType=VARCHAR},
+      main_business_income = #{mainBusinessIncome,jdbcType=VARCHAR},
+      total_tax = #{totalTax,jdbcType=VARCHAR},
+      total_liabilities = #{totalLiabilities,jdbcType=VARCHAR},
+      endowment_insurance = #{endowmentInsurance,jdbcType=VARCHAR},
+      medical_insurance = #{medicalInsurance,jdbcType=VARCHAR},
+      "maternity insurance
+
+maternity insurance
+
+maternity_insurance" = #{maternityInsurance
+
+maternityInsurance
+
+maternityInsurance,jdbcType=VARCHAR},
+      unemployment_insurance = #{unemploymentInsurance,jdbcType=VARCHAR},
+      employment_injury_insurance = #{employmentInjuryInsurance,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

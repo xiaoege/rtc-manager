@@ -52,10 +52,58 @@
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
         <!-- tableName是数据库中的表名，domainObjectName是生成的JAVA模型名，后面的参数不用改，要生成更多的表就在下面继续加table标签 -->
-        <table tableName="qcc" domainObjectName="Qcc"
+        <table tableName="rtc_enterprise" domainObjectName="RtcEnterprise"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
+        <table tableName="qcc_match_summary" domainObjectName="QccMatchSummary"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>
+        <table tableName="qcc_business_information" domainObjectName="QccBusinessInformation"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>
+    <table tableName="qcc_shareholder" domainObjectName="QccShareholder"
+                   enableCountByExample="false" enableUpdateByExample="false"
+                   enableDeleteByExample="false" enableSelectByExample="false"
+                   selectByExampleQueryId="false"></table>
+    <table tableName="qcc_keyman" domainObjectName="QccKeyman"
+                   enableCountByExample="false" enableUpdateByExample="false"
+                   enableDeleteByExample="false" enableSelectByExample="false"
+                   selectByExampleQueryId="false"></table>
+    <table tableName="qcc_judgment_document" domainObjectName="QccJudgmentDocument"
+                   enableCountByExample="false" enableUpdateByExample="false"
+                   enableDeleteByExample="false" enableSelectByExample="false"
+                   selectByExampleQueryId="false"></table>
+    <table tableName="qcc_administrative_license" domainObjectName="QccAdministrativeLicense"
+                   enableCountByExample="false" enableUpdateByExample="false"
+                   enableDeleteByExample="false" enableSelectByExample="false"
+                   selectByExampleQueryId="false"></table>
+    <table tableName="qcc_tax_credit" domainObjectName="QccTaxCredit"
+                   enableCountByExample="false" enableUpdateByExample="false"
+                   enableDeleteByExample="false" enableSelectByExample="false"
+                   selectByExampleQueryId="false"></table>
+    <table tableName="qcc_import_export_credit" domainObjectName="QccImportExportCredit"
+                   enableCountByExample="false" enableUpdateByExample="false"
+                   enableDeleteByExample="false" enableSelectByExample="false"
+                   selectByExampleQueryId="false"></table>
+    <table tableName="qcc_general_taxpayer" domainObjectName="QccGeneralTaxpayer"
+                   enableCountByExample="false" enableUpdateByExample="false"
+                   enableDeleteByExample="false" enableSelectByExample="false"
+                   selectByExampleQueryId="false"></table>
+    <table tableName="qcc_annual_report" domainObjectName="QccAnnualReport"
+                   enableCountByExample="false" enableUpdateByExample="false"
+                   enableDeleteByExample="false" enableSelectByExample="false"
+                   selectByExampleQueryId="false"></table>
+    <table tableName="qcc_qualification_certificate" domainObjectName="QccQualificationCertificate"
+                   enableCountByExample="false" enableUpdateByExample="false"
+                   enableDeleteByExample="false" enableSelectByExample="false"
+                   selectByExampleQueryId="false"></table>
+    <table tableName="qcc_website_information" domainObjectName="QccWebsiteInformation"
+                   enableCountByExample="false" enableUpdateByExample="false"
+                   enableDeleteByExample="false" enableSelectByExample="false"
+                   selectByExampleQueryId="false"></table>
 
     </context>
 </generatorConfiguration>

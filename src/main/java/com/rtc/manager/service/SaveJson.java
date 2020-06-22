@@ -5,4 +5,6 @@ package com.rtc.manager.service;
  */
 public interface SaveJson {
     String getTest();
+
+    void readJson() throws Exception;
 }
