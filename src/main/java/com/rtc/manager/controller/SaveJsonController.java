@@ -6,8 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 
 /**
  * @author ChenHang
@@ -22,18 +22,32 @@ public class SaveJsonController {
     private SaveJson saveJson;
 
     @PostMapping("/saveJson")
-    public String saveJson(@RequestParam(name = "dirPath", required = false) String dirPath) {
+    public String saveJson(@RequestParam(name = "dirPath", required = true) String dirPath) {
+        String errorName = "";
         try {
-            logger.debug("get innnnnnnnnnnnnnn");
-            saveJson.readJson();
+            File fileDirPath = new File(dirPath);
+            if (fileDirPath.exists()) {
+                File[] files = fileDirPath.listFiles();
+                for (File file :
+                        files) {
+                    // 忽略mac的隐藏文件
+                    if (file.getName().contains(".DS_Store")) {
+                        continue;
+                    }
+                    logger.debug("开始saveJson，文件是{}", file.getName());
+                    saveJson.readJson(file);
+                    logger.debug("结束saveJson，文件是{}", file.getName());
+                    errorName = file.getName();
+                }
+            }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
+            logger.debug("错误，文件是{}", errorName);
+            System.out.println("错误，文件是" + errorName);
         }
-        return "";
+        return "导入成功";
     }
 
 

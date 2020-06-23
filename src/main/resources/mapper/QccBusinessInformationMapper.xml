@@ -13,7 +13,7 @@
     <result column="organization_code" jdbcType="VARCHAR" property="organizationCode" />
     <result column="business_registration_no" jdbcType="VARCHAR" property="businessRegistrationNo" />
     <result column="taxpayer_registration_number" jdbcType="VARCHAR" property="taxpayerRegistrationNumber" />
-    <result column="import_export _enterprise_code" jdbcType="VARCHAR" property="importExportEnterpriseCode" />
+    <result column="import_export_enterprise_code" jdbcType="VARCHAR" property="importExportEnterpriseCode" />
     <result column="industry" jdbcType="VARCHAR" property="industry" />
     <result column="business_type" jdbcType="VARCHAR" property="businessType" />
     <result column="business_term" jdbcType="VARCHAR" property="businessTerm" />
@@ -33,7 +33,7 @@
   <sql id="Base_Column_List">
     id, enterprise_id, business_status, establishment_date, registered_capital, paid_in_capital, 
     check_date, unified_social_credit_code, organization_code, business_registration_no, 
-    taxpayer_registration_number, "import_export _enterprise_code", industry, business_type, 
+    taxpayer_registration_number, import_export_enterprise_code, industry, business_type,
     business_term, registration_authority, staff_size, staff_insured, area, old_name, 
     english_name, business_address, business_scope, legal_representative, gmt_create, 
     gmt_modify, status
@@ -53,7 +53,7 @@
       establishment_date, registered_capital, paid_in_capital, 
       check_date, unified_social_credit_code, organization_code, 
       business_registration_no, taxpayer_registration_number, 
-      "import_export _enterprise_code", industry, business_type, 
+      import_export_enterprise_code, industry, business_type,
       business_term, registration_authority, staff_size, 
       staff_insured, area, old_name, 
       english_name, business_address, business_scope, 
@@ -107,7 +107,7 @@
         taxpayer_registration_number,
       </if>
       <if test="importExportEnterpriseCode != null">
-        "import_export _enterprise_code",
+        import_export_enterprise_code,
       </if>
       <if test="industry != null">
         industry,
@@ -273,7 +273,7 @@
         taxpayer_registration_number = #{taxpayerRegistrationNumber,jdbcType=VARCHAR},
       </if>
       <if test="importExportEnterpriseCode != null">
-        "import_export _enterprise_code" = #{importExportEnterpriseCode,jdbcType=VARCHAR},
+        import_export_enterprise_code = #{importExportEnterpriseCode,jdbcType=VARCHAR},
       </if>
       <if test="industry != null">
         industry = #{industry,jdbcType=VARCHAR},
@@ -335,7 +335,7 @@
       organization_code = #{organizationCode,jdbcType=VARCHAR},
       business_registration_no = #{businessRegistrationNo,jdbcType=VARCHAR},
       taxpayer_registration_number = #{taxpayerRegistrationNumber,jdbcType=VARCHAR},
-      "import_export _enterprise_code" = #{importExportEnterpriseCode,jdbcType=VARCHAR},
+      import_export_enterprise_code = #{importExportEnterpriseCode,jdbcType=VARCHAR},
       industry = #{industry,jdbcType=VARCHAR},
       business_type = #{businessType,jdbcType=VARCHAR},
       business_term = #{businessTerm,jdbcType=VARCHAR},

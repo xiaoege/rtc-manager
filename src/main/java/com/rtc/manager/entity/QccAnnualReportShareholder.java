@@ -6,16 +6,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class QccShareholder {
+public class QccAnnualReportShareholder {
     private Integer id;
 
     private String enterpriseId;
 
-    @JsonAlias("股东及出资信息")
+    @JsonAlias("发起人")
     private String name;
-
-    @JsonAlias("持股比例")
-    private String ratio;
 
     @JsonAlias("认缴出资额(万元)")
     private String subscribedCapital;
@@ -23,12 +20,16 @@ public class QccShareholder {
     @JsonAlias("认缴出资日期")
     private String subscribedCapitalDate;
 
-    private String paidCapital;
-
-    private String paidCapitalDate;
-
+    @JsonAlias("认缴出资方式")
     private String subscribedCapitalWay;
 
+    @JsonAlias("实缴出资额(万元)")
+    private String paidCapital;
+
+    @JsonAlias("实缴出资日期")
+    private String paidCapitalDate;
+
+    @JsonAlias("实缴出资方式")
     private String paidCapitalWay;
 
     private Date gmtCreate;
@@ -50,7 +51,7 @@ public class QccShareholder {
     }
 
     public void setEnterpriseId(String enterpriseId) {
-        this.enterpriseId = enterpriseId;
+        this.enterpriseId = enterpriseId == null ? null : enterpriseId.trim();
     }
 
     public String getName() {
@@ -58,15 +59,7 @@ public class QccShareholder {
     }
 
     public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getRatio() {
-        return ratio;
-    }
-
-    public void setRatio(String ratio) {
-        this.ratio = ratio;
+        this.name = name == null ? null : name.trim();
     }
 
     public String getSubscribedCapital() {
@@ -74,7 +67,7 @@ public class QccShareholder {
     }
 
     public void setSubscribedCapital(String subscribedCapital) {
-        this.subscribedCapital = subscribedCapital;
+        this.subscribedCapital = subscribedCapital == null ? null : subscribedCapital.trim();
     }
 
     public String getSubscribedCapitalDate() {
@@ -82,7 +75,15 @@ public class QccShareholder {
     }
 
     public void setSubscribedCapitalDate(String subscribedCapitalDate) {
-        this.subscribedCapitalDate = subscribedCapitalDate;
+        this.subscribedCapitalDate = subscribedCapitalDate == null ? null : subscribedCapitalDate.trim();
+    }
+
+    public String getSubscribedCapitalWay() {
+        return subscribedCapitalWay;
+    }
+
+    public void setSubscribedCapitalWay(String subscribedCapitalWay) {
+        this.subscribedCapitalWay = subscribedCapitalWay == null ? null : subscribedCapitalWay.trim();
     }
 
     public String getPaidCapital() {
@@ -90,7 +91,7 @@ public class QccShareholder {
     }
 
     public void setPaidCapital(String paidCapital) {
-        this.paidCapital = paidCapital;
+        this.paidCapital = paidCapital == null ? null : paidCapital.trim();
     }
 
     public String getPaidCapitalDate() {
@@ -98,7 +99,15 @@ public class QccShareholder {
     }
 
     public void setPaidCapitalDate(String paidCapitalDate) {
-        this.paidCapitalDate = paidCapitalDate;
+        this.paidCapitalDate = paidCapitalDate == null ? null : paidCapitalDate.trim();
+    }
+
+    public String getPaidCapitalWay() {
+        return paidCapitalWay;
+    }
+
+    public void setPaidCapitalWay(String paidCapitalWay) {
+        this.paidCapitalWay = paidCapitalWay == null ? null : paidCapitalWay.trim();
     }
 
     public Date getGmtCreate() {
@@ -123,21 +132,5 @@ public class QccShareholder {
 
     public void setStatus(Integer status) {
         this.status = status;
-    }
-
-    public String getSubscribedCapitalWay() {
-        return subscribedCapitalWay;
-    }
-
-    public void setSubscribedCapitalWay(String subscribedCapitalWay) {
-        this.subscribedCapitalWay = subscribedCapitalWay;
-    }
-
-    public String getPaidCapitalWay() {
-        return paidCapitalWay;
-    }
-
-    public void setPaidCapitalWay(String paidCapitalWay) {
-        this.paidCapitalWay = paidCapitalWay;
     }
 }

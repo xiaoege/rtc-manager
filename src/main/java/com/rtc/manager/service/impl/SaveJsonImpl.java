@@ -4,17 +4,16 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rtc.manager.dao.RtcEnterpriseMapper;
-import com.rtc.manager.dao.SaveJsonMapper;
+import com.rtc.manager.dao.*;
 import com.rtc.manager.entity.*;
 import com.rtc.manager.service.SaveJson;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -29,21 +28,69 @@ public class SaveJsonImpl implements SaveJson {
     @Autowired
     private RtcEnterpriseMapper rtcEnterpriseMapper;
 
+    @Autowired
+    private QccMatchSummaryMapper qccMatchSummaryMapper;
+
+    @Autowired
+    private QccMapper qccMapper;
+
+    @Autowired
+    private QccBusinessInformationMapper qccBusinessInformationMapper;
+
+    @Autowired
+    private QccShareholderMapper qccShareholderMapper;
+
+    @Autowired
+    private QccKeymanMapper qccKeymanMapper;
+
+    @Autowired
+    private QccJudgmentDocumentMapper qccJudgmentDocumentMapper;
+
+    @Autowired
+    private QccAdministrativeLicenseMapper qccAdministrativeLicenseMapper;
+
+    @Autowired
+    private QccTaxCreditMapper qccTaxCreditMapper;
+
+    @Autowired
+    private QccImportExportCreditMapper qccImportExportCreditMapper;
+
+    @Autowired
+    private QccGeneralTaxpayerMapper qccGeneralTaxpayerMapper;
+
+    @Autowired
+    private QccQualificationCertificateMapper qccQualificationCertificateMapper;
+
+    @Autowired
+    private QccWebsiteInformationMapper qccWebsiteInformationMapper;
+
+    @Autowired
+    private QccAnnualReportMapper qccAnnualReportMapper;
+
+    @Autowired
+    private QccAnnualReportShareholderMapper qccAnnualReportShareholderMapper;
+
     @Override
     public String getTest() {
         return saveJsonMapper.getTest();
     }
 
     @Override
-    @Transactional
-    public void readJson() throws Exception {
-        BufferedInputStream bis = new BufferedInputStream(new FileInputStream("/Users/chenhang/work/ali_qcc_1/output_7_8.json"));
+    @Transactional(rollbackFor = Exception.class)
+    public void readJson(File file) throws Exception {
+        BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
+
         StringBuilder sb = new StringBuilder();
-        byte[] bytes = new byte[1024];
+        while (reader.ready()) {
+            sb.append((char) reader.read());
+        }
+        /*byte[] bytes = new byte[1024];
         while (bis.read(bytes) != -1) {
             String s = new String(bytes, 0, bytes.length, "UTF-8");
             sb.append(s);
-        }
+        }*/
+//        String sss = new String(sb.toString().getBytes("UTF-8"), "UTF-8");
         String sss = sb.toString();
         ObjectMapper objectMapper = new ObjectMapper();
         String result = objectMapper.writeValueAsString(sss);
@@ -53,14 +100,20 @@ public class SaveJsonImpl implements SaveJson {
 
         for (RtcEnterpriseDTO temp :
                 contentList) {
-            //todo 基本信息insert  rtc_enterprise
-            RtcEnterprise base = new RtcEnterprise();
-            BeanUtils.copyProperties(temp, base);
+            // 基本信息insert  rtc_enterprise
             String uuid = getUUID();
+            RtcEnterprise rtcEnterprise = new RtcEnterprise();
             temp.setUuid(uuid);
+            BeanUtils.copyProperties(temp, rtcEnterprise);
+            rtcEnterpriseMapper.insertSelective(rtcEnterprise);
             List qccMatchSummaryList = temp.getQccMatchSummary();
             for (int i = 0; i < qccMatchSummaryList.size(); i++) {
-                //todo qccMatchSummary insert  qcc_match_summary
+                // qccMatchSummary insert  qcc_match_summary
+                HashMap qccMatchSummaryMap = (HashMap) qccMatchSummaryList.get(i);
+                String qccMatchSummaryJson = objectMapper.writeValueAsString(qccMatchSummaryMap);
+                QccMatchSummary qccMatchSummary = objectMapper.readValue(qccMatchSummaryJson, QccMatchSummary.class);
+                qccMatchSummary.setEnterpriseId(uuid);
+                qccMatchSummaryMapper.insertSelective(qccMatchSummary);
             }
             List qccList = temp.getQcc();
             for (int i = 0; i < qccList.size(); i++) {
@@ -70,73 +123,109 @@ public class SaveJsonImpl implements SaveJson {
                 }
                 String str = objectMapper.writeValueAsString(o);
                 Qcc qcc = objectMapper.readValue(str, Qcc.class);
-                //todo qcc insert
-
+                // qcc insert
+                qcc.setEnterpriseId(uuid);
+                qccMapper.insertSelective(qcc);
                 //qcc-基本信息
                 HashMap basicInformation = qcc.getBasicInformation();
                 HashMap basicInformationMap = (HashMap) basicInformation.get("工商信息");
                 String basicInformationJsonString = objectMapper.writeValueAsString(basicInformationMap);
                 QccBusinessInformation qccBusinessInformation = objectMapper.readValue(basicInformationJsonString, QccBusinessInformation.class);
-                //todo insert qcc_business_information
+                // insert qcc_business_information
+                qccBusinessInformation.setEnterpriseId(uuid);
+                qccBusinessInformationMapper.insertSelective(qccBusinessInformation);
 
                 List<HashMap> qccShareholderList = (List<HashMap>) basicInformation.get("股东信息");
-                for (int j = 0; j < qccShareholderList.size(); j++) {
-                    String qccShareholderJsonString = objectMapper.writeValueAsString(qccShareholderList.get(j));
-                    QccShareholder qccShareholder = objectMapper.readValue(qccShareholderJsonString, QccShareholder.class);
-                    //todo insert qcc_shareholder
+                if (!CollectionUtils.isEmpty(qccShareholderList)) {
+                    for (int j = 0; j < qccShareholderList.size(); j++) {
+                        String qccShareholderJsonString = objectMapper.writeValueAsString(qccShareholderList.get(j));
+                        QccShareholder qccShareholder = objectMapper.readValue(qccShareholderJsonString, QccShareholder.class);
+                        // insert qcc_shareholder
+                        qccShareholder.setEnterpriseId(uuid);
+                        qccShareholderMapper.insertSelective(qccShareholder);
+                    }
                 }
 
 
                 List<HashMap> qccKeymanList = (List<HashMap>) basicInformation.get("主要人员");
-                for (int j = 0; j < qccKeymanList.size(); j++) {
-                    String qccKeymanJsonString = objectMapper.writeValueAsString(qccKeymanList.get(j));
-                    QccKeyman qccKeyman = objectMapper.readValue(qccKeymanJsonString, QccKeyman.class);
-                    //todo insert qcc_keyman
+                if (!CollectionUtils.isEmpty(qccKeymanList)) {
+                    for (int j = 0; j < qccKeymanList.size(); j++) {
+                        String qccKeymanJsonString = objectMapper.writeValueAsString(qccKeymanList.get(j));
+                        QccKeyman qccKeyman = objectMapper.readValue(qccKeymanJsonString, QccKeyman.class);
+                        // insert qcc_keyman
+                        qccKeyman.setEnterpriseId(uuid);
+                        qccKeymanMapper.insertSelective(qccKeyman);
+                    }
                 }
 
 
                 // qcc-法律诉讼
                 HashMap legalProceeding = qcc.getLegalProceeding();
                 List<HashMap> qccJudgmentDocument = (List<HashMap>) legalProceeding.get("裁判文书");
-                String qccJudgmentDocumentJsonString = objectMapper.writeValueAsString(qccJudgmentDocument);
-                List<QccJudgmentDocument> qccJudgmentDocumentList = objectMapper.readValue(qccJudgmentDocumentJsonString, new TypeReference<List<QccJudgmentDocument>>() {
-                });
-                for (int j = 0; j < qccJudgmentDocumentList.size(); j++) {
-                    //todo insert qcc_judgment_document
+                if (!CollectionUtils.isEmpty(qccJudgmentDocument)) {
+                    String qccJudgmentDocumentJsonString = objectMapper.writeValueAsString(qccJudgmentDocument);
+                    List<QccJudgmentDocument> qccJudgmentDocumentList = objectMapper.readValue(qccJudgmentDocumentJsonString, new TypeReference<List<QccJudgmentDocument>>() {
+                    });
+                    for (int j = 0; j < qccJudgmentDocumentList.size(); j++) {
+                        // insert qcc_judgment_document
+                        QccJudgmentDocument qccJudgmentDocument1 = qccJudgmentDocumentList.get(j);
+                        qccJudgmentDocument1.setEnterpriseId(uuid);
+                        qccJudgmentDocumentMapper.insertSelective(qccJudgmentDocument1);
+                    }
                 }
 
                 // qcc-经营状况
                 HashMap businessStatus = qcc.getBusinessStatus();
                 List<HashMap> qccAdministrativeLicense = (List<HashMap>) businessStatus.get("行政许可");
-                String qccAdministrativeLicenseJsonString = objectMapper.writeValueAsString(qccAdministrativeLicense);
-                List<QccAdministrativeLicense> qccAdministrativeLicenseList = objectMapper.readValue(qccAdministrativeLicenseJsonString, new TypeReference<List<QccAdministrativeLicense>>() {
-                });
-                for (int j = 0; j < qccAdministrativeLicenseList.size(); j++) {
-                    //todo insert qcc_administrative_license
+                if (!CollectionUtils.isEmpty(qccAdministrativeLicense)) {
+                    String qccAdministrativeLicenseJsonString = objectMapper.writeValueAsString(qccAdministrativeLicense);
+                    List<QccAdministrativeLicense> qccAdministrativeLicenseList = objectMapper.readValue(qccAdministrativeLicenseJsonString, new TypeReference<List<QccAdministrativeLicense>>() {
+                    });
+                    for (int j = 0; j < qccAdministrativeLicenseList.size(); j++) {
+                        // insert qcc_administrative_license
+                        QccAdministrativeLicense qccAdministrativeLicense1 = qccAdministrativeLicenseList.get(j);
+                        qccAdministrativeLicense1.setEnterpriseId(uuid);
+                        qccAdministrativeLicenseMapper.insertSelective(qccAdministrativeLicense1);
+                    }
                 }
 
                 List<HashMap> qccTaxCredit = (List<HashMap>) businessStatus.get("税务信用");
-                String qccTaxCreditJsonString = objectMapper.writeValueAsString(qccTaxCredit);
-                List<QccTaxCredit> qccTaxCreditList = objectMapper.readValue(qccTaxCreditJsonString, new TypeReference<List<com.rtc.manager.entity.QccTaxCredit>>() {
-                });
-                for (int j = 0; j < qccTaxCreditList.size(); j++) {
-                    //todo insert qcc_tax_credit
+                if (!CollectionUtils.isEmpty(qccTaxCredit)) {
+                    String qccTaxCreditJsonString = objectMapper.writeValueAsString(qccTaxCredit);
+                    List<QccTaxCredit> qccTaxCreditList = objectMapper.readValue(qccTaxCreditJsonString, new TypeReference<List<com.rtc.manager.entity.QccTaxCredit>>() {
+                    });
+                    for (int j = 0; j < qccTaxCreditList.size(); j++) {
+                        // insert qcc_tax_credit
+                        QccTaxCredit qccTaxCredit1 = qccTaxCreditList.get(j);
+                        qccTaxCredit1.setEnterpriseId(uuid);
+                        qccTaxCreditMapper.insertSelective(qccTaxCredit1);
+                    }
                 }
 
                 List<HashMap> qccImportExportCredit = (List<HashMap>) businessStatus.get("进出口信用");
-                String qccImportExportCreditJsonString = objectMapper.writeValueAsString(qccImportExportCredit);
-                List<QccImportExportCredit> qccImportExportCreditList = objectMapper.readValue(qccImportExportCreditJsonString, new TypeReference<List<QccImportExportCredit>>() {
-                });
-                for (int j = 0; j < qccImportExportCreditList.size(); j++) {
-                    //todo insert qcc_import_export_credit
+                if (!CollectionUtils.isEmpty(qccImportExportCredit)) {
+                    String qccImportExportCreditJsonString = objectMapper.writeValueAsString(qccImportExportCredit);
+                    List<QccImportExportCredit> qccImportExportCreditList = objectMapper.readValue(qccImportExportCreditJsonString, new TypeReference<List<QccImportExportCredit>>() {
+                    });
+                    for (int j = 0; j < qccImportExportCreditList.size(); j++) {
+                        // insert qcc_import_export_credit
+                        QccImportExportCredit qccImportExportCredit1 = qccImportExportCreditList.get(j);
+                        qccImportExportCredit1.setEnterpriseId(uuid);
+                        qccImportExportCreditMapper.insertSelective(qccImportExportCredit1);
+                    }
                 }
 
                 List<HashMap> qccGeneralTaxpayer = (List<HashMap>) businessStatus.get("一般纳税人");
-                String qccGeneralTaxpayerJsonString = objectMapper.writeValueAsString(qccGeneralTaxpayer);
-                List<QccGeneralTaxpayer> qccGeneralTaxpayerList = objectMapper.readValue(qccGeneralTaxpayerJsonString, new TypeReference<List<QccGeneralTaxpayer>>() {
-                });
-                for (int j = 0; j < qccGeneralTaxpayerList.size(); j++) {
-                    //todo insert qcc_general_taxpayer
+                if (!CollectionUtils.isEmpty(qccGeneralTaxpayer)) {
+                    String qccGeneralTaxpayerJsonString = objectMapper.writeValueAsString(qccGeneralTaxpayer);
+                    List<QccGeneralTaxpayer> qccGeneralTaxpayerList = objectMapper.readValue(qccGeneralTaxpayerJsonString, new TypeReference<List<QccGeneralTaxpayer>>() {
+                    });
+                    for (int j = 0; j < qccGeneralTaxpayerList.size(); j++) {
+                        // insert qcc_general_taxpayer
+                        QccGeneralTaxpayer qccGeneralTaxpayer1 = qccGeneralTaxpayerList.get(j);
+                        qccGeneralTaxpayer1.setEnterpriseId(uuid);
+                        qccGeneralTaxpayerMapper.insertSelective(qccGeneralTaxpayer1);
+                    }
                 }
 
                 // qcc-企业发展
@@ -162,40 +251,54 @@ public class SaveJsonImpl implements SaveJson {
                     String qccAnnualReportJson3 = objectMapper.writeValueAsString(socialInsurance);
                     QccAnnualReport qccAnnualReport3 = objectMapper.readValue(qccAnnualReportJson3, QccAnnualReport.class);
                     BeanUtil.copyProperties(qccAnnualReport3, qarTemp, true, CopyOptions.create().setIgnoreNullValue(true).setIgnoreError(true));
-                    //todo insert qarTemp into qcc_annual_report
-                    /*List a = (List) value.get("股东（发起人）出资信息");
-                    if (null == a) {
-                        continue;
+                    // insert qarTemp into qcc_annual_report
+                    qarTemp.setEnterpriseId(uuid);
+                    qccAnnualReportMapper.insertSelective(qarTemp);
+
+                    List annualReportShareholderlist = (ArrayList) value.get("股东（发起人）出资信息");
+                    if (!CollectionUtils.isEmpty(annualReportShareholderlist)) {
+                        String annualReportShareholderJsonString = objectMapper.writeValueAsString(annualReportShareholderlist);
+                        List<QccAnnualReportShareholder> qccAnnualReportShareholderList = objectMapper.readValue(annualReportShareholderJsonString, new TypeReference<List<QccAnnualReportShareholder>>() {
+                        });
+                        for (int j = 0; j < qccAnnualReportShareholderList.size(); j++) {
+                            QccAnnualReportShareholder qccAnnualReportShareholder = (QccAnnualReportShareholder) qccAnnualReportShareholderList.get(j);
+                            qccAnnualReportShareholder.setEnterpriseId(uuid);
+                            qccAnnualReportShareholderMapper.insertSelective(qccAnnualReportShareholder);
+                        }
                     }
-                    for (int j = 0; j < a.size(); j++) {
-                        //todo 这里使用update
-                    }*/
-                    System.out.println(1);
                 }
 
                 // qcc-知识产权
                 HashMap intellectualProperty = qcc.getIntellectualProperty();
                 List<HashMap> qccQualificationCertificate = (List<HashMap>) intellectualProperty.get("资质证书");
-                String qccQualificationCertificateJsonString = objectMapper.writeValueAsString(qccQualificationCertificate);
-                List<QccQualificationCertificate> qccQualificationCertificateList = objectMapper.readValue(qccQualificationCertificateJsonString, new TypeReference<List<QccQualificationCertificate>>() {
-                });
-                for (int j = 0; j < qccQualificationCertificateList.size(); j++) {
-                    //todo insert qcc_qualification_certificate
+                if (!CollectionUtils.isEmpty(qccQualificationCertificate)) {
+                    String qccQualificationCertificateJsonString = objectMapper.writeValueAsString(qccQualificationCertificate);
+                    List<QccQualificationCertificate> qccQualificationCertificateList = objectMapper.readValue(qccQualificationCertificateJsonString, new TypeReference<List<QccQualificationCertificate>>() {
+                    });
+                    for (int j = 0; j < qccQualificationCertificateList.size(); j++) {
+                        // insert qcc_qualification_certificate
+                        QccQualificationCertificate qccQualificationCertificate1 = qccQualificationCertificateList.get(j);
+                        qccQualificationCertificate1.setEnterpriseId(uuid);
+                        qccQualificationCertificateMapper.insertSelective(qccQualificationCertificate1);
+                    }
                 }
+
 
                 List<HashMap> websiteInformation = (List<HashMap>) intellectualProperty.get("网站信息");
-                String websiteInformationJsonString = objectMapper.writeValueAsString(websiteInformation);
-                List<QccWebsiteInformation> qccWebsiteInformationList = objectMapper.readValue(websiteInformationJsonString, new TypeReference<List<QccWebsiteInformation>>() {
-                });
-                for (int j = 0; j < qccWebsiteInformationList.size(); j++) {
-                    //todo insert qcc_website_information
+                if (!CollectionUtils.isEmpty(websiteInformation)) {
+                    String websiteInformationJsonString = objectMapper.writeValueAsString(websiteInformation);
+                    List<QccWebsiteInformation> qccWebsiteInformationList = objectMapper.readValue(websiteInformationJsonString, new TypeReference<List<QccWebsiteInformation>>() {
+                    });
+                    for (int j = 0; j < qccWebsiteInformationList.size(); j++) {
+                        // insert qcc_website_information
+                        QccWebsiteInformation qccWebsiteInformation = qccWebsiteInformationList.get(j);
+                        qccWebsiteInformation.setEnterpriseId(uuid);
+                        qccWebsiteInformationMapper.insertSelective(qccWebsiteInformation);
+                    }
                 }
-
-                System.out.println(1);
             }
         }
 
-        System.out.println(1);
     }
 
     public String getUUID() {

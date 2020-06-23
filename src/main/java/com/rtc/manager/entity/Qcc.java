@@ -3,6 +3,7 @@ package com.rtc.manager.entity;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.Date;
 import java.util.HashMap;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -46,6 +47,12 @@ public class Qcc {
 
     @JsonAlias("知识产权")
     private HashMap intellectualProperty;
+
+    private Date gmtCreate;
+
+    private Date gmtModify;
+
+    private Integer status;
 
     public Integer getId() {
         return id;
@@ -157,5 +164,29 @@ public class Qcc {
 
     public void setIntellectualProperty(HashMap intellectualProperty) {
         this.intellectualProperty = intellectualProperty;
+    }
+
+    public Date getGmtCreate() {
+        return gmtCreate;
+    }
+
+    public void setGmtCreate(Date gmtCreate) {
+        this.gmtCreate = gmtCreate;
+    }
+
+    public Date getGmtModify() {
+        return gmtModify;
+    }
+
+    public void setGmtModify(Date gmtModify) {
+        this.gmtModify = gmtModify;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

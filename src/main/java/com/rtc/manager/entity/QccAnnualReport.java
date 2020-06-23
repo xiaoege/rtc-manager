@@ -3,6 +3,8 @@ package com.rtc.manager.entity;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.Date;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class QccAnnualReport {
     private Integer id;
@@ -81,6 +83,12 @@ public class QccAnnualReport {
 
     @JsonAlias("工伤保险")
     private String employmentInjuryInsurance;
+
+    private Date gmtCreate;
+
+    private Date gmtModify;
+
+    private Integer status;
 
     public Integer getId() {
         return id;
@@ -296,5 +304,29 @@ public class QccAnnualReport {
 
     public void setEmploymentInjuryInsurance(String employmentInjuryInsurance) {
         this.employmentInjuryInsurance = employmentInjuryInsurance;
+    }
+
+    public Date getGmtCreate() {
+        return gmtCreate;
+    }
+
+    public void setGmtCreate(Date gmtCreate) {
+        this.gmtCreate = gmtCreate;
+    }
+
+    public Date getGmtModify() {
+        return gmtModify;
+    }
+
+    public void setGmtModify(Date gmtModify) {
+        this.gmtModify = gmtModify;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

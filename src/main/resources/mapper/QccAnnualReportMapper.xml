@@ -26,15 +26,7 @@
     <result column="total_liabilities" jdbcType="VARCHAR" property="totalLiabilities" />
     <result column="endowment_insurance" jdbcType="VARCHAR" property="endowmentInsurance" />
     <result column="medical_insurance" jdbcType="VARCHAR" property="medicalInsurance" />
-    <result column="maternity insurance
-
-maternity insurance
-
-maternity_insurance" jdbcType="VARCHAR" property="maternityInsurance
-
-maternityInsurance
-
-maternityInsurance" />
+    <result column="maternity_insurance" jdbcType="VARCHAR" property="maternityInsurance" />
     <result column="unemployment_insurance" jdbcType="VARCHAR" property="unemploymentInsurance" />
     <result column="employment_injury_insurance" jdbcType="VARCHAR" property="employmentInjuryInsurance" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
@@ -46,11 +38,7 @@ maternityInsurance" />
     business_telephone, e_mail, post_code, staff_number, equity_transfer, purchase_equity, 
     postal_address, total_assets, total_equity, total_operating_income, total_profit, 
     net_profit, main_business_income, total_tax, total_liabilities, endowment_insurance, 
-    medical_insurance, "maternity insurance
-
-maternity insurance
-
-maternity_insurance", 
+    medical_insurance, maternity_insurance, 
     unemployment_insurance, employment_injury_insurance, gmt_create, gmt_modify, status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -72,11 +60,7 @@ maternity_insurance",
       total_equity, total_operating_income, total_profit, 
       net_profit, main_business_income, total_tax, 
       total_liabilities, endowment_insurance, medical_insurance, 
-      "maternity insurance
-
-maternity insurance
-
-maternity_insurance", 
+      maternity_insurance, 
       unemployment_insurance, employment_injury_insurance, 
       gmt_create, gmt_modify, status
       )
@@ -88,11 +72,7 @@ maternity_insurance",
       #{totalEquity,jdbcType=VARCHAR}, #{totalOperatingIncome,jdbcType=VARCHAR}, #{totalProfit,jdbcType=VARCHAR}, 
       #{netProfit,jdbcType=VARCHAR}, #{mainBusinessIncome,jdbcType=VARCHAR}, #{totalTax,jdbcType=VARCHAR}, 
       #{totalLiabilities,jdbcType=VARCHAR}, #{endowmentInsurance,jdbcType=VARCHAR}, #{medicalInsurance,jdbcType=VARCHAR}, 
-      #{maternityInsurance
-
-maternityInsurance
-
-maternityInsurance,jdbcType=VARCHAR}, 
+      #{maternityInsurance,jdbcType=VARCHAR}, 
       #{unemploymentInsurance,jdbcType=VARCHAR}, #{employmentInjuryInsurance,jdbcType=VARCHAR}, 
       #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
       )
@@ -172,16 +152,8 @@ maternityInsurance,jdbcType=VARCHAR},
       <if test="medicalInsurance != null">
         medical_insurance,
       </if>
-      <if test="maternityInsurance
-
-maternityInsurance
-
-maternityInsurance != null">
-        "maternity insurance
-
-maternity insurance
-
-maternity_insurance",
+      <if test="maternityInsurance != null">
+        maternity_insurance,
       </if>
       <if test="unemploymentInsurance != null">
         unemployment_insurance,
@@ -272,16 +244,8 @@ maternity_insurance",
       <if test="medicalInsurance != null">
         #{medicalInsurance,jdbcType=VARCHAR},
       </if>
-      <if test="maternityInsurance
-
-maternityInsurance
-
-maternityInsurance != null">
-        #{maternityInsurance
-
-maternityInsurance
-
-maternityInsurance,jdbcType=VARCHAR},
+      <if test="maternityInsurance != null">
+        #{maternityInsurance,jdbcType=VARCHAR},
       </if>
       <if test="unemploymentInsurance != null">
         #{unemploymentInsurance,jdbcType=VARCHAR},
@@ -372,20 +336,8 @@ maternityInsurance,jdbcType=VARCHAR},
       <if test="medicalInsurance != null">
         medical_insurance = #{medicalInsurance,jdbcType=VARCHAR},
       </if>
-      <if test="maternityInsurance
-
-maternityInsurance
-
-maternityInsurance != null">
-        "maternity insurance
-
-maternity insurance
-
-maternity_insurance" = #{maternityInsurance
-
-maternityInsurance
-
-maternityInsurance,jdbcType=VARCHAR},
+      <if test="maternityInsurance != null">
+        maternity_insurance = #{maternityInsurance,jdbcType=VARCHAR},
       </if>
       <if test="unemploymentInsurance != null">
         unemployment_insurance = #{unemploymentInsurance,jdbcType=VARCHAR},
@@ -430,15 +382,7 @@ maternityInsurance,jdbcType=VARCHAR},
       total_liabilities = #{totalLiabilities,jdbcType=VARCHAR},
       endowment_insurance = #{endowmentInsurance,jdbcType=VARCHAR},
       medical_insurance = #{medicalInsurance,jdbcType=VARCHAR},
-      "maternity insurance
-
-maternity insurance
-
-maternity_insurance" = #{maternityInsurance
-
-maternityInsurance
-
-maternityInsurance,jdbcType=VARCHAR},
+      maternity_insurance = #{maternityInsurance,jdbcType=VARCHAR},
       unemployment_insurance = #{unemploymentInsurance,jdbcType=VARCHAR},
       employment_injury_insurance = #{employmentInjuryInsurance,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
