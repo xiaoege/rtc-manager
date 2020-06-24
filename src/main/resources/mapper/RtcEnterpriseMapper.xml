@@ -209,4 +209,14 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+        <include refid="Base_Column_List"/>
+    from
+        rtc_enterprise
+    where
+        status = 1
+        and name like concat('%',#{name},'%')
+  </select>
 </mapper>

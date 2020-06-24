@@ -21,6 +21,11 @@ public class SaveJsonController {
     @Autowired
     private SaveJson saveJson;
 
+    /**
+     * 解析json文件导入到数据库
+     * @param dirPath json文件上一级文件夹路径，里面只能有json文件
+     * @return
+     */
     @PostMapping("/saveJson")
     public String saveJson(@RequestParam(name = "dirPath", required = true) String dirPath) {
         String errorName = "";

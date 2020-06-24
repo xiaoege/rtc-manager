@@ -1,0 +1,38 @@
+package com.rtc.manager.service.impl;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.rtc.manager.dao.QccMapper;
+import com.rtc.manager.service.Qcc;
+import com.rtc.manager.vo.QccVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author ChenHang
+ */
+@Service
+public class QccImpl implements Qcc {
+
+    @Autowired
+    private QccMapper qccMapper;
+
+    @Override
+    public PageInfo<QccVO> listEnterprise(String name, Integer orderType, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List list = qccMapper.selectByName(name, orderType);
+        return new PageInfo<>(list);
+    }
+
+    @Override
+    public PageInfo<QccVO> getEnterprise(String enterpriseId, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        QccVO qccVO = qccMapper.selectByEnterpriseId(enterpriseId);
+        List list = new ArrayList();
+        list.add(qccVO);
+        return new PageInfo<>(list);
+    }
+}

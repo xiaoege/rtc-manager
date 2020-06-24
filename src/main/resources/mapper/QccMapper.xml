@@ -161,4 +161,33 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
+  <select id="selectByName" resultType="com.rtc.manager.vo.QccVO">
+    select
+      id, enterprise_id enterpriseId, name, telephone, url, email, address, country_region countryRegion,
+      gmt_create gmtCreate,gmt_modify gmtModify, status
+    from qcc
+    where
+        name like concat('%',#{name},'%')
+    <choose>
+      <when test="orderType != null and orderType == 1">
+        order by country_region asc
+      </when>
+      <when test="orderType != null and orderType == 2">
+        order by name asc
+      </when>
+      <otherwise>
+        order by id asc
+      </otherwise>
+    </choose>
+  </select>
+  <select id="selectByEnterpriseId" resultType="com.rtc.manager.vo.QccVO">
+    select
+      id, enterprise_id enterpriseId, name, telephone, url, email, address, country_region countryRegion,
+      gmt_create gmtCreate,gmt_modify gmtModify, status
+    from qcc
+    where
+        enterprise_id = #{enterpriseId}
+  </select>
 </mapper>

@@ -17,3 +17,10 @@ logging:
 #  file:
 #    path: /Users/chenhang/Documents/log
 #  config: src/main/resources/config/logback.xml
+
+
+pagehelper:
+#分页合理化参数，默认值为false。当该参数设置为 true 时，pageNum<=0 时会查询第一页， pageNum>pages（超过总数时），会查询最后一页。默认false 时，直接根据参数进行查询。
+  helper-dialect: mysql
+#Mapper传入pageNum,pageSize参数,不需要写额外SQL,service层调用时候传入即可
+  reasonable: true
