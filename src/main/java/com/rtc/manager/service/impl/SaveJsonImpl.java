@@ -16,6 +16,8 @@ import org.springframework.util.CollectionUtils;
 import java.io.*;
 import java.util.*;
 
+import static java.util.UUID.randomUUID;
+
 /**
  * @author ChenHang
  */
@@ -107,12 +109,19 @@ public class SaveJsonImpl implements SaveJson {
             BeanUtils.copyProperties(temp, rtcEnterprise);
             rtcEnterpriseMapper.insertSelective(rtcEnterprise);
             List qccMatchSummaryList = temp.getQccMatchSummary();
+
+            List<String> enterpriseIdList = new ArrayList();
+            for (int i = 0; i < temp.getQccMatch(); i++) {
+                String enterpriseId = getUUID();
+                enterpriseIdList.add(enterpriseId);
+            }
+
             for (int i = 0; i < qccMatchSummaryList.size(); i++) {
                 // qccMatchSummary insert  qcc_match_summary
                 HashMap qccMatchSummaryMap = (HashMap) qccMatchSummaryList.get(i);
                 String qccMatchSummaryJson = objectMapper.writeValueAsString(qccMatchSummaryMap);
                 QccMatchSummary qccMatchSummary = objectMapper.readValue(qccMatchSummaryJson, QccMatchSummary.class);
-                qccMatchSummary.setEnterpriseId(uuid);
+                qccMatchSummary.setEnterpriseId(enterpriseIdList.get(i));
                 qccMatchSummaryMapper.insertSelective(qccMatchSummary);
             }
             List qccList = temp.getQcc();
@@ -124,7 +133,8 @@ public class SaveJsonImpl implements SaveJson {
                 String str = objectMapper.writeValueAsString(o);
                 Qcc qcc = objectMapper.readValue(str, Qcc.class);
                 // qcc insert
-                qcc.setEnterpriseId(uuid);
+                qcc.setRtcEnterpriseUuid(uuid);
+                qcc.setEnterpriseId(enterpriseIdList.get(i));
                 qccMapper.insertSelective(qcc);
                 //qcc-基本信息
                 HashMap basicInformation = qcc.getBasicInformation();
@@ -132,7 +142,7 @@ public class SaveJsonImpl implements SaveJson {
                 String basicInformationJsonString = objectMapper.writeValueAsString(basicInformationMap);
                 QccBusinessInformation qccBusinessInformation = objectMapper.readValue(basicInformationJsonString, QccBusinessInformation.class);
                 // insert qcc_business_information
-                qccBusinessInformation.setEnterpriseId(uuid);
+                qccBusinessInformation.setEnterpriseId(enterpriseIdList.get(i));
                 qccBusinessInformationMapper.insertSelective(qccBusinessInformation);
 
                 List<HashMap> qccShareholderList = (List<HashMap>) basicInformation.get("股东信息");
@@ -141,7 +151,7 @@ public class SaveJsonImpl implements SaveJson {
                         String qccShareholderJsonString = objectMapper.writeValueAsString(qccShareholderList.get(j));
                         QccShareholder qccShareholder = objectMapper.readValue(qccShareholderJsonString, QccShareholder.class);
                         // insert qcc_shareholder
-                        qccShareholder.setEnterpriseId(uuid);
+                        qccShareholder.setEnterpriseId(enterpriseIdList.get(i));
                         qccShareholderMapper.insertSelective(qccShareholder);
                     }
                 }
@@ -153,7 +163,7 @@ public class SaveJsonImpl implements SaveJson {
                         String qccKeymanJsonString = objectMapper.writeValueAsString(qccKeymanList.get(j));
                         QccKeyman qccKeyman = objectMapper.readValue(qccKeymanJsonString, QccKeyman.class);
                         // insert qcc_keyman
-                        qccKeyman.setEnterpriseId(uuid);
+                        qccKeyman.setEnterpriseId(enterpriseIdList.get(i));
                         qccKeymanMapper.insertSelective(qccKeyman);
                     }
                 }
@@ -169,7 +179,7 @@ public class SaveJsonImpl implements SaveJson {
                     for (int j = 0; j < qccJudgmentDocumentList.size(); j++) {
                         // insert qcc_judgment_document
                         QccJudgmentDocument qccJudgmentDocument1 = qccJudgmentDocumentList.get(j);
-                        qccJudgmentDocument1.setEnterpriseId(uuid);
+                        qccJudgmentDocument1.setEnterpriseId(enterpriseIdList.get(i));
                         qccJudgmentDocumentMapper.insertSelective(qccJudgmentDocument1);
                     }
                 }
@@ -184,7 +194,7 @@ public class SaveJsonImpl implements SaveJson {
                     for (int j = 0; j < qccAdministrativeLicenseList.size(); j++) {
                         // insert qcc_administrative_license
                         QccAdministrativeLicense qccAdministrativeLicense1 = qccAdministrativeLicenseList.get(j);
-                        qccAdministrativeLicense1.setEnterpriseId(uuid);
+                        qccAdministrativeLicense1.setEnterpriseId(enterpriseIdList.get(i));
                         qccAdministrativeLicenseMapper.insertSelective(qccAdministrativeLicense1);
                     }
                 }
@@ -197,7 +207,7 @@ public class SaveJsonImpl implements SaveJson {
                     for (int j = 0; j < qccTaxCreditList.size(); j++) {
                         // insert qcc_tax_credit
                         QccTaxCredit qccTaxCredit1 = qccTaxCreditList.get(j);
-                        qccTaxCredit1.setEnterpriseId(uuid);
+                        qccTaxCredit1.setEnterpriseId(enterpriseIdList.get(i));
                         qccTaxCreditMapper.insertSelective(qccTaxCredit1);
                     }
                 }
@@ -210,7 +220,7 @@ public class SaveJsonImpl implements SaveJson {
                     for (int j = 0; j < qccImportExportCreditList.size(); j++) {
                         // insert qcc_import_export_credit
                         QccImportExportCredit qccImportExportCredit1 = qccImportExportCreditList.get(j);
-                        qccImportExportCredit1.setEnterpriseId(uuid);
+                        qccImportExportCredit1.setEnterpriseId(enterpriseIdList.get(i));
                         qccImportExportCreditMapper.insertSelective(qccImportExportCredit1);
                     }
                 }
@@ -223,7 +233,7 @@ public class SaveJsonImpl implements SaveJson {
                     for (int j = 0; j < qccGeneralTaxpayerList.size(); j++) {
                         // insert qcc_general_taxpayer
                         QccGeneralTaxpayer qccGeneralTaxpayer1 = qccGeneralTaxpayerList.get(j);
-                        qccGeneralTaxpayer1.setEnterpriseId(uuid);
+                        qccGeneralTaxpayer1.setEnterpriseId(enterpriseIdList.get(i));
                         qccGeneralTaxpayerMapper.insertSelective(qccGeneralTaxpayer1);
                     }
                 }
@@ -252,7 +262,7 @@ public class SaveJsonImpl implements SaveJson {
                     QccAnnualReport qccAnnualReport3 = objectMapper.readValue(qccAnnualReportJson3, QccAnnualReport.class);
                     BeanUtil.copyProperties(qccAnnualReport3, qarTemp, true, CopyOptions.create().setIgnoreNullValue(true).setIgnoreError(true));
                     // insert qarTemp into qcc_annual_report
-                    qarTemp.setEnterpriseId(uuid);
+                    qarTemp.setEnterpriseId(enterpriseIdList.get(i));
                     qccAnnualReportMapper.insertSelective(qarTemp);
 
                     List annualReportShareholderlist = (ArrayList) value.get("股东（发起人）出资信息");
@@ -262,7 +272,7 @@ public class SaveJsonImpl implements SaveJson {
                         });
                         for (int j = 0; j < qccAnnualReportShareholderList.size(); j++) {
                             QccAnnualReportShareholder qccAnnualReportShareholder = (QccAnnualReportShareholder) qccAnnualReportShareholderList.get(j);
-                            qccAnnualReportShareholder.setEnterpriseId(uuid);
+                            qccAnnualReportShareholder.setEnterpriseId(enterpriseIdList.get(i));
                             qccAnnualReportShareholderMapper.insertSelective(qccAnnualReportShareholder);
                         }
                     }
@@ -278,7 +288,7 @@ public class SaveJsonImpl implements SaveJson {
                     for (int j = 0; j < qccQualificationCertificateList.size(); j++) {
                         // insert qcc_qualification_certificate
                         QccQualificationCertificate qccQualificationCertificate1 = qccQualificationCertificateList.get(j);
-                        qccQualificationCertificate1.setEnterpriseId(uuid);
+                        qccQualificationCertificate1.setEnterpriseId(enterpriseIdList.get(i));
                         qccQualificationCertificateMapper.insertSelective(qccQualificationCertificate1);
                     }
                 }
@@ -292,7 +302,7 @@ public class SaveJsonImpl implements SaveJson {
                     for (int j = 0; j < qccWebsiteInformationList.size(); j++) {
                         // insert qcc_website_information
                         QccWebsiteInformation qccWebsiteInformation = qccWebsiteInformationList.get(j);
-                        qccWebsiteInformation.setEnterpriseId(uuid);
+                        qccWebsiteInformation.setEnterpriseId(enterpriseIdList.get(i));
                         qccWebsiteInformationMapper.insertSelective(qccWebsiteInformation);
                     }
                 }
@@ -302,6 +312,6 @@ public class SaveJsonImpl implements SaveJson {
     }
 
     public String getUUID() {
-        return UUID.randomUUID().toString().replace("-", "");
+        return randomUUID().toString().replace("-", "");
     }
 }

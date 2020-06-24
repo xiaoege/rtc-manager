@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.rtc.manager.entity.Qcc">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="rtc_enterprise_uuid" jdbcType="VARCHAR" property="rtcEnterpriseUuid" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="telephone" jdbcType="VARCHAR" property="telephone" />
     <result column="url" jdbcType="VARCHAR" property="url" />
@@ -15,7 +16,7 @@
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, enterprise_id, name, telephone, url, email, address, country_region, gmt_create, 
+    id, enterprise_id,rtc_enterprise_uuid, name, telephone, url, email, address, country_region, gmt_create,
     gmt_modify, status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -29,11 +30,12 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.rtc.manager.entity.Qcc">
-    insert into qcc (id, enterprise_id, name, 
+    insert into qcc (id, enterprise_id,rtc_enterprise_uuid, name,
       telephone, url, email, 
       address, country_region, gmt_create, 
       gmt_modify, status)
-    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR},
+      #{rtcEnterpriseUuid,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},
       #{telephone,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{countryRegion,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
       #{gmtModify,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
@@ -46,6 +48,9 @@
       </if>
       <if test="enterpriseId != null">
         enterprise_id,
+      </if>
+      <if test="rtcEnterpriseUuid != null">
+        rtc_enterprise_uuid,
       </if>
       <if test="name != null">
         name,
@@ -82,6 +87,9 @@
       <if test="enterpriseId != null">
         #{enterpriseId,jdbcType=VARCHAR},
       </if>
+      <if test="rtcEnterpriseUuid != null">
+        #{rtcEnterpriseUuid,jdbcType=VARCHAR},
+      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
@@ -117,6 +125,9 @@
       <if test="enterpriseId != null">
         enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
       </if>
+      <if test="rtcEnterpriseUuid != null">
+        rtc_enterprise_uuid = #{rtcEnterpriseUuid,jdbcType=VARCHAR},
+      </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
@@ -150,6 +161,7 @@
   <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.Qcc">
     update qcc
     set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      rtc_enterprise_uuid = #{rtcEnterpriseUuid,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       telephone = #{telephone,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
@@ -165,7 +177,7 @@
 
   <select id="selectByName" resultType="com.rtc.manager.vo.QccVO">
     select
-      id, enterprise_id enterpriseId, name, telephone, url, email, address, country_region countryRegion,
+      id, enterprise_id enterpriseId,rtc_enterprise_uuid  rtcEnterpriseUuid, name, telephone, url, email, address, country_region countryRegion,
       gmt_create gmtCreate,gmt_modify gmtModify, status
     from qcc
     where
@@ -184,7 +196,7 @@
   </select>
   <select id="selectByEnterpriseId" resultType="com.rtc.manager.vo.QccVO">
     select
-      id, enterprise_id enterpriseId, name, telephone, url, email, address, country_region countryRegion,
+      id, enterprise_id enterpriseId,rtc_enterprise_uuid  rtcEnterpriseUuid, name, telephone, url, email, address, country_region countryRegion,
       gmt_create gmtCreate,gmt_modify gmtModify, status
     from qcc
     where

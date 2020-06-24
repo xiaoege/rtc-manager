@@ -12,6 +12,8 @@ public class Qcc {
 
     private String enterpriseId;
 
+    private String rtcEnterpriseUuid;
+
     @JsonAlias("名称")
     private String name;
 
@@ -188,5 +190,13 @@ public class Qcc {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getRtcEnterpriseUuid() {
+        return rtcEnterpriseUuid;
+    }
+
+    public void setRtcEnterpriseUuid(String rtcEnterpriseUuid) {
+        this.rtcEnterpriseUuid = rtcEnterpriseUuid;
     }
 }
