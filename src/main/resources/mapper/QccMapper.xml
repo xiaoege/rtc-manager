@@ -175,31 +175,39 @@
   </update>
 
 
-  <select id="selectByName" resultType="com.rtc.manager.vo.QccVO">
-    select
-      id, enterprise_id enterpriseId,rtc_enterprise_uuid  rtcEnterpriseUuid, name, telephone, url, email, address, country_region countryRegion,
-      gmt_create gmtCreate,gmt_modify gmtModify, status
-    from qcc
-    where
-        name like concat('%',#{name},'%')
-    <choose>
-      <when test="orderType != null and orderType == 1">
-        order by country_region asc
-      </when>
-      <when test="orderType != null and orderType == 2">
-        order by name asc
-      </when>
-      <otherwise>
-        order by id asc
-      </otherwise>
-    </choose>
+  <select id="selectByName" resultType="com.rtc.manager.vo.QccListVO">
+    SELECT
+      qcc.id,
+      qcc.enterprise_id enterpriseId,
+      qcc.name,
+      qbi.registered_capital registeredCapital,
+      qbi.legal_representative legalRepresentative,
+      qbi.establishment_date establishmentDate,
+      qcc.address
+    FROM
+        qcc
+    left join qcc_business_information qbi on qcc.enterprise_id=qbi.enterprise_id
+    WHERE
+        qcc.`status`=1
+        and qcc.name like concat('%',#{name},'%')
   </select>
+
   <select id="selectByEnterpriseId" resultType="com.rtc.manager.vo.QccVO">
-    select
-      id, enterprise_id enterpriseId,rtc_enterprise_uuid  rtcEnterpriseUuid, name, telephone, url, email, address, country_region countryRegion,
-      gmt_create gmtCreate,gmt_modify gmtModify, status
-    from qcc
-    where
-        enterprise_id = #{enterpriseId}
+    SELECT
+      qcc.id,
+      qcc.enterprise_id enterpriseId,
+      qcc.name,
+      qbi.registered_capital registeredCapital,
+      qbi.legal_representative legalRepresentative,
+      qbi.establishment_date establishmentDate,
+      qcc.address,
+      qcc.telephone,
+      qcc.url
+    FROM
+        qcc
+    left join qcc_business_information qbi on qcc.enterprise_id=qbi.enterprise_id
+    WHERE
+        qcc.`status`=1
+        and qcc.enterprise_id = #{enterpriseId}
   </select>
 </mapper>

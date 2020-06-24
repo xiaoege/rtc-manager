@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.rtc.manager.dao.QccMapper;
 import com.rtc.manager.service.Qcc;
+import com.rtc.manager.vo.QccListVO;
 import com.rtc.manager.vo.QccVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,9 +22,9 @@ public class QccImpl implements Qcc {
     private QccMapper qccMapper;
 
     @Override
-    public PageInfo<QccVO> listEnterprise(String name, Integer orderType, int pageNum, int pageSize) {
+    public PageInfo<QccListVO> listEnterprise(String name, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        List list = qccMapper.selectByName(name, orderType);
+        List list = qccMapper.selectByName(name);
         return new PageInfo<>(list);
     }
 

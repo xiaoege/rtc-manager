@@ -2,6 +2,7 @@ package com.rtc.manager.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.rtc.manager.service.Qcc;
+import com.rtc.manager.vo.QccListVO;
 import com.rtc.manager.vo.QccVO;
 import com.rtc.manager.vo.ResultData;
 import org.slf4j.Logger;
@@ -30,19 +31,18 @@ public class IOSController {
      * 搜索企业-列表
      *
      * @param name      企业名
-     * @param orderType 排列规则-国别/字母
      * @return
      */
     @GetMapping("listEnterprise")
-    public ResultData listEnterprise(@RequestParam(name = "name", required = true) String name, Integer orderType,
+    public ResultData listEnterprise(@RequestParam(name = "name", required = true) String name,
                                      @RequestParam(name = "pageNum", required = false, defaultValue = "1") int pageNum,
                                      @RequestParam(name = "pageSize", required = false, defaultValue = "5") int pageSize) {
-        PageInfo<QccVO> info = null;
+        PageInfo<QccListVO> info = null;
         try {
-            info = qcc.listEnterprise(name, orderType, pageNum, pageSize);
+            info = qcc.listEnterprise(name, pageNum, pageSize);
         } catch (Exception e) {
             e.printStackTrace();
-            logger.debug("getEnterprise错误,参数是{},{}", name,orderType);
+            logger.debug("getEnterprise错误,参数是{},{}", name);
             return ResultData.FAIL(info, 500);
         }
         return ResultData.SUCCESS(info);
@@ -52,7 +52,6 @@ public class IOSController {
     public ResultData getEnterprise(@RequestParam(name = "enterpriseId", required = true) String enterpriseId,
                                     @RequestParam(name = "pageNum", required = false, defaultValue = "1") int pageNum,
                                     @RequestParam(name = "pageSize", required = false, defaultValue = "5") int pageSize) {
-//        QccVO qccVO = qcc.getEnterprise(enterpriseId);
         PageInfo<QccVO> info = null;
         try {
             info = qcc.getEnterprise(enterpriseId, pageNum, pageSize);

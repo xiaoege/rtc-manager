@@ -6,7 +6,7 @@ import lombok.Data;
  * @author ChenHang
  */
 @Data
-public class QccVO {
+public class QccListVO {
     private Integer id;
 
     private String enterpriseId;
@@ -21,8 +21,5 @@ public class QccVO {
 
     private String address;
 
-    private String telephone;
-
-    private String url;
-
 }
+

@@ -106,7 +106,8 @@ public class SaveJsonImpl implements SaveJson {
             String uuid = getUUID();
             RtcEnterprise rtcEnterprise = new RtcEnterprise();
             temp.setUuid(uuid);
-            BeanUtils.copyProperties(temp, rtcEnterprise);
+            BeanUtil.copyProperties(temp, rtcEnterprise);
+//            BeanUtils.copyProperties(temp, rtcEnterprise);
             rtcEnterpriseMapper.insertSelective(rtcEnterprise);
             List qccMatchSummaryList = temp.getQccMatchSummary();
 

@@ -1,7 +1,7 @@
 package com.rtc.manager.dao;
 
-import com.github.pagehelper.PageInfo;
 import com.rtc.manager.entity.Qcc;
+import com.rtc.manager.vo.QccListVO;
 import com.rtc.manager.vo.QccVO;
 import org.apache.ibatis.annotations.Param;
 
@@ -20,7 +20,7 @@ public interface QccMapper {
 
     int updateByPrimaryKey(Qcc record);
 
-    List<QccVO> selectByName(@Param("name") String name, @Param("orderType") Integer orderType);
+    List<QccListVO> selectByName(@Param("name") String name);
 
     QccVO selectByEnterpriseId(@Param("enterpriseId") String enterpriseId);
 }
