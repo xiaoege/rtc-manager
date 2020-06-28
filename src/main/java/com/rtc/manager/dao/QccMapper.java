@@ -1,8 +1,7 @@
 package com.rtc.manager.dao;
 
 import com.rtc.manager.entity.Qcc;
-import com.rtc.manager.vo.QccListVO;
-import com.rtc.manager.vo.QccVO;
+import com.rtc.manager.vo.*;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -23,4 +22,17 @@ public interface QccMapper {
     List<QccListVO> selectByName(@Param("name") String name);
 
     QccVO selectByEnterpriseId(@Param("enterpriseId") String enterpriseId);
+
+    List<QccAdministrativeLicenseVO> listQccAdministrativeLicenseVO(@Param("enterpriseId") String enterpriseId);
+    List<QccAnnualReportVO> listQccAnnualReportVO(@Param("enterpriseId") String enterpriseId);
+
+//    List<QccAnnualReportShareholderVO> listQccAnnualReportShareholderVO(@Param("enterpriseId") String enterpriseId);
+
+    List<QccGeneralTaxpayerVO> listQccGeneralTaxpayerVO(@Param("enterpriseId") String enterpriseId);
+    List<QccImportExportCreditVO> listQccImportExportCreditVO(@Param("enterpriseId") String enterpriseId);
+    List<QccJudgmentDocumentVO> listQccJudgmentDocumentVO(@Param("enterpriseId") String enterpriseId);
+    List<QccKeymanVO> listQccKeymanVO(@Param("enterpriseId") String enterpriseId);
+    List<QccQualificationCertificateVO> listQccQualificationCertificateVO(@Param("enterpriseId") String enterpriseId);
+    List<QccAdministrativeLicenseVO> listQccTaxCreditVO(@Param("enterpriseId") String enterpriseId);
+    List<QccAdministrativeLicenseVO> listQccWebsiteInformationVO(@Param("enterpriseId") String enterpriseId);
 }

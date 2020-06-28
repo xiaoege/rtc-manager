@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @author ChenHang
  */
@@ -30,7 +32,7 @@ public class IOSController {
     /**
      * 搜索企业-列表
      *
-     * @param name      企业名
+     * @param name 企业名
      * @return
      */
     @GetMapping("listEnterprise")
@@ -59,5 +61,12 @@ public class IOSController {
             return ResultData.FAIL(qccVO, 500);
         }
         return ResultData.SUCCESS(qccVO);
+    }
+
+    @GetMapping("getEnterpriseDetail")
+    public ResultData getEnterpriseDetail(@RequestParam(name = "name", required = true) String name,
+                                          @RequestParam(name = "enterpriseId", required = true) String enterpriseId) {
+        List<Object> list = qcc.getEnterpriseDetail(name, enterpriseId);
+        return ResultData.SUCCESS(list);
     }
 }

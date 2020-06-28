@@ -248,6 +248,7 @@ public class SaveJsonImpl implements SaveJson {
                     QccAnnualReport qarTemp = new QccAnnualReport();
                     Map.Entry<String, LinkedHashMap> next = (Map.Entry<String, LinkedHashMap>) iterator.next();
                     String year = next.getKey();
+                    qarTemp.setUuid(getUUID());
                     qarTemp.setYear(year);
                     LinkedHashMap value = next.getValue();
                     HashMap basicInfo = (HashMap) value.get("企业基本信息");
