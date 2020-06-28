@@ -1,6 +1,9 @@
 package com.rtc.manager.vo;
 
+import com.rtc.manager.entity.QccShareholder;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @author ChenHang
@@ -24,5 +27,7 @@ public class QccVO {
     private String telephone;
 
     private String url;
+
+    private List<QccShareholder> shareholderList;
 
 }

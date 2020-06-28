@@ -49,17 +49,15 @@ public class IOSController {
     }
 
     @GetMapping("getEnterprise")
-    public ResultData getEnterprise(@RequestParam(name = "enterpriseId", required = true) String enterpriseId,
-                                    @RequestParam(name = "pageNum", required = false, defaultValue = "1") int pageNum,
-                                    @RequestParam(name = "pageSize", required = false, defaultValue = "5") int pageSize) {
-        PageInfo<QccVO> info = null;
+    public ResultData getEnterprise(@RequestParam(name = "enterpriseId", required = true) String enterpriseId) {
+        Object qccVO = null;
         try {
-            info = qcc.getEnterprise(enterpriseId, pageNum, pageSize);
+            qccVO = qcc.getEnterprise(enterpriseId);
         } catch (Exception e) {
             e.printStackTrace();
             logger.debug("getEnterprise错误,参数是{}", enterpriseId);
-            return ResultData.FAIL(info, 500);
+            return ResultData.FAIL(qccVO, 500);
         }
-        return ResultData.SUCCESS(info);
+        return ResultData.SUCCESS(qccVO);
     }
 }

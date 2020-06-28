@@ -192,22 +192,49 @@
         and qcc.name like concat('%',#{name},'%')
   </select>
 
-  <select id="selectByEnterpriseId" resultType="com.rtc.manager.vo.QccVO">
+  <resultMap id="selectByEnterpriseIdMap"  type="com.rtc.manager.vo.QccVO">
+    <id property="id" column="id" jdbcType="INTEGER"/>
+    <result property="enterpriseId" column="qs_enterprise_id" jdbcType="VARCHAR"/>
+    <result property="name" column="name" jdbcType="VARCHAR"/>
+    <result property="registeredCapital" column="registered_capital" jdbcType="VARCHAR"/>
+    <result property="legalRepresentative" column="legal_representative" jdbcType="VARCHAR"/>
+    <result property="establishmentDate" column="establishment_date" jdbcType="VARCHAR"/>
+    <result property="address" column="address" jdbcType="VARCHAR"/>
+    <result property="telephone" column="telephone" jdbcType="VARCHAR"/>
+    <result property="url" column="url" jdbcType="VARCHAR"/>
+    <collection property="shareholderList" ofType="com.rtc.manager.vo.QccShareholderVO">
+      <id property="id" column="qs_id" jdbcType="INTEGER"/>
+      <result property="enterpriseId" column="qs_enterprise_id" jdbcType="VARCHAR"/>
+      <result property="name" column="qs_name" jdbcType="VARCHAR"/>
+      <result property="ratio" column="qs_ratio" jdbcType="VARCHAR"/>
+      <result property="subscribedCapital" column="qs_subscribed_capital" jdbcType="VARCHAR"/>
+      <result property="subscribedCapitalDate" column="qs_subscribed_capital_date" jdbcType="VARCHAR"/>
+    </collection>
+  </resultMap>
+
+  <select id="selectByEnterpriseId" resultMap="selectByEnterpriseIdMap">
     SELECT
-      qcc.id,
-      qcc.enterprise_id enterpriseId,
-      qcc.name,
-      qbi.registered_capital registeredCapital,
-      qbi.legal_representative legalRepresentative,
-      qbi.establishment_date establishmentDate,
-      qcc.address,
-      qcc.telephone,
-      qcc.url
+        qcc.id,
+        qcc.enterprise_id,
+        qcc.name,
+        qbi.registered_capital,
+        qbi.legal_representative,
+        qbi.establishment_date,
+        qcc.address,
+        qcc.telephone,
+        qcc.url,
+        `qcc_shareholder`.`id` qs_id,
+        `qcc_shareholder`.`enterprise_id` qs_enterprise_id,
+        qcc_shareholder.`name` qs_name,
+        `qcc_shareholder`.`ratio` qs_ratio,
+        `qcc_shareholder`.`subscribed_capital` qs_subscribed_capital,
+        `qcc_shareholder`.`subscribed_capital_date` qs_subscribed_capital_date
     FROM
         qcc
-    left join qcc_business_information qbi on qcc.enterprise_id=qbi.enterprise_id
+        LEFT JOIN qcc_business_information qbi ON qcc.enterprise_id = qbi.enterprise_id
+        LEFT JOIN `qcc_shareholder` ON qcc.enterprise_id = `qcc_shareholder`.`enterprise_id`
     WHERE
-        qcc.`status`=1
+        qcc.`status` = 1
         and qcc.enterprise_id = #{enterpriseId}
   </select>
 </mapper>

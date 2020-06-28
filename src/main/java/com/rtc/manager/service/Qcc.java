@@ -15,5 +15,5 @@ public interface Qcc {
      */
     PageInfo<QccListVO> listEnterprise(String name, int pageNum, int pageSize);
 
-    PageInfo<QccVO> getEnterprise(String enterpriseId, int pageNum, int pageSize);
+    QccVO getEnterprise(String enterpriseId);
 }

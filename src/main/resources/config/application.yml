@@ -1,8 +1,9 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/rtc?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=True
+    url: jdbc:mysql://localhost:3306/rtc?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=True&serverTimezone=UTC
     username: root
     password: Ch2757948
+#    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 server:
@@ -11,9 +12,9 @@ server:
 mybatis:
   mapperLocations: classpath:mapper/*.xml
 
-logging:
-  level:
-    com.rtc.manager.dao: debug
+#logging:
+#  level:
+#    com.rtc.manager.dao: debug
 #  file:
 #    path: /Users/chenhang/Documents/log
 #  config: src/main/resources/config/logback.xml

@@ -309,7 +309,8 @@ public class SaveJsonImpl implements SaveJson {
                 }
             }
         }
-
+        reader.close();
+        bis.close();
     }
 
     public String getUUID() {

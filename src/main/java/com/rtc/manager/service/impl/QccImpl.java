@@ -29,11 +29,8 @@ public class QccImpl implements Qcc {
     }
 
     @Override
-    public PageInfo<QccVO> getEnterprise(String enterpriseId, int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
+    public QccVO getEnterprise(String enterpriseId) {
         QccVO qccVO = qccMapper.selectByEnterpriseId(enterpriseId);
-        List list = new ArrayList();
-        list.add(qccVO);
-        return new PageInfo<>(list);
+        return qccVO;
     }
 }
