@@ -216,7 +216,7 @@
     from
         rtc_enterprise
     where
-        status = 1
+        status = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
         and name like concat('%',#{name},'%')
   </select>
 </mapper>

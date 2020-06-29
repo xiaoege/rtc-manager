@@ -188,7 +188,7 @@
         qcc
     left join qcc_business_information qbi on qcc.enterprise_id=qbi.enterprise_id
     WHERE
-        qcc.`status`=1
+        qcc.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
         and qcc.name like concat('%',#{name},'%')
   </select>
 
@@ -234,7 +234,7 @@
         LEFT JOIN qcc_business_information qbi ON qcc.enterprise_id = qbi.enterprise_id
         LEFT JOIN `qcc_shareholder` ON qcc.enterprise_id = `qcc_shareholder`.`enterprise_id`
     WHERE
-        qcc.`status` = 1
+        qcc.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
         and qcc.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
   </select>
 
@@ -318,7 +318,7 @@
     </select>
     <select id="listQccQualificationCertificateVO" resultType="com.rtc.manager.vo.QccQualificationCertificateVO">
         select id, enterprise_id enterpriseId, certificate_type certificateType, certificate_name certificateName,
-         certificate_code certificateCode, issueDate, closingDate
+         certificate_code certificateCode, issue_date issueDate, closing_date closingDate
         from qcc_qualification_certificate where enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
     </select>
     <select id="listQccTaxCreditVO" resultType="com.rtc.manager.vo.QccTaxCreditVO">

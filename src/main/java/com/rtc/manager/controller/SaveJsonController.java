@@ -23,6 +23,7 @@ public class SaveJsonController {
 
     /**
      * 解析json文件导入到数据库
+     *
      * @param dirPath json文件上一级文件夹路径，里面只能有json文件
      * @return
      */
@@ -55,9 +56,4 @@ public class SaveJsonController {
         return "导入成功";
     }
 
-
-    @GetMapping("/test")
-    public String test() {
-        return saveJson.getTest();
-    }
 }

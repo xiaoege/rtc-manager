@@ -25,9 +25,6 @@ import static java.util.UUID.randomUUID;
 public class SaveJsonImpl implements SaveJson {
 
     @Autowired
-    private SaveJsonMapper saveJsonMapper;
-
-    @Autowired
     private RtcEnterpriseMapper rtcEnterpriseMapper;
 
     @Autowired
@@ -71,11 +68,6 @@ public class SaveJsonImpl implements SaveJson {
 
     @Autowired
     private QccAnnualReportShareholderMapper qccAnnualReportShareholderMapper;
-
-    @Override
-    public String getTest() {
-        return saveJsonMapper.getTest();
-    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
