@@ -108,9 +108,50 @@
 <!--               enableCountByExample="false" enableUpdateByExample="false"-->
 <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
-            <table tableName="qcc_annual_report_shareholder" domainObjectName="QccAnnualReportShareholder"
-                       enableCountByExample="false" enableUpdateByExample="false"
-                       enableDeleteByExample="false" enableSelectByExample="false"
-                       selectByExampleQueryId="false"></table>
+<!--            <table tableName="qcc_annual_report_shareholder" domainObjectName="QccAnnualReportShareholder"-->
+<!--                       enableCountByExample="false" enableUpdateByExample="false"-->
+<!--                       enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--                       selectByExampleQueryId="false"></table>-->
+<!--        <table tableName="qcc_wechat" domainObjectName="QccWechat"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"></table>-->
+<!--        <table tableName="qcc_weibo" domainObjectName="QccWeibo"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"></table>-->
+<!--        <table tableName="qcc_applet" domainObjectName="QccApplet"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"></table>-->
+<!--        <table tableName="qcc_app" domainObjectName="QccApp"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"></table>-->
+<!--        <table tableName="qcc_financing_consultation" domainObjectName="QccFinancingConsultation"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"></table>-->
+<!--        <table tableName="qcc_bidding" domainObjectName="QccBidding"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"></table>-->
+<!--        <table tableName="qcc_land_purchase_information" domainObjectName="QccLandPurchaseInformation"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"></table>-->
+<!--        <table tableName="qcc_supplier" domainObjectName="QccSupplier"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"></table>-->
+        <table tableName="qcc_administrative_sanction" domainObjectName="QccAdministrativeSanction"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>
+<!--        <table tableName="qcc_software_copyright" domainObjectName="QccSoftwareCopyright"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"></table>-->
+
     </context>
 </generatorConfiguration>

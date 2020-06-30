@@ -6,7 +6,7 @@ package com.rtc.manager.vo;
 public class ResultData<T> {
     private String message;
     private T data;
-    private int code;
+    private Integer code;
 
     public ResultData(T t) {
         this.data = t;
@@ -17,7 +17,7 @@ public class ResultData<T> {
         this.data = t;
     }
 
-    public ResultData(String message, T t, int code) {
+    public ResultData(String message, T t, Integer code) {
         this.message = message;
         this.data = t;
         this.code = code;
@@ -30,7 +30,7 @@ public class ResultData<T> {
         return resultData;
     }
 
-    public static <T> ResultData FAIL(T t, int code) {
+    public static <T> ResultData FAIL(T t, Integer code) {
         ResultData<T> resultData = new ResultData<T>(t);
         resultData.message = "请求失败";
         resultData.code = code;
@@ -53,11 +53,11 @@ public class ResultData<T> {
         this.data = data;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 }

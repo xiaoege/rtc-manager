@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.QccLandPurchaseInformationMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.QccLandPurchaseInformation">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="location" jdbcType="VARCHAR" property="location" />
+    <result column="purpose" jdbcType="VARCHAR" property="purpose" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
+    <result column="administrative_region" jdbcType="VARCHAR" property="administrativeRegion" />
+    <result column="land_supply_mode" jdbcType="VARCHAR" property="landSupplyMode" />
+    <result column="contract_signing_date" jdbcType="VARCHAR" property="contractSigningDate" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, location, purpose, area, administrative_region, land_supply_mode, 
+    contract_signing_date, gmt_create, gmt_modify, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from qcc_land_purchase_information
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from qcc_land_purchase_information
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rtc.manager.entity.QccLandPurchaseInformation">
+    insert into qcc_land_purchase_information (id, enterprise_id, location, 
+      purpose, area, administrative_region, 
+      land_supply_mode, contract_signing_date, gmt_create, 
+      gmt_modify, status)
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{location,jdbcType=VARCHAR}, 
+      #{purpose,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{administrativeRegion,jdbcType=VARCHAR}, 
+      #{landSupplyMode,jdbcType=VARCHAR}, #{contractSigningDate,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModify,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.QccLandPurchaseInformation">
+    insert into qcc_land_purchase_information
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="location != null">
+        location,
+      </if>
+      <if test="purpose != null">
+        purpose,
+      </if>
+      <if test="area != null">
+        area,
+      </if>
+      <if test="administrativeRegion != null">
+        administrative_region,
+      </if>
+      <if test="landSupplyMode != null">
+        land_supply_mode,
+      </if>
+      <if test="contractSigningDate != null">
+        contract_signing_date,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null">
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="purpose != null">
+        #{purpose,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="administrativeRegion != null">
+        #{administrativeRegion,jdbcType=VARCHAR},
+      </if>
+      <if test="landSupplyMode != null">
+        #{landSupplyMode,jdbcType=VARCHAR},
+      </if>
+      <if test="contractSigningDate != null">
+        #{contractSigningDate,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.QccLandPurchaseInformation">
+    update qcc_land_purchase_information
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null">
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="purpose != null">
+        purpose = #{purpose,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="administrativeRegion != null">
+        administrative_region = #{administrativeRegion,jdbcType=VARCHAR},
+      </if>
+      <if test="landSupplyMode != null">
+        land_supply_mode = #{landSupplyMode,jdbcType=VARCHAR},
+      </if>
+      <if test="contractSigningDate != null">
+        contract_signing_date = #{contractSigningDate,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.QccLandPurchaseInformation">
+    update qcc_land_purchase_information
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      location = #{location,jdbcType=VARCHAR},
+      purpose = #{purpose,jdbcType=VARCHAR},
+      area = #{area,jdbcType=VARCHAR},
+      administrative_region = #{administrativeRegion,jdbcType=VARCHAR},
+      land_supply_mode = #{landSupplyMode,jdbcType=VARCHAR},
+      contract_signing_date = #{contractSigningDate,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

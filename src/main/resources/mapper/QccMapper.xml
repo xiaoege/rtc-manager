@@ -331,4 +331,124 @@
          audit_date auditDate
         from qcc_website_information where enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
     </select>
+
+    <select id="listQccBiddingVO" resultType="com.rtc.manager.vo.QccBiddingVO">
+        SELECT
+            `qcc_bidding`.`id`,`qcc_bidding`.`enterprise_id` enterpriseId,
+            `qcc_bidding`.`name`,`qcc_bidding`.`province`,`qcc_bidding`.`progress`
+        FROM
+            `qcc_bidding`
+        WHERE
+            enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+    </select>
+    <select id="listQccLandPurchaseInformationVO" resultType="com.rtc.manager.vo.QccLandPurchaseInformationVO">
+        SELECT
+            `qcc_land_purchase_information`.`id`,
+            `qcc_land_purchase_information`.`enterprise_id` enterpriseId,
+            `qcc_land_purchase_information`.`location`,
+            `qcc_land_purchase_information`.`purpose`,
+            `qcc_land_purchase_information`.`area`,
+            `qcc_land_purchase_information`.`administrative_region` administrativeRegion,
+            `qcc_land_purchase_information`.`land_supply_mode` landSupplyMode,
+            `qcc_land_purchase_information`.`contract_signing_date` contractSigningDate
+        FROM
+            `qcc_land_purchase_information`
+        WHERE
+            enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+    </select>
+    <select id="listQccSupplierVO" resultType="com.rtc.manager.vo.QccSupplierVO">
+        SELECT
+            `qcc_supplier`.`id`,
+            `qcc_supplier`.`enterprise_id` enterpriseId,
+            `qcc_supplier`.`name`,
+            `qcc_supplier`.`proportion_of_procurement` proportionOfProcurement,
+            `qcc_supplier`.`purchase_amount` purchaseAmount,
+            `qcc_supplier`.`report_period` reportPeriod,
+            `qcc_supplier`.`source`,
+            `qcc_supplier`.`relationship`
+        FROM
+            `qcc_supplier`
+        WHERE
+            enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+    </select>
+    <select id="listQccAdministrativeSanctionVO" resultType="com.rtc.manager.vo.QccAdministrativeSanctionVO">
+        SELECT
+            `qcc_administrative_sanction`.`id`,
+            `qcc_administrative_sanction`.`enterprise_id` enterpriseId,
+            `qcc_administrative_sanction`.`determine_document_number` determineDocumentNumber,
+            `qcc_administrative_sanction`.`violations_type` violationsType,
+            `qcc_administrative_sanction`.`content`,
+            `qcc_administrative_sanction`.`publication_date` publicationDate,
+            `qcc_administrative_sanction`.`decision_making_organ` decisionMakingOrgan,
+            `qcc_administrative_sanction`.`decision_date` decisionDate
+        FROM
+            `qcc_administrative_sanction`
+        WHERE
+            enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+    </select>
+    <select id="listQccFinancingConsultationVO" resultType="com.rtc.manager.vo.QccFinancingConsultationVO">
+        SELECT
+            `qcc_financing_consultation`.`id`,
+            `qcc_financing_consultation`.`enterprise_id` enterpriseId,
+            `qcc_financing_consultation`.`date`,
+            `qcc_financing_consultation`.`name`,
+            `qcc_financing_consultation`.`financing_round` financingRound,
+            `qcc_financing_consultation`.`amount`,
+            `qcc_financing_consultation`.`investor`,
+            `qcc_financing_consultation`.`source`
+        FROM
+            `qcc_financing_consultation`
+        WHERE
+            enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+    </select>
+    <select id="listQccAppVO" resultType="com.rtc.manager.vo.QccAppVO">
+        SELECT
+            `qcc_app`.`id`,
+            `qcc_app`.`enterprise_id` enterpriseId,
+            `qcc_app`.`name`,
+            `qcc_app`.`sort`,
+            `qcc_app`.`current_version` currentVersion,
+            `qcc_app`.`brief_introduction` briefIntroduction
+        FROM
+            `qcc_app`
+        WHERE
+            enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+    </select>
+    <select id="listQccAppletVO" resultType="com.rtc.manager.vo.QccAppletVO">
+        SELECT
+            `qcc_applet`.`id`,
+            `qcc_applet`.`enterprise_id` enterpriseId,
+            `qcc_applet`.`name`,
+            `qcc_applet`.`sort`,
+            `qcc_applet`.`associated_official_account` associatedOfficialAccount,
+            `qcc_applet`.`predict_reading_volume` predictReadingVolume
+        FROM
+            `qcc_applet`
+        WHERE
+            enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+    </select>
+    <select id="listQccWechatVO" resultType="com.rtc.manager.vo.QccWechatVO">
+        SELECT
+            `qcc_wechat`.`id`,
+            `qcc_wechat`.`enterprise_id` enterpriseId,
+            `qcc_wechat`.`name`,
+            `qcc_wechat`.`account`,
+            `qcc_wechat`.`brief_introduction` briefIntroduction
+        FROM
+            `qcc_wechat`
+        WHERE
+            enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+    </select>
+    <select id="listQccWeiboVO" resultType="com.rtc.manager.vo.QccWeiboVO">
+        SELECT
+            `qcc_weibo`.`id`,
+            `qcc_weibo`.`enterprise_id` enterpriseId,
+            `qcc_weibo`.`nickname`,
+            `qcc_weibo`.`industry_category` industryCategory,
+            `qcc_weibo`.`brief_introduction` briefIntroduction
+        FROM
+            `qcc_weibo`
+        WHERE
+            enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+    </select>
 </mapper>
