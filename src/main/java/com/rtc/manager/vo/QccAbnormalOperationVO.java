@@ -10,6 +10,10 @@ import java.util.List;
 @Data
 public class QccAbnormalOperationVO {
 
+    private Integer id;
+
+    private String enterpriseId;
+
     private List<QccRemoveExceptionVO> qccRemoveExceptionVOList;
 
     private List<QccSaveExceptionVO> qccSaveExceptionVOList;

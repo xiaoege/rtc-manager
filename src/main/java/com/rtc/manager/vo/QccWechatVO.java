@@ -16,10 +16,4 @@ public class QccWechatVO {
 
     private String briefIntroduction;
 
-    private Date gmtCreate;
-
-    private Date gmtModify;
-
-    private Integer status;
-
 }

@@ -11,7 +11,7 @@
  Target Server Version : 80020
  File Encoding         : 65001
 
- Date: 23/06/2020 17:23:14
+ Date: 30/06/2020 16:47:08
 */
 
 SET NAMES utf8mb4;
@@ -24,6 +24,7 @@ DROP TABLE IF EXISTS `qcc`;
 CREATE TABLE `qcc` (
   `id` int NOT NULL AUTO_INCREMENT,
   `enterprise_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `rtc_enterprise_uuid` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '对应rtc_enterprise表的uuid',
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `telephone` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
@@ -33,8 +34,8 @@ CREATE TABLE `qcc` (
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25850 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1133 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_administrative_license
@@ -54,7 +55,26 @@ CREATE TABLE `qcc_administrative_license` (
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=45847 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1895 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for qcc_administrative_sanction
+-- ----------------------------
+DROP TABLE IF EXISTS `qcc_administrative_sanction`;
+CREATE TABLE `qcc_administrative_sanction` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `enterprise_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `determine_document_number` varchar(255) DEFAULT NULL COMMENT '决定文书号',
+  `violations_type` varchar(255) DEFAULT NULL COMMENT '违法行为类型',
+  `content` varchar(255) DEFAULT NULL COMMENT '行政处罚内容',
+  `publication_date` varchar(255) DEFAULT NULL COMMENT '公示日期',
+  `decision_making_organ` varchar(255) DEFAULT NULL COMMENT '决定机关',
+  `decision_date` varchar(255) DEFAULT NULL COMMENT '决定日期',
+  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
+  `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `status` int DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=154 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_annual_report
@@ -92,7 +112,7 @@ CREATE TABLE `qcc_annual_report` (
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=121404 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4595 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_annual_report_shareholder
@@ -100,6 +120,7 @@ CREATE TABLE `qcc_annual_report` (
 DROP TABLE IF EXISTS `qcc_annual_report_shareholder`;
 CREATE TABLE `qcc_annual_report_shareholder` (
   `id` int NOT NULL AUTO_INCREMENT,
+  `annual_report_uuid` varchar(255) DEFAULT NULL COMMENT '对应qcc_annual_report里的uuid',
   `enterprise_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '股东',
   `subscribed_capital` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '认缴出资额(万元)',
@@ -112,7 +133,58 @@ CREATE TABLE `qcc_annual_report_shareholder` (
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=287907 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9393 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for qcc_app
+-- ----------------------------
+DROP TABLE IF EXISTS `qcc_app`;
+CREATE TABLE `qcc_app` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `enterprise_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '名称',
+  `sort` varchar(255) DEFAULT NULL COMMENT '分类',
+  `current_version` varchar(255) DEFAULT NULL COMMENT '当前版本',
+  `brief_introduction` varchar(255) DEFAULT NULL COMMENT '简介',
+  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
+  `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `status` int DEFAULT '1',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for qcc_applet
+-- ----------------------------
+DROP TABLE IF EXISTS `qcc_applet`;
+CREATE TABLE `qcc_applet` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `enterprise_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '名称',
+  `sort` varchar(255) DEFAULT NULL COMMENT '分类',
+  `associated_official_account` varchar(255) DEFAULT NULL COMMENT '关联公众号',
+  `predict_reading_volume` varchar(255) DEFAULT NULL COMMENT '公众号预估阅读量',
+  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
+  `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `status` int DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for qcc_bidding
+-- ----------------------------
+DROP TABLE IF EXISTS `qcc_bidding`;
+CREATE TABLE `qcc_bidding` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `enterprise_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL COMMENT '项目名称',
+  `release_date` varchar(255) DEFAULT NULL COMMENT '发布日期',
+  `province` varchar(255) DEFAULT NULL COMMENT '省份地区',
+  `progress` varchar(255) DEFAULT NULL COMMENT '招标进度',
+  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
+  `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `status` int DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3564 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_business_information
@@ -147,7 +219,26 @@ CREATE TABLE `qcc_business_information` (
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25850 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1133 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for qcc_financing_consultation
+-- ----------------------------
+DROP TABLE IF EXISTS `qcc_financing_consultation`;
+CREATE TABLE `qcc_financing_consultation` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `enterprise_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `date` varchar(255) DEFAULT NULL COMMENT '日期',
+  `name` varchar(255) DEFAULT NULL COMMENT '产品名称',
+  `financing_round` varchar(255) DEFAULT NULL COMMENT '融资轮次',
+  `amount` varchar(255) DEFAULT NULL COMMENT '金额',
+  `investor` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '投资方',
+  `source` varchar(255) DEFAULT NULL COMMENT '新闻来源',
+  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
+  `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `status` int DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_general_taxpayer
@@ -166,7 +257,7 @@ CREATE TABLE `qcc_general_taxpayer` (
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14779 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=577 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_import_export_credit
@@ -183,7 +274,7 @@ CREATE TABLE `qcc_import_export_credit` (
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13216 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=484 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_judgment_document
@@ -202,7 +293,7 @@ CREATE TABLE `qcc_judgment_document` (
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=159433 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6187 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_keyman
@@ -219,7 +310,26 @@ CREATE TABLE `qcc_keyman` (
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=65896 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2678 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for qcc_land_purchase_information
+-- ----------------------------
+DROP TABLE IF EXISTS `qcc_land_purchase_information`;
+CREATE TABLE `qcc_land_purchase_information` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `enterprise_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL COMMENT '项目位置',
+  `purpose` varchar(255) DEFAULT NULL COMMENT '土地用途',
+  `area` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '面积（公顷）',
+  `administrative_region` varchar(255) DEFAULT NULL COMMENT '行政区',
+  `land_supply_mode` varchar(255) DEFAULT NULL COMMENT '供地方式',
+  `contract_signing_date` varchar(255) DEFAULT NULL COMMENT '合同签订日期',
+  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
+  `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `status` int DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_match_summary
@@ -234,7 +344,7 @@ CREATE TABLE `qcc_match_summary` (
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '信息录入时间/自动',
   `status` int DEFAULT '1' COMMENT '是否在用：1是0否',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27786 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1204 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_qualification_certificate
@@ -252,7 +362,40 @@ CREATE TABLE `qcc_qualification_certificate` (
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=99074 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1361 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for qcc_remove_exception
+-- ----------------------------
+DROP TABLE IF EXISTS `qcc_remove_exception`;
+CREATE TABLE `qcc_remove_exception` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `enterprise_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `save_reason` varchar(255) DEFAULT NULL COMMENT '列入经营异常名录原因',
+  `desicion_authority` varchar(255) DEFAULT NULL COMMENT '作出决定机关',
+  `remove_date` varchar(255) DEFAULT NULL COMMENT '移出日期',
+  `remove_reason` varchar(255) DEFAULT NULL COMMENT '移出经营异常名录原因',
+  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
+  `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `status` int DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=134 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for qcc_save_exception
+-- ----------------------------
+DROP TABLE IF EXISTS `qcc_save_exception`;
+CREATE TABLE `qcc_save_exception` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `enterprise_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `save_date` varchar(255) DEFAULT NULL COMMENT '列入日期',
+  `desicion_authority` varchar(255) DEFAULT NULL COMMENT '作出决定机关',
+  `save_reason` varchar(255) DEFAULT NULL COMMENT '列入经营异常名录原因',
+  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
+  `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `status` int DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=149 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_shareholder
@@ -273,7 +416,45 @@ CREATE TABLE `qcc_shareholder` (
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=59449 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2206 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for qcc_software_copyright
+-- ----------------------------
+DROP TABLE IF EXISTS `qcc_software_copyright`;
+CREATE TABLE `qcc_software_copyright` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `enterprise_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL COMMENT '软件名称',
+  `version` varchar(255) DEFAULT NULL COMMENT '版本号',
+  `release_date` varchar(255) DEFAULT NULL COMMENT '发布日期',
+  `abbreviation` varchar(255) DEFAULT NULL COMMENT '软件简称',
+  `registration_number` varchar(255) DEFAULT NULL COMMENT '登记号',
+  `registration_approval_date` varchar(255) DEFAULT NULL COMMENT '登记批准日期',
+  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
+  `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `status` int DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=578 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for qcc_supplier
+-- ----------------------------
+DROP TABLE IF EXISTS `qcc_supplier`;
+CREATE TABLE `qcc_supplier` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `enterprise_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL COMMENT '供应商',
+  `proportion_of_procurement` varchar(255) DEFAULT NULL COMMENT '采购占比',
+  `purchase_amount` varchar(255) DEFAULT NULL COMMENT '采购金额(万元)',
+  `report_period` varchar(255) DEFAULT NULL COMMENT '报告期',
+  `source` varchar(255) DEFAULT NULL COMMENT '数据来源',
+  `relationship` varchar(255) DEFAULT NULL COMMENT '关联关系',
+  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
+  `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `status` int DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_tax_credit
@@ -289,7 +470,7 @@ CREATE TABLE `qcc_tax_credit` (
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19713 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=598 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_website_information
@@ -307,7 +488,39 @@ CREATE TABLE `qcc_website_information` (
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16691 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=295 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for qcc_wechat
+-- ----------------------------
+DROP TABLE IF EXISTS `qcc_wechat`;
+CREATE TABLE `qcc_wechat` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `enterprise_id` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL COMMENT '公众号名称',
+  `account` varchar(255) DEFAULT NULL COMMENT '微信号',
+  `brief_introduction` varchar(255) DEFAULT NULL COMMENT '简介',
+  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
+  `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `status` int DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for qcc_weibo
+-- ----------------------------
+DROP TABLE IF EXISTS `qcc_weibo`;
+CREATE TABLE `qcc_weibo` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `enterprise_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `nickname` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '微博昵称',
+  `industry_category` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '行业类别',
+  `brief_introduction` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '简介',
+  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
+  `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `status` int DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=155 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for rtc_enterprise
@@ -330,6 +543,17 @@ CREATE TABLE `rtc_enterprise` (
   `gmt_update` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '信息修改时间/自动',
   `status` int DEFAULT '1' COMMENT '是否在用：1是0否',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16999 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=674 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for test
+-- ----------------------------
+DROP TABLE IF EXISTS `test`;
+CREATE TABLE `test` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(20000) DEFAULT NULL,
+  `address` varchar(1800) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 SET FOREIGN_KEY_CHECKS = 1;

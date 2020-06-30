@@ -10,7 +10,7 @@ public class QccWeibo {
     private Integer id;
 
     private String enterpriseId;
-    @JsonAlias("昵称")
+    @JsonAlias("微博昵称")
     private String nickname;
     @JsonAlias("行业类别")
     private String industryCategory;

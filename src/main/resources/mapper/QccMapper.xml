@@ -540,6 +540,8 @@
 
 
     <resultMap id="qccAbnormalOperationVO" type="com.rtc.manager.vo.QccAbnormalOperationVO">
+        <id column="qcc_id" property="id" jdbcType="INTEGER"/>
+        <result property="enterpriseId" column="qcc_enterprise_id" jdbcType="VARCHAR"/>
         <collection property="qccRemoveExceptionVOList" ofType="com.rtc.manager.vo.QccRemoveExceptionVO">
             <id column="qre_id" jdbcType="INTEGER" property="id" />
             <result column="qre_enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
@@ -558,6 +560,8 @@
     </resultMap>
     <select id="listQccAbnormalOperationVO" resultMap="qccAbnormalOperationVO">
         SELECT
+            qcc.id qcc_id,
+            qcc.enterprise_id qcc_enterprise_id,
             `qcc_remove_exception`.`id` qre_id,
             `qcc_remove_exception`.`enterprise_id` qre_enterprise_id,
             `qcc_remove_exception`.`save_reason` qre_save_reason,
