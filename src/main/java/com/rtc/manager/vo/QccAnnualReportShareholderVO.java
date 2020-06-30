@@ -8,6 +8,8 @@ public class QccAnnualReportShareholderVO {
 
     private String enterpriseId;
 
+    private String annualReportUuid;
+
     private String name;
 
     private String subscribedCapital;

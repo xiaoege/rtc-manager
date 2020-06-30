@@ -1,8 +1,6 @@
 package com.rtc.manager.dao;
 
 import com.rtc.manager.entity.Qcc;
-import com.rtc.manager.entity.QccBidding;
-import com.rtc.manager.entity.QccLandPurchaseInformation;
 import com.rtc.manager.vo.*;
 import org.apache.ibatis.annotations.Param;
 
@@ -28,8 +26,6 @@ public interface QccMapper {
     List<QccAdministrativeLicenseVO> listQccAdministrativeLicenseVO(@Param("enterpriseId") String enterpriseId);
     List<QccAnnualReportVO> listQccAnnualReportVO(@Param("enterpriseId") String enterpriseId);
 
-//    List<QccAnnualReportShareholderVO> listQccAnnualReportShareholderVO(@Param("enterpriseId") String enterpriseId);
-
     List<QccGeneralTaxpayerVO> listQccGeneralTaxpayerVO(@Param("enterpriseId") String enterpriseId);
     List<QccImportExportCreditVO> listQccImportExportCreditVO(@Param("enterpriseId") String enterpriseId);
     List<QccJudgmentDocumentVO> listQccJudgmentDocumentVO(@Param("enterpriseId") String enterpriseId);
@@ -47,4 +43,8 @@ public interface QccMapper {
     List<QccAppletVO> listQccAppletVO(String enterpriseId);
     List<QccWechatVO> listQccWechatVO(String enterpriseId);
     List<QccWeiboVO> listQccWeiboVO(String enterpriseId);
+
+    List<QccSoftwareCopyrightVO> listQccSoftwareCopyrightVO(String enterpriseId);
+
+    List<QccAbnormalOperationVO> listQccAbnormalOperationVO(String enterpriseId);
 }

@@ -33,11 +33,4 @@ public class RtcEnterpriseVO {
 
     private String qccSearchString;
 
-    private Date gmtCreate;
-
-    private Date gmtUpdate;
-
-    private Integer status;
-
-
 }

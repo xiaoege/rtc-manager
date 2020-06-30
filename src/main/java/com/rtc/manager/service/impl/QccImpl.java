@@ -44,9 +44,6 @@ public class QccImpl implements Qcc {
             case "annualReport":
                 list = qccMapper.listQccAnnualReportVO(enterpriseId);
                 break;
-            case "annualReportShareholder":
-//                list = qccMapper.listQccAnnualReportShareholderVO(enterpriseId);
-                break;
             case "generalTaxpayer":
                 list = qccMapper.listQccGeneralTaxpayerVO(enterpriseId);
                 break;
@@ -77,11 +74,17 @@ public class QccImpl implements Qcc {
             case "supplier":
                 list = qccMapper.listQccSupplierVO(enterpriseId);
                 break;
+            case "abnormalOperation":
+                list = qccMapper.listQccAbnormalOperationVO(enterpriseId);
+                break;
             case "administrativeSanction":
                 list = qccMapper.listQccAdministrativeSanctionVO(enterpriseId);
                 break;
             case "financingConsultation":
                 list = qccMapper.listQccFinancingConsultationVO(enterpriseId);
+                break;
+            case "softwareCopyright":
+                list = qccMapper.listQccSoftwareCopyrightVO(enterpriseId);
                 break;
             case "app":
                 list = qccMapper.listQccAppVO(enterpriseId);

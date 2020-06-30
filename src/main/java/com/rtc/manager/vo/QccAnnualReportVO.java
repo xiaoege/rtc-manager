@@ -2,6 +2,8 @@ package com.rtc.manager.vo;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class QccAnnualReportVO {
     private Integer id;
@@ -57,5 +59,7 @@ public class QccAnnualReportVO {
     private String unemploymentInsurance;
 
     private String employmentInjuryInsurance;
+
+    private List<QccAnnualReportShareholderVO> qccAnnualReportShareholderVOList;
 
 }
