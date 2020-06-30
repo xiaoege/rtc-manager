@@ -3,6 +3,7 @@
 <mapper namespace="com.rtc.manager.dao.QccAnnualReportShareholderMapper">
   <resultMap id="BaseResultMap" type="com.rtc.manager.entity.QccAnnualReportShareholder">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="annual_report_uuid" jdbcType="VARCHAR" property="annualReportUuid" />
     <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="subscribed_capital" jdbcType="VARCHAR" property="subscribedCapital" />
@@ -16,8 +17,9 @@
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, enterprise_id, name, subscribed_capital, subscribed_capital_date, subscribed_capital_way, 
-    paid_capital, paid_capital_date, paid_capital_way, gmt_create, gmt_modify, status
+    id, annual_report_uuid, enterprise_id, name, subscribed_capital, subscribed_capital_date, 
+    subscribed_capital_way, paid_capital, paid_capital_date, paid_capital_way, gmt_create, 
+    gmt_modify, status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -30,13 +32,13 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.rtc.manager.entity.QccAnnualReportShareholder">
-    insert into qcc_annual_report_shareholder (id, enterprise_id, name, 
-      subscribed_capital, subscribed_capital_date, 
+    insert into qcc_annual_report_shareholder (id, annual_report_uuid, enterprise_id, 
+      name, subscribed_capital, subscribed_capital_date, 
       subscribed_capital_way, paid_capital, paid_capital_date, 
       paid_capital_way, gmt_create, gmt_modify, 
       status)
-    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{subscribedCapital,jdbcType=VARCHAR}, #{subscribedCapitalDate,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{annualReportUuid,jdbcType=VARCHAR}, #{enterpriseId,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{subscribedCapital,jdbcType=VARCHAR}, #{subscribedCapitalDate,jdbcType=VARCHAR}, 
       #{subscribedCapitalWay,jdbcType=VARCHAR}, #{paidCapital,jdbcType=VARCHAR}, #{paidCapitalDate,jdbcType=VARCHAR}, 
       #{paidCapitalWay,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, 
       #{status,jdbcType=INTEGER})
@@ -46,6 +48,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
+      </if>
+      <if test="annualReportUuid != null">
+        annual_report_uuid,
       </if>
       <if test="enterpriseId != null">
         enterprise_id,
@@ -85,6 +90,9 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
+      <if test="annualReportUuid != null">
+        #{annualReportUuid,jdbcType=VARCHAR},
+      </if>
       <if test="enterpriseId != null">
         #{enterpriseId,jdbcType=VARCHAR},
       </if>
@@ -123,6 +131,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.QccAnnualReportShareholder">
     update qcc_annual_report_shareholder
     <set>
+      <if test="annualReportUuid != null">
+        annual_report_uuid = #{annualReportUuid,jdbcType=VARCHAR},
+      </if>
       <if test="enterpriseId != null">
         enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
       </if>
@@ -161,7 +172,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.QccAnnualReportShareholder">
     update qcc_annual_report_shareholder
-    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+    set annual_report_uuid = #{annualReportUuid,jdbcType=VARCHAR},
+      enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       subscribed_capital = #{subscribedCapital,jdbcType=VARCHAR},
       subscribed_capital_date = #{subscribedCapitalDate,jdbcType=VARCHAR},

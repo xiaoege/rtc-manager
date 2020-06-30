@@ -144,14 +144,21 @@
 <!--               enableCountByExample="false" enableUpdateByExample="false"-->
 <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
-        <table tableName="qcc_administrative_sanction" domainObjectName="QccAdministrativeSanction"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
+<!--        <table tableName="qcc_administrative_sanction" domainObjectName="QccAdministrativeSanction"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"></table>-->
 <!--        <table tableName="qcc_software_copyright" domainObjectName="QccSoftwareCopyright"-->
 <!--               enableCountByExample="false" enableUpdateByExample="false"-->
 <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
-
+            <table tableName="qcc_remove_exception" domainObjectName="QccRemoveException"
+                   enableCountByExample="false" enableUpdateByExample="false"
+                   enableDeleteByExample="false" enableSelectByExample="false"
+                   selectByExampleQueryId="false"></table>
+            <table tableName="qcc_save_exception" domainObjectName="QccSaveException"
+                   enableCountByExample="false" enableUpdateByExample="false"
+                   enableDeleteByExample="false" enableSelectByExample="false"
+                   selectByExampleQueryId="false"></table>
     </context>
 </generatorConfiguration>

@@ -98,6 +98,12 @@ public class SaveJsonImpl implements SaveJson {
     @Autowired
     private QccSoftwareCopyrightMapper qccSoftwareCopyrightMapper;
 
+    @Autowired
+    private QccRemoveExceptionMapper qccRemoveExceptionMapper;
+
+    @Autowired
+    private QccSaveExceptionMapper qccSaveExceptionMapper;
+
     @Override
     @Transactional(rollbackFor = Exception.class)
 
@@ -302,7 +308,8 @@ public class SaveJsonImpl implements SaveJson {
                     QccAnnualReport qarTemp = new QccAnnualReport();
                     Map.Entry<String, LinkedHashMap> next = (Map.Entry<String, LinkedHashMap>) iterator.next();
                     String year = next.getKey();
-                    qarTemp.setUuid(getUUID());
+                    String annualReportUuid = getUUID();
+                    qarTemp.setUuid(annualReportUuid);
                     qarTemp.setYear(year);
                     LinkedHashMap value = next.getValue();
                     HashMap basicInfo = (HashMap) value.get("企业基本信息");
@@ -329,6 +336,7 @@ public class SaveJsonImpl implements SaveJson {
                         for (int j = 0; j < qccAnnualReportShareholderList.size(); j++) {
                             QccAnnualReportShareholder qccAnnualReportShareholder = (QccAnnualReportShareholder) qccAnnualReportShareholderList.get(j);
                             qccAnnualReportShareholder.setEnterpriseId(enterpriseIdList.get(i));
+                            qccAnnualReportShareholder.setAnnualReportUuid(annualReportUuid);
                             qccAnnualReportShareholderMapper.insertSelective(qccAnnualReportShareholder);
                         }
                     }
@@ -446,6 +454,33 @@ public class SaveJsonImpl implements SaveJson {
                         QccAdministrativeSanction qccAdministrativeSanction1 = qccAdministrativeSanctionList.get(j);
                         qccAdministrativeSanction1.setEnterpriseId(enterpriseIdList.get(i));
                         qccAdministrativeSanctionMapper.insertSelective(qccAdministrativeSanction1);
+                    }
+                }
+
+                HashMap abnormalOperation = (HashMap) businessRisk.get("经营异常");
+                if (abnormalOperation != null && abnormalOperation.size() > 0) {
+                    List<QccRemoveException> qccRemoveExceptions = (List<QccRemoveException>) abnormalOperation.get("移除异常");
+                    if (!CollectionUtils.isEmpty(qccRemoveExceptions)) {
+                        String qccRemoveExceptionJsonString = objectMapper.writeValueAsString(qccRemoveExceptions);
+                        List<QccRemoveException> qccRemoveExceptionList = objectMapper.readValue(qccRemoveExceptionJsonString, new TypeReference<List<QccRemoveException>>() {
+                        });
+                        for (int j = 0; j < qccRemoveExceptionList.size(); j++) {
+                            QccRemoveException qccRemoveException = qccRemoveExceptionList.get(j);
+                            qccRemoveException.setEnterpriseId(enterpriseIdList.get(i));
+                            qccRemoveExceptionMapper.insertSelective(qccRemoveException);
+                        }
+                    }
+
+                    List<QccSaveException> qccSaveExceptions = (List<QccSaveException>) abnormalOperation.get("移入异常");
+                    if (!CollectionUtils.isEmpty(qccSaveExceptions)) {
+                        String qccSaveExceptionJsonString = objectMapper.writeValueAsString(qccSaveExceptions);
+                        List<QccSaveException> qccSaveExceptionList = objectMapper.readValue(qccSaveExceptionJsonString, new TypeReference<List<QccSaveException>>() {
+                        });
+                        for (int j = 0; j < qccSaveExceptionList.size(); j++) {
+                            QccSaveException qccSaveException = qccSaveExceptionList.get(j);
+                            qccSaveException.setEnterpriseId(enterpriseIdList.get(i));
+                            qccSaveExceptionMapper.insertSelective(qccSaveException);
+                        }
                     }
                 }
             }
