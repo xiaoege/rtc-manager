@@ -18,7 +18,7 @@ public class ExceptionController {
     @ExceptionHandler(Exception.class)
     public Object exceptionHandler(Exception e) {
         e.printStackTrace();
-//        loggert.debug(e.ge);
+//        loggert.debug(e.ge1);
         Map map = new HashMap();
         map.put("message", "请求失败");
         map.put("data", null);
