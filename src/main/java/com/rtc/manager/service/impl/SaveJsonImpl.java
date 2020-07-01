@@ -161,37 +161,39 @@ public class SaveJsonImpl implements SaveJson {
                 qccMapper.insertSelective(qcc);
                 //qcc-基本信息
                 HashMap basicInformation = qcc.getBasicInformation();
-                HashMap basicInformationMap = (HashMap) basicInformation.get("工商信息");
-                if (basicInformationMap != null && basicInformationMap.size() > 0) {
-                    String basicInformationJsonString = objectMapper.writeValueAsString(basicInformationMap);
-                    QccBusinessInformation qccBusinessInformation = objectMapper.readValue(basicInformationJsonString, QccBusinessInformation.class);
-                    // insert qcc_business_information
-                    qccBusinessInformation.setEnterpriseId(enterpriseIdList.get(i));
-                    qccBusinessInformationMapper.insertSelective(qccBusinessInformation);
-                }
+                if (null != basicInformation && basicInformation.size() > 0) {
+                    HashMap basicInformationMap = (HashMap) basicInformation.get("工商信息");
+                    if (basicInformationMap != null && basicInformationMap.size() > 0) {
+                        String basicInformationJsonString = objectMapper.writeValueAsString(basicInformationMap);
+                        QccBusinessInformation qccBusinessInformation = objectMapper.readValue(basicInformationJsonString, QccBusinessInformation.class);
+                        // insert qcc_business_information
+                        qccBusinessInformation.setEnterpriseId(enterpriseIdList.get(i));
+                        qccBusinessInformationMapper.insertSelective(qccBusinessInformation);
+                    }
 
-                List<HashMap> qccShareholderList = (List<HashMap>) basicInformation.get("股东信息");
-                if (!CollectionUtils.isEmpty(qccShareholderList)) {
-                    for (int j = 0; j < qccShareholderList.size(); j++) {
-                        String qccShareholderJsonString = objectMapper.writeValueAsString(qccShareholderList.get(j));
-                        QccShareholder qccShareholder = objectMapper.readValue(qccShareholderJsonString, QccShareholder.class);
-                        // insert qcc_shareholder
-                        qccShareholder.setEnterpriseId(enterpriseIdList.get(i));
-                        qccShareholderMapper.insertSelective(qccShareholder);
+                    List<HashMap> qccShareholderList = (List<HashMap>) basicInformation.get("股东信息");
+                    if (!CollectionUtils.isEmpty(qccShareholderList)) {
+                        for (int j = 0; j < qccShareholderList.size(); j++) {
+                            String qccShareholderJsonString = objectMapper.writeValueAsString(qccShareholderList.get(j));
+                            QccShareholder qccShareholder = objectMapper.readValue(qccShareholderJsonString, QccShareholder.class);
+                            // insert qcc_shareholder
+                            qccShareholder.setEnterpriseId(enterpriseIdList.get(i));
+                            qccShareholderMapper.insertSelective(qccShareholder);
+                        }
+                    }
+
+                    List<HashMap> qccKeymanList = (List<HashMap>) basicInformation.get("主要人员");
+                    if (!CollectionUtils.isEmpty(qccKeymanList)) {
+                        for (int j = 0; j < qccKeymanList.size(); j++) {
+                            String qccKeymanJsonString = objectMapper.writeValueAsString(qccKeymanList.get(j));
+                            QccKeyman qccKeyman = objectMapper.readValue(qccKeymanJsonString, QccKeyman.class);
+                            // insert qcc_keyman
+                            qccKeyman.setEnterpriseId(enterpriseIdList.get(i));
+                            qccKeymanMapper.insertSelective(qccKeyman);
+                        }
                     }
                 }
 
-
-                List<HashMap> qccKeymanList = (List<HashMap>) basicInformation.get("主要人员");
-                if (!CollectionUtils.isEmpty(qccKeymanList)) {
-                    for (int j = 0; j < qccKeymanList.size(); j++) {
-                        String qccKeymanJsonString = objectMapper.writeValueAsString(qccKeymanList.get(j));
-                        QccKeyman qccKeyman = objectMapper.readValue(qccKeymanJsonString, QccKeyman.class);
-                        // insert qcc_keyman
-                        qccKeyman.setEnterpriseId(enterpriseIdList.get(i));
-                        qccKeymanMapper.insertSelective(qccKeyman);
-                    }
-                }
 
 
                 // qcc-法律诉讼
