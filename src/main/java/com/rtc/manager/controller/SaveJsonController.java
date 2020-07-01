@@ -1,6 +1,7 @@
 package com.rtc.manager.controller;
 
 import com.rtc.manager.service.SaveJson;
+import com.rtc.manager.util.CommonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,11 +48,10 @@ public class SaveJsonController {
                     errorName = file.getName();
                 }
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
             logger.debug("错误，文件是{}", errorName);
+            logger.debug("错误，文件是{}", CommonUtils.getExceptionInfo(e));
             System.out.println("错误，文件是" + errorName);
         }
         return "导入成功";

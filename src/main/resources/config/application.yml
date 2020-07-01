@@ -14,7 +14,7 @@ mybatis:
 
 logging:
   level:
-    com.rtc.manager.dao: debug
+    com.rtc.manager: debug
   file:
 #    path: /Users/chenhang/Documents/log
 #    内网测试环境
