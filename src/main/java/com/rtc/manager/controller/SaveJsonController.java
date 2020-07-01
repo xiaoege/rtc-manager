@@ -30,6 +30,7 @@ public class SaveJsonController {
     @PostMapping("/saveJson")
     public String saveJson(@RequestParam(name = "dirPath", required = true) String dirPath) {
         String errorName = "";
+        logger.debug("开始saveJson，dirPath是{}", dirPath);
         try {
             File fileDirPath = new File(dirPath);
             if (fileDirPath.exists()) {
