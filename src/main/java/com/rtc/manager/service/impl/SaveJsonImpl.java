@@ -162,11 +162,13 @@ public class SaveJsonImpl implements SaveJson {
                 //qcc-基本信息
                 HashMap basicInformation = qcc.getBasicInformation();
                 HashMap basicInformationMap = (HashMap) basicInformation.get("工商信息");
-                String basicInformationJsonString = objectMapper.writeValueAsString(basicInformationMap);
-                QccBusinessInformation qccBusinessInformation = objectMapper.readValue(basicInformationJsonString, QccBusinessInformation.class);
-                // insert qcc_business_information
-                qccBusinessInformation.setEnterpriseId(enterpriseIdList.get(i));
-                qccBusinessInformationMapper.insertSelective(qccBusinessInformation);
+                if (basicInformationMap != null && basicInformationMap.size() > 0) {
+                    String basicInformationJsonString = objectMapper.writeValueAsString(basicInformationMap);
+                    QccBusinessInformation qccBusinessInformation = objectMapper.readValue(basicInformationJsonString, QccBusinessInformation.class);
+                    // insert qcc_business_information
+                    qccBusinessInformation.setEnterpriseId(enterpriseIdList.get(i));
+                    qccBusinessInformationMapper.insertSelective(qccBusinessInformation);
+                }
 
                 List<HashMap> qccShareholderList = (List<HashMap>) basicInformation.get("股东信息");
                 if (!CollectionUtils.isEmpty(qccShareholderList)) {
