@@ -152,13 +152,17 @@
 <!--               enableCountByExample="false" enableUpdateByExample="false"-->
 <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
-            <table tableName="qcc_remove_exception" domainObjectName="QccRemoveException"
-                   enableCountByExample="false" enableUpdateByExample="false"
-                   enableDeleteByExample="false" enableSelectByExample="false"
-                   selectByExampleQueryId="false"></table>
-            <table tableName="qcc_save_exception" domainObjectName="QccSaveException"
-                   enableCountByExample="false" enableUpdateByExample="false"
-                   enableDeleteByExample="false" enableSelectByExample="false"
-                   selectByExampleQueryId="false"></table>
+<!--            <table tableName="qcc_remove_exception" domainObjectName="QccRemoveException"-->
+<!--                   enableCountByExample="false" enableUpdateByExample="false"-->
+<!--                   enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--                   selectByExampleQueryId="false"></table>-->
+<!--            <table tableName="qcc_save_exception" domainObjectName="QccSaveException"-->
+<!--                   enableCountByExample="false" enableUpdateByExample="false"-->
+<!--                   enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--                   selectByExampleQueryId="false"></table>-->
+            <table tableName="qcc_client" domainObjectName="QccClient"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>
     </context>
 </generatorConfiguration>

@@ -6,5 +6,5 @@ import java.io.File;
  * @author ChenHang
  */
 public interface SaveJson {
-    void readJson(File file) throws Exception;
+    void readJson(File[] files) throws Exception;
 }

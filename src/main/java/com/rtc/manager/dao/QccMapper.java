@@ -47,4 +47,6 @@ public interface QccMapper {
     List<QccSoftwareCopyrightVO> listQccSoftwareCopyrightVO(String enterpriseId);
 
     List<QccAbnormalOperationVO> listQccAbnormalOperationVO(String enterpriseId);
+
+    List<QccClientVO> listQccClienttVO(String enterpriseId);
 }

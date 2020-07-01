@@ -30,29 +30,15 @@ public class SaveJsonController {
      */
     @PostMapping("/saveJson")
     public String saveJson(@RequestParam(name = "dirPath", required = true) String dirPath) {
-        String errorName = "";
-        logger.debug("开始saveJson，dirPath是{}", dirPath);
         try {
             File fileDirPath = new File(dirPath);
             if (fileDirPath.exists()) {
                 File[] files = fileDirPath.listFiles();
-                for (File file :
-                        files) {
-                    // 忽略mac的隐藏文件
-                    if (file.getName().contains(".DS_Store")) {
-                        continue;
-                    }
-                    logger.debug("开始saveJson，文件是{}", file.getName());
-                    saveJson.readJson(file);
-                    logger.debug("结束saveJson，文件是{}", file.getName());
-                    errorName = file.getName();
-                }
+                saveJson.readJson(files);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            logger.debug("错误，文件是{}", errorName);
-            logger.debug("错误，文件是{}", CommonUtils.getExceptionInfo(e));
-            System.out.println("错误，文件是" + errorName);
+            logger.debug("错误，", CommonUtils.getExceptionInfo(e));
         }
         return "导入成功";
     }

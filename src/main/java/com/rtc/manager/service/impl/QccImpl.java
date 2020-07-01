@@ -50,6 +50,9 @@ public class QccImpl implements Qcc {
             case "importExportCredit":
                 list = qccMapper.listQccImportExportCreditVO(enterpriseId);
                 break;
+            case "client":
+                list = qccMapper.listQccClienttVO(enterpriseId);
+                break;
             case "judgmentDocument":
                 list = qccMapper.listQccJudgmentDocumentVO(enterpriseId);
                 break;

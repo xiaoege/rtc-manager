@@ -581,4 +581,21 @@
             qcc.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
             and qcc.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
     </select>
+
+    <select id="listQccClienttVO" resultType="com.rtc.manager.vo.QccClientVO">
+        SELECT
+            `qcc_client`.`id`,
+            `qcc_client`.`enterprise_id` enterpriseId,
+            `qcc_client`.`name`,
+            `qcc_client`.`sale_proportion` saleProportion,
+            `qcc_client`.`sale_amount` saleAmount,
+            `qcc_client`.`report_date` reportDate,
+            `qcc_client`.`source`,
+            `qcc_client`.`relationship`
+        FROM
+            `qcc_client`
+        WHERE
+            qcc_client.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+            and qcc_client.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    </select>
 </mapper>
