@@ -5,16 +5,17 @@
     <property name="LOG_PATTERN" value="%date{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />
     <!-- 定义日志存储的路径，不要配置相对路径 -->
     <property name="FILE_PATH" value="/Users/chenhang/Documents/log/rtc.%d{yyyy-MM-dd}.%i.log" />
+    <property name="FILE_PATH_Windows" value="D:\log" />
 
     <!-- 控制台输出日志 -->
-    <appender name="DEBUG" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <!-- 按照上面配置的LOG_PATTERN来打印日志 -->
             <pattern>${LOG_PATTERN}</pattern>
         </encoder>
     </appender>
 
-    <!--每天生成一个日志文件，保存15天的日志文件。rollingFile是用来切分文件的 -->
+<!--    每天生成一个日志文件，保存15天的日志文件。rollingFile是用来切分文件的 -->
     <appender name="FILE"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -23,19 +24,19 @@
             <maxHistory>15</maxHistory>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <!-- 日志文件的最大大小 -->
-                <maxFileSize>15MB</maxFileSize>
+                <maxFileSize>10MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder>
             <pattern>${LOG_PATTERN}</pattern>
         </encoder>
     </appender>
-    <!-- project default level -->
+<!--     project default level-->
 <!--    <logger name="src" level="DEBUG" />-->
 
     <!-- 日志输出级别 常用的日志级别按照从高到低依次为：ERROR、WARN、INFO、DEBUG。 -->
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="FILE" />
-        <appender-ref ref="DEBUG" />
+        <appender-ref ref="CONSOLE" />
     </root>
 </configuration>
