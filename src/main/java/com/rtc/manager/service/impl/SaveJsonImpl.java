@@ -116,6 +116,7 @@ public class SaveJsonImpl implements SaveJson {
             sb.append((char) reader.read());
         }
         String sss = sb.toString();
+        sss = sss.replace("\uFeFF", "");
         ObjectMapper objectMapper = new ObjectMapper();
         String result = objectMapper.writeValueAsString(sss);
         //总的数据，下面开始分开对每个对象（表）进行操作
