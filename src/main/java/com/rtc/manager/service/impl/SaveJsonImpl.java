@@ -517,6 +517,7 @@ public class SaveJsonImpl implements SaveJson {
             }
             reader.close();
             bis.close();
+            logger.info("json文件导入成功，文件是{}", file.getName());
         }
     }
 
