@@ -38,7 +38,7 @@ public class SaveJsonController {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            logger.debug("错误，", CommonUtils.getExceptionInfo(e));
+            logger.info("错误，", CommonUtils.getExceptionInfo(e));
         }
         return "导入成功";
     }
