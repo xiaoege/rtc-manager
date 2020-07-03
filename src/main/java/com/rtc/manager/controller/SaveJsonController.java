@@ -42,7 +42,7 @@ public class SaveJsonController {
             e.printStackTrace();
             logger.info("错误，", CommonUtils.getExceptionInfo(e));
         }
-        return "导入成功";
+        return "导入" + dirPath + "成功";
     }
 
 }

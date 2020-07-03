@@ -114,14 +114,16 @@ public class SaveJsonImpl implements SaveJson {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void readJson(File[] files) throws Exception {
+        int filesLength = files.length;
+        int step = 1;
         for (File file :
                 files) {
             // 忽略mac的隐藏文件
             if (file.getName().contains(".DS_Store")) {
                 continue;
             }
-            logger.info("开始解析json文件，文件是{}", file.getName());
-
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getName(), filesLength, step);
+            step++;
 
             BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
             BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
@@ -514,10 +516,12 @@ public class SaveJsonImpl implements SaveJson {
                         }
                     }
                 }
+
+                logger.info("json文件导入成功，文件是{}", file.getName());
+
             }
             reader.close();
             bis.close();
-            logger.info("json文件导入成功，文件是{}", file.getName());
         }
     }
 
