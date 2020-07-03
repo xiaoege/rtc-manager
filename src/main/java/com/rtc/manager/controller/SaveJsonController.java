@@ -40,7 +40,7 @@ public class SaveJsonController {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            logger.info("错误，", CommonUtils.getExceptionInfo(e));
+            logger.info("错误，{}", CommonUtils.getExceptionInfo(e));
         }
         return "导入" + dirPath + "成功";
     }
