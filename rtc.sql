@@ -11,7 +11,7 @@
  Target Server Version : 80020
  File Encoding         : 65001
 
- Date: 01/07/2020 17:55:11
+ Date: 06/07/2020 10:16:14
 */
 
 SET NAMES utf8mb4;
@@ -34,7 +34,8 @@ CREATE TABLE `qcc` (
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx_qcc_enterprise_id` (`enterprise_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -54,7 +55,8 @@ CREATE TABLE `qcc_administrative_license` (
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_qal_enterprise_id` (`enterprise_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -73,7 +75,8 @@ CREATE TABLE `qcc_administrative_sanction` (
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_qas_enterprise_id` (`enterprise_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -111,7 +114,8 @@ CREATE TABLE `qcc_annual_report` (
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx_qar_enterprise_id` (`enterprise_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -132,7 +136,8 @@ CREATE TABLE `qcc_annual_report_shareholder` (
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_qars_enterprise_id` (`enterprise_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -149,7 +154,8 @@ CREATE TABLE `qcc_app` (
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx_qapp_enterprise_id` (`enterprise_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -166,7 +172,8 @@ CREATE TABLE `qcc_applet` (
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_qapplet_enterprise_id` (`enterprise_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -183,7 +190,8 @@ CREATE TABLE `qcc_bidding` (
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_qb_enterprise_id` (`enterprise_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -218,7 +226,8 @@ CREATE TABLE `qcc_business_information` (
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_qbi_enterprise_id` (`enterprise_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -237,7 +246,8 @@ CREATE TABLE `qcc_client` (
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_qc_enterprise_id` (`enterprise_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -256,7 +266,8 @@ CREATE TABLE `qcc_financing_consultation` (
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_qfc_enterprise_id` (`enterprise_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -275,7 +286,8 @@ CREATE TABLE `qcc_general_taxpayer` (
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_qgt_enterprise_id` (`enterprise_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -292,7 +304,8 @@ CREATE TABLE `qcc_import_export_credit` (
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_qiec_enterprise_id` (`enterprise_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -305,13 +318,14 @@ CREATE TABLE `qcc_judgment_document` (
   `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '裁判文书标题',
   `reason` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '案由',
   `release_date` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '发布日期',
-  `case_code` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '案号',
+  `case_code` longtext CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '案号',
   `case_status` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '案件身份',
   `court_name` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '法院名称',
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_qjd_enterprise_id` (`enterprise_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -328,7 +342,8 @@ CREATE TABLE `qcc_keyman` (
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_qk_enterprise_id` (`enterprise_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -347,7 +362,8 @@ CREATE TABLE `qcc_land_purchase_information` (
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_qlp_enterprise_id` (`enterprise_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -362,8 +378,9 @@ CREATE TABLE `qcc_match_summary` (
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '信息录入时间/自动',
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '信息录入时间/自动',
   `status` int DEFAULT '1' COMMENT '是否在用：1是0否',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=89608 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  KEY `idx_qms_enterprise_id` (`enterprise_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_qualification_certificate
@@ -380,7 +397,8 @@ CREATE TABLE `qcc_qualification_certificate` (
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_qqc_enterprise_id` (`enterprise_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -397,7 +415,8 @@ CREATE TABLE `qcc_remove_exception` (
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_qre_enterprise_id` (`enterprise_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -413,7 +432,8 @@ CREATE TABLE `qcc_save_exception` (
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_qse_enterprise_id` (`enterprise_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -434,7 +454,8 @@ CREATE TABLE `qcc_shareholder` (
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_qs_enterprise_id` (`enterprise_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -453,7 +474,8 @@ CREATE TABLE `qcc_software_copyright` (
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_qsc_enterprise_id` (`enterprise_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -472,7 +494,8 @@ CREATE TABLE `qcc_supplier` (
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_qs_enterprise_id` (`enterprise_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -488,7 +511,8 @@ CREATE TABLE `qcc_tax_credit` (
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_qtc_enterprise_id` (`enterprise_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -506,7 +530,8 @@ CREATE TABLE `qcc_website_information` (
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_qwi_enterprise_id` (`enterprise_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -522,7 +547,8 @@ CREATE TABLE `qcc_wechat` (
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_qwechat_enterprise_id` (`enterprise_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -538,7 +564,8 @@ CREATE TABLE `qcc_weibo` (
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_qweibo_enterprise_id` (`enterprise_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -561,8 +588,9 @@ CREATE TABLE `rtc_enterprise` (
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '信息录入时间/自动',
   `gmt_update` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '信息修改时间/自动',
   `status` int DEFAULT '1' COMMENT '是否在用：1是0否',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=51175 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  KEY `idx_re_uuid` (`uuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for test
