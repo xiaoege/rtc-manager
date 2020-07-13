@@ -3,7 +3,6 @@ package com.rtc.manager.controller;
 import com.github.pagehelper.PageInfo;
 import com.rtc.manager.service.Qcc;
 import com.rtc.manager.vo.QccListVO;
-import com.rtc.manager.vo.QccVO;
 import com.rtc.manager.vo.ResultData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,12 +18,10 @@ import java.util.List;
  * @author ChenHang
  */
 @RestController
-@RequestMapping("ios")
-public class IOSController {
-//    @Autowired
-//    private RtcEnterprise rtcEnterprise;
+@RequestMapping("enterprise")
+public class EnterpriseController {
 
-    private final Logger logger = LoggerFactory.getLogger(IOSController.class);
+    private final Logger logger = LoggerFactory.getLogger(EnterpriseController.class);
 
     @Autowired
     private Qcc qcc;
