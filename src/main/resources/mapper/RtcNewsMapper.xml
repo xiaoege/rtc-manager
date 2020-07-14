@@ -151,11 +151,10 @@
   </update>
 
   <select id="listNews" resultType="com.rtc.manager.vo.RtcNewsVO">
-    select uuid,author,title,source,country,sequence,gmt_create gmtCreate,gmt_modify gmtModify
+    select uuid,author,title,source,country,description,preview,sequence,gmt_create gmtCreate,gmt_modify gmtModify
     from rtc_news
     where status = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
     order by
           gmt_create desc
-
   </select>
 </mapper>

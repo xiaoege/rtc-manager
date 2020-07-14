@@ -1,8 +1,10 @@
 package com.rtc.manager.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -10,7 +12,7 @@ import java.util.List;
  */
 @Data
 public class RtcNewsDetatilVO {
-    private String uuid;
+    private String newsId;
 
     private String author;
 
@@ -20,14 +22,14 @@ public class RtcNewsDetatilVO {
 
     private String country;
 
-    private Integer sequence;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date gmtCreate;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date gmtModify;
 
-    private Integer status;
-
     private List<String> content;
+
+    private List<HashMap> resultList;
 
 }

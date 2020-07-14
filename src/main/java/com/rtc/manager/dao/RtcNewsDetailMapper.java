@@ -25,5 +25,5 @@ public interface RtcNewsDetailMapper {
      * @param newsId
      * @return
      */
-    List<RtcNewsDetatilVO> getNewsDetail(String newsId);
+    RtcNewsDetatilVO getNewsDetail(String newsId);
 }

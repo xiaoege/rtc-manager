@@ -1,5 +1,6 @@
 package com.rtc.manager.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
@@ -21,10 +22,13 @@ public class RtcNewsVO {
 
     private Integer sequence;
 
+    private String description;
+
+    private String preview;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date gmtCreate;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date gmtModify;
-
-    private Integer status;
 
 }

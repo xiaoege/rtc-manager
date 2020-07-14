@@ -25,12 +25,22 @@ public class NewsController {
     @Autowired
     private News news;
 
+    /**
+     * 查询新闻列表
+     * @param startDate
+     * @param endDate
+     * @param pageNum 当前页数
+     * @param pageSize 当前页面展示数量
+     * @param sequence 权重
+     * @return
+     */
     @GetMapping("listNews")
     public ResultData listNews(@RequestParam(name = "startDate", required = false) String startDate,
                                @RequestParam(name = "endDate", required = false) String endDate,
                                @RequestParam(name = "pageNum", required = false, defaultValue = "1") int pageNum,
-                               @RequestParam(name = "pageSize", required = false, defaultValue = "5") int pageSize){
-        PageInfo<RtcNewsVO> resultData = news.listNews(startDate, endDate, pageNum, pageSize);
+                               @RequestParam(name = "pageSize", required = false, defaultValue = "5") int pageSize,
+                               @RequestParam(name = "sequence", required = false) Integer sequence){
+        PageInfo<RtcNewsVO> resultData = news.listNews(startDate, endDate, pageNum, pageSize, sequence);
 
 
         return ResultData.SUCCESS(resultData);
@@ -38,7 +48,7 @@ public class NewsController {
 
     @GetMapping("getNews")
     public ResultData getNews(@RequestParam(name = "newsId") String newsId) {
-        List<RtcNewsDetatilVO> resultData = news.getNews(newsId);
+        RtcNewsDetatilVO resultData = news.getNews(newsId);
 
         return ResultData.SUCCESS(resultData);
     }

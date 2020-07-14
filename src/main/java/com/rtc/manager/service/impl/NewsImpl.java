@@ -7,10 +7,19 @@ import com.rtc.manager.dao.RtcNewsMapper;
 import com.rtc.manager.service.News;
 import com.rtc.manager.vo.RtcNewsDetatilVO;
 import com.rtc.manager.vo.RtcNewsVO;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author ChenHang
@@ -25,15 +34,69 @@ public class NewsImpl implements News {
     private RtcNewsDetailMapper rtcNewsDetailMapper;
 
     @Override
-    public PageInfo<RtcNewsVO> listNews(String startDate, String endDate, int pageNum, int pageSize) {
+    public PageInfo<RtcNewsVO> listNews(String startDate, String endDate, int pageNum, int pageSize, Integer sequence) {
         PageHelper.startPage(pageNum, pageSize);
-        List<RtcNewsVO> list = rtcNewsMapper.listNews(startDate, endDate, pageNum, pageSize);
+        List<RtcNewsVO> list = rtcNewsMapper.listNews(startDate, endDate, pageNum, pageSize, sequence);
+        if (!ObjectUtils.isEmpty(list)) {
+            for (int i = 0; i < list.size(); i++) {
+                RtcNewsVO rtcNewsVO = list.get(i);
+                if (null != rtcNewsVO.getDescription()) {
+                    // 去除html标签
+                    rtcNewsVO.setDescription(rtcNewsVO.getDescription().replaceAll("<[^>]*>", ""));
+                }
+            }
+        }
         return new PageInfo<>(list);
     }
 
+    @SneakyThrows
     @Override
-    public List<RtcNewsDetatilVO> getNews(String newsId) {
-        List<RtcNewsDetatilVO> list = rtcNewsDetailMapper.getNewsDetail(newsId);
-        return list;
+    public RtcNewsDetatilVO getNews(String newsId) {
+        RtcNewsDetatilVO newsDetail = rtcNewsDetailMapper.getNewsDetail(newsId);
+        List<String> contentList = newsDetail.getContent();
+        List resultList = new ArrayList();
+        if (!ObjectUtils.isEmpty(contentList)) {
+            for (int i = 0; i < contentList.size(); i++) {
+                String content = contentList.get(i);
+                content = content.replaceAll("<(?!img|figcaption|/figcaption|strong|/strong|em|/em|p|/p).*?>", "");
+                String[] split = content.split("</p>");
+                for (int j = 0; j < split.length - 1; j++) {
+                    String p = split[j];
+                    p = p.substring(p.indexOf("<p>") + 3);
+                    Map map = new HashMap();
+                    if (p.contains("figcaption") || p.contains("<img")) {
+                        String url = p.substring(p.indexOf("'") + 1, p.indexOf("'", p.indexOf("'") + 1));
+//                        File picture = new File(url);
+//                        BufferedImage sourceImg = ImageIO.read(new FileInputStream(picture));
+//                        // 单位：像素
+//                        int width = sourceImg.getWidth();
+//                        int height = sourceImg.getHeight();
+                        map.put("data", p.replaceAll("<[^>]*>", ""));
+                        map.put("type", "img");
+                        map.put("url", url);
+//                        map.put("width", width);
+//                        map.put("height", height);
+                        resultList.add(map);
+                    } else if (p.contains("<strong>")) {
+                        map.put("data", p.replaceAll("<[^>]*>", ""));
+                        map.put("type", "title");
+                        resultList.add(map);
+                    } else if (p.contains("<em>")) {
+                        map.put("data", p.replaceAll("<[^>]*>", ""));
+                        map.put("type", "em");
+                        resultList.add(map);
+                    } else {
+                        map.put("data", p);
+                        map.put("type", "content");
+                        resultList.add(map);
+                    }
+
+                }
+            }
+            newsDetail.setResultList(resultList);
+            newsDetail.setContent(null);
+        }
+
+        return newsDetail;
     }
 }

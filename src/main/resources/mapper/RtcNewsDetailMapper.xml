@@ -173,10 +173,14 @@
 
   <resultMap id="newsDetail" type="com.rtc.manager.vo.RtcNewsDetatilVO">
     <result column="news_id" property="newsId" jdbcType="VARCHAR"/>
+    <result column="author" property="author" jdbcType="VARCHAR"/>
+    <result column="title" property="title" jdbcType="VARCHAR"/>
+    <result column="source" property="source" jdbcType="VARCHAR"/>
+    <result column="country" property="country" jdbcType="VARCHAR"/>
     <result column="gmt_create" property="gmtCreate" jdbcType="DATE"/>
     <result column="gmt_modify" property="gmtModify" jdbcType="DATE"/>
     <collection property="content" ofType="String">
-
+        <result column="content" property="content" jdbcType="VARCHAR"/>
     </collection>
   </resultMap>
   <select id="getNewsDetail" resultMap="newsDetail">

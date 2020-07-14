@@ -26,9 +26,10 @@ public interface RtcNewsMapper {
      * @param endDate
      * @param pageNum
      * @param pageSize
+     * @param sequence
      * @return
      */
     List<RtcNewsVO> listNews(@Param("startDate") String startDate, @Param("endDate") String endDate,
-                             @Param("pageNum") int pageNum, @Param("pageSize") int pageSize);
+                             @Param("pageNum") int pageNum, @Param("pageSize") int pageSize,@Param("sequence") Integer sequence);
 
 }
