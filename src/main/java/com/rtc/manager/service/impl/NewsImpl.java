@@ -63,8 +63,8 @@ public class NewsImpl implements News {
                 }
             }
         }
-        throw new ArrayIndexOutOfBoundsException();
-//        return new PageInfo<>(list);
+
+        return new PageInfo<>(list);
     }
 
 
