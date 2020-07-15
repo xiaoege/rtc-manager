@@ -7,7 +7,6 @@ import com.rtc.manager.dao.RtcNewsMapper;
 import com.rtc.manager.service.News;
 import com.rtc.manager.vo.RtcNewsDetatilVO;
 import com.rtc.manager.vo.RtcNewsVO;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,6 @@ import org.springframework.util.ObjectUtils;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,16 +59,34 @@ public class NewsImpl implements News {
                         rtcNewsVO.setPreview(url);
                     }
                 }
+                String author = rtcNewsVO.getAuthor();
+                rtcNewsVO.setAuthor(modifyAuthor(author));
             }
         }
 
         return new PageInfo<>(list);
     }
 
+    private String modifyAuthor(String author) {
+        if (author != null) {
+            if (author.contains(" | ")) {
+                String[] authorArray = author.split(" \\| ");
+                author = authorArray[0];
+            }
+            author = author.replace("By ", "");
+            if (author.contains(" in ")) {
+                author.substring(0, author.indexOf(" in "));
+            }
+        }
+        return author;
+    }
+
 
     @Override
     public RtcNewsDetatilVO getNews(String newsId) throws Exception {
         RtcNewsDetatilVO newsDetail = rtcNewsDetailMapper.getNewsDetail(newsId);
+        String author = newsDetail.getAuthor();
+        newsDetail.setAuthor(modifyAuthor(author));
         List<String> contentList = newsDetail.getContent();
         List resultList = new ArrayList();
         if (!ObjectUtils.isEmpty(contentList)) {
