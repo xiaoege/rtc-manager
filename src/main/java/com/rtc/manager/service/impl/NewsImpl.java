@@ -62,7 +62,7 @@ public class NewsImpl implements News {
                 }
                 String author = rtcNewsVO.getAuthor();
                 rtcNewsVO.setAuthor(modifyAuthor(author));
-                if (!timeZone.startsWith("+")) {
+                if (!timeZone.startsWith("-") && !timeZone.startsWith("+")) {
                     timeZone = "+" + timeZone;
                 }
                 String intervalTime = CommonUtils.compareTime(timeZone, rtcNewsVO.getGmtCreate());
@@ -143,7 +143,7 @@ public class NewsImpl implements News {
             }
             newsDetail.setResultList(resultList);
             newsDetail.setContent(null);
-            if (!timeZone.startsWith("+")) {
+            if (!timeZone.startsWith("-") && !timeZone.startsWith("+")) {
                 timeZone = "+" + timeZone;
             }
             String intervalTime = CommonUtils.compareTime(timeZone, newsDetail.getGmtCreate());
