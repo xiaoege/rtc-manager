@@ -3,7 +3,7 @@ package com.rtc.manager.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * @author ChenHang
@@ -31,8 +31,9 @@ public class RtcNewsVO {
     private Integer height;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date gmtCreate;
+    private LocalDateTime gmtCreate;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date gmtModify;
-
+    private LocalDateTime gmtModify;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private String intervalTime;
 }

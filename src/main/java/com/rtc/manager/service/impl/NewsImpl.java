@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.rtc.manager.dao.RtcNewsDetailMapper;
 import com.rtc.manager.dao.RtcNewsMapper;
 import com.rtc.manager.service.News;
+import com.rtc.manager.util.CommonUtils;
 import com.rtc.manager.vo.RtcNewsDetatilVO;
 import com.rtc.manager.vo.RtcNewsVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class NewsImpl implements News {
     private String url;
 
     @Override
-    public PageInfo<RtcNewsVO> listNews(String startDate, String endDate, int pageNum, int pageSize, Integer sequence) throws Exception {
+    public PageInfo<RtcNewsVO> listNews(String startDate, String endDate, int pageNum, int pageSize, Integer sequence, String timeZone) throws Exception {
         PageHelper.startPage(pageNum, pageSize);
         List<RtcNewsVO> list = rtcNewsMapper.listNews(startDate, endDate, pageNum, pageSize, sequence);
         if (!ObjectUtils.isEmpty(list)) {
@@ -61,6 +62,8 @@ public class NewsImpl implements News {
                 }
                 String author = rtcNewsVO.getAuthor();
                 rtcNewsVO.setAuthor(modifyAuthor(author));
+                String intervalTime = CommonUtils.compareTime(timeZone, rtcNewsVO.getGmtCreate());
+                rtcNewsVO.setIntervalTime(intervalTime);
             }
         }
 
@@ -95,11 +98,11 @@ public class NewsImpl implements News {
         if (!ObjectUtils.isEmpty(contentList)) {
             for (int i = 0; i < contentList.size(); i++) {
                 String content = contentList.get(i);
-                content = content.replaceAll("<(?!img|figcaption|/figcaption|strong|/strong|em|/em|p|/p).*?>", "").replace("\n","");
+                content = content.replaceAll("<(?!img|figcaption|/figcaption|strong|/strong|em|/em|p|/p).*?>", "");
                 String[] split = content.split("</p>");
                 for (int j = 0; j < split.length - 1; j++) {
                     String p = split[j];
-                    p = p.substring(p.indexOf("<p>") + 3);
+                    p = p.substring(p.indexOf("<p>") + 3).replace("\\n", "");
                     Map map = new HashMap();
                     if (p.contains("figcaption") || p.contains("<img")) {
                         String url = p.substring(p.indexOf("'") + 1, p.indexOf("'", p.indexOf("'") + 1));

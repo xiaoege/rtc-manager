@@ -40,8 +40,9 @@ public class NewsController {
                                @RequestParam(name = "endDate", required = false) String endDate,
                                @RequestParam(name = "pageNum", required = false, defaultValue = "1") int pageNum,
                                @RequestParam(name = "pageSize", required = false, defaultValue = "5") int pageSize,
-                               @RequestParam(name = "sequence", required = false) Integer sequence) throws Exception {
-        PageInfo<RtcNewsVO> resultData = news.listNews(startDate, endDate, pageNum, pageSize, sequence);
+                               @RequestParam(name = "sequence", required = false) Integer sequence,
+                               @RequestParam(name = "timeZone", required = false, defaultValue = "+0") String timeZone) throws Exception {
+        PageInfo<RtcNewsVO> resultData = news.listNews(startDate, endDate, pageNum, pageSize, sequence, timeZone);
 
 
         return ResultData.SUCCESS(resultData);
