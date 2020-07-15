@@ -85,6 +85,9 @@ public class NewsImpl implements News {
     @Override
     public RtcNewsDetatilVO getNews(String newsId) throws Exception {
         RtcNewsDetatilVO newsDetail = rtcNewsDetailMapper.getNewsDetail(newsId);
+        if (newsDetail == null) {
+            return null;
+        }
         String author = newsDetail.getAuthor();
         newsDetail.setAuthor(modifyAuthor(author));
         List<String> contentList = newsDetail.getContent();
