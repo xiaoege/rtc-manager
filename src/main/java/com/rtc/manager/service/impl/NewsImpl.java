@@ -95,7 +95,7 @@ public class NewsImpl implements News {
         if (!ObjectUtils.isEmpty(contentList)) {
             for (int i = 0; i < contentList.size(); i++) {
                 String content = contentList.get(i);
-                content = content.replaceAll("<(?!img|figcaption|/figcaption|strong|/strong|em|/em|p|/p).*?>", "");
+                content = content.replaceAll("<(?!img|figcaption|/figcaption|strong|/strong|em|/em|p|/p).*?>", "").replace("\n","");
                 String[] split = content.split("</p>");
                 for (int j = 0; j < split.length - 1; j++) {
                     String p = split[j];
