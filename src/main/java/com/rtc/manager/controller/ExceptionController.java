@@ -23,6 +23,7 @@ public class ExceptionController {
         String exceptionInfo = CommonUtils.getExceptionInfo(e);
 
         logger.debug(exceptionInfo);
+        logger.info(exceptionInfo);
 
         Map map = new HashMap();
         map.put("message", "请求失败");
