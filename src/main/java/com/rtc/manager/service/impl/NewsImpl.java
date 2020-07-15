@@ -62,6 +62,9 @@ public class NewsImpl implements News {
                 }
                 String author = rtcNewsVO.getAuthor();
                 rtcNewsVO.setAuthor(modifyAuthor(author));
+                if (!timeZone.startsWith("-")) {
+                    timeZone = "+" + timeZone;
+                }
                 String intervalTime = CommonUtils.compareTime(timeZone, rtcNewsVO.getGmtCreate());
                 rtcNewsVO.setIntervalTime(intervalTime);
             }
