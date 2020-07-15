@@ -3,6 +3,7 @@ package com.rtc.manager.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -23,13 +24,16 @@ public class RtcNewsDetatilVO {
     private String country;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date gmtCreate;
+    private LocalDateTime gmtCreate;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date gmtModify;
+    private LocalDateTime gmtModify;
+
+    private String intervalTime;
 
     private List<String> content;
 
     private List<HashMap> resultList;
+
 
 }

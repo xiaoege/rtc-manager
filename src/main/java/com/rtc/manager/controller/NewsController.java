@@ -49,8 +49,9 @@ public class NewsController {
     }
 
     @GetMapping("getNews")
-    public ResultData getNews(@RequestParam(name = "newsId") String newsId) throws Exception {
-        RtcNewsDetatilVO resultData = news.getNews(newsId);
+    public ResultData getNews(@RequestParam(name = "newsId") String newsId,
+                              @RequestParam(name = "timeZone", required = false, defaultValue = "+0") String timeZone) throws Exception {
+        RtcNewsDetatilVO resultData = news.getNews(newsId, timeZone);
 
         return ResultData.SUCCESS(resultData);
     }

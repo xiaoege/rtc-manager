@@ -86,7 +86,7 @@ public class NewsImpl implements News {
 
 
     @Override
-    public RtcNewsDetatilVO getNews(String newsId) throws Exception {
+    public RtcNewsDetatilVO getNews(String newsId, String timeZone) throws Exception {
         RtcNewsDetatilVO newsDetail = rtcNewsDetailMapper.getNewsDetail(newsId);
         if (newsDetail == null) {
             return null;
@@ -140,6 +140,8 @@ public class NewsImpl implements News {
             }
             newsDetail.setResultList(resultList);
             newsDetail.setContent(null);
+            String intervalTime = CommonUtils.compareTime(timeZone, newsDetail.getGmtCreate());
+            newsDetail.setIntervalTime(intervalTime);
         }
 
         return newsDetail;

@@ -10,5 +10,5 @@ import com.rtc.manager.vo.RtcNewsVO;
 public interface News {
     PageInfo<RtcNewsVO> listNews(String startDate, String endDate, int pageNum, int pageSize, Integer sequence, String timeZone) throws Exception;
 
-    RtcNewsDetatilVO getNews(String newsId) throws Exception;
+    RtcNewsDetatilVO getNews(String newsId, String timeZone) throws Exception;
 }
