@@ -172,21 +172,30 @@
 
 
   <resultMap id="newsDetail" type="com.rtc.manager.vo.RtcNewsDetatilVO">
-    <result column="news_id" property="newsId" jdbcType="VARCHAR"/>
+    <result column="uuid" property="newsId" jdbcType="VARCHAR"/>
     <result column="author" property="author" jdbcType="VARCHAR"/>
     <result column="title" property="title" jdbcType="VARCHAR"/>
     <result column="source" property="source" jdbcType="VARCHAR"/>
     <result column="country" property="country" jdbcType="VARCHAR"/>
-    <result column="gmt_create" property="gmtCreate" jdbcType="DATE"/>
-    <result column="gmt_modify" property="gmtModify" jdbcType="DATE"/>
+    <result column="gmt_create" property="gmtCreate" jdbcType="VARCHAR"/>
     <collection property="content" ofType="String">
         <result column="content" property="content" jdbcType="VARCHAR"/>
     </collection>
   </resultMap>
   <select id="getNewsDetail" resultMap="newsDetail">
-    select news_id,author,title,content,source,country,gmt_create,gmt_modify
-    from rtc_news_detail
-    where rtc_news_detail.status = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
-    and news_id = #{newsId,jdbcType=VARCHAR}
+    SELECT
+        rtc_news.uuid,
+        rtc_news.author,
+        rtc_news.title,
+        rtc_news.source,
+        rtc_news.country,
+        rtc_news.gmt_create,
+        rtc_news_detail.content
+    FROM
+        rtc_news
+        LEFT JOIN rtc_news_detail ON rtc_news.uuid = rtc_news_detail.news_id
+    WHERE
+        rtc_news_detail.status = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+        and news_id = #{newsId,jdbcType=VARCHAR}
   </select>
 </mapper>
