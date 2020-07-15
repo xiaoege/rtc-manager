@@ -8,7 +8,7 @@ import com.rtc.manager.vo.RtcNewsVO;
  * @author ChenHang
  */
 public interface News {
-    PageInfo<RtcNewsVO> listNews(String startDate, String endDate, int pageNum, int pageSize, Integer sequence);
+    PageInfo<RtcNewsVO> listNews(String startDate, String endDate, int pageNum, int pageSize, Integer sequence) throws Exception;
 
-    RtcNewsDetatilVO getNews(String newsId);
+    RtcNewsDetatilVO getNews(String newsId) throws Exception;
 }

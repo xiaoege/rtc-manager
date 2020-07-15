@@ -38,9 +38,8 @@ public class NewsImpl implements News {
     @Value("${rtc.url}")
     private String url;
 
-    @SneakyThrows
     @Override
-    public PageInfo<RtcNewsVO> listNews(String startDate, String endDate, int pageNum, int pageSize, Integer sequence) {
+    public PageInfo<RtcNewsVO> listNews(String startDate, String endDate, int pageNum, int pageSize, Integer sequence) throws Exception {
         PageHelper.startPage(pageNum, pageSize);
         List<RtcNewsVO> list = rtcNewsMapper.listNews(startDate, endDate, pageNum, pageSize, sequence);
         if (!ObjectUtils.isEmpty(list)) {
@@ -53,7 +52,7 @@ public class NewsImpl implements News {
                     if (null != url) {
                         url = this.url + url.substring(24);
 //                        url = this.url + "/chinadaily/2020-07/14/1594716726-1799.jpeg";
-                        BufferedImage sourceImg=ImageIO.read(new URL(url).openStream());
+                        BufferedImage sourceImg = ImageIO.read(new URL(url).openStream());
                         // 单位：像素
                         int width = sourceImg.getWidth();
                         int height = sourceImg.getHeight();
@@ -67,9 +66,9 @@ public class NewsImpl implements News {
         return new PageInfo<>(list);
     }
 
-    @SneakyThrows
+
     @Override
-    public RtcNewsDetatilVO getNews(String newsId) {
+    public RtcNewsDetatilVO getNews(String newsId) throws Exception {
         RtcNewsDetatilVO newsDetail = rtcNewsDetailMapper.getNewsDetail(newsId);
         List<String> contentList = newsDetail.getContent();
         List resultList = new ArrayList();
@@ -88,7 +87,7 @@ public class NewsImpl implements News {
                         url = this.url + url.substring(24);
                         File picture = new File(url);
 //                        BufferedImage sourceImg = ImageIO.read(new FileInputStream(picture));
-                        BufferedImage sourceImg=ImageIO.read(new URL(url).openStream());
+                        BufferedImage sourceImg = ImageIO.read(new URL(url).openStream());
                         // 单位：像素
                         int width = sourceImg.getWidth();
                         int height = sourceImg.getHeight();
