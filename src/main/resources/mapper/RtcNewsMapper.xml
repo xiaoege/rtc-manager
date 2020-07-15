@@ -151,10 +151,24 @@
   </update>
 
   <select id="listNews" resultType="com.rtc.manager.vo.RtcNewsVO">
-    select uuid,author,title,source,country,description,preview,sequence,gmt_create gmtCreate,gmt_modify gmtModify
-    from rtc_news
-    where status = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    SELECT
+        rtc_news.uuid,
+        rtc_news.author,
+        rtc_news.title,
+        rtc_news.source,
+        rtc_news.country,
+        rtc_news.description,
+        rtc_news.preview,
+        rtc_news.sequence,
+        rtc_news.gmt_create gmtCreate,
+        rtc_news.gmt_modify gmtModify,
+        rtc_news_config.views
+    FROM
+        rtc_news
+        LEFT JOIN rtc_news_config ON rtc_news.uuid = rtc_news_config.news_id
+    WHERE
+        rtc_news.STATUS = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
     order by
-          gmt_create desc
+        rtc_news.gmt_create desc
   </select>
 </mapper>

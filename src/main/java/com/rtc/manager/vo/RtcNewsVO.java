@@ -32,8 +32,12 @@ public class RtcNewsVO {
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime gmtCreate;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime gmtModify;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private String intervalTime;
+
+    private Integer views;
 }

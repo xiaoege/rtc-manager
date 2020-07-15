@@ -178,6 +178,7 @@
     <result column="source" property="source" jdbcType="VARCHAR"/>
     <result column="country" property="country" jdbcType="VARCHAR"/>
     <result column="gmt_create" property="gmtCreate" jdbcType="VARCHAR"/>
+    <result column="views" property="views" jdbcType="VARCHAR"/>
     <collection property="content" ofType="String">
         <result column="content" property="content" jdbcType="VARCHAR"/>
     </collection>
@@ -190,12 +191,15 @@
         rtc_news.source,
         rtc_news.country,
         rtc_news.gmt_create,
-        rtc_news_detail.content
+        rtc_news_detail.content,
+        rtc_news_config.views
     FROM
         rtc_news
         LEFT JOIN rtc_news_detail ON rtc_news.uuid = rtc_news_detail.news_id
+        LEFT JOIN rtc_news_config ON rtc_news.uuid = rtc_news_config.news_id
     WHERE
         rtc_news_detail.status = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
-        and news_id = #{newsId,jdbcType=VARCHAR}
+        and rtc_news_detail.news_id = #{newsId,jdbcType=VARCHAR}
+        order by rtc_news_detail.id asc
   </select>
 </mapper>

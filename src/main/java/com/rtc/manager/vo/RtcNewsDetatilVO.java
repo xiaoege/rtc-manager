@@ -23,6 +23,8 @@ public class RtcNewsDetatilVO {
 
     private String country;
 
+    private Integer views;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime gmtCreate;
 
@@ -34,6 +36,5 @@ public class RtcNewsDetatilVO {
     private List<String> content;
 
     private List<HashMap> resultList;
-
 
 }
