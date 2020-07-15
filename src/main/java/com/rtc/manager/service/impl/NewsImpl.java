@@ -49,7 +49,7 @@ public class NewsImpl implements News {
                     // 去除html标签
                     rtcNewsVO.setDescription(rtcNewsVO.getDescription().replaceAll("<[^>]*>", ""));
                     String url = rtcNewsVO.getPreview();
-                    if (null != url) {
+                    if (null != url && url.length() > 12) {
                         // http://192.168.1.125/chinadaily/2020-07/14/1594717677-8073.jpeg
                         url = this.url + url.substring(12);
                         BufferedImage sourceImg = ImageIO.read(new URL(url).openStream());
@@ -85,19 +85,21 @@ public class NewsImpl implements News {
                     if (p.contains("figcaption") || p.contains("<img")) {
                         String url = p.substring(p.indexOf("'") + 1, p.indexOf("'", p.indexOf("'") + 1));
 //                        "http://192.168.1.125/chinadaily/2020-07/14/1594717677-8073.jpeg"
-                        url = this.url + url.substring(12);
-                        File picture = new File(url);
+                        if (null != url && url.length() > 12) {
+                            url = this.url + url.substring(12);
+                            File picture = new File(url);
 //                        BufferedImage sourceImg = ImageIO.read(new FileInputStream(picture));
-                        BufferedImage sourceImg = ImageIO.read(new URL(url).openStream());
-                        // 单位：像素
-                        int width = sourceImg.getWidth();
-                        int height = sourceImg.getHeight();
-                        map.put("data", p.replaceAll("<[^>]*>", ""));
-                        map.put("type", "img");
-                        map.put("url", url);
-                        map.put("width", width);
-                        map.put("height", height);
-                        resultList.add(map);
+                            BufferedImage sourceImg = ImageIO.read(new URL(url).openStream());
+                            // 单位：像素
+                            int width = sourceImg.getWidth();
+                            int height = sourceImg.getHeight();
+                            map.put("data", p.replaceAll("<[^>]*>", ""));
+                            map.put("type", "img");
+                            map.put("url", url);
+                            map.put("width", width);
+                            map.put("height", height);
+                            resultList.add(map);
+                        }
                     } else if (p.contains("<strong>")) {
                         map.put("data", p.replaceAll("<[^>]*>", ""));
                         map.put("type", "title");
