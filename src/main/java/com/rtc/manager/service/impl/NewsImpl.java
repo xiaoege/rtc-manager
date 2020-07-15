@@ -75,7 +75,7 @@ public class NewsImpl implements News {
             }
             author = author.replace("By ", "");
             if (author.contains(" in ")) {
-                author.substring(0, author.indexOf(" in "));
+                author = author.substring(0, author.indexOf(" in "));
             }
         }
         return author;
