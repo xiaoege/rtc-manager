@@ -26,6 +26,10 @@ public class RtcNewsVO {
 
     private String preview;
 
+    private Integer weight;
+
+    private Integer height;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date gmtCreate;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

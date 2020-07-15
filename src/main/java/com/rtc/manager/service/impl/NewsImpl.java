@@ -16,6 +16,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +34,7 @@ public class NewsImpl implements News {
     @Autowired
     private RtcNewsDetailMapper rtcNewsDetailMapper;
 
+    @SneakyThrows
     @Override
     public PageInfo<RtcNewsVO> listNews(String startDate, String endDate, int pageNum, int pageSize, Integer sequence) {
         PageHelper.startPage(pageNum, pageSize);
@@ -43,6 +45,18 @@ public class NewsImpl implements News {
                 if (null != rtcNewsVO.getDescription()) {
                     // 去除html标签
                     rtcNewsVO.setDescription(rtcNewsVO.getDescription().replaceAll("<[^>]*>", ""));
+                    String url = rtcNewsVO.getPreview();
+                    if (null != url) {
+                        url = "https://192.168.1.125" + url.substring(24);
+                        url = "http://192.168.1.125/chinadaily/2020-07/14/1594716726-1799.jpeg";
+                        BufferedImage sourceImg=ImageIO.read(new URL(url).openStream());
+                        // 单位：像素
+                        int width = sourceImg.getWidth();
+                        int height = sourceImg.getHeight();
+                        rtcNewsVO.setWeight(width);
+                        rtcNewsVO.setHeight(height);
+                        rtcNewsVO.setPreview(url);
+                    }
                 }
             }
         }
@@ -66,11 +80,12 @@ public class NewsImpl implements News {
                     Map map = new HashMap();
                     if (p.contains("figcaption") || p.contains("<img")) {
                         String url = p.substring(p.indexOf("'") + 1, p.indexOf("'", p.indexOf("'") + 1));
-//                        File picture = new File(url);
-//                        BufferedImage sourceImg = ImageIO.read(new FileInputStream(picture));
-//                        // 单位：像素
-//                        int width = sourceImg.getWidth();
-//                        int height = sourceImg.getHeight();
+//                        url = "http://192.168.1.125/" + url.substring(7);
+                        File picture = new File(url);
+                        BufferedImage sourceImg = ImageIO.read(new FileInputStream(picture));
+                        // 单位：像素
+                        int width = sourceImg.getWidth();
+                        int height = sourceImg.getHeight();
                         map.put("data", p.replaceAll("<[^>]*>", ""));
                         map.put("type", "img");
                         map.put("url", url);
