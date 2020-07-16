@@ -1,5 +1,6 @@
 package com.rtc.manager.util;
 
+import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.time.Duration;
@@ -7,6 +8,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 /**
  * @author ChenHang
@@ -26,6 +28,7 @@ public final class CommonUtils {
 
     /**
      * 用户所在时区的时间和新闻发布所在时区的时间比较，1小时内显示分钟差，其次显示小时，时间，超过maxDay显示年月日时分秒
+     *
      * @param timeZone
      * @param time
      * @return
@@ -52,7 +55,7 @@ public final class CommonUtils {
                 } else {
                     return Math.abs(hour) == 1 ? Math.abs(hour) + " hour ago" : Math.abs(hour) + " hours ago";
                 }
-                } else if (Math.abs(day) == 1) {
+            } else if (Math.abs(day) == 1) {
                 return Math.abs(day) + " day ago";
             } else if (Math.abs(day) <= maxDay) {
                 return Math.abs(day) + " days ago";
@@ -63,6 +66,31 @@ public final class CommonUtils {
         }
 
         return String.valueOf(serverTime);
+    }
+
+    /**
+     * 获得该路径文件夹下所有文件
+     *
+     * @param fileDirPath 路径
+     * @param fileList    所有文件的list
+     */
+    public static void readFiles(File fileDirPath, List fileList) {
+        if (fileDirPath.exists() && fileList != null) {
+            File[] files = fileDirPath.listFiles();
+            for (File file :
+                    files) {
+                // 忽略mac的隐藏文件
+                if (file.getName().contains(".DS_Store")) {
+                    continue;
+                }
+                if (file.isFile()) {
+                    fileList.add(file.getPath());
+                } else if (file.isDirectory()) {
+                    readFiles(file, fileList);
+                }
+            }
+        }
+
     }
 
     public static void main(String[] args) {

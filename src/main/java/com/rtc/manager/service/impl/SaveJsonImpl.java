@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rtc.manager.dao.*;
 import com.rtc.manager.entity.*;
 import com.rtc.manager.service.SaveJson;
+import com.rtc.manager.util.CommonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,17 +114,17 @@ public class SaveJsonImpl implements SaveJson {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void readJson(File[] files) throws Exception {
-        int filesLength = files.length;
-        int step = 1;
-        for (File file :
-                files) {
+    public void readJson(File filePath) throws Exception {
+        List<String> fileList = new ArrayList();
+        CommonUtils.readFiles(filePath, fileList);
+        for (int z = 0; z < fileList.size(); z++) {
+            File file = new File(fileList.get(z));
+
             // 忽略mac的隐藏文件
             if (file.getName().contains(".DS_Store")) {
                 continue;
             }
-            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getName(), filesLength, step);
-            step++;
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getName(), fileList.size(), z);
 
             BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
             BufferedReader reader = new BufferedReader(new InputStreamReader(bis));

@@ -35,8 +35,9 @@ public class SaveJsonController {
         try {
             File fileDirPath = new File(dirPath);
             if (fileDirPath.exists()) {
-                File[] files = fileDirPath.listFiles();
-                saveJson.readJson(files);
+                saveJson.readJson(fileDirPath);
+            } else {
+                return "路径错误";
             }
         } catch (Exception e) {
             e.printStackTrace();
