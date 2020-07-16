@@ -166,7 +166,7 @@ public class SaveJsonImpl implements SaveJson {
                     qccMatchSummary.setEnterpriseId(enterpriseIdList.get(i));
                     qccMatchSummaryMapper.insertSelective(qccMatchSummary);
                 }
-                List qccList = temp.getQcc();
+                /*List qccList = temp.getQcc();
                 for (int i = 0; i < qccList.size(); i++) {
                     Object o = qccList.get(i);
                     if (o == null) {
@@ -517,7 +517,7 @@ public class SaveJsonImpl implements SaveJson {
                             }
                         }
                     }
-                }
+                }*/
 
             }
             logger.info("json文件导入成功，文件是{}", file.getName());
