@@ -1,5 +1,6 @@
 package com.rtc.manager.vo;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.Data;
 
 /**
@@ -7,6 +8,7 @@ import lombok.Data;
  */
 @Data
 public class QccShareholderVO {
+    @JsonSetter("pid")
     private Integer id;
 
     private String enterpriseId;

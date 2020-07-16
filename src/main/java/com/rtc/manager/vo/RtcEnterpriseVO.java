@@ -1,5 +1,6 @@
 package com.rtc.manager.vo;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.Data;
 
 import java.util.Date;
@@ -9,6 +10,7 @@ import java.util.Date;
  */
 @Data
 public class RtcEnterpriseVO {
+    @JsonSetter("pid")
     private Integer id;
 
     private String uuid;

@@ -1,11 +1,13 @@
 package com.rtc.manager.vo;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
 public class QccAnnualReportVO {
+    @JsonSetter("pid")
     private Integer id;
 
     private String uuid;

@@ -1,5 +1,6 @@
 package com.rtc.manager.vo;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.Data;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
  */
 @Data
 public class QccAbnormalOperationVO {
-
+    @JsonSetter("pid")
     private Integer id;
 
     private String enterpriseId;
