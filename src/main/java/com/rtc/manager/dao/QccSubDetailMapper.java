@@ -1,50 +1,49 @@
 package com.rtc.manager.dao;
 
-import java.util.List;
 
 /**
  * @author ChenHang
  */
 public interface QccSubDetailMapper {
-    List listQccJudgmentDocumentVO(Integer id);
+    Object getQccJudgmentDocumentVO(Integer id);
 
-    List listQccAdministrativeLicenseVO(Integer id);
+    Object getQccAdministrativeLicenseVO(Integer id);
 
-    List listQccTaxCreditVO(Integer id);
+    Object getQccTaxCreditVO(Integer id);
 
-    List listQccBiddingVO(Integer id);
+    Object getQccBiddingVO(Integer id);
 
-    List listQccImportExportCreditVO(Integer id);
+    Object getQccImportExportCreditVO(Integer id);
 
-    List listQccLandPurchaseInformationVO(Integer id);
+    Object getQccLandPurchaseInformationVO(Integer id);
 
-    List listQccSupplierVO(Integer id);
+    Object getQccSupplierVO(Integer id);
 
-    List listQccClienttVO(Integer id);
+    Object getQccClientVO(Integer id);
 
-    List listQccGeneralTaxpayerVO(Integer id);
+    Object getQccGeneralTaxpayerVO(Integer id);
 
-    List listQccAdministrativeSanctionVO(Integer id);
+    Object getQccAdministrativeSanctionVO(Integer id);
 
-    List listQccAbnormalOperationVO(Integer id);
+    Object getQccAbnormalOperationVO(Integer id);
 
-    List listQccAnnualReportVO(Integer id);
+    Object getQccAnnualReportVO(Integer id);
 
-    List listQccFinancingConsultationVO(Integer id);
+    Object getQccFinancingConsultationVO(Integer id);
 
-    List listQccKeymanVO(Integer id);
+    Object getQccKeymanVO(Integer id);
 
-    List listQccQualificationCertificateVO(Integer id);
+    Object getQccQualificationCertificateVO(Integer id);
 
-    List listQccSoftwareCopyrightVO(Integer id);
+    Object getQccSoftwareCopyrightVO(Integer id);
 
-    List listQccWebsiteInformationVO(Integer id);
+    Object getQccWebsiteInformationVO(Integer id);
 
-    List listQccAppVO(Integer id);
+    Object getQccAppVO(Integer id);
 
-    List listQccAppletVO(Integer id);
+    Object getQccAppletVO(Integer id);
 
-    List listQccWechatVO(Integer id);
+    Object getQccWechatVO(Integer id);
 
-    List listQccWeiboVO(Integer id);
+    Object getQccWeiboVO(Integer id);
 }

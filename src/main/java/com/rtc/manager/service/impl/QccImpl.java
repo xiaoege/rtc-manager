@@ -64,16 +64,16 @@ public class QccImpl implements Qcc {
                 list = qccMapper.listQccSupplierVO(enterpriseId);
                 break;
             case "client":
-                list = qccMapper.listQccClienttVO(enterpriseId);
+                list = qccMapper.listQccClientVO(enterpriseId);
                 break;
             case "generalTaxpayer":
                 list = qccMapper.listQccGeneralTaxpayerVO(enterpriseId);
                 break;
-            case "administrativeSanction":
-                list = qccMapper.listQccAdministrativeSanctionVO(enterpriseId);
-                break;
             case "abnormalOperation":
                 list = qccMapper.listQccAbnormalOperationVO(enterpriseId);
+                break;
+            case "administrativeSanction":
+                list = qccMapper.listQccAdministrativeSanctionVO(enterpriseId);
                 break;
             case "annualReport":
                 list = qccMapper.listQccAnnualReportVO(enterpriseId);
@@ -113,77 +113,77 @@ public class QccImpl implements Qcc {
     }
 
     @Override
-    public List<Object> getEnterpriseSubDetail(String name, Integer id) {
-        List list = null;
+    public Object getEnterpriseSubDetail(String name, Integer id) {
+        Object object = null;
         switch (name) {
             case "judgmentDocument":
-                list = qccSubDetailMapper.listQccJudgmentDocumentVO(id);
+                object = qccSubDetailMapper.getQccJudgmentDocumentVO(id);
                 break;
             case "administrativeLicense":
-                list = qccSubDetailMapper.listQccAdministrativeLicenseVO(id);
+                object = qccSubDetailMapper.getQccAdministrativeLicenseVO(id);
                 break;
             case "taxCredit":
-                list = qccSubDetailMapper.listQccTaxCreditVO(id);
+                object = qccSubDetailMapper.getQccTaxCreditVO(id);
                 break;
             case "bidding":
-                list = qccSubDetailMapper.listQccBiddingVO(id);
+                object = qccSubDetailMapper.getQccBiddingVO(id);
                 break;
             case "importExportCredit":
-                list = qccSubDetailMapper.listQccImportExportCreditVO(id);
+                object = qccSubDetailMapper.getQccImportExportCreditVO(id);
                 break;
             case "landPurchaseInformation":
-                list = qccSubDetailMapper.listQccLandPurchaseInformationVO(id);
+                object = qccSubDetailMapper.getQccLandPurchaseInformationVO(id);
                 break;
             case "supplier":
-                list = qccSubDetailMapper.listQccSupplierVO(id);
+                object = qccSubDetailMapper.getQccSupplierVO(id);
                 break;
             case "client":
-                list = qccSubDetailMapper.listQccClienttVO(id);
+                object = qccSubDetailMapper.getQccClientVO(id);
                 break;
             case "generalTaxpayer":
-                list = qccSubDetailMapper.listQccGeneralTaxpayerVO(id);
-                break;
-            case "administrativeSanction":
-                list = qccSubDetailMapper.listQccAdministrativeSanctionVO(id);
+                object = qccSubDetailMapper.getQccGeneralTaxpayerVO(id);
                 break;
             case "abnormalOperation":
-                list = qccSubDetailMapper.listQccAbnormalOperationVO(id);
+                object = qccSubDetailMapper.getQccAbnormalOperationVO(id);
+                break;
+            case "administrativeSanction":
+                object = qccSubDetailMapper.getQccAdministrativeSanctionVO(id);
                 break;
             case "annualReport":
-                list = qccSubDetailMapper.listQccAnnualReportVO(id);
+                object = qccSubDetailMapper.getQccAnnualReportVO(id);
                 break;
             case "financingConsultation":
-                list = qccSubDetailMapper.listQccFinancingConsultationVO(id);
+                object = qccSubDetailMapper.getQccFinancingConsultationVO(id);
                 break;
             case "keyman":
-                list = qccSubDetailMapper.listQccKeymanVO(id);
+                object = qccSubDetailMapper.getQccKeymanVO(id);
                 break;
             case "qualificationCertificate":
-                list = qccSubDetailMapper.listQccQualificationCertificateVO(id);
+                object = qccSubDetailMapper.getQccQualificationCertificateVO(id);
                 break;
             case "softwareCopyright":
-                list = qccSubDetailMapper.listQccSoftwareCopyrightVO(id);
+                object = qccSubDetailMapper.getQccSoftwareCopyrightVO(id);
                 break;
             case "websiteInformation":
-                list = qccSubDetailMapper.listQccWebsiteInformationVO(id);
+                object = qccSubDetailMapper.getQccWebsiteInformationVO(id);
                 break;
             case "app":
-                list = qccSubDetailMapper.listQccAppVO(id);
+                object = qccSubDetailMapper.getQccAppVO(id);
                 break;
             case "applet":
-                list = qccSubDetailMapper.listQccAppletVO(id);
+                object = qccSubDetailMapper.getQccAppletVO(id);
                 break;
             case "wechat":
-                list = qccSubDetailMapper.listQccWechatVO(id);
+                object = qccSubDetailMapper.getQccWechatVO(id);
                 break;
             case "weibo":
-                list = qccSubDetailMapper.listQccWeiboVO(id);
+                object = qccSubDetailMapper.getQccWeiboVO(id);
                 break;
             default:
-                list = new ArrayList<>();
+
         }
 
-        return list;
+        return object;
     }
 
 

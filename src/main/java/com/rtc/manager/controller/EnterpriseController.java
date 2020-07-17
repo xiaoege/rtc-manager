@@ -70,7 +70,7 @@ public class EnterpriseController {
     @GetMapping("getEnterpriseSubDetail")
     public ResultData getEnterpriseSubDetail(@RequestParam(name = "name", required = true) String name,
                                           @RequestParam(name = "pid", required = true) Integer id) {
-        List<Object> list = qcc.getEnterpriseSubDetail(name, id);
-        return ResultData.SUCCESS(list);
+        Object data = qcc.getEnterpriseSubDetail(name, id);
+        return ResultData.SUCCESS(data);
     }
 }

@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.QccSubDetailMapper">
+    <select id="getQccJudgmentDocumentVO" resultType="com.rtc.manager.vo.QccJudgmentDocumentVO">
+        select id, enterprise_id enterpriseId, title, reason, release_date releaseDate, case_code caseCode, case_status caseStatus,
+         court_name courtName
+        from qcc_judgment_document where id = #{id, jdbcType=INTEGER}
+         and `status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    </select>
+    <select id="getQccAdministrativeLicenseVO" resultType="com.rtc.manager.vo.QccAdministrativeLicenseVO">
+       SELECT
+        qcc_administrative_license.id,
+        qcc_administrative_license.enterprise_id enterpriseId,
+        qcc_administrative_license.decision_document_no decisionDocumentNo,
+        qcc_administrative_license.license_authority licenseAuthority,
+        qcc_administrative_license.license_date licenseDate,
+        qcc_administrative_license.content,
+        qcc_administrative_license.valid_from validFrom,
+        qcc_administrative_license.valid_until validUntil,
+        qcc_administrative_license.decision_document_name decisionDocumentName
+        FROM
+            qcc_administrative_license
+        WHERE
+            qcc_administrative_license.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+            and qcc_administrative_license.id = #{id, jdbcType=INTEGER}
+    </select>
+    <select id="getQccTaxCreditVO" resultType="com.rtc.manager.vo.QccTaxCreditVO">
+        select id, enterprise_id enterpriseId, year, taxpayer_identification_number taxpayerIdentificationNumber,
+        tax_credit_rank taxCreditRank
+        from qcc_tax_credit where id = #{id, jdbcType=INTEGER}
+         and `status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    </select>
+    <select id="getQccBiddingVO" resultType="com.rtc.manager.vo.QccBiddingVO">
+        SELECT
+            `qcc_bidding`.`id`,`qcc_bidding`.`enterprise_id` enterpriseId,
+            `qcc_bidding`.`name`,`qcc_bidding`.`province`,`qcc_bidding`.`progress`
+        FROM
+            `qcc_bidding`
+        WHERE
+            status = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+            and id = #{id, jdbcType=INTEGER}
+    </select>
+    <select id="getQccImportExportCreditVO" resultType="com.rtc.manager.vo.QccImportExportCreditVO">
+        select id, enterprise_id enterpriseId, registered_customs registeredCustoms, business_category businessCategory,
+        registration_date registrationDate, content
+        from qcc_import_export_credit where id = #{id, jdbcType=INTEGER} and `status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    </select>
+    <select id="getQccLandPurchaseInformationVO" resultType="com.rtc.manager.vo.QccLandPurchaseInformationVO">
+        SELECT
+            `qcc_land_purchase_information`.`id`,
+            `qcc_land_purchase_information`.`enterprise_id` enterpriseId,
+            `qcc_land_purchase_information`.`location`,
+            `qcc_land_purchase_information`.`purpose`,
+            `qcc_land_purchase_information`.`area`,
+            `qcc_land_purchase_information`.`administrative_region` administrativeRegion,
+            `qcc_land_purchase_information`.`land_supply_mode` landSupplyMode,
+            `qcc_land_purchase_information`.`contract_signing_date` contractSigningDate
+        FROM
+            `qcc_land_purchase_information`
+        WHERE
+            status = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+            and id = #{id, jdbcType=INTEGER}
+    </select>
+    <select id="getQccSupplierVO" resultType="com.rtc.manager.vo.QccSupplierVO">
+        SELECT
+            `qcc_supplier`.`id`,
+            `qcc_supplier`.`enterprise_id` enterpriseId,
+            `qcc_supplier`.`name`,
+            `qcc_supplier`.`proportion_of_procurement` proportionOfProcurement,
+            `qcc_supplier`.`purchase_amount` purchaseAmount,
+            `qcc_supplier`.`report_period` reportPeriod,
+            `qcc_supplier`.`source`,
+            `qcc_supplier`.`relationship`
+        FROM
+            `qcc_supplier`
+        WHERE
+            status = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+            and id = #{id, jdbcType=INTEGER}
+    </select>
+    <select id="getQccClientVO" resultType="com.rtc.manager.vo.QccClientVO">
+        SELECT
+            `qcc_client`.`id`,
+            `qcc_client`.`enterprise_id` enterpriseId,
+            `qcc_client`.`name`,
+            `qcc_client`.`sale_proportion` saleProportion,
+            `qcc_client`.`sale_amount` saleAmount,
+            `qcc_client`.`report_date` reportDate,
+            `qcc_client`.`source`,
+            `qcc_client`.`relationship`
+        FROM
+            `qcc_client`
+        WHERE
+            qcc_client.id = #{id, jdbcType=INTEGER}
+            and qcc_client.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    </select>
+    <select id="getQccGeneralTaxpayerVO" resultType="com.rtc.manager.vo.QccGeneralTaxpayerVO">
+    select
+        id, enterprise_id enterpriseId, name, code, qualification_type qualificationType, competent_tax_authority competentTaxAuthority,
+        valid_from validFrom, valid_end validEnd
+    from
+        qcc_general_taxpayer where id = #{id, jdbcType=INTEGER} and `status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    </select>
+    <select id="getQccAdministrativeSanctionVO" resultType="com.rtc.manager.vo.QccAdministrativeSanctionVO">
+        SELECT
+            `qcc_administrative_sanction`.`id`,
+            `qcc_administrative_sanction`.`enterprise_id` enterpriseId,
+            `qcc_administrative_sanction`.`determine_document_number` determineDocumentNumber,
+            `qcc_administrative_sanction`.`violations_type` violationsType,
+            `qcc_administrative_sanction`.`content`,
+            `qcc_administrative_sanction`.`publication_date` publicationDate,
+            `qcc_administrative_sanction`.`decision_making_organ` decisionMakingOrgan,
+            `qcc_administrative_sanction`.`decision_date` decisionDate
+        FROM
+            `qcc_administrative_sanction`
+        WHERE
+            status = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+            and id = #{id, jdbcType=INTEGER}
+    </select>
+
+    <resultMap id="qccAbnormalOperationVO" type="com.rtc.manager.vo.QccAbnormalOperationVO">
+        <id column="qcc_id" property="id" jdbcType="INTEGER"/>
+        <result property="enterpriseId" column="qcc_enterprise_id" jdbcType="VARCHAR"/>
+        <collection property="qccRemoveExceptionVOList" ofType="com.rtc.manager.vo.QccRemoveExceptionVO">
+            <id column="qre_id" jdbcType="INTEGER" property="id" />
+            <result column="qre_enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+            <result column="qre_save_reason" jdbcType="VARCHAR" property="saveReason" />
+            <result column="qre_desicion_authority" jdbcType="VARCHAR" property="desicionAuthority" />
+            <result column="qre_remove_date" jdbcType="VARCHAR" property="removeDate" />
+            <result column="qre_remove_reason" jdbcType="VARCHAR" property="removeReason" />
+        </collection>
+        <collection property="qccSaveExceptionVOList" ofType="com.rtc.manager.vo.QccSaveExceptionVO">
+            <id column="id" jdbcType="INTEGER" property="id" />
+            <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+            <result column="save_date" jdbcType="VARCHAR" property="saveDate" />
+            <result column="desicion_authority" jdbcType="VARCHAR" property="desicionAuthority" />
+            <result column="save_reason" jdbcType="VARCHAR" property="saveReason" />
+        </collection>
+    </resultMap>
+    <select id="getQccAbnormalOperationVO" resultMap="qccAbnormalOperationVO">
+        SELECT
+            qcc.id qcc_id,
+            qcc.enterprise_id qcc_enterprise_id,
+            `qcc_remove_exception`.`id` qre_id,
+            `qcc_remove_exception`.`enterprise_id` qre_enterprise_id,
+            `qcc_remove_exception`.`save_reason` qre_save_reason,
+            `qcc_remove_exception`.`desicion_authority` qre_desicion_authority,
+            `qcc_remove_exception`.`remove_date` qre_remove_date,
+            `qcc_remove_exception`.`remove_reason` qre_remove_reason,
+            `qcc_save_exception`.`id`,
+            `qcc_save_exception`.`enterprise_id`,
+            `qcc_save_exception`.`save_date`,
+            `qcc_save_exception`.`desicion_authority`,
+            `qcc_save_exception`.`save_reason`
+        FROM
+            qcc
+            LEFT JOIN `qcc_remove_exception` ON qcc.enterprise_id = `qcc_remove_exception`.`enterprise_id`
+            LEFT JOIN `qcc_save_exception` ON qcc.enterprise_id = `qcc_save_exception`.`enterprise_id`
+        WHERE
+            qcc.id = #{id, jdbcType=INTEGER}
+            and qcc.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    </select>
+
+    <resultMap id="qccAnnualReportVO" type="com.rtc.manager.vo.QccAnnualReportVO">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="uuid" jdbcType="VARCHAR" property="uuid" />
+        <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+        <result column="year" jdbcType="VARCHAR" property="year" />
+        <result column="unified_social_credit_code" jdbcType="VARCHAR" property="unifiedSocialCreditCode" />
+        <result column="registration_number" jdbcType="VARCHAR" property="registrationNumber" />
+        <result column="business_status" jdbcType="VARCHAR" property="businessStatus" />
+        <result column="business_telephone" jdbcType="VARCHAR" property="businessTelephone" />
+        <result column="e_mail" jdbcType="VARCHAR" property="eMail" />
+        <result column="post_code" jdbcType="VARCHAR" property="postCode" />
+        <result column="staff_number" jdbcType="VARCHAR" property="staffNumber" />
+        <result column="equity_transfer" jdbcType="VARCHAR" property="equityTransfer" />
+        <result column="purchase_equity" jdbcType="VARCHAR" property="purchaseEquity" />
+        <result column="postal_address" jdbcType="VARCHAR" property="postalAddress" />
+        <result column="total_assets" jdbcType="VARCHAR" property="totalAssets" />
+        <result column="total_equity" jdbcType="VARCHAR" property="totalEquity" />
+        <result column="total_operating_income" jdbcType="VARCHAR" property="totalOperatingIncome" />
+        <result column="total_profit" jdbcType="VARCHAR" property="totalProfit" />
+        <result column="net_profit" jdbcType="VARCHAR" property="netProfit" />
+        <result column="main_business_income" jdbcType="VARCHAR" property="mainBusinessIncome" />
+        <result column="total_tax" jdbcType="VARCHAR" property="totalTax" />
+        <result column="total_liabilities" jdbcType="VARCHAR" property="totalLiabilities" />
+        <result column="endowment_insurance" jdbcType="VARCHAR" property="endowmentInsurance" />
+        <result column="medical_insurance" jdbcType="VARCHAR" property="medicalInsurance" />
+        <result column="maternity_insurance" jdbcType="VARCHAR" property="maternityInsurance" />
+        <result column="unemployment_insurance" jdbcType="VARCHAR" property="unemploymentInsurance" />
+        <result column="employment_injury_insurance" jdbcType="VARCHAR" property="employmentInjuryInsurance" />
+        <collection property="qccAnnualReportShareholderVOList"
+                    ofType="com.rtc.manager.vo.QccAnnualReportShareholderVO">
+            <id column="s_id" jdbcType="INTEGER" property="id" />
+            <result column="s_annual_report_uuid" jdbcType="VARCHAR" property="annualReportUuid" />
+            <result column="s_enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+            <result column="s_name" jdbcType="VARCHAR" property="name" />
+            <result column="s_subscribed_capital" jdbcType="VARCHAR" property="subscribedCapital" />
+            <result column="s_subscribed_capital_date" jdbcType="VARCHAR" property="subscribedCapitalDate" />
+            <result column="s_subscribed_capital_way" jdbcType="VARCHAR" property="subscribedCapitalWay" />
+            <result column="s_paid_capital" jdbcType="VARCHAR" property="paidCapital" />
+            <result column="s_paid_capital_date" jdbcType="VARCHAR" property="paidCapitalDate" />
+            <result column="s_paid_capital_way" jdbcType="VARCHAR" property="paidCapitalWay" />
+        </collection>
+    </resultMap>
+    <select id="getQccAnnualReportVO" resultMap="qccAnnualReportVO">
+    SELECT
+        `qcc_annual_report`.`id`,
+        `qcc_annual_report`.`uuid`,
+        `qcc_annual_report`.`enterprise_id`,
+        `qcc_annual_report`.`year`,
+        `qcc_annual_report`.`unified_social_credit_code`,
+        `qcc_annual_report`.`registration_number`,
+        `qcc_annual_report`.`business_status`,
+        `qcc_annual_report`.`business_telephone`,
+        `qcc_annual_report`.`e_mail`,
+        `qcc_annual_report`.`post_code`,
+        `qcc_annual_report`.`staff_number`,
+        `qcc_annual_report`.`equity_transfer`,
+        `qcc_annual_report`.`purchase_equity`,
+        `qcc_annual_report`.`postal_address`,
+        `qcc_annual_report`.`total_assets`,
+        `qcc_annual_report`.`total_equity`,
+        `qcc_annual_report`.`total_operating_income`,
+        `qcc_annual_report`.`total_profit`,
+        `qcc_annual_report`.`net_profit`,
+        `qcc_annual_report`.`main_business_income`,
+        `qcc_annual_report`.`total_tax`,
+        `qcc_annual_report`.`total_liabilities`,
+        `qcc_annual_report`.`endowment_insurance`,
+        `qcc_annual_report`.`medical_insurance`,
+        `qcc_annual_report`.`maternity_insurance`,
+        `qcc_annual_report`.`unemployment_insurance`,
+        `qcc_annual_report`.`employment_injury_insurance`,
+        `qcc_annual_report_shareholder`.`id` s_id,
+        `qcc_annual_report_shareholder`.`annual_report_uuid` s_annual_report_uuid,
+        `qcc_annual_report_shareholder`.`enterprise_id` s_enterprise_id,
+        `qcc_annual_report_shareholder`.`name` s_name,
+        `qcc_annual_report_shareholder`.`subscribed_capital` s_subscribed_capital,
+        `qcc_annual_report_shareholder`.`subscribed_capital_date` s_subscribed_capital_date,
+        `qcc_annual_report_shareholder`.`subscribed_capital_way` s_subscribed_capital_way,
+        `qcc_annual_report_shareholder`.`paid_capital` s_paid_capital,
+        `qcc_annual_report_shareholder`.`paid_capital_date` s_paid_capital_date,
+        `qcc_annual_report_shareholder`.`paid_capital_way` s_paid_capital_way
+    FROM
+        `qcc_annual_report`
+	LEFT JOIN qcc_annual_report_shareholder ON qcc_annual_report.uuid = qcc_annual_report_shareholder.annual_report_uuid
+    WHERE
+        qcc_annual_report.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+        and `qcc_annual_report`.id = #{id, jdbcType=INTEGER}
+    </select>
+    <select id="getQccFinancingConsultationVO" resultType="com.rtc.manager.vo.QccFinancingConsultationVO">
+        SELECT
+            `qcc_financing_consultation`.`id`,
+            `qcc_financing_consultation`.`enterprise_id` enterpriseId,
+            `qcc_financing_consultation`.`date`,
+            `qcc_financing_consultation`.`name`,
+            `qcc_financing_consultation`.`financing_round` financingRound,
+            `qcc_financing_consultation`.`amount`,
+            `qcc_financing_consultation`.`investor`,
+            `qcc_financing_consultation`.`source`
+        FROM
+            `qcc_financing_consultation`
+        WHERE
+            status = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+            and id = #{id, jdbcType=INTEGER}
+    </select>
+    <select id="getQccKeymanVO" resultType="com.rtc.manager.vo.QccKeymanVO">
+        select id, enterprise_id enterpriseId, name, duty, shareholding_ratio shareholdingRatio, ultimate_beneficial_shares ultimateBeneficialShares
+        from qcc_keyman where id = #{id, jdbcType=INTEGER}  and `status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    </select>
+    <select id="getQccQualificationCertificateVO" resultType="com.rtc.manager.vo.QccQualificationCertificateVO">
+        select id, enterprise_id enterpriseId, certificate_type certificateType, certificate_name certificateName,
+         certificate_code certificateCode, issue_date issueDate, closing_date closingDate
+        from qcc_qualification_certificate where id = #{id, jdbcType=INTEGER}
+         and `status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    </select>
+    <select id="getQccSoftwareCopyrightVO" resultType="com.rtc.manager.vo.QccSoftwareCopyrightVO">
+        SELECT
+            `qcc_software_copyright`.`id`,
+            `qcc_software_copyright`.`enterprise_id` enterpriseId,
+            `qcc_software_copyright`.`name`,
+            `qcc_software_copyright`.`version`,
+            `qcc_software_copyright`.`release_date` releaseDate,
+            `qcc_software_copyright`.`abbreviation`,
+            `qcc_software_copyright`.`registration_number` registrationNumber,
+            `qcc_software_copyright`.`registration_approval_date` registrationApprovalDate
+        FROM
+            `qcc_software_copyright`
+        WHERE
+            status = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+            and id = #{id, jdbcType=INTEGER}
+    </select>
+    <select id="getQccWebsiteInformationVO" resultType="com.rtc.manager.vo.QccWebsiteInformationVO">
+        select id, enterprise_id enterpriseId, website_name websiteName, url, domain_name domainName, license_code licenseCode,
+         audit_date auditDate
+        from qcc_website_information where id = #{id, jdbcType=INTEGER}
+         and `status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    </select>
+    <select id="getQccAppVO" resultType="com.rtc.manager.vo.QccAppVO">
+        SELECT
+            `qcc_app`.`id`,
+            `qcc_app`.`enterprise_id` enterpriseId,
+            `qcc_app`.`name`,
+            `qcc_app`.`sort`,
+            `qcc_app`.`current_version` currentVersion,
+            `qcc_app`.`brief_introduction` briefIntroduction
+        FROM
+            `qcc_app`
+        WHERE
+            status = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+            and id = #{id, jdbcType=INTEGER}
+    </select>
+    <select id="getQccAppletVO" resultType="com.rtc.manager.vo.QccAppletVO">
+        SELECT
+            `qcc_applet`.`id`,
+            `qcc_applet`.`enterprise_id` enterpriseId,
+            `qcc_applet`.`name`,
+            `qcc_applet`.`sort`,
+            `qcc_applet`.`associated_official_account` associatedOfficialAccount,
+            `qcc_applet`.`predict_reading_volume` predictReadingVolume
+        FROM
+            `qcc_applet`
+        WHERE
+            status = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+            and id = #{id, jdbcType=INTEGER}
+    </select>
+    <select id="getQccWechatVO" resultType="com.rtc.manager.vo.QccWechatVO">
+        SELECT
+            `qcc_wechat`.`id`,
+            `qcc_wechat`.`enterprise_id` enterpriseId,
+            `qcc_wechat`.`name`,
+            `qcc_wechat`.`account`,
+            `qcc_wechat`.`brief_introduction` briefIntroduction
+        FROM
+            `qcc_wechat`
+        WHERE
+            status = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+            and id = #{id, jdbcType=INTEGER}
+    </select>
+    <select id="getQccWeiboVO" resultType="com.rtc.manager.vo.QccWeiboVO">
+        SELECT
+            `qcc_weibo`.`id`,
+            `qcc_weibo`.`enterprise_id` enterpriseId,
+            `qcc_weibo`.`nickname`,
+            `qcc_weibo`.`industry_category` industryCategory,
+            `qcc_weibo`.`brief_introduction` briefIntroduction
+        FROM
+            `qcc_weibo`
+        WHERE
+            status = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+            and id = #{id, jdbcType=INTEGER}
+    </select>
+
+</mapper>

@@ -21,5 +21,5 @@ public interface Qcc {
 
     List<Object> getEnterpriseDetail(String name, String enterpriseId);
 
-    List<Object> getEnterpriseSubDetail(String name, Integer id);
+    Object getEnterpriseSubDetail(String name, Integer id);
 }
