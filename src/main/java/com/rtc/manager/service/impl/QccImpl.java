@@ -38,38 +38,20 @@ public class QccImpl implements Qcc {
     public List<Object> getEnterpriseDetail(String name, String enterpriseId) {
         List list = null;
         switch (name) {
-            case "administrativeLicense":
-                list = qccMapper.listQccAdministrativeLicenseVO(enterpriseId);
-                break;
-            case "annualReport":
-                list = qccMapper.listQccAnnualReportVO(enterpriseId);
-                break;
-            case "generalTaxpayer":
-                list = qccMapper.listQccGeneralTaxpayerVO(enterpriseId);
-                break;
-            case "importExportCredit":
-                list = qccMapper.listQccImportExportCreditVO(enterpriseId);
-                break;
-            case "client":
-                list = qccMapper.listQccClienttVO(enterpriseId);
-                break;
             case "judgmentDocument":
                 list = qccMapper.listQccJudgmentDocumentVO(enterpriseId);
                 break;
-            case "keyman":
-                list = qccMapper.listQccKeymanVO(enterpriseId);
-                break;
-            case "qualificationCertificate":
-                list = qccMapper.listQccQualificationCertificateVO(enterpriseId);
+            case "administrativeLicense":
+                list = qccMapper.listQccAdministrativeLicenseVO(enterpriseId);
                 break;
             case "taxCredit":
                 list = qccMapper.listQccTaxCreditVO(enterpriseId);
                 break;
-            case "websiteInformation":
-                list = qccMapper.listQccWebsiteInformationVO(enterpriseId);
-                break;
             case "bidding":
                 list = qccMapper.listQccBiddingVO(enterpriseId);
+                break;
+            case "importExportCredit":
+                list = qccMapper.listQccImportExportCreditVO(enterpriseId);
                 break;
             case "landPurchaseInformation":
                 list = qccMapper.listQccLandPurchaseInformationVO(enterpriseId);
@@ -77,17 +59,35 @@ public class QccImpl implements Qcc {
             case "supplier":
                 list = qccMapper.listQccSupplierVO(enterpriseId);
                 break;
-            case "abnormalOperation":
-                list = qccMapper.listQccAbnormalOperationVO(enterpriseId);
+            case "client":
+                list = qccMapper.listQccClienttVO(enterpriseId);
+                break;
+            case "generalTaxpayer":
+                list = qccMapper.listQccGeneralTaxpayerVO(enterpriseId);
                 break;
             case "administrativeSanction":
                 list = qccMapper.listQccAdministrativeSanctionVO(enterpriseId);
                 break;
+            case "abnormalOperation":
+                list = qccMapper.listQccAbnormalOperationVO(enterpriseId);
+                break;
+            case "annualReport":
+                list = qccMapper.listQccAnnualReportVO(enterpriseId);
+                break;
             case "financingConsultation":
                 list = qccMapper.listQccFinancingConsultationVO(enterpriseId);
                 break;
+            case "keyman":
+                list = qccMapper.listQccKeymanVO(enterpriseId);
+                break;
+            case "qualificationCertificate":
+                list = qccMapper.listQccQualificationCertificateVO(enterpriseId);
+                break;
             case "softwareCopyright":
                 list = qccMapper.listQccSoftwareCopyrightVO(enterpriseId);
+                break;
+            case "websiteInformation":
+                list = qccMapper.listQccWebsiteInformationVO(enterpriseId);
                 break;
             case "app":
                 list = qccMapper.listQccAppVO(enterpriseId);

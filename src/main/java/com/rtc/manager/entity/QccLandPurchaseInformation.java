@@ -14,7 +14,7 @@ public class QccLandPurchaseInformation {
     private String location;
     @JsonAlias("土地用途")
     private String purpose;
-    @JsonAlias("面积")
+    @JsonAlias({"面积","面积（公顷）"})
     private String area;
     @JsonAlias("行政区")
     private String administrativeRegion;
