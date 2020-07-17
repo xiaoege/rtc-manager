@@ -66,4 +66,11 @@ public class EnterpriseController {
         List<Object> list = qcc.getEnterpriseDetail(name, enterpriseId);
         return ResultData.SUCCESS(list);
     }
+
+    @GetMapping("getEnterpriseSubDetail")
+    public ResultData getEnterpriseSubDetail(@RequestParam(name = "name", required = true) String name,
+                                          @RequestParam(name = "pid", required = true) Integer id) {
+        List<Object> list = qcc.getEnterpriseSubDetail(name, id);
+        return ResultData.SUCCESS(list);
+    }
 }

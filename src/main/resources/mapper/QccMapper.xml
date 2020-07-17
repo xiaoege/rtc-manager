@@ -243,7 +243,7 @@
     SELECT
         qcc_administrative_license.id,
         qcc_administrative_license.enterprise_id enterpriseId,
-        qcc_administrative_license.decision_document_no decision_documentNo,
+        qcc_administrative_license.decision_document_no decisionDocumentNo,
         qcc_administrative_license.license_authority licenseAuthority,
         qcc_administrative_license.license_date licenseDate,
         qcc_administrative_license.content,

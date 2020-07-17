@@ -20,4 +20,6 @@ public interface Qcc {
     QccVO getEnterprise(String enterpriseId);
 
     List<Object> getEnterpriseDetail(String name, String enterpriseId);
+
+    List<Object> getEnterpriseSubDetail(String name, Integer id);
 }
