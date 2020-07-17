@@ -190,7 +190,6 @@ public class SaveJsonImpl implements SaveJson {
                             qccBusinessInformationMapper.insertSelective(qccBusinessInformation);
                         }
 
-//                        List<HashMap> qccShareholderList = (List<HashMap>) basicInformation.get("股东信息");
                         List<HashMap> qccShareholderList = (List<HashMap>) basicInformation.get("股东信息1");
                         if (!CollectionUtils.isEmpty(qccShareholderList)) {
                             for (int j = 0; j < qccShareholderList.size(); j++) {
@@ -201,6 +200,18 @@ public class SaveJsonImpl implements SaveJson {
                                 qccShareholderMapper.insertSelective(qccShareholder);
                             }
                         }
+
+                        List<HashMap> qccShareholder3List = (List<HashMap>) basicInformation.get("股东信息3");
+                        if (!CollectionUtils.isEmpty(qccShareholder3List)) {
+                            for (int j = 0; j < qccShareholder3List.size(); j++) {
+//                                String qccShareholderJsonString = objectMapper.writeValueAsString(qccShareholderList.get(j));
+//                                QccShareholder qccShareholder = objectMapper.readValue(qccShareholderJsonString, QccShareholder.class);
+                                // insert qcc_shareholder
+//                                qccShareholder.setEnterpriseId(enterpriseIdList.get(i));
+//                                qccShareholderMapper.insertSelective(qccShareholder);
+                            }
+                        }
+
 
                         List<HashMap> qccKeymanList = (List<HashMap>) basicInformation.get("主要人员");
                         if (!CollectionUtils.isEmpty(qccKeymanList)) {
