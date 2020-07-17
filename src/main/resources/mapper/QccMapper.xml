@@ -582,7 +582,7 @@
             and qcc.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
     </select>
 
-    <select id="listQccClienttVO" resultType="com.rtc.manager.vo.QccClientVO">
+    <select id="listQccClientVO" resultType="com.rtc.manager.vo.QccClientVO">
         SELECT
             `qcc_client`.`id`,
             `qcc_client`.`enterprise_id` enterpriseId,
