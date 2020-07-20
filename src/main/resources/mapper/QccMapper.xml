@@ -205,7 +205,7 @@
 
   <resultMap id="selectByEnterpriseIdMap"  type="com.rtc.manager.vo.QccVO">
     <id property="id" column="id" jdbcType="INTEGER"/>
-    <result property="enterpriseId" column="qs_enterprise_id" jdbcType="VARCHAR"/>
+    <result property="enterpriseId" column="enterprise_id" jdbcType="VARCHAR"/>
     <result property="name" column="name" jdbcType="VARCHAR"/>
     <result property="registeredCapital" column="registered_capital" jdbcType="VARCHAR"/>
     <result property="legalRepresentative" column="legal_representative" jdbcType="VARCHAR"/>
