@@ -62,8 +62,11 @@ public class EnterpriseController {
 
     @GetMapping("getEnterpriseDetail")
     public ResultData getEnterpriseDetail(@RequestParam(name = "name", required = true) String name,
-                                          @RequestParam(name = "enterpriseId", required = true) String enterpriseId) {
-        List<Object> list = qcc.getEnterpriseDetail(name, enterpriseId);
+                                          @RequestParam(name = "enterpriseId", required = true) String enterpriseId,
+                                          @RequestParam(name = "pageNum", required = false, defaultValue = "1") int pageNum,
+                                          @RequestParam(name = "pageSize", required = false, defaultValue = "5") int pageSize) {
+
+        PageInfo<List> list = qcc.getEnterpriseDetail(name, enterpriseId, pageNum, pageSize);
         return ResultData.SUCCESS(list);
     }
 

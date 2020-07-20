@@ -19,7 +19,7 @@ public interface Qcc {
 
     QccVO getEnterprise(String enterpriseId);
 
-    List<Object> getEnterpriseDetail(String name, String enterpriseId);
+    PageInfo<List> getEnterpriseDetail(String name, String enterpriseId, int pageNum, int pageSize);
 
     Object getEnterpriseSubDetail(String name, Integer id);
 }

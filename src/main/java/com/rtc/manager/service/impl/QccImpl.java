@@ -10,7 +10,6 @@ import com.rtc.manager.vo.QccVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,7 +38,8 @@ public class QccImpl implements Qcc {
     }
 
     @Override
-    public List<Object> getEnterpriseDetail(String name, String enterpriseId) {
+    public PageInfo<List> getEnterpriseDetail(String name, String enterpriseId, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
         List list = null;
         switch (name) {
             case "judgmentDocument":
@@ -106,10 +106,9 @@ public class QccImpl implements Qcc {
                 list = qccMapper.listQccWeiboVO(enterpriseId);
                 break;
             default:
-                list = new ArrayList<>();
         }
 
-        return list;
+        return new PageInfo<>(list);
     }
 
     @Override
