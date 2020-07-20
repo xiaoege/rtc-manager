@@ -83,6 +83,9 @@
       <if test="synopsis != null">
         synopsis,
       </if>
+      <if test="nation != null">
+          nation,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -123,6 +126,9 @@
       </if>
       <if test="synopsis != null">
         #{synopsis,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null">
+        #{nation,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -194,7 +200,9 @@
       qbi.registered_capital registeredCapital,
       qbi.legal_representative legalRepresentative,
       qbi.establishment_date establishmentDate,
-      qcc.address
+      qcc.address,
+      qcc.country_region countryRegion,
+      qcc.nation
     FROM
         qcc
     left join qcc_business_information qbi on qcc.enterprise_id=qbi.enterprise_id
@@ -215,6 +223,7 @@
     <result property="url" column="url" jdbcType="VARCHAR"/>
     <result property="synopsis" column="synopsis" jdbcType="VARCHAR"/>
     <result property="countryRegion" column="country_region" jdbcType="VARCHAR"/>
+    <result property="nation" column="nation" jdbcType="VARCHAR"/>
     <collection property="shareholderList" ofType="com.rtc.manager.vo.QccShareholderVO">
       <id property="id" column="qs_id" jdbcType="INTEGER"/>
       <result property="enterpriseId" column="qs_enterprise_id" jdbcType="VARCHAR"/>
@@ -238,6 +247,7 @@
         qcc.url,
         qcc.synopsis,
         qcc.country_region,
+        qcc.nation,
         `qcc_shareholder`.`id` qs_id,
         `qcc_shareholder`.`enterprise_id` qs_enterprise_id,
         qcc_shareholder.`name` qs_name,

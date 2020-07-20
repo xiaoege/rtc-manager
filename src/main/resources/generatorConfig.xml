@@ -26,6 +26,7 @@
             <!-- 使用常用的基本类型代替 sql 包下的引用类型 -->
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
+
         <!-- targetPackage：生成的实体类所在的包 -->
         <!-- targetProject：生成的实体类所在的硬盘位置 -->
         <javaModelGenerator targetPackage="com.rtc.manager.entity"
@@ -51,6 +52,7 @@
             <!-- 针对 oracle 数据库的一个配置，是否把 schema 作为字包名 -->
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
+
         <!-- tableName是数据库中的表名，domainObjectName是生成的JAVA模型名，后面的参数不用改，要生成更多的表就在下面继续加table标签 -->
         <!--<table tableName="rtc_enterprise" domainObjectName="RtcEnterprise"
                enableCountByExample="false" enableUpdateByExample="false"
@@ -164,13 +166,20 @@
 <!--               enableCountByExample="false" enableUpdateByExample="false"-->
 <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
-            <table tableName="rtc_news" domainObjectName="RtcNews"
+<!--            <table tableName="rtc_news" domainObjectName="RtcNews"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"></table>-->
+<!--        <table tableName="rtc_news_detail" domainObjectName="RtcNewsDetail"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"></table>-->
+        <table tableName="qcc_shareholder_three" domainObjectName="QccShareholderThree"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
-        <table tableName="rtc_news_detail" domainObjectName="RtcNewsDetail"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
+               selectByExampleQueryId="false">
+            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>
+            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>
+        </table>
     </context>
 </generatorConfiguration>

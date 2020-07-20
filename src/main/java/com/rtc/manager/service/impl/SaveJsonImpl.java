@@ -149,6 +149,7 @@ public class SaveJsonImpl implements SaveJson {
                 temp.setUuid(uuid);
                 BeanUtil.copyProperties(temp, rtcEnterprise);
 //            BeanUtils.copyProperties(temp, rtcEnterprise);
+                String nation = rtcEnterprise.getCountryRegion();
                 rtcEnterpriseMapper.insertSelective(rtcEnterprise);
                 List qccMatchSummaryList = temp.getQccMatchSummary();
 
@@ -177,6 +178,7 @@ public class SaveJsonImpl implements SaveJson {
                     // qcc insert
                     qcc.setRtcEnterpriseUuid(uuid);
                     qcc.setEnterpriseId(enterpriseIdList.get(i));
+                    qcc.setNation(nation);
                     qccMapper.insertSelective(qcc);
                     //qcc-基本信息
                     HashMap basicInformation = qcc.getBasicInformation();

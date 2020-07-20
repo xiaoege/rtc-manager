@@ -23,5 +23,8 @@ public class QccListVO {
 
     private String address;
 
+    private String countryRegion;
+
+    private String nation;
 }
 

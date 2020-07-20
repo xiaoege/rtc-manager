@@ -61,4 +61,5 @@ public class Qcc {
     @JsonAlias("简介")
     private String synopsis;
 
+    private String nation;
 }

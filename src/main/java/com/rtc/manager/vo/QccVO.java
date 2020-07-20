@@ -35,4 +35,6 @@ public class QccVO {
     private String synopsis;
 
     private String countryRegion;
+
+    private String nation;
 }
