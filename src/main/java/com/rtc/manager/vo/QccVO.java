@@ -32,4 +32,7 @@ public class QccVO {
 
     private List<QccShareholder> shareholderList;
 
+    private String synopsis;
+
+    private String countryRegion;
 }

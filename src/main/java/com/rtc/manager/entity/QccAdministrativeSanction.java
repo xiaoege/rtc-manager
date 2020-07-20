@@ -16,10 +16,10 @@ public class QccAdministrativeSanction {
     @JsonAlias("决定文书号")
     private String determineDocumentNumber;
 
-    @JsonAlias("违法行为类型")
+    @JsonAlias({"违法行为类型", "处罚事由/违法行为类型"})
     private String violationsType;
 
-    @JsonAlias("行政处罚内容")
+    @JsonAlias({"行政处罚内容", "处罚结果/内容"})
     private String content;
 
     @JsonAlias("公示日期")

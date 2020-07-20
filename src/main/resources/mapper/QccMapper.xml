@@ -14,6 +14,7 @@
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="synopsis" jdbcType="VARCHAR" property="synopsis" />
   </resultMap>
   <sql id="Base_Column_List">
     id, enterprise_id,rtc_enterprise_uuid, name, telephone, url, email, address, country_region, gmt_create,
@@ -79,6 +80,9 @@
       <if test="status != null">
         status,
       </if>
+      <if test="synopsis != null">
+        synopsis,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -116,6 +120,9 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
+      </if>
+      <if test="synopsis != null">
+        #{synopsis,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -155,6 +162,9 @@
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
       </if>
+      <if test="synopsis != null">
+          synopsis = #{synopsis,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -170,7 +180,8 @@
       country_region = #{countryRegion,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER}
+      status = #{status,jdbcType=INTEGER},
+      synopsis = #{synopsis,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
@@ -202,6 +213,8 @@
     <result property="address" column="address" jdbcType="VARCHAR"/>
     <result property="telephone" column="telephone" jdbcType="VARCHAR"/>
     <result property="url" column="url" jdbcType="VARCHAR"/>
+    <result property="synopsis" column="synopsis" jdbcType="VARCHAR"/>
+    <result property="countryRegion" column="country_region" jdbcType="VARCHAR"/>
     <collection property="shareholderList" ofType="com.rtc.manager.vo.QccShareholderVO">
       <id property="id" column="qs_id" jdbcType="INTEGER"/>
       <result property="enterpriseId" column="qs_enterprise_id" jdbcType="VARCHAR"/>
@@ -223,12 +236,15 @@
         qcc.address,
         qcc.telephone,
         qcc.url,
+        qcc.synopsis,
+        qcc.country_region,
         `qcc_shareholder`.`id` qs_id,
         `qcc_shareholder`.`enterprise_id` qs_enterprise_id,
         qcc_shareholder.`name` qs_name,
         `qcc_shareholder`.`ratio` qs_ratio,
         `qcc_shareholder`.`subscribed_capital` qs_subscribed_capital,
         `qcc_shareholder`.`subscribed_capital_date` qs_subscribed_capital_date
+
     FROM
         qcc
         LEFT JOIN qcc_business_information qbi ON qcc.enterprise_id = qbi.enterprise_id
