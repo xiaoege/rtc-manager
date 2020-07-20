@@ -22,4 +22,6 @@ public interface Qcc {
     PageInfo<List> getEnterpriseDetail(String name, String enterpriseId, int pageNum, int pageSize);
 
     Object getEnterpriseSubDetail(String name, Integer id);
+
+    Object getEnterpriseSubDetailMuti(String name, String enterpriseId, Integer id, int pageNum, int pageSize);
 }

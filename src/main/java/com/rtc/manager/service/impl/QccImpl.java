@@ -7,8 +7,10 @@ import com.rtc.manager.dao.QccSubDetailMapper;
 import com.rtc.manager.service.Qcc;
 import com.rtc.manager.vo.QccListVO;
 import com.rtc.manager.vo.QccVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -183,6 +185,21 @@ public class QccImpl implements Qcc {
         }
 
         return object;
+    }
+
+    @Override
+    public Object getEnterpriseSubDetailMuti(String name, String enterpriseId, Integer id, int pageNum, int pageSize) {
+        Object o = null;
+        if (null != enterpriseId) {
+            PageInfo<List> listPageInfo = getEnterpriseDetail(name, enterpriseId, pageNum, pageSize);
+            List list = listPageInfo.getList();
+            if (!CollectionUtils.isEmpty(list) && list.size() > 0) {
+                o = list.get(0);
+            }
+        } else if (null != id) {
+            o = getEnterpriseSubDetail(name, id);
+        }
+        return o;
     }
 
 

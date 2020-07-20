@@ -72,8 +72,27 @@ public class EnterpriseController {
 
     @GetMapping("getEnterpriseSubDetail")
     public ResultData getEnterpriseSubDetail(@RequestParam(name = "name", required = true) String name,
-                                          @RequestParam(name = "pid", required = true) Integer id) {
+                                             @RequestParam(name = "pid", required = true) Integer id) {
         Object data = qcc.getEnterpriseSubDetail(name, id);
         return ResultData.SUCCESS(data);
+    }
+
+    /**
+     * 适配ios，只提供一个接口，不传入pid则根据enterpriseId查
+     *
+     * @param name
+     * @param enterpriseId
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @GetMapping("getEnterpriseSubDetailMuti")
+    public ResultData getEnterpriseSubDetailMuti(@RequestParam(name = "name", required = true) String name,
+                                                 @RequestParam(name = "pid", required = false) Integer id,
+                                                 @RequestParam(name = "enterpriseId", required = false) String enterpriseId,
+                                                 @RequestParam(name = "pageNum", required = false, defaultValue = "1") int pageNum,
+                                                 @RequestParam(name = "pageSize", required = false, defaultValue = "5") int pageSize) {
+        Object list = qcc.getEnterpriseSubDetailMuti(name, enterpriseId, id, pageNum, pageSize);
+        return ResultData.SUCCESS(list);
     }
 }
