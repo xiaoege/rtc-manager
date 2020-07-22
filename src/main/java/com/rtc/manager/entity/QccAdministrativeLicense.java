@@ -11,7 +11,7 @@ public class QccAdministrativeLicense {
 
     private String enterpriseId;
 
-    @JsonAlias({"决定文书号","决定文件编号"})
+    @JsonAlias({"决定文书号","许可文件编号"})
     private String decisionDocumentNo;
 
     @JsonAlias("许可机关")

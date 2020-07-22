@@ -1,44 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.rtc.manager.dao.QccBiddingMapper">
-  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.QccBidding">
+<mapper namespace="com.rtc.manager.dao.QccQualificationMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.QccQualification">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="release_date" jdbcType="VARCHAR" property="releaseDate" />
-    <result column="province" jdbcType="VARCHAR" property="province" />
-    <result column="progress" jdbcType="VARCHAR" property="progress" />
+    <result column="validity" jdbcType="VARCHAR" property="validity" />
+    <result column="authority" jdbcType="VARCHAR" property="authority" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
     <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="announcement_type" jdbcType="VARCHAR" property="announcementType" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, enterprise_id, name, release_date, province, progress, gmt_create, gmt_modify, 
-    status, announcement_type
+    id, enterprise_id, type, code, name, release_date, validity, authority, gmt_create, 
+    gmt_modify, status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from qcc_bidding
+    from qcc_qualification
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from qcc_bidding
+    delete from qcc_qualification
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.rtc.manager.entity.QccBidding">
-    insert into qcc_bidding (id, enterprise_id, name, 
-      release_date, province, progress, 
-      gmt_create, gmt_modify, status, announcement_type
-      )
-    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{releaseDate,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{progress,jdbcType=VARCHAR}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{announcement_type,jdbcType=VARCHAR}
-      )
+  <insert id="insert" parameterType="com.rtc.manager.entity.QccQualification">
+    insert into qcc_qualification (id, enterprise_id, type, 
+      code, name, release_date, 
+      validity, authority, gmt_create, 
+      gmt_modify, status)
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{releaseDate,jdbcType=VARCHAR}, 
+      #{validity,jdbcType=VARCHAR}, #{authority,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModify,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.rtc.manager.entity.QccBidding">
-    insert into qcc_bidding
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.QccQualification">
+    insert into qcc_qualification
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -46,17 +47,23 @@
       <if test="enterpriseId != null">
         enterprise_id,
       </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
       <if test="name != null">
         name,
       </if>
       <if test="releaseDate != null">
         release_date,
       </if>
-      <if test="province != null">
-        province,
+      <if test="validity != null">
+        validity,
       </if>
-      <if test="progress != null">
-        progress,
+      <if test="authority != null">
+        authority,
       </if>
       <if test="gmtCreate != null">
         gmt_create,
@@ -67,9 +74,6 @@
       <if test="status != null">
         status,
       </if>
-      <if test="announcementType != null">
-        announcement_type,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -78,17 +82,23 @@
       <if test="enterpriseId != null">
         #{enterpriseId,jdbcType=VARCHAR},
       </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
       <if test="releaseDate != null">
         #{releaseDate,jdbcType=VARCHAR},
       </if>
-      <if test="province != null">
-        #{province,jdbcType=VARCHAR},
+      <if test="validity != null">
+        #{validity,jdbcType=VARCHAR},
       </if>
-      <if test="progress != null">
-        #{progress,jdbcType=VARCHAR},
+      <if test="authority != null">
+        #{authority,jdbcType=VARCHAR},
       </if>
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
@@ -99,16 +109,19 @@
       <if test="status != null">
         #{status,jdbcType=INTEGER},
       </if>
-      <if test="announcementType != null">
-        #{announcementType,jdbcType=VARCHAR},
-      </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.QccBidding">
-    update qcc_bidding
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.QccQualification">
+    update qcc_qualification
     <set>
       <if test="enterpriseId != null">
         enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
@@ -116,11 +129,11 @@
       <if test="releaseDate != null">
         release_date = #{releaseDate,jdbcType=VARCHAR},
       </if>
-      <if test="province != null">
-        province = #{province,jdbcType=VARCHAR},
+      <if test="validity != null">
+        validity = #{validity,jdbcType=VARCHAR},
       </if>
-      <if test="progress != null">
-        progress = #{progress,jdbcType=VARCHAR},
+      <if test="authority != null">
+        authority = #{authority,jdbcType=VARCHAR},
       </if>
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
@@ -131,23 +144,21 @@
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
       </if>
-      <if test="announcementType != null">
-        announcement_type = #{announcementType,jdbcType=VARCHAR},
-      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.QccBidding">
-    update qcc_bidding
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.QccQualification">
+    update qcc_qualification
     set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       release_date = #{releaseDate,jdbcType=VARCHAR},
-      province = #{province,jdbcType=VARCHAR},
-      progress = #{progress,jdbcType=VARCHAR},
+      validity = #{validity,jdbcType=VARCHAR},
+      authority = #{authority,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER},
-      announcement_type = #{announcementType,jdbcType=VARCHAR}
+      status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

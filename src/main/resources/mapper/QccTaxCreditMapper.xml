@@ -10,10 +10,11 @@
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="evaluation_cop" jdbcType="INTEGER" property="evaluationCop" />
   </resultMap>
   <sql id="Base_Column_List">
     id, enterprise_id, year, taxpayer_identification_number, tax_credit_rank, gmt_create, 
-    gmt_modify, status
+    gmt_modify, status, evaluation_cop
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -28,11 +29,11 @@
   <insert id="insert" parameterType="com.rtc.manager.entity.QccTaxCredit">
     insert into qcc_tax_credit (id, enterprise_id, year, 
       taxpayer_identification_number, tax_credit_rank, 
-      gmt_create, gmt_modify, status
+      gmt_create, gmt_modify, status, evaluation_cop
       )
     values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{year,jdbcType=VARCHAR}, 
       #{taxpayerIdentificationNumber,jdbcType=VARCHAR}, #{taxCreditRank,jdbcType=VARCHAR}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{evaluation_cop,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.rtc.manager.entity.QccTaxCredit">
@@ -62,6 +63,9 @@
       <if test="status != null">
         status,
       </if>
+      <if test="evaluationCop != null">
+        evaluation_cop,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -87,6 +91,9 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
+      </if>
+      <if test="evaluationCop != null">
+        #{evaluationCop,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -114,6 +121,9 @@
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
       </if>
+      <if test="evaluationCop != null">
+        evaluation_cop = #{evaluationCop,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -125,7 +135,8 @@
       tax_credit_rank = #{taxCreditRank,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER}
+      status = #{status,jdbcType=INTEGER},
+      evaluation_cop = #{evaluationCop,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

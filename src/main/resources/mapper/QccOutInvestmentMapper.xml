@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.QccOutInvestmentMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.QccOutInvestment">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="legal_representative" jdbcType="VARCHAR" property="legalRepresentative" />
+    <result column="registered_capital" jdbcType="VARCHAR" property="registeredCapital" />
+    <result column="ratio" jdbcType="VARCHAR" property="ratio" />
+    <result column="amount" jdbcType="VARCHAR" property="amount" />
+    <result column="release_date" jdbcType="VARCHAR" property="releaseDate" />
+    <result column="investment_status" jdbcType="VARCHAR" property="investmentStatus" />
+    <result column="round" jdbcType="VARCHAR" property="round" />
+    <result column="financing_date" jdbcType="VARCHAR" property="financingDate" />
+    <result column="products_institutions" jdbcType="VARCHAR" property="productsInstitutions" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, name, legal_representative, registered_capital, ratio, amount, 
+    release_date, investment_status, round, financing_date, products_institutions, gmt_create, 
+    gmt_modify, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from qcc_out_investment
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from qcc_out_investment
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rtc.manager.entity.QccOutInvestment">
+    insert into qcc_out_investment (id, enterprise_id, name, 
+      legal_representative, registered_capital, 
+      ratio, amount, release_date, 
+      investment_status, round, financing_date, 
+      products_institutions, gmt_create, gmt_modify, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{legalRepresentative,jdbcType=VARCHAR}, #{registeredCapital,jdbcType=VARCHAR}, 
+      #{ratio,jdbcType=VARCHAR}, #{amount,jdbcType=VARCHAR}, #{releaseDate,jdbcType=VARCHAR}, 
+      #{investmentStatus,jdbcType=VARCHAR}, #{round,jdbcType=VARCHAR}, #{financingDate,jdbcType=VARCHAR}, 
+      #{productsInstitutions,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.QccOutInvestment">
+    insert into qcc_out_investment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="legalRepresentative != null">
+        legal_representative,
+      </if>
+      <if test="registeredCapital != null">
+        registered_capital,
+      </if>
+      <if test="ratio != null">
+        ratio,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="releaseDate != null">
+        release_date,
+      </if>
+      <if test="investmentStatus != null">
+        investment_status,
+      </if>
+      <if test="round != null">
+        round,
+      </if>
+      <if test="financingDate != null">
+        financing_date,
+      </if>
+      <if test="productsInstitutions != null">
+        products_institutions,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="legalRepresentative != null">
+        #{legalRepresentative,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredCapital != null">
+        #{registeredCapital,jdbcType=VARCHAR},
+      </if>
+      <if test="ratio != null">
+        #{ratio,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseDate != null">
+        #{releaseDate,jdbcType=VARCHAR},
+      </if>
+      <if test="investmentStatus != null">
+        #{investmentStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="round != null">
+        #{round,jdbcType=VARCHAR},
+      </if>
+      <if test="financingDate != null">
+        #{financingDate,jdbcType=VARCHAR},
+      </if>
+      <if test="productsInstitutions != null">
+        #{productsInstitutions,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.QccOutInvestment">
+    update qcc_out_investment
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="legalRepresentative != null">
+        legal_representative = #{legalRepresentative,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredCapital != null">
+        registered_capital = #{registeredCapital,jdbcType=VARCHAR},
+      </if>
+      <if test="ratio != null">
+        ratio = #{ratio,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseDate != null">
+        release_date = #{releaseDate,jdbcType=VARCHAR},
+      </if>
+      <if test="investmentStatus != null">
+        investment_status = #{investmentStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="round != null">
+        round = #{round,jdbcType=VARCHAR},
+      </if>
+      <if test="financingDate != null">
+        financing_date = #{financingDate,jdbcType=VARCHAR},
+      </if>
+      <if test="productsInstitutions != null">
+        products_institutions = #{productsInstitutions,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.QccOutInvestment">
+    update qcc_out_investment
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      legal_representative = #{legalRepresentative,jdbcType=VARCHAR},
+      registered_capital = #{registeredCapital,jdbcType=VARCHAR},
+      ratio = #{ratio,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=VARCHAR},
+      release_date = #{releaseDate,jdbcType=VARCHAR},
+      investment_status = #{investmentStatus,jdbcType=VARCHAR},
+      round = #{round,jdbcType=VARCHAR},
+      financing_date = #{financingDate,jdbcType=VARCHAR},
+      products_institutions = #{productsInstitutions,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

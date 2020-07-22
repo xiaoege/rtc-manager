@@ -7,16 +7,20 @@
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="reason" jdbcType="VARCHAR" property="reason" />
     <result column="release_date" jdbcType="VARCHAR" property="releaseDate" />
-    <result column="case_code" jdbcType="VARCHAR" property="caseCode" />
-    <result column="case_status" jdbcType="VARCHAR" property="caseStatus" />
-    <result column="court_name" jdbcType="VARCHAR" property="courtName" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="litigant" jdbcType="VARCHAR" property="litigant" />
+    <result column="amount" jdbcType="VARCHAR" property="amount" />
+    <result column="result" jdbcType="VARCHAR" property="result" />
+    <result column="judgment_date" jdbcType="VARCHAR" property="judgmentDate" />
+    <result column="case_code" jdbcType="LONGVARCHAR" property="caseCode" />
+    <result column="case_status" jdbcType="LONGVARCHAR" property="caseStatus" />
+    <result column="court_name" jdbcType="LONGVARCHAR" property="courtName" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, enterprise_id, title, reason, release_date, case_code, case_status, court_name, 
-    gmt_create, gmt_modify, status
+    id, enterprise_id, title, reason, release_date, gmt_create, gmt_modify, status, litigant, 
+    amount, result, judgment_date, case_code, case_status, court_name
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -30,13 +34,17 @@
   </delete>
   <insert id="insert" parameterType="com.rtc.manager.entity.QccJudgmentDocument">
     insert into qcc_judgment_document (id, enterprise_id, title, 
-      reason, release_date, case_code, 
-      case_status, court_name, gmt_create, 
-      gmt_modify, status)
+      reason, release_date, gmt_create, 
+      gmt_modify, status, litigant, 
+      amount, result, judgment_date, 
+      case_code, case_status, court_name
+      )
     values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
-      #{reason,jdbcType=VARCHAR}, #{releaseDate,jdbcType=VARCHAR}, #{caseCode,jdbcType=VARCHAR}, 
-      #{caseStatus,jdbcType=VARCHAR}, #{courtName,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
-      #{gmtModify,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
+      #{reason,jdbcType=VARCHAR}, #{releaseDate,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModify,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{litigant,jdbcType=VARCHAR}, 
+      #{amount,jdbcType=VARCHAR}, #{result,jdbcType=VARCHAR}, #{judgmentDate,jdbcType=VARCHAR}, 
+      #{caseCode,jdbcType=LONGVARCHAR}, #{caseStatus,jdbcType=LONGVARCHAR}, #{courtName,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.rtc.manager.entity.QccJudgmentDocument">
     insert into qcc_judgment_document
@@ -56,15 +64,6 @@
       <if test="releaseDate != null">
         release_date,
       </if>
-      <if test="caseCode != null">
-        case_code,
-      </if>
-      <if test="caseStatus != null">
-        case_status,
-      </if>
-      <if test="courtName != null">
-        court_name,
-      </if>
       <if test="gmtCreate != null">
         gmt_create,
       </if>
@@ -73,6 +72,27 @@
       </if>
       <if test="status != null">
         status,
+      </if>
+      <if test="litigant != null">
+        litigant,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="result != null">
+        result,
+      </if>
+      <if test="judgmentDate != null">
+        judgment_date,
+      </if>
+      <if test="caseCode != null">
+        case_code,
+      </if>
+      <if test="caseStatus != null">
+        case_status,
+      </if>
+      <if test="courtName != null">
+        court_name,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -91,15 +111,6 @@
       <if test="releaseDate != null">
         #{releaseDate,jdbcType=VARCHAR},
       </if>
-      <if test="caseCode != null">
-        #{caseCode,jdbcType=VARCHAR},
-      </if>
-      <if test="caseStatus != null">
-        #{caseStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="courtName != null">
-        #{courtName,jdbcType=VARCHAR},
-      </if>
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
@@ -108,6 +119,27 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
+      </if>
+      <if test="litigant != null">
+        #{litigant,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null">
+        #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="judgmentDate != null">
+        #{judgmentDate,jdbcType=VARCHAR},
+      </if>
+      <if test="caseCode != null">
+        #{caseCode,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="caseStatus != null">
+        #{caseStatus,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="courtName != null">
+        #{courtName,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -126,15 +158,6 @@
       <if test="releaseDate != null">
         release_date = #{releaseDate,jdbcType=VARCHAR},
       </if>
-      <if test="caseCode != null">
-        case_code = #{caseCode,jdbcType=VARCHAR},
-      </if>
-      <if test="caseStatus != null">
-        case_status = #{caseStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="courtName != null">
-        court_name = #{courtName,jdbcType=VARCHAR},
-      </if>
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
@@ -144,21 +167,44 @@
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
       </if>
+      <if test="litigant != null">
+        litigant = #{litigant,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null">
+        result = #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="judgmentDate != null">
+        judgment_date = #{judgmentDate,jdbcType=VARCHAR},
+      </if>
+      <if test="caseCode != null">
+        case_code = #{caseCode,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="caseStatus != null">
+        case_status = #{caseStatus,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="courtName != null">
+        court_name = #{courtName,jdbcType=LONGVARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+
   <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.QccJudgmentDocument">
     update qcc_judgment_document
     set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
       reason = #{reason,jdbcType=VARCHAR},
       release_date = #{releaseDate,jdbcType=VARCHAR},
-      case_code = #{caseCode,jdbcType=VARCHAR},
-      case_status = #{caseStatus,jdbcType=VARCHAR},
-      court_name = #{courtName,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER}
+      status = #{status,jdbcType=INTEGER},
+      litigant = #{litigant,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=VARCHAR},
+      result = #{result,jdbcType=VARCHAR},
+      judgment_date = #{judgmentDate,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -8,19 +8,20 @@ import java.time.LocalDateTime;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class QccTaxCredit {
+public class QccFilingInformation {
     private Integer id;
 
     private String enterpriseId;
-
-    @JsonAlias("评价年度")
-    private String year;
-
-    @JsonAlias("纳税人识别号")
-    private String taxpayerIdentificationNumber;
-
-    @JsonAlias("纳税信用等级")
-    private String taxCreditRank;
+    @JsonAlias("案号")
+    private String code;
+    @JsonAlias("公诉人/原告/上诉人/申请人")
+    private String prosecutor;
+    @JsonAlias("被告人/被告/被上诉人/被申请人")
+    private String defendant;
+    @JsonAlias("法院名称")
+    private String courtName;
+    @JsonAlias("立案日期")
+    private String filingDate;
 
     private LocalDateTime gmtCreate;
 
@@ -28,6 +29,4 @@ public class QccTaxCredit {
 
     private Integer status;
 
-    @JsonAlias("评价单位")
-    private String evaluationCop;
 }

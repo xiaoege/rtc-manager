@@ -25,7 +25,6 @@ public interface QccMapper {
 
     List<QccAdministrativeLicenseVO> listQccAdministrativeLicenseVO(@Param("enterpriseId") String enterpriseId);
     List<QccAnnualReportVO> listQccAnnualReportVO(@Param("enterpriseId") String enterpriseId);
-
     List<QccGeneralTaxpayerVO> listQccGeneralTaxpayerVO(@Param("enterpriseId") String enterpriseId);
     List<QccImportExportCreditVO> listQccImportExportCreditVO(@Param("enterpriseId") String enterpriseId);
     List<QccJudgmentDocumentVO> listQccJudgmentDocumentVO(@Param("enterpriseId") String enterpriseId);
@@ -33,7 +32,6 @@ public interface QccMapper {
     List<QccQualificationCertificateVO> listQccQualificationCertificateVO(@Param("enterpriseId") String enterpriseId);
     List<QccAdministrativeLicenseVO> listQccTaxCreditVO(@Param("enterpriseId") String enterpriseId);
     List<QccAdministrativeLicenseVO> listQccWebsiteInformationVO(@Param("enterpriseId") String enterpriseId);
-
     List<QccBiddingVO> listQccBiddingVO(String enterpriseId);
     List<QccLandPurchaseInformationVO> listQccLandPurchaseInformationVO(String enterpriseId);
     List<QccSupplierVO> listQccSupplierVO(String enterpriseId);
@@ -43,10 +41,7 @@ public interface QccMapper {
     List<QccAppletVO> listQccAppletVO(String enterpriseId);
     List<QccWechatVO> listQccWechatVO(String enterpriseId);
     List<QccWeiboVO> listQccWeiboVO(String enterpriseId);
-
     List<QccSoftwareCopyrightVO> listQccSoftwareCopyrightVO(String enterpriseId);
-
     List<QccAbnormalOperationVO> listQccAbnormalOperationVO(String enterpriseId);
-
     List<QccClientVO> listQccClientVO(String enterpriseId);
 }

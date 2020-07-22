@@ -70,6 +70,7 @@ public class EnterpriseController {
         return ResultData.SUCCESS(list);
     }
 
+    @Deprecated
     @GetMapping("getEnterpriseSubDetail")
     public ResultData getEnterpriseSubDetail(@RequestParam(name = "name", required = true) String name,
                                              @RequestParam(name = "pid", required = true) Integer id) {

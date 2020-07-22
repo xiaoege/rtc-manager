@@ -17,7 +17,7 @@ public class QccShareholder {
     @JsonAlias("持股比例")
     private String ratio;
 
-    @JsonAlias({"认缴出资额(万元)","认缴出资额(万美元)"})
+    @JsonAlias({"认缴出资额(万元)", "认缴出资额(万美元)"})
     private String subscribedCapital;
 
     @JsonAlias("认缴出资日期")

@@ -5,7 +5,6 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
     <result column="determine_document_number" jdbcType="VARCHAR" property="determineDocumentNumber" />
-    <result column="violations_type" jdbcType="VARCHAR" property="violationsType" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="publication_date" jdbcType="VARCHAR" property="publicationDate" />
     <result column="decision_making_organ" jdbcType="VARCHAR" property="decisionMakingOrgan" />
@@ -13,14 +12,25 @@
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="punishment_unit" jdbcType="VARCHAR" property="punishmentUnit" />
+    <result column="source" jdbcType="VARCHAR" property="source" />
+    <result column="punishment_date" jdbcType="VARCHAR" property="punishmentDate" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.rtc.manager.entity.QccAdministrativeSanction">
+    <result column="violations_type" jdbcType="LONGVARCHAR" property="violationsType" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, enterprise_id, determine_document_number, violations_type, content, publication_date, 
-    decision_making_organ, decision_date, gmt_create, gmt_modify, status
+    id, enterprise_id, determine_document_number, content, publication_date, decision_making_organ, 
+    decision_date, gmt_create, gmt_modify, status, punishment_unit, source, punishment_date
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <sql id="Blob_Column_List">
+    violations_type
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from qcc_administrative_sanction
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -30,13 +40,15 @@
   </delete>
   <insert id="insert" parameterType="com.rtc.manager.entity.QccAdministrativeSanction">
     insert into qcc_administrative_sanction (id, enterprise_id, determine_document_number, 
-      violations_type, content, publication_date, 
-      decision_making_organ, decision_date, gmt_create, 
-      gmt_modify, status)
+      content, publication_date, decision_making_organ, 
+      decision_date, gmt_create, gmt_modify, 
+      status, punishment_unit, source, 
+      punishment_date, violations_type)
     values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{determineDocumentNumber,jdbcType=VARCHAR}, 
-      #{violationsType,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{publicationDate,jdbcType=VARCHAR}, 
-      #{decisionMakingOrgan,jdbcType=VARCHAR}, #{decisionDate,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
-      #{gmtModify,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
+      #{content,jdbcType=VARCHAR}, #{publicationDate,jdbcType=VARCHAR}, #{decisionMakingOrgan,jdbcType=VARCHAR}, 
+      #{decisionDate,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER}, #{punishmentUnit,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, 
+      #{punishmentDate,jdbcType=VARCHAR}, #{violationsType,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.rtc.manager.entity.QccAdministrativeSanction">
     insert into qcc_administrative_sanction
@@ -49,9 +61,6 @@
       </if>
       <if test="determineDocumentNumber != null">
         determine_document_number,
-      </if>
-      <if test="violationsType != null">
-        violations_type,
       </if>
       <if test="content != null">
         content,
@@ -74,6 +83,18 @@
       <if test="status != null">
         status,
       </if>
+      <if test="punishmentUnit != null">
+        punishment_unit,
+      </if>
+      <if test="source != null">
+        source,
+      </if>
+      <if test="punishmentDate != null">
+        punishment_date,
+      </if>
+      <if test="violationsType != null">
+        violations_type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -84,9 +105,6 @@
       </if>
       <if test="determineDocumentNumber != null">
         #{determineDocumentNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="violationsType != null">
-        #{violationsType,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
@@ -109,6 +127,18 @@
       <if test="status != null">
         #{status,jdbcType=INTEGER},
       </if>
+      <if test="punishmentUnit != null">
+        #{punishmentUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null">
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="punishmentDate != null">
+        #{punishmentDate,jdbcType=VARCHAR},
+      </if>
+      <if test="violationsType != null">
+        #{violationsType,jdbcType=LONGVARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.QccAdministrativeSanction">
@@ -119,9 +149,6 @@
       </if>
       <if test="determineDocumentNumber != null">
         determine_document_number = #{determineDocumentNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="violationsType != null">
-        violations_type = #{violationsType,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
@@ -144,21 +171,52 @@
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
       </if>
+      <if test="punishmentUnit != null">
+        punishment_unit = #{punishmentUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null">
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="punishmentDate != null">
+        punishment_date = #{punishmentDate,jdbcType=VARCHAR},
+      </if>
+      <if test="violationsType != null">
+        violations_type = #{violationsType,jdbcType=LONGVARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.QccAdministrativeSanction">
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.rtc.manager.entity.QccAdministrativeSanction">
     update qcc_administrative_sanction
     set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
       determine_document_number = #{determineDocumentNumber,jdbcType=VARCHAR},
-      violations_type = #{violationsType,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
       publication_date = #{publicationDate,jdbcType=VARCHAR},
       decision_making_organ = #{decisionMakingOrgan,jdbcType=VARCHAR},
       decision_date = #{decisionDate,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER}
+      status = #{status,jdbcType=INTEGER},
+      punishment_unit = #{punishmentUnit,jdbcType=VARCHAR},
+      source = #{source,jdbcType=VARCHAR},
+      punishment_date = #{punishmentDate,jdbcType=VARCHAR},
+      violations_type = #{violationsType,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.QccAdministrativeSanction">
+    update qcc_administrative_sanction
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      determine_document_number = #{determineDocumentNumber,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      publication_date = #{publicationDate,jdbcType=VARCHAR},
+      decision_making_organ = #{decisionMakingOrgan,jdbcType=VARCHAR},
+      decision_date = #{decisionDate,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      punishment_unit = #{punishmentUnit,jdbcType=VARCHAR},
+      source = #{source,jdbcType=VARCHAR},
+      punishment_date = #{punishmentDate,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

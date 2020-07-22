@@ -11,10 +11,11 @@
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="save_date" jdbcType="VARCHAR" property="saveDate" />
   </resultMap>
   <sql id="Base_Column_List">
     id, enterprise_id, save_reason, desicion_authority, remove_date, remove_reason, gmt_create, 
-    gmt_modify, status
+    gmt_modify, status, save_date
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -29,12 +30,12 @@
   <insert id="insert" parameterType="com.rtc.manager.entity.QccRemoveException">
     insert into qcc_remove_exception (id, enterprise_id, save_reason, 
       desicion_authority, remove_date, remove_reason, 
-      gmt_create, gmt_modify, status
-      )
+      gmt_create, gmt_modify, status, 
+      save_date)
     values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{saveReason,jdbcType=VARCHAR}, 
       #{desicionAuthority,jdbcType=VARCHAR}, #{removeDate,jdbcType=VARCHAR}, #{removeReason,jdbcType=VARCHAR}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
-      )
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
+      #{saveDate,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.rtc.manager.entity.QccRemoveException">
     insert into qcc_remove_exception
@@ -66,6 +67,9 @@
       <if test="status != null">
         status,
       </if>
+      <if test="saveDate != null">
+        save_date,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -94,6 +98,9 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
+      </if>
+      <if test="saveDate != null">
+        #{saveDate,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -124,6 +131,9 @@
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
       </if>
+      <if test="saveDate != null">
+        save_date = #{saveDate,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -136,7 +146,8 @@
       remove_reason = #{removeReason,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER}
+      status = #{status,jdbcType=INTEGER},
+      save_date = #{saveDate,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

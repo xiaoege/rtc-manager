@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -14,7 +15,7 @@ public class QccJudgmentDocument {
 
     private String enterpriseId;
 
-    @JsonAlias({"裁判文书标题","文书标题"})
+    @JsonAlias({"裁判文书标题", "文书标题"})
     private String title;
 
     @JsonAlias("案由")
@@ -32,10 +33,21 @@ public class QccJudgmentDocument {
     @JsonAlias("法院名称")
     private String courtName;
 
-    private Date gmtCreate;
+    private LocalDateTime gmtCreate;
 
-    private Date gmtModify;
+    private LocalDateTime gmtModify;
 
     private Integer status;
 
+    @JsonAlias("当事人")
+    private String litigant;
+
+    @JsonAlias("案件金额（元）")
+    private String amount;
+
+    @JsonAlias("裁判结果")
+    private String result;
+
+    @JsonAlias("裁判日期")
+    private String judgmentDate;
 }

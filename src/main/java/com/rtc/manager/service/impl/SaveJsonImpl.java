@@ -112,6 +112,54 @@ public class SaveJsonImpl implements SaveJson {
     @Autowired
     private QccClientMapper qccClientMapper;
 
+    @Autowired
+    private QccShareholderThreeMapper qccShareholderThreeMapper;
+
+    @Autowired
+    private QccQualificationMapper qccQualificationMapper;
+
+    @Autowired
+    private QccOutInvestmentMapper qccOutInvestmentMapper;
+
+    @Autowired
+    private QccShareholderInvestmentMapper qccShareholderInvestmentMapper;
+
+    @Autowired
+    private QccEquityChangeMapper qccEquityChangeMapper;
+
+    @Autowired
+    private QccChangeRecordMapper qccChangeRecordMapper;
+
+    @Autowired
+    private QccCourtNoticeMapper qccCourtNoticeMapper;
+
+    @Autowired
+    private QccFilingInformationMapper qccFilingInformationMapper;
+
+    @Autowired
+    private QccAdministrativeLicenseChinaMapper qccAdministrativeLicenseChinaMapper;
+
+    @Autowired
+    private QccSpotCheckMapper qccSpotCheckMapper;
+
+    @Autowired
+    private QccEquityPledgeMapper qccEquityPledgeMapper;
+
+    @Autowired
+    private QccTaxArrearsNoticeMapper qccTaxArrearsNoticeMapper;
+
+    @Autowired
+    private QccJudicialAuctionMapper qccJudicialAuctionMapper;
+
+    @Autowired
+    private QccTaxViolationMapper qccTaxViolationMapper;
+
+    @Autowired
+    private QccEnvironmentalPunishmentMapper qccEnvironmentalPunishmentMapper;
+
+    @Autowired
+    private QccEquityOutPledgeMapper qccEquityOutPledgeMapper;
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void readJson(File filePath) throws Exception {
@@ -206,14 +254,68 @@ public class SaveJsonImpl implements SaveJson {
                         List<HashMap> qccShareholder3List = (List<HashMap>) basicInformation.get("股东信息3");
                         if (!CollectionUtils.isEmpty(qccShareholder3List)) {
                             for (int j = 0; j < qccShareholder3List.size(); j++) {
-//                                String qccShareholderJsonString = objectMapper.writeValueAsString(qccShareholderList.get(j));
-//                                QccShareholder qccShareholder = objectMapper.readValue(qccShareholderJsonString, QccShareholder.class);
-                                // insert qcc_shareholder
-//                                qccShareholder.setEnterpriseId(enterpriseIdList.get(i));
-//                                qccShareholderMapper.insertSelective(qccShareholder);
+                                String qccShareholder3JsonString = objectMapper.writeValueAsString(qccShareholder3List.get(j));
+                                QccShareholderThree qccShareholder = objectMapper.readValue(qccShareholder3JsonString, QccShareholderThree.class);
+                                // insert qcc_shareholder3
+                                qccShareholder.setEnterpriseId(enterpriseIdList.get(i));
+                                qccShareholderThreeMapper.insertSelective(qccShareholder);
                             }
                         }
 
+                        List<HashMap> qccQualificationList = (List<HashMap>) basicInformation.get("资质资格");
+                        if (!CollectionUtils.isEmpty(qccQualificationList)) {
+                            for (int j = 0; j < qccQualificationList.size(); j++) {
+                                String qccQualificationJsonString = objectMapper.writeValueAsString(qccQualificationList.get(j));
+                                QccQualification qccQualification = objectMapper.readValue(qccQualificationJsonString, QccQualification.class);
+                                // insert qcc_qualification
+                                qccQualification.setEnterpriseId(enterpriseIdList.get(i));
+                                qccQualificationMapper.insertSelective(qccQualification);
+                            }
+                        }
+
+                        List<HashMap> qccOutInvestmentList = (List<HashMap>) basicInformation.get("对外投资");
+                        if (!CollectionUtils.isEmpty(qccOutInvestmentList)) {
+                            for (int j = 0; j < qccOutInvestmentList.size(); j++) {
+                                String qccOutInvestmentJsonString = objectMapper.writeValueAsString(qccOutInvestmentList.get(j));
+                                QccOutInvestment qccOutInvestment = objectMapper.readValue(qccOutInvestmentJsonString, QccOutInvestment.class);
+                                // insert qcc_out_investment
+                                qccOutInvestment.setEnterpriseId(enterpriseIdList.get(i));
+                                qccOutInvestmentMapper.insertSelective(qccOutInvestment);
+                            }
+                        }
+
+                        List<HashMap> qccShareholderInvestmentList = (List<HashMap>) basicInformation.get("股东及出资信息");
+                        if (!CollectionUtils.isEmpty(qccShareholderInvestmentList)) {
+                            for (int j = 0; j < qccShareholderInvestmentList.size(); j++) {
+                                String qccShareholderInvestmentJsonString = objectMapper.writeValueAsString(qccShareholderInvestmentList.get(j));
+                                QccShareholderInvestment qccShareholderInvestment = objectMapper.readValue(qccShareholderInvestmentJsonString, QccShareholderInvestment.class);
+                                // insert qcc_shareholder_investment
+                                qccShareholderInvestment.setEnterpriseId(enterpriseIdList.get(i));
+                                qccShareholderInvestmentMapper.insertSelective(qccShareholderInvestment);
+                            }
+                        }
+
+                        List<HashMap> qccEquityChangeList = (List<HashMap>) basicInformation.get("股权变更信息");
+                        if (!CollectionUtils.isEmpty(qccEquityChangeList)) {
+                            for (int j = 0; j < qccEquityChangeList.size(); j++) {
+                                String qccEquityChangeJsonString = objectMapper.writeValueAsString(qccEquityChangeList.get(j));
+                                QccEquityChange qccEquityChange = objectMapper.readValue(qccEquityChangeJsonString, QccEquityChange.class);
+                                // insert qcc_equity_change
+                                qccEquityChange.setEnterpriseId(enterpriseIdList.get(i));
+                                qccEquityChangeMapper.insertSelective(qccEquityChange);
+                            }
+                        }
+
+                        List<HashMap> qccChangeRecordList = (List<HashMap>) basicInformation.get("变更记录");
+                        if (!CollectionUtils.isEmpty(qccChangeRecordList)) {
+                            for (int j = 0; j < qccChangeRecordList.size(); j++) {
+                                String qccChangeRecordJsonString = objectMapper.writeValueAsString(qccChangeRecordList.get(j));
+                                QccChangeRecord qccChangeRecord = objectMapper.readValue(qccChangeRecordJsonString, QccChangeRecord.class);
+                                // insert qcc_change_record
+                                qccChangeRecord.setEnterpriseId(enterpriseIdList.get(i));
+                                qccChangeRecordMapper.insertSelective(qccChangeRecord);
+                            }
+                        }
 
                         List<HashMap> qccKeymanList = (List<HashMap>) basicInformation.get("主要人员");
                         if (!CollectionUtils.isEmpty(qccKeymanList)) {
@@ -243,9 +345,35 @@ public class SaveJsonImpl implements SaveJson {
                         }
                     }
 
+                    List<HashMap> qccCourtNoticeList = (List<HashMap>) legalProceeding.get("开庭公告");
+                    if (!CollectionUtils.isEmpty(qccCourtNoticeList)) {
+                        String qccCourtNoticeJsonString = objectMapper.writeValueAsString(qccCourtNoticeList);
+                        List<QccCourtNotice> qccCourtNoticeList1 = objectMapper.readValue(qccCourtNoticeJsonString, new TypeReference<List<QccCourtNotice>>() {
+                        });
+                        for (int j = 0; j < qccCourtNoticeList1.size(); j++) {
+                            // insert qcc_court_notice
+                            QccCourtNotice qccCourtNotice = qccCourtNoticeList1.get(j);
+                            qccCourtNotice.setEnterpriseId(enterpriseIdList.get(i));
+                            qccCourtNoticeMapper.insertSelective(qccCourtNotice);
+                        }
+                    }
+
+                    List<HashMap> qccFilingInformationList = (List<HashMap>) legalProceeding.get("立案信息");
+                    if (!CollectionUtils.isEmpty(qccFilingInformationList)) {
+                        String qccFilingInformationJsonString = objectMapper.writeValueAsString(qccFilingInformationList);
+                        List<QccFilingInformation> qccFilingInformationList1 = objectMapper.readValue(qccFilingInformationJsonString, new TypeReference<List<QccFilingInformation>>() {
+                        });
+                        for (int j = 0; j < qccFilingInformationList1.size(); j++) {
+                            // insert qcc_filing_information
+                            QccFilingInformation qccFilingInformation = qccFilingInformationList1.get(j);
+                            qccFilingInformation.setEnterpriseId(enterpriseIdList.get(i));
+                            qccFilingInformationMapper.insertSelective(qccFilingInformation);
+                        }
+                    }
+
                     // qcc-经营状况
                     HashMap businessStatus = qcc.getBusinessStatus();
-                    List<HashMap> qccAdministrativeLicense = (List<HashMap>) businessStatus.get("行政许可");
+                    List<HashMap> qccAdministrativeLicense = (List<HashMap>) businessStatus.get("行政许可 [工商局]");
                     if (!CollectionUtils.isEmpty(qccAdministrativeLicense)) {
                         String qccAdministrativeLicenseJsonString = objectMapper.writeValueAsString(qccAdministrativeLicense);
                         List<QccAdministrativeLicense> qccAdministrativeLicenseList = objectMapper.readValue(qccAdministrativeLicenseJsonString, new TypeReference<List<QccAdministrativeLicense>>() {
@@ -303,7 +431,7 @@ public class SaveJsonImpl implements SaveJson {
                         List<QccBidding> qccBiddingList = objectMapper.readValue(qccBiddingJsonString, new TypeReference<List<QccBidding>>() {
                         });
                         for (int j = 0; j < qccBiddingList.size(); j++) {
-                            // insert qcc_general_taxpayer
+                            // insert qcc_bidding
                             QccBidding qccBidding1 = qccBiddingList.get(j);
                             qccBidding1.setEnterpriseId(enterpriseIdList.get(i));
                             qccBiddingMapper.insertSelective(qccBidding1);
@@ -343,6 +471,31 @@ public class SaveJsonImpl implements SaveJson {
                             QccClient qccClient1 = qccClientList.get(j);
                             qccClient1.setEnterpriseId(enterpriseIdList.get(i));
                             qccClientMapper.insertSelective(qccClient1);
+                        }
+                    }
+
+                    List<HashMap> qccAdministrativeLicenseChinaList = (List<HashMap>) businessStatus.get("行政许可 [信用中国]");
+                    if (!CollectionUtils.isEmpty(qccAdministrativeLicenseChinaList)) {
+                        String qccAdministrativeLicenseChinaJsonString = objectMapper.writeValueAsString(qccAdministrativeLicenseChinaList);
+                        List<QccAdministrativeLicenseChina> qccAdministrativeLicenseChinaList1 = (List<QccAdministrativeLicenseChina>) objectMapper
+                                .readValue(qccAdministrativeLicenseChinaJsonString, new TypeReference<List<QccAdministrativeLicenseChina>>() {
+                                });
+                        for (int j = 0; j < qccAdministrativeLicenseChinaList1.size(); j++) {
+                            QccAdministrativeLicenseChina qccAdministrativeLicenseChina = qccAdministrativeLicenseChinaList1.get(j);
+                            qccAdministrativeLicenseChina.setEnterpriseId(enterpriseIdList.get(i));
+                            qccAdministrativeLicenseChinaMapper.insertSelective(qccAdministrativeLicenseChina);
+                        }
+                    }
+
+                    List<HashMap> qccSpotCheckList = (List<HashMap>) businessStatus.get("抽查检查");
+                    if (!CollectionUtils.isEmpty(qccSpotCheckList)) {
+                        String qccSpotCheckJsonString = objectMapper.writeValueAsString(qccSpotCheckList);
+                        List<QccSpotCheck> qccSpotCheckList1 = (List<QccSpotCheck>) objectMapper.readValue(qccSpotCheckJsonString, new TypeReference<List<QccSpotCheck>>() {
+                        });
+                        for (int j = 0; j < qccSpotCheckList1.size(); j++) {
+                            QccSpotCheck qccSpotCheck = qccSpotCheckList1.get(j);
+                            qccSpotCheck.setEnterpriseId(enterpriseIdList.get(i));
+                            qccSpotCheckMapper.insertSelective(qccSpotCheck);
                         }
                     }
 
@@ -504,32 +657,108 @@ public class SaveJsonImpl implements SaveJson {
                         }
                     }
 
-                    HashMap abnormalOperation = (HashMap) businessRisk.get("经营异常");
-                    if (abnormalOperation != null && abnormalOperation.size() > 0) {
-                        List<QccRemoveException> qccRemoveExceptions = (List<QccRemoveException>) abnormalOperation.get("移除异常");
-                        if (!CollectionUtils.isEmpty(qccRemoveExceptions)) {
-                            String qccRemoveExceptionJsonString = objectMapper.writeValueAsString(qccRemoveExceptions);
-                            List<QccRemoveException> qccRemoveExceptionList = objectMapper.readValue(qccRemoveExceptionJsonString, new TypeReference<List<QccRemoveException>>() {
-                            });
-                            for (int j = 0; j < qccRemoveExceptionList.size(); j++) {
-                                QccRemoveException qccRemoveException = qccRemoveExceptionList.get(j);
-                                qccRemoveException.setEnterpriseId(enterpriseIdList.get(i));
-                                qccRemoveExceptionMapper.insertSelective(qccRemoveException);
-                            }
-                        }
-
-                        List<QccSaveException> qccSaveExceptions = (List<QccSaveException>) abnormalOperation.get("移入异常");
-                        if (!CollectionUtils.isEmpty(qccSaveExceptions)) {
-                            String qccSaveExceptionJsonString = objectMapper.writeValueAsString(qccSaveExceptions);
-                            List<QccSaveException> qccSaveExceptionList = objectMapper.readValue(qccSaveExceptionJsonString, new TypeReference<List<QccSaveException>>() {
-                            });
-                            for (int j = 0; j < qccSaveExceptionList.size(); j++) {
-                                QccSaveException qccSaveException = qccSaveExceptionList.get(j);
-                                qccSaveException.setEnterpriseId(enterpriseIdList.get(i));
-                                qccSaveExceptionMapper.insertSelective(qccSaveException);
-                            }
+                    List<QccRemoveException> qccRemoveExceptions = (List<QccRemoveException>) businessRisk.get("经营异常/移出异常");
+                    if (!CollectionUtils.isEmpty(qccRemoveExceptions)) {
+                        String qccRemoveExceptionJsonString = objectMapper.writeValueAsString(qccRemoveExceptions);
+                        List<QccRemoveException> qccRemoveExceptionList = objectMapper.readValue(qccRemoveExceptionJsonString, new TypeReference<List<QccRemoveException>>() {
+                        });
+                        for (int j = 0; j < qccRemoveExceptionList.size(); j++) {
+                            QccRemoveException qccRemoveException = qccRemoveExceptionList.get(j);
+                            qccRemoveException.setEnterpriseId(enterpriseIdList.get(i));
+                            qccRemoveExceptionMapper.insertSelective(qccRemoveException);
                         }
                     }
+
+                    List<QccSaveException> qccSaveExceptions = (List<QccSaveException>) businessRisk.get("经营异常/移入异常");
+                    if (!CollectionUtils.isEmpty(qccSaveExceptions)) {
+                        String qccSaveExceptionJsonString = objectMapper.writeValueAsString(qccSaveExceptions);
+                        List<QccSaveException> qccSaveExceptionList = objectMapper.readValue(qccSaveExceptionJsonString, new TypeReference<List<QccSaveException>>() {
+                        });
+                        for (int j = 0; j < qccSaveExceptionList.size(); j++) {
+                            QccSaveException qccSaveException = qccSaveExceptionList.get(j);
+                            qccSaveException.setEnterpriseId(enterpriseIdList.get(i));
+                            qccSaveExceptionMapper.insertSelective(qccSaveException);
+                        }
+                    }
+
+                    List<HashMap> qccEquityPledgeList = (List<HashMap>) businessRisk.get("股权质押");
+                    if (!CollectionUtils.isEmpty(qccEquityPledgeList)) {
+                        String qccEquityPledgeJsonString = objectMapper.writeValueAsString(qccEquityPledgeList);
+                        List<QccEquityPledge> qccEquityPledgeList1 = objectMapper.readValue(qccEquityPledgeJsonString, new TypeReference<List<QccEquityPledge>>() {
+                        });
+                        for (int j = 0; j < qccEquityPledgeList1.size(); j++) {
+                            // insert qcc_equity_pledge
+                            QccEquityPledge qccEquityPledge = qccEquityPledgeList1.get(j);
+                            qccEquityPledge.setEnterpriseId(enterpriseIdList.get(i));
+                            qccEquityPledgeMapper.insertSelective(qccEquityPledge);
+                        }
+                    }
+
+                    List<HashMap> qccTaxArrearsNoticeList = (List<HashMap>) businessRisk.get("欠税公告");
+                    if (!CollectionUtils.isEmpty(qccTaxArrearsNoticeList)) {
+                        String qccTaxArrearsNoticeJsonString = objectMapper.writeValueAsString(qccTaxArrearsNoticeList);
+                        List<QccTaxArrearsNotice> qccTaxArrearsNoticeList1 = objectMapper.readValue(qccTaxArrearsNoticeJsonString, new TypeReference<List<QccTaxArrearsNotice>>() {
+                        });
+                        for (int j = 0; j < qccTaxArrearsNoticeList1.size(); j++) {
+                            // insert qcc_tax_arrears_notice
+                            QccTaxArrearsNotice qccTaxArrearsNotice = qccTaxArrearsNoticeList1.get(j);
+                            qccTaxArrearsNotice.setEnterpriseId(enterpriseIdList.get(i));
+                            qccTaxArrearsNoticeMapper.insertSelective(qccTaxArrearsNotice);
+                        }
+                    }
+
+                    List<HashMap> qccJudicialAuctionList = (List<HashMap>) businessRisk.get("司法拍卖");
+                    if (!CollectionUtils.isEmpty(qccJudicialAuctionList)) {
+                        String qccJudicialAuctionJsonString = objectMapper.writeValueAsString(qccJudicialAuctionList);
+                        List<QccJudicialAuction> qccJudicialAuctionList1 = objectMapper.readValue(qccJudicialAuctionJsonString, new TypeReference<List<QccJudicialAuction>>() {
+                        });
+                        for (int j = 0; j < qccJudicialAuctionList1.size(); j++) {
+                            // insert qcc_judicial_auction
+                            QccJudicialAuction qccJudicialAuction = qccJudicialAuctionList1.get(j);
+                            qccJudicialAuction.setEnterpriseId(enterpriseIdList.get(i));
+                            qccJudicialAuctionMapper.insertSelective(qccJudicialAuction);
+                        }
+                    }
+
+                    List<HashMap> qccTaxViolationList = (List<HashMap>) businessRisk.get("税收违法");
+                    if (!CollectionUtils.isEmpty(qccTaxViolationList)) {
+                        String qccTaxViolationJsonString = objectMapper.writeValueAsString(qccTaxViolationList);
+                        List<QccTaxViolation> qccTaxViolationList1 = objectMapper.readValue(qccTaxViolationJsonString, new TypeReference<List<QccTaxViolation>>() {
+                        });
+                        for (int j = 0; j < qccTaxViolationList1.size(); j++) {
+                            // insert qcc_tax_violation
+                            QccTaxViolation qccTaxViolation = qccTaxViolationList1.get(j);
+                            qccTaxViolation.setEnterpriseId(enterpriseIdList.get(i));
+                            qccTaxViolationMapper.insertSelective(qccTaxViolation);
+                        }
+                    }
+
+                    List<HashMap> qccEnvironmentalPunishmentList = (List<HashMap>) businessRisk.get("环保处罚");
+                    if (!CollectionUtils.isEmpty(qccEnvironmentalPunishmentList)) {
+                        String qccEnvironmentalPunishmentJsonString = objectMapper.writeValueAsString(qccEnvironmentalPunishmentList);
+                        List<QccEnvironmentalPunishment> qccEnvironmentalPunishmentList1 = objectMapper.readValue(qccEnvironmentalPunishmentJsonString, new TypeReference<List<QccEnvironmentalPunishment>>() {
+                        });
+                        for (int j = 0; j < qccEnvironmentalPunishmentList1.size(); j++) {
+                            // insert qcc_environmental_punishment
+                            QccEnvironmentalPunishment qccEnvironmentalPunishment = qccEnvironmentalPunishmentList1.get(j);
+                            qccEnvironmentalPunishment.setEnterpriseId(enterpriseIdList.get(i));
+                            qccEnvironmentalPunishmentMapper.insertSelective(qccEnvironmentalPunishment);
+                        }
+                    }
+
+                    List<HashMap> qccEquityOutPledgeList = (List<HashMap>) businessRisk.get("股权出质");
+                    if (!CollectionUtils.isEmpty(qccEquityOutPledgeList)) {
+                        String qccEquityOutPledgeJsonString = objectMapper.writeValueAsString(qccEquityOutPledgeList);
+                        List<QccEquityOutPledge> qccEquityOutPledgeList1 = objectMapper.readValue(qccEquityOutPledgeJsonString, new TypeReference<List<QccEquityOutPledge>>() {
+                        });
+                        for (int j = 0; j < qccEquityOutPledgeList1.size(); j++) {
+                            // insert qcc_equity_out_pledge
+                            QccEquityOutPledge qccEquityOutPledge = qccEquityOutPledgeList1.get(j);
+                            qccEquityOutPledge.setEnterpriseId(enterpriseIdList.get(i));
+                            qccEquityOutPledgeMapper.insertSelective(qccEquityOutPledge);
+                        }
+                    }
+
                 }
 
             }
