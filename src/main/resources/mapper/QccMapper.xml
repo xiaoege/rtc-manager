@@ -194,18 +194,37 @@
 
   <select id="selectByName" resultType="com.rtc.manager.vo.QccListVO">
     SELECT
-      qcc.id,
-      qcc.enterprise_id enterpriseId,
-      qcc.name,
-      qbi.registered_capital registeredCapital,
-      qbi.legal_representative legalRepresentative,
-      qbi.establishment_date establishmentDate,
-      qcc.address,
-      qcc.country_region countryRegion,
-      qcc.nation
+        qcc.id,
+        qcc.enterprise_id enterpriseId,
+    IF
+        ( qbi.english_name = '-', qcc.NAME, qbi.english_name ) name,
+        qbi.registered_capital registeredCapital,
+        qbi.legal_representative legalRepresentative,
+        qbi.establishment_date establishmentDate,
+        qcc.address,
+        qcc.country_region countryRegion,
+        qcc.nation
     FROM
         qcc
-    left join qcc_business_information qbi on qcc.enterprise_id=qbi.enterprise_id
+        LEFT JOIN qcc_business_information qbi ON qcc.enterprise_id = qbi.enterprise_id
+    WHERE
+        qcc.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+        AND qbi.english_name LIKE concat('%',#{name},'%')
+    UNION
+    SELECT
+        qcc.id,
+        qcc.enterprise_id enterpriseId,
+    IF
+        ( qbi.english_name = '-', qcc.NAME, qbi.english_name ) name,
+        qbi.registered_capital registeredCapital,
+        qbi.legal_representative legalRepresentative,
+        qbi.establishment_date establishmentDate,
+        qcc.address,
+        qcc.country_region countryRegion,
+        qcc.nation
+    FROM
+        qcc
+        LEFT JOIN qcc_business_information qbi ON qcc.enterprise_id = qbi.enterprise_id
     WHERE
         qcc.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
         and qcc.name like concat('%',#{name},'%')
@@ -238,7 +257,8 @@
     SELECT
         qcc.id,
         qcc.enterprise_id,
-        qcc.name,
+        IF
+	( qbi.english_name = '-', qcc.NAME, qbi.english_name ) name,
         qbi.registered_capital,
         qbi.legal_representative,
         qbi.establishment_date,

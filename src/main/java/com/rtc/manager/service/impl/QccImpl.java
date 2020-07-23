@@ -5,9 +5,8 @@ import com.github.pagehelper.PageInfo;
 import com.rtc.manager.dao.QccMapper;
 import com.rtc.manager.dao.QccSubDetailMapper;
 import com.rtc.manager.service.Qcc;
-import com.rtc.manager.vo.QccListVO;
-import com.rtc.manager.vo.QccVO;
-import org.springframework.beans.BeanUtils;
+import com.rtc.manager.util.CommonUtils;
+import com.rtc.manager.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -30,12 +29,22 @@ public class QccImpl implements Qcc {
     public PageInfo<QccListVO> listEnterprise(String name, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List list = qccMapper.selectByName(name);
+        if (!CollectionUtils.isEmpty(list)) {
+            for (int i = 0; i < list.size(); i++) {
+                QccListVO qccListVO = (QccListVO) list.get(i);
+                String transferMoney = CommonUtils.transferMoney(qccListVO.getRegisteredCapital());
+                qccListVO.setRegisteredCapital(transferMoney);
+            }
+        }
+
         return new PageInfo<>(list);
     }
 
     @Override
     public QccVO getEnterprise(String enterpriseId) {
         QccVO qccVO = qccMapper.selectByEnterpriseId(enterpriseId);
+        String transferMoney = CommonUtils.transferMoney(qccVO.getRegisteredCapital());
+        qccVO.setRegisteredCapital(transferMoney);
         return qccVO;
     }
 
@@ -64,9 +73,21 @@ public class QccImpl implements Qcc {
                 break;
             case "supplier":
                 list = qccMapper.listQccSupplierVO(enterpriseId);
+                if (!CollectionUtils.isEmpty(list)) {
+                    for (int i = 0; i < list.size(); i++) {
+                        QccSupplierVO qccSupplierVO = (QccSupplierVO) list.get(i);
+                        qccSupplierVO.setPurchaseAmount(CommonUtils.transferMoney2(qccSupplierVO.getPurchaseAmount()));
+                    }
+                }
                 break;
             case "client":
                 list = qccMapper.listQccClientVO(enterpriseId);
+                if (!CollectionUtils.isEmpty(list)) {
+                    for (int i = 0; i < list.size(); i++) {
+                        QccClientVO qccClientVO = (QccClientVO) list.get(i);
+                        qccClientVO.setSaleAmount(CommonUtils.transferMoney2(qccClientVO.getSaleAmount()));
+                    }
+                }
                 break;
             case "generalTaxpayer":
                 list = qccMapper.listQccGeneralTaxpayerVO(enterpriseId);
@@ -79,9 +100,34 @@ public class QccImpl implements Qcc {
                 break;
             case "annualReport":
                 list = qccMapper.listQccAnnualReportVO(enterpriseId);
+                if (!CollectionUtils.isEmpty(list)) {
+                    for (int i = 0; i < list.size(); i++) {
+                        QccAnnualReportVO qccAnnualReportVO = (QccAnnualReportVO) list.get(i);
+                        qccAnnualReportVO.setTotalAssets(CommonUtils.transferMoney3(qccAnnualReportVO.getTotalAssets(), "企业选择不公示"));
+                        qccAnnualReportVO.setTotalEquity(CommonUtils.transferMoney3(qccAnnualReportVO.getTotalEquity(), "企业选择不公示"));
+                        qccAnnualReportVO.setTotalOperatingIncome(CommonUtils.transferMoney3(qccAnnualReportVO.getTotalOperatingIncome(), "企业选择不公示"));
+                        qccAnnualReportVO.setTotalProfit(CommonUtils.transferMoney3(qccAnnualReportVO.getTotalProfit(), "企业选择不公示"));
+                        qccAnnualReportVO.setNetProfit(CommonUtils.transferMoney3(qccAnnualReportVO.getNetProfit(), "企业选择不公示"));
+                        qccAnnualReportVO.setMainBusinessIncome(CommonUtils.transferMoney3(qccAnnualReportVO.getMainBusinessIncome(), "企业选择不公示"));
+                        qccAnnualReportVO.setTotalTax(CommonUtils.transferMoney3(qccAnnualReportVO.getTotalTax(), "企业选择不公示"));
+                        qccAnnualReportVO.setTotalLiabilities(CommonUtils.transferMoney3(qccAnnualReportVO.getTotalLiabilities(), "企业选择不公示"));
+                        List<QccAnnualReportShareholderVO> qccAnnualReportShareholderVOList = qccAnnualReportVO.getQccAnnualReportShareholderVOList();
+                        for (int j = 0; j < qccAnnualReportShareholderVOList.size(); j++) {
+                            QccAnnualReportShareholderVO qccAnnualReportShareholderVO = qccAnnualReportShareholderVOList.get(j);
+                            qccAnnualReportShareholderVO.setSubscribedCapital(CommonUtils.transferMoney3(qccAnnualReportShareholderVO.getSubscribedCapital(), "-"));
+                            qccAnnualReportShareholderVO.setPaidCapital(CommonUtils.transferMoney3(qccAnnualReportShareholderVO.getPaidCapital(), "-"));
+                        }
+                    }
+                }
                 break;
             case "financingConsultation":
                 list = qccMapper.listQccFinancingConsultationVO(enterpriseId);
+                if (!CollectionUtils.isEmpty(list)) {
+                    for (int i = 0; i < list.size(); i++) {
+                        QccFinancingConsultationVO qccFinancingConsultationVO = (QccFinancingConsultationVO) list.get(i);
+                        qccFinancingConsultationVO.setAmount(CommonUtils.transferMoney(qccFinancingConsultationVO.getAmount()));
+                    }
+                }
                 break;
             case "keyman":
                 list = qccMapper.listQccKeymanVO(enterpriseId);
@@ -137,9 +183,17 @@ public class QccImpl implements Qcc {
                 break;
             case "supplier":
                 object = qccSubDetailMapper.getQccSupplierVO(id);
+                if (object != null) {
+                    QccSupplierVO qccSupplierVO = (QccSupplierVO) object;
+                    qccSupplierVO.setPurchaseAmount(CommonUtils.transferMoney2(qccSupplierVO.getPurchaseAmount()));
+                }
                 break;
             case "client":
                 object = qccSubDetailMapper.getQccClientVO(id);
+                if (object != null) {
+                    QccClientVO qccClientVO = (QccClientVO) object;
+                    qccClientVO.setSaleAmount(CommonUtils.transferMoney2(qccClientVO.getSaleAmount()));
+                }
                 break;
             case "generalTaxpayer":
                 object = qccSubDetailMapper.getQccGeneralTaxpayerVO(id);
@@ -152,9 +206,30 @@ public class QccImpl implements Qcc {
                 break;
             case "annualReport":
                 object = qccSubDetailMapper.getQccAnnualReportVO(id);
+                if (object != null) {
+                    QccAnnualReportVO qccAnnualReportVO = (QccAnnualReportVO) object;
+                    qccAnnualReportVO.setTotalAssets(CommonUtils.transferMoney3(qccAnnualReportVO.getTotalAssets(), "企业选择不公示"));
+                    qccAnnualReportVO.setTotalEquity(CommonUtils.transferMoney3(qccAnnualReportVO.getTotalEquity(), "企业选择不公示"));
+                    qccAnnualReportVO.setTotalOperatingIncome(CommonUtils.transferMoney3(qccAnnualReportVO.getTotalOperatingIncome(), "企业选择不公示"));
+                    qccAnnualReportVO.setTotalProfit(CommonUtils.transferMoney3(qccAnnualReportVO.getTotalProfit(), "企业选择不公示"));
+                    qccAnnualReportVO.setNetProfit(CommonUtils.transferMoney3(qccAnnualReportVO.getNetProfit(), "企业选择不公示"));
+                    qccAnnualReportVO.setMainBusinessIncome(CommonUtils.transferMoney3(qccAnnualReportVO.getMainBusinessIncome(), "企业选择不公示"));
+                    qccAnnualReportVO.setTotalTax(CommonUtils.transferMoney3(qccAnnualReportVO.getTotalTax(), "企业选择不公示"));
+                    qccAnnualReportVO.setTotalLiabilities(CommonUtils.transferMoney3(qccAnnualReportVO.getTotalLiabilities(), "企业选择不公示"));
+                    List<QccAnnualReportShareholderVO> qccAnnualReportShareholderVOList = qccAnnualReportVO.getQccAnnualReportShareholderVOList();
+                    for (int j = 0; j < qccAnnualReportShareholderVOList.size(); j++) {
+                        QccAnnualReportShareholderVO qccAnnualReportShareholderVO = qccAnnualReportShareholderVOList.get(j);
+                        qccAnnualReportShareholderVO.setSubscribedCapital(CommonUtils.transferMoney3(qccAnnualReportShareholderVO.getSubscribedCapital(), "-"));
+                        qccAnnualReportShareholderVO.setPaidCapital(CommonUtils.transferMoney3(qccAnnualReportShareholderVO.getPaidCapital(), "-"));
+                    }
+                }
                 break;
             case "financingConsultation":
                 object = qccSubDetailMapper.getQccFinancingConsultationVO(id);
+                if (object != null) {
+                    QccFinancingConsultationVO qccFinancingConsultationVO = (QccFinancingConsultationVO) object;
+                    qccFinancingConsultationVO.setAmount(CommonUtils.transferMoney(qccFinancingConsultationVO.getAmount()));
+                }
                 break;
             case "keyman":
                 object = qccSubDetailMapper.getQccKeymanVO(id);

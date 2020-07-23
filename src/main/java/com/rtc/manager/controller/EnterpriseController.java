@@ -47,6 +47,11 @@ public class EnterpriseController {
         return ResultData.SUCCESS(info);
     }
 
+    /**
+     * 企业详情
+     * @param enterpriseId
+     * @return
+     */
     @GetMapping("getEnterprise")
     public ResultData getEnterprise(@RequestParam(name = "enterpriseId", required = true) String enterpriseId) {
         Object qccVO = null;
@@ -60,6 +65,14 @@ public class EnterpriseController {
         return ResultData.SUCCESS(qccVO);
     }
 
+    /**
+     * 五大类-列表
+     * @param name
+     * @param enterpriseId
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
     @GetMapping("getEnterpriseDetail")
     public ResultData getEnterpriseDetail(@RequestParam(name = "name", required = true) String name,
                                           @RequestParam(name = "enterpriseId", required = true) String enterpriseId,
@@ -70,6 +83,12 @@ public class EnterpriseController {
         return ResultData.SUCCESS(list);
     }
 
+    /**
+     * 五大类-详情
+     * @param name
+     * @param id
+     * @return
+     */
     @Deprecated
     @GetMapping("getEnterpriseSubDetail")
     public ResultData getEnterpriseSubDetail(@RequestParam(name = "name", required = true) String name,

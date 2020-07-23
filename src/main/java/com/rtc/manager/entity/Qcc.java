@@ -2,6 +2,7 @@ package com.rtc.manager.entity;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.util.Date;
@@ -22,7 +23,7 @@ public class Qcc {
     @JsonAlias("电话")
     private String telephone;
 
-    @JsonAlias("官网")
+    @JsonProperty("官网")
     private String url;
 
     @JsonAlias("邮箱")
