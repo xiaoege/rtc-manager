@@ -1,7 +1,12 @@
 package com.rtc.manager.util;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rtc.manager.util.baidutranslate.BaiduTranslatePOJO;
+import com.rtc.manager.util.baidutranslate.TransApi;
+import com.rtc.manager.util.baidutranslate.TransResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -42,6 +47,9 @@ public final class CommonUtils {
      */
     private final static String HKD = "7.75";
 
+    private static final String APP_ID = "20200722000524091";
+    private static final String SECURITY_KEY = "fzXcZ4t3jWGnRP0cIVIn";
+
     /**
      * 获得exception的堆栈信息
      *
@@ -57,8 +65,8 @@ public final class CommonUtils {
     /**
      * 用户所在时区的时间和新闻发布所在时区的时间比较，1小时内显示分钟差，其次显示小时，时间，超过maxDay显示年月日时分秒
      *
-     * @param timeZone
-     * @param time
+     * @param timeZone 时区
+     * @param time 时间
      * @return
      */
     public static String compareTime(String timeZone, LocalDateTime time) {
@@ -228,6 +236,30 @@ public final class CommonUtils {
         return new BigDecimal(0);
     }
 
+    /**
+     * 翻译
+     * @param query 原文
+     * @param from 原文编码
+     * @param to 译文编码
+     * @return 译文
+     * @throws Exception
+     */
+    public static String translate(String query, String from, String to) throws Exception {
+        TransApi transApi = new TransApi(APP_ID, SECURITY_KEY);
+        String transResult = transApi.getTransResult(query, from, to);
+        ObjectMapper objectMapper = new ObjectMapper();
+        BaiduTranslatePOJO baiduTranslatePOJO = objectMapper.readValue(transResult, BaiduTranslatePOJO.class);
+        if (baiduTranslatePOJO != null) {
+            List list = (List) baiduTranslatePOJO.getTrans_result();
+            if (!CollectionUtils.isEmpty(list)) {
+                TransResult o = (TransResult) list.get(0);
+                String dst = o.getDst();
+                return dst;
+            }
+        }
+
+        return null;
+    }
 
     public static void main(String[] args) {
         String dateTimeStr = "2020-07-11 14:30:15";

@@ -45,6 +45,12 @@ public class QccImpl implements Qcc {
         QccVO qccVO = qccMapper.selectByEnterpriseId(enterpriseId);
         String transferMoney = CommonUtils.transferMoney(qccVO.getRegisteredCapital());
         qccVO.setRegisteredCapital(transferMoney);
+        try {
+            String translate = CommonUtils.translate(qccVO.getAddress(), "zh", "en");
+            qccVO.setAddress(translate);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return qccVO;
     }
 
