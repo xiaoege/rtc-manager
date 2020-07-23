@@ -35,7 +35,7 @@ public class EnterpriseController {
     @GetMapping("listEnterprise")
     public ResultData listEnterprise(@RequestParam(name = "name", required = true) String name,
                                      @RequestParam(name = "pageNum", required = false, defaultValue = "1") int pageNum,
-                                     @RequestParam(name = "pageSize", required = false, defaultValue = "5") int pageSize) {
+                                     @RequestParam(name = "pageSize", required = false, defaultValue = "10") int pageSize) {
         PageInfo<QccListVO> info = null;
         try {
             info = qcc.listEnterprise(name, pageNum, pageSize);
@@ -77,7 +77,7 @@ public class EnterpriseController {
     public ResultData getEnterpriseDetail(@RequestParam(name = "name", required = true) String name,
                                           @RequestParam(name = "enterpriseId", required = true) String enterpriseId,
                                           @RequestParam(name = "pageNum", required = false, defaultValue = "1") int pageNum,
-                                          @RequestParam(name = "pageSize", required = false, defaultValue = "5") int pageSize) {
+                                          @RequestParam(name = "pageSize", required = false, defaultValue = "0") int pageSize) {
 
         PageInfo<List> list = qcc.getEnterpriseDetail(name, enterpriseId, pageNum, pageSize);
         return ResultData.SUCCESS(list);
@@ -98,7 +98,7 @@ public class EnterpriseController {
     }
 
     /**
-     * 适配ios，只提供一个接口，不传入pid则根据enterpriseId查
+     * 五大类-详情,适配ios，只提供一个接口，不传入pid则根据enterpriseId查
      *
      * @param name
      * @param enterpriseId
@@ -111,7 +111,7 @@ public class EnterpriseController {
                                                  @RequestParam(name = "pid", required = false) Integer id,
                                                  @RequestParam(name = "enterpriseId", required = false) String enterpriseId,
                                                  @RequestParam(name = "pageNum", required = false, defaultValue = "1") int pageNum,
-                                                 @RequestParam(name = "pageSize", required = false, defaultValue = "5") int pageSize) {
+                                                 @RequestParam(name = "pageSize", required = false, defaultValue = "0") int pageSize) {
         Object list = qcc.getEnterpriseSubDetailMuti(name, enterpriseId, id, pageNum, pageSize);
         return ResultData.SUCCESS(list);
     }
