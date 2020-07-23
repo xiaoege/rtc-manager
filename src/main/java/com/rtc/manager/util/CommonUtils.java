@@ -170,9 +170,9 @@ public final class CommonUtils {
         } catch (Exception e) {
             e.printStackTrace();
             logger.info("{}, {}", getExceptionInfo(e), registeredCapital);
-            return "0";
+            return "-";
         }
-        return "0";
+        return "-";
     }
 
     /**
@@ -199,9 +199,9 @@ public final class CommonUtils {
         } catch (Exception e) {
             e.printStackTrace();
             logger.info("{}, {}", getExceptionInfo(e), registeredCapital);
-            return "0";
+            return "-";
         }
-        return arg == null ? "0" : arg;
+        return arg == null ? "-" : arg;
     }
 
     /**
