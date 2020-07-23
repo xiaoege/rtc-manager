@@ -132,25 +132,25 @@ public final class CommonUtils {
         try {
             if (registeredCapital.contains("万元人民币") || registeredCapital.contains("万人民币")) {
                 String s = registeredCapital.substring(0, registeredCapital.indexOf("万"));
-                BigDecimal bigDecimal = numberFormat(new BigDecimal(CNY), s, 10000);
+                BigDecimal bigDecimal = numberFormat(new BigDecimal(CNY), s, (long) Math.pow(10, 4));
                 DecimalFormat decimalFormat = new DecimalFormat("$,###");
                 String format = decimalFormat.format(bigDecimal);
                 return format;
             } else if (registeredCapital.contains("万美元")) {
                 String s = registeredCapital.substring(0, registeredCapital.indexOf("万"));
-                BigDecimal bigDecimal = numberFormat(new BigDecimal(1), s, 10000);
+                BigDecimal bigDecimal = numberFormat(new BigDecimal(1), s, (long) Math.pow(10, 4));
                 DecimalFormat decimalFormat = new DecimalFormat("$,###");
                 String format = decimalFormat.format(bigDecimal);
                 return format;
             } else if (registeredCapital.contains("万港元")) {
                 String s = registeredCapital.substring(0, registeredCapital.indexOf("万"));
-                BigDecimal bigDecimal = numberFormat(new BigDecimal(HKD), s, 10000);
+                BigDecimal bigDecimal = numberFormat(new BigDecimal(HKD), s, (long) Math.pow(10, 4));
                 DecimalFormat decimalFormat = new DecimalFormat("$,###");
                 String format = decimalFormat.format(bigDecimal);
                 return format;
             } else if (registeredCapital.contains("万欧元")) {
                 String s = registeredCapital.substring(0, registeredCapital.indexOf("万"));
-                BigDecimal bigDecimal = numberFormat(new BigDecimal(EUR), s, 10000);
+                BigDecimal bigDecimal = numberFormat(new BigDecimal(EUR), s, (long) Math.pow(10, 4));
                 DecimalFormat decimalFormat = new DecimalFormat("$,###");
                 String format = decimalFormat.format(bigDecimal);
                 return format;
@@ -176,16 +176,22 @@ public final class CommonUtils {
     }
 
     /**
-     * xxx万元 - $x,xx0,000
+     * xxx万元/xxx - $x,xx0,000
      *
      * @param registeredCapital 钱
      * @return $x, xx0, 000
      */
-    public static String transferMoney2(String registeredCapital) {
+    public static String transferMoney2(String registeredCapital, String arg) {
         try {
+            Matcher isNum = PATTERN_NUMBER.matcher(registeredCapital);
             if (registeredCapital.contains("万")) {
                 String s = registeredCapital.substring(0, registeredCapital.indexOf("万"));
-                BigDecimal bigDecimal = numberFormat(new BigDecimal(CNY), s, 10000);
+                BigDecimal bigDecimal = numberFormat(new BigDecimal(CNY), s, (long) Math.pow(10, 4));
+                DecimalFormat decimalFormat = new DecimalFormat("$,###");
+                String format = decimalFormat.format(bigDecimal);
+                return format;
+            } else if (isNum.matches()) {
+                BigDecimal bigDecimal = numberFormat(new BigDecimal(CNY), registeredCapital, (long) Math.pow(10, 4));
                 DecimalFormat decimalFormat = new DecimalFormat("$,###");
                 String format = decimalFormat.format(bigDecimal);
                 return format;
@@ -195,31 +201,8 @@ public final class CommonUtils {
             logger.info("{}, {}", getExceptionInfo(e), registeredCapital);
             return "0";
         }
-        return "0";
-    }
-
-    /**
-     * xxx - $x,xx0,000
-     *
-     * @param registeredCapital 钱
-     * @return $x, xx0, 000
-     */
-    public static String transferMoney3(String registeredCapital, String arg) {
-        try {
-            Matcher isNum = PATTERN_NUMBER.matcher(registeredCapital);
-            if (isNum.matches()) {
-                BigDecimal bigDecimal = numberFormat(new BigDecimal(CNY), registeredCapital, 10000);
-                DecimalFormat decimalFormat = new DecimalFormat("$,###");
-                return decimalFormat.format(bigDecimal);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.info("{}, {}", getExceptionInfo(e), registeredCapital);
-            return "0";
-        }
         return arg == null ? "0" : arg;
     }
-
 
     /**
      * 把xxx万换算成x,xx0,000

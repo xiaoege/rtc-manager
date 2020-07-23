@@ -76,7 +76,7 @@ public class QccImpl implements Qcc {
                 if (!CollectionUtils.isEmpty(list)) {
                     for (int i = 0; i < list.size(); i++) {
                         QccSupplierVO qccSupplierVO = (QccSupplierVO) list.get(i);
-                        qccSupplierVO.setPurchaseAmount(CommonUtils.transferMoney2(qccSupplierVO.getPurchaseAmount()));
+                        qccSupplierVO.setPurchaseAmount(CommonUtils.transferMoney2(qccSupplierVO.getPurchaseAmount(), "-"));
                     }
                 }
                 break;
@@ -85,7 +85,7 @@ public class QccImpl implements Qcc {
                 if (!CollectionUtils.isEmpty(list)) {
                     for (int i = 0; i < list.size(); i++) {
                         QccClientVO qccClientVO = (QccClientVO) list.get(i);
-                        qccClientVO.setSaleAmount(CommonUtils.transferMoney2(qccClientVO.getSaleAmount()));
+                        qccClientVO.setSaleAmount(CommonUtils.transferMoney2(qccClientVO.getSaleAmount(), "-"));
                     }
                 }
                 break;
@@ -103,19 +103,19 @@ public class QccImpl implements Qcc {
                 if (!CollectionUtils.isEmpty(list)) {
                     for (int i = 0; i < list.size(); i++) {
                         QccAnnualReportVO qccAnnualReportVO = (QccAnnualReportVO) list.get(i);
-                        qccAnnualReportVO.setTotalAssets(CommonUtils.transferMoney3(qccAnnualReportVO.getTotalAssets(), "Enterprises choose not to publicize"));
-                        qccAnnualReportVO.setTotalEquity(CommonUtils.transferMoney3(qccAnnualReportVO.getTotalEquity(), "Enterprises choose not to publicize"));
-                        qccAnnualReportVO.setTotalOperatingIncome(CommonUtils.transferMoney3(qccAnnualReportVO.getTotalOperatingIncome(), "Enterprises choose not to publicize"));
-                        qccAnnualReportVO.setTotalProfit(CommonUtils.transferMoney3(qccAnnualReportVO.getTotalProfit(), "Enterprises choose not to publicize"));
-                        qccAnnualReportVO.setNetProfit(CommonUtils.transferMoney3(qccAnnualReportVO.getNetProfit(), "Enterprises choose not to publicize"));
-                        qccAnnualReportVO.setMainBusinessIncome(CommonUtils.transferMoney3(qccAnnualReportVO.getMainBusinessIncome(), "Enterprises choose not to publicize"));
-                        qccAnnualReportVO.setTotalTax(CommonUtils.transferMoney3(qccAnnualReportVO.getTotalTax(), "Enterprises choose not to publicize"));
-                        qccAnnualReportVO.setTotalLiabilities(CommonUtils.transferMoney3(qccAnnualReportVO.getTotalLiabilities(), "Enterprises choose not to publicize"));
+                        qccAnnualReportVO.setTotalAssets(CommonUtils.transferMoney2(qccAnnualReportVO.getTotalAssets(), "Enterprises choose not to publicize"));
+                        qccAnnualReportVO.setTotalEquity(CommonUtils.transferMoney2(qccAnnualReportVO.getTotalEquity(), "Enterprises choose not to publicize"));
+                        qccAnnualReportVO.setTotalOperatingIncome(CommonUtils.transferMoney2(qccAnnualReportVO.getTotalOperatingIncome(), "Enterprises choose not to publicize"));
+                        qccAnnualReportVO.setTotalProfit(CommonUtils.transferMoney2(qccAnnualReportVO.getTotalProfit(), "Enterprises choose not to publicize"));
+                        qccAnnualReportVO.setNetProfit(CommonUtils.transferMoney2(qccAnnualReportVO.getNetProfit(), "Enterprises choose not to publicize"));
+                        qccAnnualReportVO.setMainBusinessIncome(CommonUtils.transferMoney2(qccAnnualReportVO.getMainBusinessIncome(), "Enterprises choose not to publicize"));
+                        qccAnnualReportVO.setTotalTax(CommonUtils.transferMoney2(qccAnnualReportVO.getTotalTax(), "Enterprises choose not to publicize"));
+                        qccAnnualReportVO.setTotalLiabilities(CommonUtils.transferMoney2(qccAnnualReportVO.getTotalLiabilities(), "Enterprises choose not to publicize"));
                         List<QccAnnualReportShareholderVO> qccAnnualReportShareholderVOList = qccAnnualReportVO.getQccAnnualReportShareholderVOList();
                         for (int j = 0; j < qccAnnualReportShareholderVOList.size(); j++) {
                             QccAnnualReportShareholderVO qccAnnualReportShareholderVO = qccAnnualReportShareholderVOList.get(j);
-                            qccAnnualReportShareholderVO.setSubscribedCapital(CommonUtils.transferMoney3(qccAnnualReportShareholderVO.getSubscribedCapital(), "-"));
-                            qccAnnualReportShareholderVO.setPaidCapital(CommonUtils.transferMoney3(qccAnnualReportShareholderVO.getPaidCapital(), "-"));
+                            qccAnnualReportShareholderVO.setSubscribedCapital(CommonUtils.transferMoney2(qccAnnualReportShareholderVO.getSubscribedCapital(), "-"));
+                            qccAnnualReportShareholderVO.setPaidCapital(CommonUtils.transferMoney2(qccAnnualReportShareholderVO.getPaidCapital(), "-"));
                         }
                     }
                 }
@@ -185,14 +185,14 @@ public class QccImpl implements Qcc {
                 object = qccSubDetailMapper.getQccSupplierVO(id);
                 if (object != null) {
                     QccSupplierVO qccSupplierVO = (QccSupplierVO) object;
-                    qccSupplierVO.setPurchaseAmount(CommonUtils.transferMoney2(qccSupplierVO.getPurchaseAmount()));
+                    qccSupplierVO.setPurchaseAmount(CommonUtils.transferMoney2(qccSupplierVO.getPurchaseAmount(), "-"));
                 }
                 break;
             case "client":
                 object = qccSubDetailMapper.getQccClientVO(id);
                 if (object != null) {
                     QccClientVO qccClientVO = (QccClientVO) object;
-                    qccClientVO.setSaleAmount(CommonUtils.transferMoney2(qccClientVO.getSaleAmount()));
+                    qccClientVO.setSaleAmount(CommonUtils.transferMoney2(qccClientVO.getSaleAmount(), "-"));
                 }
                 break;
             case "generalTaxpayer":
@@ -208,19 +208,19 @@ public class QccImpl implements Qcc {
                 object = qccSubDetailMapper.getQccAnnualReportVO(id);
                 if (object != null) {
                     QccAnnualReportVO qccAnnualReportVO = (QccAnnualReportVO) object;
-                    qccAnnualReportVO.setTotalAssets(CommonUtils.transferMoney3(qccAnnualReportVO.getTotalAssets(), "Enterprises choose not to publicize"));
-                    qccAnnualReportVO.setTotalEquity(CommonUtils.transferMoney3(qccAnnualReportVO.getTotalEquity(), "Enterprises choose not to publicize"));
-                    qccAnnualReportVO.setTotalOperatingIncome(CommonUtils.transferMoney3(qccAnnualReportVO.getTotalOperatingIncome(), "Enterprises choose not to publicize"));
-                    qccAnnualReportVO.setTotalProfit(CommonUtils.transferMoney3(qccAnnualReportVO.getTotalProfit(), "Enterprises choose not to publicize"));
-                    qccAnnualReportVO.setNetProfit(CommonUtils.transferMoney3(qccAnnualReportVO.getNetProfit(), "Enterprises choose not to publicize"));
-                    qccAnnualReportVO.setMainBusinessIncome(CommonUtils.transferMoney3(qccAnnualReportVO.getMainBusinessIncome(), "Enterprises choose not to publicize"));
-                    qccAnnualReportVO.setTotalTax(CommonUtils.transferMoney3(qccAnnualReportVO.getTotalTax(), "Enterprises choose not to publicize"));
-                    qccAnnualReportVO.setTotalLiabilities(CommonUtils.transferMoney3(qccAnnualReportVO.getTotalLiabilities(), "Enterprises choose not to publicize"));
+                    qccAnnualReportVO.setTotalAssets(CommonUtils.transferMoney2(qccAnnualReportVO.getTotalAssets(), "Enterprises choose not to publicize"));
+                    qccAnnualReportVO.setTotalEquity(CommonUtils.transferMoney2(qccAnnualReportVO.getTotalEquity(), "Enterprises choose not to publicize"));
+                    qccAnnualReportVO.setTotalOperatingIncome(CommonUtils.transferMoney2(qccAnnualReportVO.getTotalOperatingIncome(), "Enterprises choose not to publicize"));
+                    qccAnnualReportVO.setTotalProfit(CommonUtils.transferMoney2(qccAnnualReportVO.getTotalProfit(), "Enterprises choose not to publicize"));
+                    qccAnnualReportVO.setNetProfit(CommonUtils.transferMoney2(qccAnnualReportVO.getNetProfit(), "Enterprises choose not to publicize"));
+                    qccAnnualReportVO.setMainBusinessIncome(CommonUtils.transferMoney2(qccAnnualReportVO.getMainBusinessIncome(), "Enterprises choose not to publicize"));
+                    qccAnnualReportVO.setTotalTax(CommonUtils.transferMoney2(qccAnnualReportVO.getTotalTax(), "Enterprises choose not to publicize"));
+                    qccAnnualReportVO.setTotalLiabilities(CommonUtils.transferMoney2(qccAnnualReportVO.getTotalLiabilities(), "Enterprises choose not to publicize"));
                     List<QccAnnualReportShareholderVO> qccAnnualReportShareholderVOList = qccAnnualReportVO.getQccAnnualReportShareholderVOList();
                     for (int j = 0; j < qccAnnualReportShareholderVOList.size(); j++) {
                         QccAnnualReportShareholderVO qccAnnualReportShareholderVO = qccAnnualReportShareholderVOList.get(j);
-                        qccAnnualReportShareholderVO.setSubscribedCapital(CommonUtils.transferMoney3(qccAnnualReportShareholderVO.getSubscribedCapital(), "-"));
-                        qccAnnualReportShareholderVO.setPaidCapital(CommonUtils.transferMoney3(qccAnnualReportShareholderVO.getPaidCapital(), "-"));
+                        qccAnnualReportShareholderVO.setSubscribedCapital(CommonUtils.transferMoney2(qccAnnualReportShareholderVO.getSubscribedCapital(), "-"));
+                        qccAnnualReportShareholderVO.setPaidCapital(CommonUtils.transferMoney2(qccAnnualReportShareholderVO.getPaidCapital(), "-"));
                     }
                 }
                 break;
