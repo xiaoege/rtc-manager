@@ -121,7 +121,9 @@ public final class CommonUtils {
                     continue;
                 }
                 if (file.isFile()) {
-                    fileList.add(file.getPath());
+                    if ("json".equals(file.getName().substring(file.getName().lastIndexOf(".") + 1))) {
+                        fileList.add(file.getPath());
+                    }
                 } else if (file.isDirectory()) {
                     readFiles(file, fileList);
                 }
