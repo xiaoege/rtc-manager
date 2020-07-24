@@ -22,16 +22,12 @@ public class Test2 {
 
     public static void main(String[] args) throws JsonProcessingException {
         String registeredCapital = "5000万人民币";
-//        registeredCapital = "2万美元";
+        registeredCapital = "1.5万美元";
 //        registeredCapital = "2万欧元";
 //        registeredCapital = "2万港元";
         String s = transferMoney(registeredCapital);
         System.out.println(s);
-        logger.info("喵{}{}","帕","斯");
-        List list = new ArrayList();
-        if (!CollectionUtils.isEmpty(list)) {
-            System.out.println(123);
-        }
+
     }
 
     public static String transferMoney(String registeredCapital) {
@@ -77,7 +73,7 @@ public class Test2 {
      * @return x, xx0, 000
      */
     public static BigDecimal numberFormat(BigDecimal exchangeRate, String s) throws Exception {
-        if (s != null && exchangeRate != null) {
+        if (s != null && exchangeRate != null && new BigDecimal(1).compareTo(exchangeRate) != 0) {
             Pattern pattern = Pattern.compile("^[0-9]*$");
             pattern = Pattern.compile("^(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*[1-9][0-9]*))$");
             Matcher isNum = pattern.matcher(s);
@@ -87,8 +83,10 @@ public class Test2 {
                 if (new BigDecimal(0).compareTo(divide) == 0) {
                     divide = new BigDecimal(1);
                 }
-                return divide.multiply(new BigDecimal(10000));
+                return divide.multiply(new BigDecimal(Math.pow(10, 4)));
             }
+        } else if (new BigDecimal(1).compareTo(exchangeRate) == 0) {
+            return new BigDecimal(s).multiply(new BigDecimal(Math.pow(10, 4)));
         }
         return new BigDecimal(0);
     }

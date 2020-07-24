@@ -66,7 +66,7 @@ public final class CommonUtils {
      * 用户所在时区的时间和新闻发布所在时区的时间比较，1小时内显示分钟差，其次显示小时，时间，超过maxDay显示年月日时分秒
      *
      * @param timeZone 时区
-     * @param time 时间
+     * @param time     时间
      * @return
      */
     public static String compareTime(String timeZone, LocalDateTime time) {
@@ -224,7 +224,7 @@ public final class CommonUtils {
      * @return x, xx0, 000
      */
     public static BigDecimal numberFormat(BigDecimal exchangeRate, String s, long magnification) throws Exception {
-        if (s != null && exchangeRate != null) {
+        if (s != null && exchangeRate != null && new BigDecimal(1).compareTo(exchangeRate) != 0) {
             Matcher isNum = PATTERN_NUMBER.matcher(s);
             if (isNum.matches()) {
                 BigDecimal bigDecimal = new BigDecimal(s);
@@ -234,15 +234,18 @@ public final class CommonUtils {
                 }
                 return divide.multiply(new BigDecimal(magnification));
             }
+        } else if (new BigDecimal(1).compareTo(exchangeRate) == 0) {
+            return new BigDecimal(s).multiply(new BigDecimal(Math.pow(10, 4)));
         }
         return new BigDecimal(0);
     }
 
     /**
      * 翻译
+     *
      * @param query 原文
-     * @param from 原文编码
-     * @param to 译文编码
+     * @param from  原文编码
+     * @param to    译文编码
      * @return 译文
      * @throws Exception
      */
