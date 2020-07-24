@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class Test {
     public static void main(String[] args) {
-        String dirPath = "/Users/chenhang/work/picture";
+        String dirPath = "/Users/chenhang/work/round_2";
         File fileDirPath = new File(dirPath);
         List fileList = new ArrayList();
         readFiles(fileDirPath, fileList);
@@ -30,7 +30,9 @@ public class Test {
                     continue;
                 }
                 if (file.isFile()) {
-                    fileList.add(file.getPath());
+                    if ("json".equals(file.getName().substring(file.getName().lastIndexOf(".") + 1))) {
+                        fileList.add(file.getPath());
+                    }
                 } else if (file.isDirectory()) {
                     readFiles(file, fileList);
                 }
