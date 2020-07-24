@@ -172,7 +172,7 @@ public class SaveJsonImpl implements SaveJson {
             if (file.getName().contains(".DS_Store")) {
                 continue;
             }
-            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getName(), fileList.size(), z + 1);
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
 
             BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
             BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
