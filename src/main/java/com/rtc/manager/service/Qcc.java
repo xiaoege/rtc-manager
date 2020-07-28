@@ -15,9 +15,9 @@ public interface Qcc {
      * @param name 企业名
      * @return
      */
-    PageInfo<QccListVO> listEnterprise(String name, int pageNum, int pageSize);
+    PageInfo<QccListVO> listEnterprise(String name, int pageNum, int pageSize) throws Exception;
 
-    QccVO getEnterprise(String enterpriseId);
+    QccVO getEnterprise(String enterpriseId) throws Exception;
 
     PageInfo<List> getEnterpriseDetail(String name, String enterpriseId, int pageNum, int pageSize);
 

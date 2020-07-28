@@ -30,7 +30,7 @@ public class QccVO {
 
     private String url;
 
-    private List<QccShareholder> shareholderList;
+    private List<QccShareholderVO> shareholderList;
 
     private String synopsis;
 

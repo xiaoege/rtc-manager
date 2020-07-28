@@ -23,6 +23,8 @@ public class Main {
 
         String query = "喵帕斯第一集";
         query = "重庆市九龙坡区石桥铺渝州路4号11-8号";
+        query = null;
+        query = "";
         String s = api.getTransResult(query, "zh", "en");
         System.out.println(s);
         ObjectMapper objectMapper = new ObjectMapper();

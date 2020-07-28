@@ -7,6 +7,7 @@ import com.rtc.manager.util.baidutranslate.TransResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -19,6 +20,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -250,6 +252,11 @@ public final class CommonUtils {
      * @throws Exception
      */
     public static String translate(String query, String from, String to) throws Exception {
+        if (StringUtils.isEmpty(query) || StringUtils.isEmpty(query.strip())) {
+            return "";
+        }
+        logger.info("开始翻译{}", Instant.now());
+        query = query.strip();
         TransApi transApi = new TransApi(APP_ID, SECURITY_KEY);
         String transResult = transApi.getTransResult(query, from, to);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -262,8 +269,28 @@ public final class CommonUtils {
                 return dst;
             }
         }
-
+        logger.info("结束翻译{}", Instant.now());
         return null;
+    }
+
+    /**
+     * 姓名格式化，Song Changjiang - SONG, Changjiang
+     * @param name 姓名
+     * @return
+     */
+    public static String nameFormat(String name) {
+        if (!StringUtils.isEmpty(name) || !StringUtils.isEmpty(name.strip())) {
+            name = name.strip();
+            if (name.contains(" ")) {
+                String preName = name.substring(0, name.indexOf(" "));
+                String sufName = name.substring(name.indexOf(" ") + 1);
+                return preName.toUpperCase() + ", " + sufName;
+            } else {
+                return name;
+            }
+        }
+
+        return "";
     }
 
     public static void main(String[] args) {
@@ -272,6 +299,10 @@ public final class CommonUtils {
         LocalDateTime dateTime = LocalDateTime.parse(dateTimeStr, df);
         String l = compareTime("+0", dateTime);
         System.out.println(l);
+
+        String name = nameFormat("Song Changjiang");
+        System.out.println("name: " + name);
+
     }
 
 

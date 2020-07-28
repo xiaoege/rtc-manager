@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.rtc.manager.dao.QccMapper;
 import com.rtc.manager.dao.QccSubDetailMapper;
+import com.rtc.manager.entity.QccShareholder;
 import com.rtc.manager.service.Qcc;
 import com.rtc.manager.util.CommonUtils;
 import com.rtc.manager.vo.*;
@@ -26,7 +27,7 @@ public class QccImpl implements Qcc {
     private QccSubDetailMapper qccSubDetailMapper;
 
     @Override
-    public PageInfo<QccListVO> listEnterprise(String name, int pageNum, int pageSize) {
+    public PageInfo<QccListVO> listEnterprise(String name, int pageNum, int pageSize) throws Exception {
         PageHelper.startPage(pageNum, pageSize);
         List list = qccMapper.selectByName(name);
         if (!CollectionUtils.isEmpty(list)) {
@@ -34,6 +35,16 @@ public class QccImpl implements Qcc {
                 QccListVO qccListVO = (QccListVO) list.get(i);
                 String transferMoney = CommonUtils.transferMoney(qccListVO.getRegisteredCapital());
                 qccListVO.setRegisteredCapital(transferMoney);
+                String qccName = CommonUtils.translate(qccListVO.getName(), "zh", "en");
+                qccName = CommonUtils.nameFormat(qccName);
+                qccListVO.setName(qccName);
+                String countryRegion = CommonUtils.translate(qccListVO.getCountryRegion(), "zh", "en");
+                qccListVO.setCountryRegion(countryRegion);
+                String address = CommonUtils.translate(qccListVO.getAddress(), "zh", "en");
+                qccListVO.setAddress(address);
+                String legalRepresentative = CommonUtils.translate(qccListVO.getLegalRepresentative(), "zh", "en");
+                legalRepresentative = CommonUtils.nameFormat(legalRepresentative);
+                qccListVO.setLegalRepresentative(legalRepresentative);
             }
         }
 
@@ -41,16 +52,28 @@ public class QccImpl implements Qcc {
     }
 
     @Override
-    public QccVO getEnterprise(String enterpriseId) {
+    public QccVO getEnterprise(String enterpriseId) throws Exception {
         QccVO qccVO = qccMapper.selectByEnterpriseId(enterpriseId);
         String transferMoney = CommonUtils.transferMoney(qccVO.getRegisteredCapital());
         qccVO.setRegisteredCapital(transferMoney);
-        try {
-            String translate = CommonUtils.translate(qccVO.getAddress(), "zh", "en");
-            qccVO.setAddress(translate);
-        } catch (Exception e) {
-            e.printStackTrace();
+        String address = CommonUtils.translate(qccVO.getAddress(), "zh", "en");
+        String name = CommonUtils.translate(qccVO.getName(), "zh", "en");
+        name = CommonUtils.nameFormat(name);
+        String legalRepresentative = CommonUtils.translate(qccVO.getLegalRepresentative(), "zh", "en");
+        legalRepresentative = CommonUtils.nameFormat(legalRepresentative);
+        qccVO.setAddress(address);
+        qccVO.setName(name);
+        qccVO.setLegalRepresentative(legalRepresentative);
+        List<QccShareholderVO> shareholderVOList = qccVO.getShareholderList();
+        if (!CollectionUtils.isEmpty(shareholderVOList)) {
+            for (int i = 0; i < shareholderVOList.size(); i++) {
+                QccShareholderVO qccShareholderVO = shareholderVOList.get(i);
+                name = CommonUtils.translate(qccShareholderVO.getName(), "zh", "en");
+                name = CommonUtils.nameFormat(name);
+                qccShareholderVO.setName(name);
+            }
         }
+
         return qccVO;
     }
 
