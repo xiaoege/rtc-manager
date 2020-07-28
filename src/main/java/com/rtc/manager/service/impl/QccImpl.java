@@ -61,9 +61,13 @@ public class QccImpl implements Qcc {
         name = CommonUtils.nameFormat(name);
         String legalRepresentative = CommonUtils.translate(qccVO.getLegalRepresentative(), "zh", "en");
         legalRepresentative = CommonUtils.nameFormat(legalRepresentative);
+        String synopsis = CommonUtils.translate(qccVO.getSynopsis(), "zh", "en");
+        String countryRegion = CommonUtils.translate(qccVO.getCountryRegion(), "zh", "en");
         qccVO.setAddress(address);
         qccVO.setName(name);
         qccVO.setLegalRepresentative(legalRepresentative);
+        qccVO.setSynopsis(synopsis);
+        qccVO.setCountryRegion(countryRegion);
         List<QccShareholderVO> shareholderVOList = qccVO.getShareholderList();
         if (!CollectionUtils.isEmpty(shareholderVOList)) {
             for (int i = 0; i < shareholderVOList.size(); i++) {
