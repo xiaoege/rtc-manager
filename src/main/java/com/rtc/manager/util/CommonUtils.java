@@ -22,6 +22,8 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -256,6 +258,32 @@ public final class CommonUtils {
             return "";
         }
         logger.info("开始翻译{}", Instant.now());
+
+//        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(5, 10, 30L,
+//                TimeUnit.SECONDS, new SynchronousQueue<Runnable>(), new NameTreadFactory());
+//        threadPoolExecutor.prestartAllCoreThreads();
+//        Future<Object> future = threadPoolExecutor.submit(new Callable<Object>() {
+//            @Override
+//            public Object call() throws Exception {
+//                String strip = query.strip();
+//                TransApi transApi = new TransApi(APP_ID, SECURITY_KEY);
+//                String transResult = transApi.getTransResult(strip, from, to);
+//                ObjectMapper objectMapper = new ObjectMapper();
+//                BaiduTranslatePOJO baiduTranslatePOJO = objectMapper.readValue(transResult, BaiduTranslatePOJO.class);
+//                if (baiduTranslatePOJO != null) {
+//                    List list = (List) baiduTranslatePOJO.getTrans_result();
+//                    if (!CollectionUtils.isEmpty(list)) {
+//                        TransResult o = (TransResult) list.get(0);
+//                        String dst = o.getDst();
+//                        return dst;
+//                    }
+//                }
+//                return "";
+//            }
+//        });
+//
+//        return (String) future.get();
+
         query = query.strip();
         TransApi transApi = new TransApi(APP_ID, SECURITY_KEY);
         String transResult = transApi.getTransResult(query, from, to);
@@ -273,18 +301,32 @@ public final class CommonUtils {
         return null;
     }
 
+    static class NameTreadFactory implements ThreadFactory {
+
+        private final AtomicInteger mThreadNum = new AtomicInteger(1);
+
+        @Override
+        public Thread newThread(Runnable r) {
+            Thread t = new Thread(r, "my-thread-" + mThreadNum.getAndIncrement());
+            System.out.println(t.getName() + " has been created");
+            return t;
+        }
+    }
+
     /**
      * 姓名格式化，Song Changjiang - SONG, Changjiang
+     *
      * @param name 姓名
      * @return
      */
     public static String nameFormat(String name) {
-        if (!StringUtils.isEmpty(name) || !StringUtils.isEmpty(name.strip())) {
+        if (!StringUtils.isEmpty(name) && !StringUtils.isEmpty(name.strip())) {
             name = name.strip();
             if (name.contains(" ")) {
                 String preName = name.substring(0, name.indexOf(" "));
                 String sufName = name.substring(name.indexOf(" ") + 1);
-                return preName.toUpperCase() + ", " + sufName;
+                String str = sufName.substring(0, 1).toUpperCase() + sufName.substring(1);
+                return preName.toUpperCase() + ", " + str;
             } else {
                 return name;
             }

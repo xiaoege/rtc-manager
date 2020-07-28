@@ -8,11 +8,14 @@ import com.rtc.manager.entity.QccShareholder;
 import com.rtc.manager.service.Qcc;
 import com.rtc.manager.util.CommonUtils;
 import com.rtc.manager.vo.*;
+import lombok.SneakyThrows;
+import org.elasticsearch.common.recycler.Recycler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.concurrent.*;
 
 /**
  * @author ChenHang
@@ -30,23 +33,35 @@ public class QccImpl implements Qcc {
     public PageInfo<QccListVO> listEnterprise(String name, int pageNum, int pageSize) throws Exception {
         PageHelper.startPage(pageNum, pageSize);
         List list = qccMapper.selectByName(name);
-        if (!CollectionUtils.isEmpty(list)) {
-            for (int i = 0; i < list.size(); i++) {
-                QccListVO qccListVO = (QccListVO) list.get(i);
-                String transferMoney = CommonUtils.transferMoney(qccListVO.getRegisteredCapital());
-                qccListVO.setRegisteredCapital(transferMoney);
-                String qccName = CommonUtils.translate(qccListVO.getName(), "zh", "en");
-                qccName = CommonUtils.nameFormat(qccName);
-                qccListVO.setName(qccName);
-                String countryRegion = CommonUtils.translate(qccListVO.getCountryRegion(), "zh", "en");
-                qccListVO.setCountryRegion(countryRegion);
-                String address = CommonUtils.translate(qccListVO.getAddress(), "zh", "en");
-                qccListVO.setAddress(address);
-                String legalRepresentative = CommonUtils.translate(qccListVO.getLegalRepresentative(), "zh", "en");
-                legalRepresentative = CommonUtils.nameFormat(legalRepresentative);
-                qccListVO.setLegalRepresentative(legalRepresentative);
-            }
-        }
+
+        // todo
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(4, 5, 30L,
+                TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
+        threadPoolExecutor.prestartAllCoreThreads();
+
+//        if (!CollectionUtils.isEmpty(list)) {
+//            for (int i = 0; i < list.size(); i++) {
+        QccListVO qccListVO = (QccListVO) list.get(0);
+        final String[] qccName = {""};
+
+
+//        if (!CollectionUtils.isEmpty(list)) {
+//            for (int i = 0; i < list.size(); i++) {
+//                QccListVO qccListVO = (QccListVO) list.get(i);
+//                String transferMoney = CommonUtils.transferMoney(qccListVO.getRegisteredCapital());
+//                qccListVO.setRegisteredCapital(transferMoney);
+//                String qccName = CommonUtils.translate(qccListVO.getName(), "zh", "en");
+//                String countryRegion = CommonUtils.translate(qccListVO.getCountryRegion(), "zh", "en");
+//                String address = CommonUtils.translate(qccListVO.getAddress(), "zh", "en");
+//                String legalRepresentative = CommonUtils.translate(qccListVO.getLegalRepresentative(), "zh", "en");
+//                legalRepresentative = CommonUtils.nameFormat(legalRepresentative);
+//                qccName = CommonUtils.nameFormat(qccName);
+//                qccListVO.setLegalRepresentative(legalRepresentative);
+//                qccListVO.setCountryRegion(countryRegion);
+//                qccListVO.setName(qccName);
+//                qccListVO.setAddress(address);
+//            }
+//        }
 
         return new PageInfo<>(list);
     }
