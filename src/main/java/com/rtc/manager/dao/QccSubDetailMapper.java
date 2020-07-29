@@ -46,4 +46,12 @@ public interface QccSubDetailMapper {
     Object getQccWechatVO(Integer id);
 
     Object getQccWeiboVO(Integer id);
+
+    Object getQccCourtNoticeVO(Integer id);
+
+    Object getQccFilingInformationVO(Integer id);
+
+    Object getQccAdministrativeLicenseChinaVO(Integer id);
+
+    Object getQccTaxArrearsNoticeVO(Integer id);
 }

@@ -44,4 +44,9 @@ public interface QccMapper {
     List<QccSoftwareCopyrightVO> listQccSoftwareCopyrightVO(String enterpriseId);
     List<QccAbnormalOperationVO> listQccAbnormalOperationVO(String enterpriseId);
     List<QccClientVO> listQccClientVO(String enterpriseId);
+
+    List<QccCourtNoticeVO> listQccCourtNoticeVO(String enterpriseId);
+    List<QccFilingInformationVO> listQccFilingInformationVO(String enterpriseId);
+    List<QccAdministrativeLicenseChinaVO> listQccAdministrativeLicenseChinaVO(String enterpriseId);
+    List<QccTaxArrearsNoticeVO> listQccTaxArrearsNoticeVO(String enterpriseId);
 }

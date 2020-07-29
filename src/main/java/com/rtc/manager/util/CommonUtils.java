@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rtc.manager.util.baidutranslate.BaiduTranslatePOJO;
 import com.rtc.manager.util.baidutranslate.TransApi;
 import com.rtc.manager.util.baidutranslate.TransResult;
+import com.rtc.manager.vo.QccListVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
@@ -12,6 +13,7 @@ import org.springframework.util.StringUtils;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -20,8 +22,9 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
@@ -143,48 +146,51 @@ public final class CommonUtils {
      * @return $x, xx0, 000
      */
     public static String transferMoney(String registeredCapital) {
-        try {
-            if (registeredCapital.contains("万元人民币") || registeredCapital.contains("万人民币")) {
-                String s = registeredCapital.substring(0, registeredCapital.indexOf("万"));
-                BigDecimal bigDecimal = numberFormat(new BigDecimal(CNY), s, (long) Math.pow(10, 4));
-                DecimalFormat decimalFormat = new DecimalFormat("$,###");
-                String format = decimalFormat.format(bigDecimal);
-                return format;
-            } else if (registeredCapital.contains("万美元")) {
-                String s = registeredCapital.substring(0, registeredCapital.indexOf("万"));
-                BigDecimal bigDecimal = numberFormat(new BigDecimal(1), s, (long) Math.pow(10, 4));
-                DecimalFormat decimalFormat = new DecimalFormat("$,###");
-                String format = decimalFormat.format(bigDecimal);
-                return format;
-            } else if (registeredCapital.contains("万港元")) {
-                String s = registeredCapital.substring(0, registeredCapital.indexOf("万"));
-                BigDecimal bigDecimal = numberFormat(new BigDecimal(HKD), s, (long) Math.pow(10, 4));
-                DecimalFormat decimalFormat = new DecimalFormat("$,###");
-                String format = decimalFormat.format(bigDecimal);
-                return format;
-            } else if (registeredCapital.contains("万欧元")) {
-                String s = registeredCapital.substring(0, registeredCapital.indexOf("万"));
-                BigDecimal bigDecimal = numberFormat(new BigDecimal(EUR), s, (long) Math.pow(10, 4));
-                DecimalFormat decimalFormat = new DecimalFormat("$,###");
-                String format = decimalFormat.format(bigDecimal);
-                return format;
-            } else if (registeredCapital.contains("亿人民币")) {
-                String s = registeredCapital.substring(0, registeredCapital.indexOf("亿"));
-                BigDecimal bigDecimal = numberFormat(new BigDecimal(CNY), s, (long) Math.pow(10, 8));
-                DecimalFormat decimalFormat = new DecimalFormat("$,###");
-                String format = decimalFormat.format(bigDecimal);
-                return format;
-            } else if (registeredCapital.contains("亿美元")) {
-                String s = registeredCapital.substring(0, registeredCapital.indexOf("亿"));
-                BigDecimal bigDecimal = numberFormat(new BigDecimal(1), s, (long) Math.pow(10, 8));
-                DecimalFormat decimalFormat = new DecimalFormat("$,###");
-                String format = decimalFormat.format(bigDecimal);
-                return format;
+        if (registeredCapital != null) {
+
+            try {
+                if (registeredCapital.contains("万元人民币") || registeredCapital.contains("万人民币")) {
+                    String s = registeredCapital.substring(0, registeredCapital.indexOf("万"));
+                    BigDecimal bigDecimal = numberFormat(new BigDecimal(CNY), s, (long) Math.pow(10, 4));
+                    DecimalFormat decimalFormat = new DecimalFormat("$,###");
+                    String format = decimalFormat.format(bigDecimal);
+                    return format;
+                } else if (registeredCapital.contains("万美元")) {
+                    String s = registeredCapital.substring(0, registeredCapital.indexOf("万"));
+                    BigDecimal bigDecimal = numberFormat(new BigDecimal(1), s, (long) Math.pow(10, 4));
+                    DecimalFormat decimalFormat = new DecimalFormat("$,###");
+                    String format = decimalFormat.format(bigDecimal);
+                    return format;
+                } else if (registeredCapital.contains("万港元")) {
+                    String s = registeredCapital.substring(0, registeredCapital.indexOf("万"));
+                    BigDecimal bigDecimal = numberFormat(new BigDecimal(HKD), s, (long) Math.pow(10, 4));
+                    DecimalFormat decimalFormat = new DecimalFormat("$,###");
+                    String format = decimalFormat.format(bigDecimal);
+                    return format;
+                } else if (registeredCapital.contains("万欧元")) {
+                    String s = registeredCapital.substring(0, registeredCapital.indexOf("万"));
+                    BigDecimal bigDecimal = numberFormat(new BigDecimal(EUR), s, (long) Math.pow(10, 4));
+                    DecimalFormat decimalFormat = new DecimalFormat("$,###");
+                    String format = decimalFormat.format(bigDecimal);
+                    return format;
+                } else if (registeredCapital.contains("亿人民币")) {
+                    String s = registeredCapital.substring(0, registeredCapital.indexOf("亿"));
+                    BigDecimal bigDecimal = numberFormat(new BigDecimal(CNY), s, (long) Math.pow(10, 8));
+                    DecimalFormat decimalFormat = new DecimalFormat("$,###");
+                    String format = decimalFormat.format(bigDecimal);
+                    return format;
+                } else if (registeredCapital.contains("亿美元")) {
+                    String s = registeredCapital.substring(0, registeredCapital.indexOf("亿"));
+                    BigDecimal bigDecimal = numberFormat(new BigDecimal(1), s, (long) Math.pow(10, 8));
+                    DecimalFormat decimalFormat = new DecimalFormat("$,###");
+                    String format = decimalFormat.format(bigDecimal);
+                    return format;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                logger.info("{}, {}", getExceptionInfo(e), registeredCapital);
+                return "-";
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.info("{}, {}", getExceptionInfo(e), registeredCapital);
-            return "-";
         }
         return "-";
     }
@@ -195,17 +201,17 @@ public final class CommonUtils {
      * @param registeredCapital 钱
      * @return $x, xx0, 000
      */
-    public static String transferMoney2(String registeredCapital, String arg) {
+    public static String transferMoney2(String registeredCapital, String arg, double magnification) {
         try {
             Matcher isNum = PATTERN_NUMBER.matcher(registeredCapital);
             if (registeredCapital.contains("万")) {
                 String s = registeredCapital.substring(0, registeredCapital.indexOf("万"));
-                BigDecimal bigDecimal = numberFormat(new BigDecimal(CNY), s, (long) Math.pow(10, 4));
+                BigDecimal bigDecimal = numberFormat(new BigDecimal(CNY), s, Math.pow(10, 4));
                 DecimalFormat decimalFormat = new DecimalFormat("$,###");
                 String format = decimalFormat.format(bigDecimal);
                 return format;
             } else if (isNum.matches()) {
-                BigDecimal bigDecimal = numberFormat(new BigDecimal(CNY), registeredCapital, (long) Math.pow(10, 4));
+                BigDecimal bigDecimal = numberFormat(new BigDecimal(CNY), registeredCapital, magnification);
                 DecimalFormat decimalFormat = new DecimalFormat("$,###");
                 String format = decimalFormat.format(bigDecimal);
                 return format;
@@ -218,6 +224,7 @@ public final class CommonUtils {
         return arg == null ? "-" : arg;
     }
 
+
     /**
      * 把xxx万换算成x,xx0,000
      * 保底10,000
@@ -225,9 +232,9 @@ public final class CommonUtils {
      * @param exchangeRate  汇率
      * @param s             xxx
      * @param magnification 倍率:万还是亿
-     * @return x, xx0, 000
+     * @return xxx0000
      */
-    public static BigDecimal numberFormat(BigDecimal exchangeRate, String s, long magnification) throws Exception {
+    public static BigDecimal numberFormat(BigDecimal exchangeRate, String s, double magnification) throws Exception {
         if (s != null && exchangeRate != null && new BigDecimal(1).compareTo(exchangeRate) != 0) {
             Matcher isNum = PATTERN_NUMBER.matcher(s);
             if (isNum.matches()) {
@@ -239,7 +246,7 @@ public final class CommonUtils {
                 return divide.multiply(new BigDecimal(magnification));
             }
         } else if (new BigDecimal(1).compareTo(exchangeRate) == 0) {
-            return new BigDecimal(s).multiply(new BigDecimal(Math.pow(10, 4)));
+            return new BigDecimal(s).multiply(new BigDecimal(magnification));
         }
         return new BigDecimal(0);
     }
@@ -258,32 +265,6 @@ public final class CommonUtils {
             return "";
         }
         logger.info("开始翻译{}", Instant.now());
-
-//        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(5, 10, 30L,
-//                TimeUnit.SECONDS, new SynchronousQueue<Runnable>(), new NameTreadFactory());
-//        threadPoolExecutor.prestartAllCoreThreads();
-//        Future<Object> future = threadPoolExecutor.submit(new Callable<Object>() {
-//            @Override
-//            public Object call() throws Exception {
-//                String strip = query.strip();
-//                TransApi transApi = new TransApi(APP_ID, SECURITY_KEY);
-//                String transResult = transApi.getTransResult(strip, from, to);
-//                ObjectMapper objectMapper = new ObjectMapper();
-//                BaiduTranslatePOJO baiduTranslatePOJO = objectMapper.readValue(transResult, BaiduTranslatePOJO.class);
-//                if (baiduTranslatePOJO != null) {
-//                    List list = (List) baiduTranslatePOJO.getTrans_result();
-//                    if (!CollectionUtils.isEmpty(list)) {
-//                        TransResult o = (TransResult) list.get(0);
-//                        String dst = o.getDst();
-//                        return dst;
-//                    }
-//                }
-//                return "";
-//            }
-//        });
-//
-//        return (String) future.get();
-
         query = query.strip();
         TransApi transApi = new TransApi(APP_ID, SECURITY_KEY);
         String transResult = transApi.getTransResult(query, from, to);
@@ -299,6 +280,60 @@ public final class CommonUtils {
         }
         logger.info("结束翻译{}", Instant.now());
         return null;
+    }
+
+    public static Map translate2(String query, String from, String to) throws Exception {
+        Map map = new HashMap();
+        map.put("code", 0);
+        map.put("data", null);
+        if (StringUtils.isEmpty(query) || StringUtils.isEmpty(query.strip())) {
+            return map;
+        }
+        logger.info("开始翻译{}", Instant.now());
+        query = query.strip();
+        TransApi transApi = new TransApi(APP_ID, SECURITY_KEY);
+        String transResult = transApi.getTransResult(query, from, to);
+        ObjectMapper objectMapper = new ObjectMapper();
+        BaiduTranslatePOJO baiduTranslatePOJO = objectMapper.readValue(transResult, BaiduTranslatePOJO.class);
+        if (baiduTranslatePOJO != null) {
+            List list = (List) baiduTranslatePOJO.getTrans_result();
+            if (!CollectionUtils.isEmpty(list)) {
+                TransResult o = (TransResult) list.get(0);
+                String dst = o.getDst();
+                map.put("data", dst);
+                map.put("code", 1);
+                return map;
+            }
+        }
+        logger.info("结束翻译{}", Instant.now());
+        return map;
+    }
+
+    public static void translate3(String query, String from, String to, Object object, String field) throws Exception {
+
+        if (!StringUtils.isEmpty(query) && !StringUtils.isEmpty(query.strip())) {
+            logger.info("开始翻译{}", Instant.now());
+            query = query.strip();
+            TransApi transApi = new TransApi(APP_ID, SECURITY_KEY);
+            String transResult = transApi.getTransResult(query, from, to);
+            ObjectMapper objectMapper = new ObjectMapper();
+            BaiduTranslatePOJO baiduTranslatePOJO = objectMapper.readValue(transResult, BaiduTranslatePOJO.class);
+            if (baiduTranslatePOJO != null) {
+                List list = (List) baiduTranslatePOJO.getTrans_result();
+                if (!CollectionUtils.isEmpty(list)) {
+                    TransResult o = (TransResult) list.get(0);
+                    String dst = o.getDst();
+
+                    Class<?> aClass = object.getClass();
+                    field = "set" + field.substring(0, 1).toUpperCase() + field.substring(1);
+                    Method method = aClass.getDeclaredMethod(field, String.class);
+                    method.invoke(object, dst);
+
+                }
+            }
+            logger.info("结束翻译{}", Instant.now());
+        }
+
     }
 
     static class NameTreadFactory implements ThreadFactory {

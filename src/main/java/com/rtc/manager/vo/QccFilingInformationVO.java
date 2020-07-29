@@ -1,0 +1,29 @@
+package com.rtc.manager.vo;
+
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import lombok.Data;
+
+import java.time.LocalDateTime;
+
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class QccFilingInformationVO {
+    @JsonSetter("pid")
+    private Integer id;
+
+    private String enterpriseId;
+    @JsonAlias("案号")
+    private String code;
+    @JsonAlias("公诉人/原告/上诉人/申请人")
+    private String prosecutor;
+    @JsonAlias("被告人/被告/被上诉人/被申请人")
+    private String defendant;
+    @JsonAlias("法院名称")
+    private String courtName;
+    @JsonAlias("立案日期")
+    private String filingDate;
+
+
+}

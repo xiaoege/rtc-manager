@@ -351,4 +351,64 @@
             and id = #{id, jdbcType=INTEGER}
     </select>
 
+    <select id="getQccCourtNoticeVO" resultType="com.rtc.manager.vo.QccCourtNoticeVO">
+        SELECT
+            `qcc_court_notice`.`id`,
+            `qcc_court_notice`.`enterprise_id` enterpriseId,
+            `qcc_court_notice`.`case_code` caseCode,
+            `qcc_court_notice`.`court_date` courtDate,
+            `qcc_court_notice`.`reason`,
+            `qcc_court_notice`.`litigant`
+        FROM
+            `qcc_court_notice`
+        WHERE
+            qcc_court_notice.id = #{id, jdbcType=INTEGER}
+            and qcc_court_notice.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    </select>
+
+    <select id="getQccFilingInformationVO" resultType="com.rtc.manager.vo.QccFilingInformationVO">
+        SELECT
+            `qcc_filing_information`.`id`,
+            `qcc_filing_information`.`enterprise_id` enterpriseId,
+            `qcc_filing_information`.`code`,
+            `qcc_filing_information`.`prosecutor`,
+            `qcc_filing_information`.`defendant`,
+            `qcc_filing_information`.`court_name` courtName,
+            `qcc_filing_information`.`filing_date` filingDate
+        FROM
+            `qcc_filing_information`
+        WHERE
+            qcc_filing_information.id = #{id, jdbcType=INTEGER}
+            and qcc_filing_information.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    </select>
+
+    <select id="getQccAdministrativeLicenseChinaVO" resultType="com.rtc.manager.vo.QccAdministrativeLicenseChinaVO">
+        SELECT
+            `qcc_administrative_license_china`.`id`,
+            `qcc_administrative_license_china`.`enterprise_id` enterpriseId,
+            `qcc_administrative_license_china`.`code`,
+            `qcc_administrative_license_china`.`authority`,
+            `qcc_administrative_license_china`.`decided_date` decidedDate
+        FROM
+            `qcc_administrative_license_china`
+        WHERE
+            qcc_administrative_license_china.id = #{id, jdbcType=INTEGER}
+            and qcc_administrative_license_china.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    </select>
+
+    <select id="getQccTaxArrearsNoticeVO" resultType="com.rtc.manager.vo.QccTaxArrearsNoticeVO">
+        SELECT
+            `qcc_tax_arrears_notice`.`id`,
+            `qcc_tax_arrears_notice`.`enterprise_id` enterpriseId,
+            `qcc_tax_arrears_notice`.`type`,
+            `qcc_tax_arrears_notice`.`balance`,
+            `qcc_tax_arrears_notice`.`current_arrears` currentArrears,
+            `qcc_tax_arrears_notice`.`release_company` releaseCompany,
+            `qcc_tax_arrears_notice`.`release_date` releaseDate
+        FROM
+            `qcc_tax_arrears_notice`
+        WHERE
+            qcc_tax_arrears_notice.id = #{id, jdbcType=INTEGER}
+            and qcc_tax_arrears_notice.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    </select>
 </mapper>
