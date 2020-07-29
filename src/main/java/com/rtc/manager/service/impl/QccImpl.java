@@ -47,55 +47,55 @@ public class QccImpl implements Qcc {
 
         logger.info("开启多线程");
         // todo
-//        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(10, 15, 30L,
-//                TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
-//        threadPoolExecutor.prestartAllCoreThreads();
-//
-//
-//        if (!CollectionUtils.isEmpty(list)) {
-//            final List<Future> futures = new ArrayList<>();
-//            for (int i = 0; i < list.size(); i++) {
-//                QccListVO qccListVO = (QccListVO) list.get(i);
-//                Future<Object> future = threadPoolExecutor.submit(new Callable<Object>() {
-//                    @Override
-//                    public Object call() throws Exception {
-////                        String transferMoney = CommonUtils.transferMoney(qccListVO.getRegisteredCapital());
-////                        qccListVO.setRegisteredCapital(transferMoney);
-//                        CommonUtils.translate3(qccListVO.getName(), "zh", "en", qccListVO, "name");
-//                        CommonUtils.translate3(qccListVO.getCountryRegion(), "zh", "en", qccListVO, "countryRegion");
-//                        CommonUtils.translate3(qccListVO.getAddress(), "zh", "en", qccListVO, "address");
-//                        CommonUtils.translate3(qccListVO.getLegalRepresentative(), "zh", "en",qccListVO,"legalRepresentative");
-//                        return null;
-//                    }
-//                });
-//                futures.add(future);
-//
-//
-////                while (true) {
-////                    if (future.isDone()) {
-////                        break;
-////                    }
-////                }
-//            }
-//            for (Future<?> f:
-//                 futures) {
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(10, 15, 30L,
+                TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
+        threadPoolExecutor.prestartAllCoreThreads();
+
+
+        if (!CollectionUtils.isEmpty(list)) {
+            final List<Future> futures = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+                QccListVO qccListVO = (QccListVO) list.get(i);
+                Future<Object> future = threadPoolExecutor.submit(new Callable<Object>() {
+                    @Override
+                    public Object call() throws Exception {
+//                        String transferMoney = CommonUtils.transferMoney(qccListVO.getRegisteredCapital());
+//                        qccListVO.setRegisteredCapital(transferMoney);
+                        CommonUtils.translate3(qccListVO.getName(), "zh", "en", qccListVO, "name");
+                        CommonUtils.translate3(qccListVO.getCountryRegion(), "zh", "en", qccListVO, "countryRegion");
+                        CommonUtils.translate3(qccListVO.getAddress(), "zh", "en", qccListVO, "address");
+                        CommonUtils.translate3(qccListVO.getLegalRepresentative(), "zh", "en",qccListVO,"legalRepresentative");
+                        return null;
+                    }
+                });
+                futures.add(future);
+
+
 //                while (true) {
-//                    if (f.isDone()) {
+//                    if (future.isDone()) {
 //                        break;
 //                    }
 //                }
-//            }
-//
-//        }
+            }
+            for (Future<?> f:
+                 futures) {
+                while (true) {
+                    if (f.isDone()) {
+                        break;
+                    }
+                }
+            }
+
+        }
 
         logger.info("多线程结束");
 
 
-        if (!CollectionUtils.isEmpty(list)) {
-            for (int i = 0; i < list.size(); i++) {
-                QccListVO qccListVO = (QccListVO) list.get(i);
-                String transferMoney = CommonUtils.transferMoney(qccListVO.getRegisteredCapital());
-                qccListVO.setRegisteredCapital(transferMoney);
+//        if (!CollectionUtils.isEmpty(list)) {
+//            for (int i = 0; i < list.size(); i++) {
+//                QccListVO qccListVO = (QccListVO) list.get(i);
+//                String transferMoney = CommonUtils.transferMoney(qccListVO.getRegisteredCapital());
+//                qccListVO.setRegisteredCapital(transferMoney);
 //                String qccName = CommonUtils.translate(qccListVO.getName(), "zh", "en");
 //                String countryRegion = CommonUtils.translate(qccListVO.getCountryRegion(), "zh", "en");
 //                String address = CommonUtils.translate(qccListVO.getAddress(), "zh", "en");
@@ -106,8 +106,8 @@ public class QccImpl implements Qcc {
 //                qccListVO.setCountryRegion(countryRegion);
 //                qccListVO.setName(qccName);
 //                qccListVO.setAddress(address);
-            }
-        }
+//            }
+//        }
 //        threadPoolExecutor.shutdown();
         return new PageInfo<>(list);
     }

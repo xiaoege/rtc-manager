@@ -1,6 +1,7 @@
 package com.rtc.manager.service.impl;
 
 import com.rtc.manager.service.UserService;
+import com.rtc.manager.util.CommonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -16,7 +17,10 @@ import javax.mail.internet.MimeMessage;
 public class UserServiceImpl implements UserService {
 
     public static void main(String[] args) {
-        sendEmailVerificationCode();
+//        sendEmailVerificationCode();
+//        checkEmaillRegistered("");
+        UserServiceImpl userService = new UserServiceImpl();
+        userService.checkEmaillRegistered("");
     }
 
     Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
@@ -30,16 +34,19 @@ public class UserServiceImpl implements UserService {
         JAVA_MAIL_SENDER.setPassword("88a169c98a5fd127");
         JAVA_MAIL_SENDER.setDefaultEncoding("UTF-8");
 
-//        Properties properties = new Properties();
-//        JAVA_MAIL_SENDER.setJavaMailProperties(null);
-
     }
 
 
     public boolean checkEmaillRegistered(String emaill) {
-        //正则判断是否是邮箱
+        // 正则判断是否是邮箱
 
-        //判断是否注册过
+        // 判断是否注册过
+//        StringRedisTemplate stringRedisTemplate = new StringRedisTemplate();
+//        stringRedisTemplate.afterPropertiesSet();
+//        ValueOperations operations = stringRedisTemplate.opsForValue();
+//        Object cat = operations.get("cat");
+//        System.out.println(cat.toString());
+        //
 
         return false;
     }
@@ -54,8 +61,14 @@ public class UserServiceImpl implements UserService {
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setFrom("c237113730@sina.com", "xiaoe");
             helper.setTo("237113730@qq.com");
+            // 主题
             helper.setSubject("测试邮件");
-            helper.setText("测试内容", true);
+            // 内容
+            String verificationCode = CommonUtils.getVerificationCode();
+            String text = "Welcome to register. Your verification code is " + verificationCode + " ,please use within 15 minutes.";
+            text = "<div>Welcome to register.</br> "+"" +
+                    "Your verification code is  <b>" + verificationCode + "</b>  ,please use within 15 minutes.";
+            helper.setText(text, true);
 
             JAVA_MAIL_SENDER.send(message);
 

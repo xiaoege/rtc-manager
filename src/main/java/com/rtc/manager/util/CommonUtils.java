@@ -15,6 +15,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.time.Duration;
@@ -368,6 +369,18 @@ public final class CommonUtils {
         }
 
         return "";
+    }
+
+    /**
+     * 返回6位数字验证码
+     * @return String
+     */
+    public static String getVerificationCode() {
+        BigDecimal bigDecimal = new BigDecimal(Math.random(), new MathContext(6, RoundingMode.HALF_UP));
+        BigDecimal multiply = bigDecimal.multiply(new BigDecimal(Math.pow(10, 6)));
+        DecimalFormat decimalFormat = new DecimalFormat("######");
+        String format = decimalFormat.format(multiply);
+        return format;
     }
 
     public static void main(String[] args) {
