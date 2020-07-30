@@ -1,5 +1,6 @@
 package com.rtc.manager.controller;
 
+import com.rtc.manager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
     @RequestMapping("register")
@@ -23,7 +27,7 @@ public class UserController {
         if (hasKey) {
             ValueOperations<String, String> ops = stringRedisTemplate.opsForValue();
             String cat = ops.get("cat");
-            stringRedisTemplate.delete("cat");
+//            stringRedisTemplate.delete("cat");
             return cat;
         }
         return "register";
