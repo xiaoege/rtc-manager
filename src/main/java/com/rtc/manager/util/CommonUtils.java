@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rtc.manager.util.baidutranslate.BaiduTranslatePOJO;
 import com.rtc.manager.util.baidutranslate.TransApi;
 import com.rtc.manager.util.baidutranslate.TransResult;
-import com.rtc.manager.vo.QccListVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
@@ -15,7 +14,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.time.Duration;
@@ -26,7 +24,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.*;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,6 +40,7 @@ public final class CommonUtils {
      * 验证是否是数字
      */
     private final static Pattern PATTERN_NUMBER = Pattern.compile("^(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*[1-9][0-9]*))$");
+
     /**
      * 和美元之间的汇率
      */
@@ -200,6 +199,8 @@ public final class CommonUtils {
      * xxx万元/xxx - $x,xx0,000
      *
      * @param registeredCapital 钱
+     * @param arg 不是数字的钱展示arg
+     * @param magnification 倍率
      * @return $x, xx0, 000
      */
     public static String transferMoney2(String registeredCapital, String arg, double magnification) {
@@ -371,27 +372,8 @@ public final class CommonUtils {
         return "";
     }
 
-    /**
-     * 返回6位数字验证码
-     * @return String
-     */
-    public static String getVerificationCode() {
-        BigDecimal bigDecimal = new BigDecimal(Math.random(), new MathContext(6, RoundingMode.HALF_UP));
-        BigDecimal multiply = bigDecimal.multiply(new BigDecimal(Math.pow(10, 6)));
-        DecimalFormat decimalFormat = new DecimalFormat("######");
-        String format = decimalFormat.format(multiply);
-        return format;
-    }
 
     public static void main(String[] args) {
-        String dateTimeStr = "2020-07-11 14:30:15";
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime dateTime = LocalDateTime.parse(dateTimeStr, df);
-        String l = compareTime("+0", dateTime);
-        System.out.println(l);
-
-        String name = nameFormat("Song Changjiang");
-        System.out.println("name: " + name);
 
     }
 

@@ -6,7 +6,8 @@
     <!-- context 是逆向工程的主要配置信息 -->
     <!-- id：起个名字 -->
     <!-- targetRuntime：设置生成的文件适用于那个 mybatis 版本 -->
-    <classPathEntry location="/Users/chenhang/.m2/repository/mysql/mysql-connector-java/8.0.20/mysql-connector-java-8.0.20.jar"/>
+    <classPathEntry
+            location="/Users/chenhang/.m2/repository/mysql/mysql-connector-java/8.0.20/mysql-connector-java-8.0.20.jar"/>
     <context id="default" targetRuntime="MyBatis3">
         <!--optional,指在创建class时，对注释进行控制-->
         <commentGenerator>
@@ -54,240 +55,247 @@
         </javaClientGenerator>
 
         <!-- tableName是数据库中的表名，domainObjectName是生成的JAVA模型名，后面的参数不用改，要生成更多的表就在下面继续加table标签 -->
-<!--        <table tableName="rtc_enterprise" domainObjectName="RtcEnterprise"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false"></table>-->
-<!--        <table tableName="qcc_match_summary" domainObjectName="QccMatchSummary"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false"></table>-->
-<!--        <table tableName="qcc_business_information" domainObjectName="QccBusinessInformation"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false"></table>-->
-<!--    <table tableName="qcc_shareholder" domainObjectName="QccShareholder"-->
-<!--                   enableCountByExample="false" enableUpdateByExample="false"-->
-<!--                   enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--                   selectByExampleQueryId="false"></table>-->
-<!--    <table tableName="qcc_keyman" domainObjectName="QccKeyman"-->
-<!--                   enableCountByExample="false" enableUpdateByExample="false"-->
-<!--                   enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--                   selectByExampleQueryId="false"></table>-->
-    <table tableName="qcc_judgment_document" domainObjectName="QccJudgmentDocument"
-                   enableCountByExample="false" enableUpdateByExample="false"
-                   enableDeleteByExample="false" enableSelectByExample="false"
-                   selectByExampleQueryId="false">
-        <columnOverride column="gmt_create" javaType="java.time.LocalDateTime"/>
-        <columnOverride column="gmt_modify" javaType="java.time.LocalDateTime"/>
-    </table>
-<!--    <table tableName="qcc_administrative_license" domainObjectName="QccAdministrativeLicense"-->
-<!--                   enableCountByExample="false" enableUpdateByExample="false"-->
-<!--                   enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--                   selectByExampleQueryId="false"></table>-->
-<!--    <table tableName="qcc_tax_credit" domainObjectName="QccTaxCredit"-->
-<!--                   enableCountByExample="false" enableUpdateByExample="false"-->
-<!--                   enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--                   selectByExampleQueryId="false"></table>-->
-<!--    <table tableName="qcc_import_export_credit" domainObjectName="QccImportExportCredit"-->
-<!--                   enableCountByExample="false" enableUpdateByExample="false"-->
-<!--                   enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--                   selectByExampleQueryId="false"></table>-->
-<!--    <table tableName="qcc_general_taxpayer" domainObjectName="QccGeneralTaxpayer"-->
-<!--                   enableCountByExample="false" enableUpdateByExample="false"-->
-<!--                   enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--                   selectByExampleQueryId="false"></table> -->
-<!--    <table tableName="qcc_annual_report" domainObjectName="QccAnnualReport"-->
-<!--                   enableCountByExample="false" enableUpdateByExample="false"-->
-<!--                   enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--                   selectByExampleQueryId="false"></table>-->
-<!--    <table tableName="qcc_qualification_certificate" domainObjectName="QccQualificationCertificate"-->
-<!--                   enableCountByExample="false" enableUpdateByExample="false"-->
-<!--                   enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--                   selectByExampleQueryId="false"></table>-->
-<!--    <table tableName="qcc_website_information" domainObjectName="QccWebsiteInformation"-->
-<!--                   enableCountByExample="false" enableUpdateByExample="false"-->
-<!--                   enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--                   selectByExampleQueryId="false"></table>-->
-<!--    <table tableName="qcc" domainObjectName="Qcc"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false"></table>-->
-<!--            <table tableName="qcc_annual_report_shareholder" domainObjectName="QccAnnualReportShareholder"-->
-<!--                       enableCountByExample="false" enableUpdateByExample="false"-->
-<!--                       enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--                       selectByExampleQueryId="false"></table>-->
-<!--        <table tableName="qcc_wechat" domainObjectName="QccWechat"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false"></table>-->
-<!--        <table tableName="qcc_weibo" domainObjectName="QccWeibo"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false"></table>-->
-<!--        <table tableName="qcc_applet" domainObjectName="QccApplet"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false"></table>-->
-<!--        <table tableName="qcc_app" domainObjectName="QccApp"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false"></table>-->
-<!--        <table tableName="qcc_financing_consultation" domainObjectName="QccFinancingConsultation"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false"></table>-->
-<!--        <table tableName="qcc_bidding" domainObjectName="QccBidding"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false"></table>-->
-<!--        <table tableName="qcc_land_purchase_information" domainObjectName="QccLandPurchaseInformation"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false"></table>-->
-<!--        <table tableName="qcc_supplier" domainObjectName="QccSupplier"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false"></table>-->
-<!--        <table tableName="qcc_administrative_sanction" domainObjectName="QccAdministrativeSanction"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false"></table>-->
-<!--        <table tableName="qcc_software_copyright" domainObjectName="QccSoftwareCopyright"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false"></table>-->
-<!--            <table tableName="qcc_remove_exception" domainObjectName="QccRemoveException"-->
-<!--                   enableCountByExample="false" enableUpdateByExample="false"-->
-<!--                   enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--                   selectByExampleQueryId="false"></table>-->
-<!--            <table tableName="qcc_save_exception" domainObjectName="QccSaveException"-->
-<!--                   enableCountByExample="false" enableUpdateByExample="false"-->
-<!--                   enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--                   selectByExampleQueryId="false"></table>-->
-<!--            <table tableName="qcc_client" domainObjectName="QccClient"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false"></table>-->
-<!--            <table tableName="rtc_news" domainObjectName="RtcNews"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false"></table>-->
-<!--        <table tableName="rtc_news_detail" domainObjectName="RtcNewsDetail"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false"></table>-->
-<!--        <table tableName="qcc_shareholder_three" domainObjectName="QccShareholderThree"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false">-->
-<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-<!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
-<!--        </table>-->
-<!--        <table tableName="qcc_qualification" domainObjectName="QccQualification"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false">-->
-<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-<!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
-<!--        </table>-->
-<!--        <table tableName="qcc_out_investment" domainObjectName="QccOutInvestment"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false">-->
-<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-<!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
-<!--        </table>-->
-<!--        <table tableName="qcc_shareholder_investment" domainObjectName="QccShareholderInvestment"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false">-->
-<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-<!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
-<!--        </table>-->
-<!--        <table tableName="qcc_equity_change" domainObjectName="QccEquityChange"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false">-->
-<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-<!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
-<!--        </table>-->
-<!--        <table tableName="qcc_change_record" domainObjectName="QccChangeRecord"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false">-->
-<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-<!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
-<!--        </table>-->
-<!--        <table tableName="qcc_court_notice" domainObjectName="QccCourtNotice"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false">-->
-<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-<!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
-<!--        </table>-->
-<!--        <table tableName="qcc_filing_information" domainObjectName="QccFilingInformation"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false">-->
-<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-<!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
-<!--        </table>-->
-<!--        <table tableName="qcc_administrative_license_china" domainObjectName="QccAdministrativeLicenseChina"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false">-->
-<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-<!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
-<!--        </table>-->
-<!--        <table tableName="qcc_spot_check" domainObjectName="QccSpotCheck"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false">-->
-<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-<!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
-<!--        </table>-->
-<!--        <table tableName="qcc_equity_pledge" domainObjectName="QccEquityPledge"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false">-->
-<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-<!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
-<!--        </table>-->
-<!--        <table tableName="qcc_tax_arrears_notice" domainObjectName="QccTaxArrearsNotice"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false">-->
-<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-<!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
-<!--        </table>-->
-<!--        <table tableName="qcc_judicial_auction" domainObjectName="QccJudicialAuction"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false">-->
-<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-<!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
-<!--        </table>-->
-<!--        <table tableName="qcc_tax_violation" domainObjectName="QccTaxViolation"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false">-->
-<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-<!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
-<!--        </table>-->
-<!--        <table tableName="qcc_environmental_punishment" domainObjectName="QccEnvironmentalPunishment"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false">-->
-<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-<!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
-<!--        </table>-->
-<!--        <table tableName="qcc_equity_out_pledge" domainObjectName="QccEquityOutPledge"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false">-->
-<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-<!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
-<!--        </table>-->
+        <!--        <table tableName="rtc_enterprise" domainObjectName="RtcEnterprise"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false"></table>-->
+        <!--        <table tableName="qcc_match_summary" domainObjectName="QccMatchSummary"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false"></table>-->
+        <!--        <table tableName="qcc_business_information" domainObjectName="QccBusinessInformation"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false"></table>-->
+        <!--    <table tableName="qcc_shareholder" domainObjectName="QccShareholder"-->
+        <!--                   enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--                   enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--                   selectByExampleQueryId="false"></table>-->
+        <!--    <table tableName="qcc_keyman" domainObjectName="QccKeyman"-->
+        <!--                   enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--                   enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--                   selectByExampleQueryId="false"></table>-->
+        <!--        <table tableName="qcc_judgment_document" domainObjectName="QccJudgmentDocument"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false">-->
+        <!--            <columnOverride column="gmt_create" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modify" javaType="java.time.LocalDateTime"/>-->
+        <!--        </table>-->
+        <!--    <table tableName="qcc_administrative_license" domainObjectName="QccAdministrativeLicense"-->
+        <!--                   enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--                   enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--                   selectByExampleQueryId="false"></table>-->
+        <!--    <table tableName="qcc_tax_credit" domainObjectName="QccTaxCredit"-->
+        <!--                   enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--                   enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--                   selectByExampleQueryId="false"></table>-->
+        <!--    <table tableName="qcc_import_export_credit" domainObjectName="QccImportExportCredit"-->
+        <!--                   enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--                   enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--                   selectByExampleQueryId="false"></table>-->
+        <!--    <table tableName="qcc_general_taxpayer" domainObjectName="QccGeneralTaxpayer"-->
+        <!--                   enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--                   enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--                   selectByExampleQueryId="false"></table> -->
+        <!--    <table tableName="qcc_annual_report" domainObjectName="QccAnnualReport"-->
+        <!--                   enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--                   enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--                   selectByExampleQueryId="false"></table>-->
+        <!--    <table tableName="qcc_qualification_certificate" domainObjectName="QccQualificationCertificate"-->
+        <!--                   enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--                   enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--                   selectByExampleQueryId="false"></table>-->
+        <!--    <table tableName="qcc_website_information" domainObjectName="QccWebsiteInformation"-->
+        <!--                   enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--                   enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--                   selectByExampleQueryId="false"></table>-->
+        <!--    <table tableName="qcc" domainObjectName="Qcc"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false"></table>-->
+        <!--            <table tableName="qcc_annual_report_shareholder" domainObjectName="QccAnnualReportShareholder"-->
+        <!--                       enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--                       enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--                       selectByExampleQueryId="false"></table>-->
+        <!--        <table tableName="qcc_wechat" domainObjectName="QccWechat"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false"></table>-->
+        <!--        <table tableName="qcc_weibo" domainObjectName="QccWeibo"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false"></table>-->
+        <!--        <table tableName="qcc_applet" domainObjectName="QccApplet"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false"></table>-->
+        <!--        <table tableName="qcc_app" domainObjectName="QccApp"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false"></table>-->
+        <!--        <table tableName="qcc_financing_consultation" domainObjectName="QccFinancingConsultation"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false"></table>-->
+        <!--        <table tableName="qcc_bidding" domainObjectName="QccBidding"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false"></table>-->
+        <!--        <table tableName="qcc_land_purchase_information" domainObjectName="QccLandPurchaseInformation"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false"></table>-->
+        <!--        <table tableName="qcc_supplier" domainObjectName="QccSupplier"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false"></table>-->
+        <!--        <table tableName="qcc_administrative_sanction" domainObjectName="QccAdministrativeSanction"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false"></table>-->
+        <!--        <table tableName="qcc_software_copyright" domainObjectName="QccSoftwareCopyright"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false"></table>-->
+        <!--            <table tableName="qcc_remove_exception" domainObjectName="QccRemoveException"-->
+        <!--                   enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--                   enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--                   selectByExampleQueryId="false"></table>-->
+        <!--            <table tableName="qcc_save_exception" domainObjectName="QccSaveException"-->
+        <!--                   enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--                   enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--                   selectByExampleQueryId="false"></table>-->
+        <!--            <table tableName="qcc_client" domainObjectName="QccClient"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false"></table>-->
+        <!--            <table tableName="rtc_news" domainObjectName="RtcNews"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false"></table>-->
+        <!--        <table tableName="rtc_news_detail" domainObjectName="RtcNewsDetail"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false"></table>-->
+        <!--        <table tableName="qcc_shareholder_three" domainObjectName="QccShareholderThree"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false">-->
+        <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--        </table>-->
+        <!--        <table tableName="qcc_qualification" domainObjectName="QccQualification"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false">-->
+        <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--        </table>-->
+        <!--        <table tableName="qcc_out_investment" domainObjectName="QccOutInvestment"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false">-->
+        <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--        </table>-->
+        <!--        <table tableName="qcc_shareholder_investment" domainObjectName="QccShareholderInvestment"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false">-->
+        <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--        </table>-->
+        <!--        <table tableName="qcc_equity_change" domainObjectName="QccEquityChange"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false">-->
+        <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--        </table>-->
+        <!--        <table tableName="qcc_change_record" domainObjectName="QccChangeRecord"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false">-->
+        <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--        </table>-->
+        <!--        <table tableName="qcc_court_notice" domainObjectName="QccCourtNotice"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false">-->
+        <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--        </table>-->
+        <!--        <table tableName="qcc_filing_information" domainObjectName="QccFilingInformation"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false">-->
+        <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--        </table>-->
+        <!--        <table tableName="qcc_administrative_license_china" domainObjectName="QccAdministrativeLicenseChina"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false">-->
+        <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--        </table>-->
+        <!--        <table tableName="qcc_spot_check" domainObjectName="QccSpotCheck"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false">-->
+        <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--        </table>-->
+        <!--        <table tableName="qcc_equity_pledge" domainObjectName="QccEquityPledge"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false">-->
+        <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--        </table>-->
+        <!--        <table tableName="qcc_tax_arrears_notice" domainObjectName="QccTaxArrearsNotice"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false">-->
+        <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--        </table>-->
+        <!--        <table tableName="qcc_judicial_auction" domainObjectName="QccJudicialAuction"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false">-->
+        <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--        </table>-->
+        <!--        <table tableName="qcc_tax_violation" domainObjectName="QccTaxViolation"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false">-->
+        <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--        </table>-->
+        <!--        <table tableName="qcc_environmental_punishment" domainObjectName="QccEnvironmentalPunishment"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false">-->
+        <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--        </table>-->
+        <!--        <table tableName="qcc_equity_out_pledge" domainObjectName="QccEquityOutPledge"-->
+        <!--               enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false">-->
+        <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--        </table>-->
+        <table tableName="rtc_user" domainObjectName="RtcUser"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>
+            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>
+        </table>
     </context>
 </generatorConfiguration>

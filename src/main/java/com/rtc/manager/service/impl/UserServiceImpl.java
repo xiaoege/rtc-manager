@@ -1,14 +1,23 @@
 package com.rtc.manager.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rtc.manager.dao.RtcUserMapper;
+import com.rtc.manager.entity.RtcUser;
+import com.rtc.manager.entity.dto.RtcUserDTO;
 import com.rtc.manager.service.UserService;
-import com.rtc.manager.util.CommonUtils;
+import com.rtc.manager.util.EmailUtils;
+import com.rtc.manager.vo.ResultData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.mail.internet.MimeMessage;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author ChenHang
@@ -16,16 +25,26 @@ import javax.mail.internet.MimeMessage;
 @Service
 public class UserServiceImpl implements UserService {
 
-    public static void main(String[] args) {
-//        sendEmailVerificationCode();
-//        checkEmaillRegistered("");
-        UserServiceImpl userService = new UserServiceImpl();
-        userService.checkEmaillRegistered("");
-    }
+    @Autowired
+    private RtcUserMapper rtcUserMapper;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private static final JavaMailSenderImpl JAVA_MAIL_SENDER;
+    private static final String EMAIL_CODE_700 = "邮箱格式错误";
+    private static final String EMAIL_CODE_701 = "邮箱已注册";
+    private static final String EMAIL_CODE_702 = "验证码发送次数过多，请15分钟稍后再试";
+    private static final String EMAIL_CODE_703 = "验证码发送失败";
+    private static final String EMAIL_CODE_704 = "该邮箱尚未发送验证码";
+    private static final String EMAIL_CODE_705 = "数据有误";
+    private static final String EMAIL_CODE_706 = "请输入验证码";
+    private static final String EMAIL_CODE_707 = "验证码错误";
+
+    @Value("${rtc.mail.redisEmailLimt}")
+    private Integer redisEmailLimt;
 
     static {
         JAVA_MAIL_SENDER = new JavaMailSenderImpl();
@@ -37,43 +56,85 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    public boolean checkEmaillRegistered(String emaill) {
+    @Override
+    public ResultData checkEmaillRegistered(String emaill) {
         // 正则判断是否是邮箱
+        if (!EmailUtils.checkEmailRegex(emaill)) {
+            return ResultData.FAIL(emaill, 700, EMAIL_CODE_700);
+        } else if (rtcUserMapper.checkEmaillRegistered(emaill) != null) {
+            return ResultData.FAIL(emaill, 701, EMAIL_CODE_701);
+        }
 
-        // 判断是否注册过
-//        StringRedisTemplate stringRedisTemplate = new StringRedisTemplate();
-//        stringRedisTemplate.afterPropertiesSet();
-//        ValueOperations operations = stringRedisTemplate.opsForValue();
-//        Object cat = operations.get("cat");
-//        System.out.println(cat.toString());
-        //
+        // 验证码
+        String verificationCode = EmailUtils.getVerificationCode();
 
-        return false;
+        // 验证，15分钟内最多发5次，一个验证码有效期15分钟
+        if (checkVerificationCodeRedis(emaill, verificationCode)) {
+            // 发送邮件验证码
+            EmailUtils.sendEmailVerificationCode(emaill, verificationCode);
+            return ResultData.SUCCESS(emaill, "验证码已发送");
+        } else if (!checkVerificationCodeRedis(emaill, verificationCode)) {
+            return ResultData.FAIL(emaill, 702, EMAIL_CODE_702);
+        }
+
+        return ResultData.FAIL(emaill, 703, EMAIL_CODE_703);
     }
 
-    public static boolean sendEmailVerificationCode() {
-        //redis防止重复请求
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ResultData register(String data) throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        RtcUserDTO rtcUserDTO = objectMapper.readValue(data, RtcUserDTO.class);
 
-        //发送邮箱验证码
-        try {
-            MimeMessage message = JAVA_MAIL_SENDER.createMimeMessage();
-            message.addHeader("X-Mailer", "Microsoft Outlook Express 6.00.2900.2869");
-            MimeMessageHelper helper = new MimeMessageHelper(message, true);
-            helper.setFrom("c237113730@sina.com", "xiaoe");
-            helper.setTo("237113730@qq.com");
-            // 主题
-            helper.setSubject("测试邮件");
-            // 内容
-            String verificationCode = CommonUtils.getVerificationCode();
-            String text = "Welcome to register. Your verification code is " + verificationCode + " ,please use within 15 minutes.";
-            text = "<div>Welcome to register.</br> "+"" +
-                    "Your verification code is  <b>" + verificationCode + "</b>  ,please use within 15 minutes.";
-            helper.setText(text, true);
+        if (rtcUserDTO == null) {
+            return ResultData.FAIL(data, 705, EMAIL_CODE_705);
+        }
+        RtcUser rtcUser = new RtcUser();
+        BeanUtils.copyProperties(rtcUserDTO, rtcUser);
 
-            JAVA_MAIL_SENDER.send(message);
+        String email = rtcUserDTO.getEmail();
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        // 邮箱格式错误
+        if (!EmailUtils.checkEmailRegex(email)) {
+            return ResultData.FAIL(email, 700, EMAIL_CODE_700);
+            // 邮箱已注册
+        } else if (rtcUserMapper.checkEmaillRegistered(email) != null) {
+            return ResultData.FAIL(email, 701, EMAIL_CODE_701);
+            // 没发过验证码
+        } else if (!stringRedisTemplate.hasKey(email)) {
+            return ResultData.FAIL(email, 704, EMAIL_CODE_704);
+        } else if (rtcUserDTO.getVerificationCode() == null) {
+            // 没填验证码
+            return ResultData.FAIL(email, 705, EMAIL_CODE_706);
+        }
+        String verificationCodeRedis = stringRedisTemplate.opsForValue().get(email);
+        if (rtcUserDTO.getVerificationCode().equals(verificationCodeRedis)) {
+            rtcUserMapper.insertSelective(rtcUser);
+            return ResultData.SUCCESS(data, "注册成功");
+        }
+        return ResultData.FAIL(data, 707, EMAIL_CODE_707);
+    }
+
+
+    /**
+     * 检验验证码
+     *
+     * @param verificationCode
+     * @return
+     */
+    public boolean checkVerificationCodeRedis(String email, String verificationCode) {
+        if (!stringRedisTemplate.hasKey(email)) {
+            stringRedisTemplate.opsForValue().set(email, verificationCode, 15, TimeUnit.MINUTES);
+            stringRedisTemplate.opsForValue().increment(email + "_incr");
+            return true;
+        } else if (stringRedisTemplate.hasKey(email)) {
+            int i = Integer.parseInt(stringRedisTemplate.opsForValue().get(email + "_incr"));
+            if (i <= redisEmailLimt) {
+                stringRedisTemplate.opsForValue().set(email, verificationCode, 15, TimeUnit.MINUTES);
+                stringRedisTemplate.opsForValue().increment(email + "_incr");
+                return true;
+            }
+
         }
 
         return false;

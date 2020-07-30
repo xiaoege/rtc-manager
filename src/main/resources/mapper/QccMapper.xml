@@ -705,4 +705,38 @@
             qcc_tax_arrears_notice.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
             and qcc_tax_arrears_notice.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
     </select>
+
+    <select id="listQccEquityPledgeVO" resultType="com.rtc.manager.vo.QccEquityPledgeVO">
+        SELECT
+            `qcc_equity_pledge`.`id`,
+            `qcc_equity_pledge`.`enterprise_id` enterpriseId,
+            `qcc_equity_pledge`.`name`,
+            `qcc_equity_pledge`.`shares`,
+            `qcc_equity_pledge`.`value`,
+            `qcc_equity_pledge`.`pledge_status` pledgeStatus,
+            `qcc_equity_pledge`.`announcement_date` announcementDate
+        FROM
+            `qcc_equity_pledge`
+        WHERE
+            qcc_equity_pledge.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+            and qcc_equity_pledge.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    </select>
+
+    <select id="listQccEquityOutPledgeVO" resultType="com.rtc.manager.vo.QccEquityOutPledgeVO">
+        SELECT
+            `qcc_equity_out_pledge`.`id`,
+            `qcc_equity_out_pledge`.`enterprise_id` enterpriseId,
+            `qcc_equity_out_pledge`.`code`,
+            `qcc_equity_out_pledge`.`pledgor`,
+            `qcc_equity_out_pledge`.`pledgee`,
+            `qcc_equity_out_pledge`.`enterprise`,
+            `qcc_equity_out_pledge`.`amount`,
+            `qcc_equity_out_pledge`.`registration_date` registrationDate,
+            `qcc_equity_out_pledge`.`pledge_status` pledgeStatus
+        FROM
+            `qcc_equity_out_pledge`
+        WHERE
+            qcc_equity_out_pledge.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+            and qcc_equity_out_pledge.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    </select>
 </mapper>

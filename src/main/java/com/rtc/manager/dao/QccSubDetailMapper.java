@@ -54,4 +54,8 @@ public interface QccSubDetailMapper {
     Object getQccAdministrativeLicenseChinaVO(Integer id);
 
     Object getQccTaxArrearsNoticeVO(Integer id);
+
+    Object getQccEquityPledgeVO(Integer id);
+
+    Object getQccEquityOutPledgeVO(Integer id);
 }

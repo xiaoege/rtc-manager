@@ -49,4 +49,8 @@ public interface QccMapper {
     List<QccFilingInformationVO> listQccFilingInformationVO(String enterpriseId);
     List<QccAdministrativeLicenseChinaVO> listQccAdministrativeLicenseChinaVO(String enterpriseId);
     List<QccTaxArrearsNoticeVO> listQccTaxArrearsNoticeVO(String enterpriseId);
+
+    List<QccEquityPledgeVO> listQccEquityPledgeVO(String enterpriseId);
+
+    List<QccEquityOutPledgeVO> listQccEquityOutPledgeVO(String enterpriseId);
 }

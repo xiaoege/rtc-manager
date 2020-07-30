@@ -1,12 +1,10 @@
 package com.rtc.manager.controller;
 
 import com.rtc.manager.service.UserService;
+import com.rtc.manager.vo.ResultData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author ChenHang
@@ -18,18 +16,19 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+    @PostMapping("register")
+    public ResultData register(@RequestBody String data) throws Exception {
+        //校验验证码,注册
+        ResultData resultData = userService.register(data);
 
-    @RequestMapping("register")
-    public String register() {
-        Boolean hasKey = stringRedisTemplate.hasKey("cat");
-        if (hasKey) {
-            ValueOperations<String, String> ops = stringRedisTemplate.opsForValue();
-            String cat = ops.get("cat");
-//            stringRedisTemplate.delete("cat");
-            return cat;
-        }
-        return "register";
+        return resultData;
     }
+
+    @PostMapping("checkEmaillRegistered")
+    public ResultData checkEmaillRegistered(@RequestParam(name = "email") String email) {
+        ResultData resultData = userService.checkEmaillRegistered(email);
+
+        return resultData;
+    }
+
 }

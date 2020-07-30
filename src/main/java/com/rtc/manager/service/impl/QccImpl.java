@@ -4,26 +4,17 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.rtc.manager.dao.QccMapper;
 import com.rtc.manager.dao.QccSubDetailMapper;
-import com.rtc.manager.entity.QccAdministrativeLicenseChina;
-import com.rtc.manager.entity.QccFilingInformation;
-import com.rtc.manager.entity.QccShareholder;
-import com.rtc.manager.entity.QccTaxArrearsNotice;
 import com.rtc.manager.service.Qcc;
 import com.rtc.manager.util.CommonUtils;
 import com.rtc.manager.vo.*;
-import lombok.SneakyThrows;
-import org.elasticsearch.common.recycler.Recycler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.*;
 
 /**
@@ -64,7 +55,7 @@ public class QccImpl implements Qcc {
                         CommonUtils.translate3(qccListVO.getName(), "zh", "en", qccListVO, "name");
                         CommonUtils.translate3(qccListVO.getCountryRegion(), "zh", "en", qccListVO, "countryRegion");
                         CommonUtils.translate3(qccListVO.getAddress(), "zh", "en", qccListVO, "address");
-                        CommonUtils.translate3(qccListVO.getLegalRepresentative(), "zh", "en",qccListVO,"legalRepresentative");
+                        CommonUtils.translate3(qccListVO.getLegalRepresentative(), "zh", "en", qccListVO, "legalRepresentative");
                         return null;
                     }
                 });
@@ -77,8 +68,8 @@ public class QccImpl implements Qcc {
 //                    }
 //                }
             }
-            for (Future<?> f:
-                 futures) {
+            for (Future<?> f :
+                    futures) {
                 while (true) {
                     if (f.isDone()) {
                         break;
@@ -270,6 +261,27 @@ public class QccImpl implements Qcc {
                     }
                 }
                 break;
+            // 经营风险 - 股权质押
+            case "equityPledge":
+                list = qccMapper.listQccEquityPledgeVO(enterpriseId);
+                if (!CollectionUtils.isEmpty(list)) {
+                    for (int i = 0; i < list.size(); i++) {
+                        QccEquityPledgeVO o = (QccEquityPledgeVO) list.get(i);
+                        o.setShares(CommonUtils.transferMoney2(o.getShares(), "-", Math.pow(10, 4)));
+                        o.setValue(CommonUtils.transferMoney2(o.getValue(), "-", Math.pow(10, 4)));
+                    }
+                }
+                break;
+            // 经营风险 - 股权出质
+            case "equityOutPledge":
+                list = qccMapper.listQccEquityOutPledgeVO(enterpriseId);
+                if (!CollectionUtils.isEmpty(list)) {
+                    for (int i = 0; i < list.size(); i++) {
+                        QccEquityOutPledgeVO o = (QccEquityOutPledgeVO) list.get(i);
+                        o.setAmount(CommonUtils.transferMoney2(o.getAmount(), "-", Math.pow(10, 4)));
+                    }
+                }
+                break;
             default:
         }
 
@@ -387,9 +399,22 @@ public class QccImpl implements Qcc {
             // 经营风险 - 欠税公告
             case "taxArrearsNotice":
                 object = qccSubDetailMapper.getQccTaxArrearsNoticeVO(id);
-                QccTaxArrearsNoticeVO o = (QccTaxArrearsNoticeVO) object;
-                o.setBalance(CommonUtils.transferMoney2(o.getBalance(), "-", 1d));
-                o.setCurrentArrears(CommonUtils.transferMoney2(o.getCurrentArrears(), "-", 1d));
+                QccTaxArrearsNoticeVO qccTaxArrearsNoticeVO = (QccTaxArrearsNoticeVO) object;
+                qccTaxArrearsNoticeVO.setBalance(CommonUtils.transferMoney2(qccTaxArrearsNoticeVO.getBalance(), "-", 1d));
+                qccTaxArrearsNoticeVO.setCurrentArrears(CommonUtils.transferMoney2(qccTaxArrearsNoticeVO.getCurrentArrears(), "-", 1d));
+                break;
+            // 经营风险 - 股权质押
+            case "equityPledge":
+                object = qccSubDetailMapper.getQccEquityPledgeVO(id);
+                QccEquityPledgeVO qccEquityPledgeVO = (QccEquityPledgeVO) object;
+                qccEquityPledgeVO.setShares(CommonUtils.transferMoney2(qccEquityPledgeVO.getShares(), "-", Math.pow(10, 4)));
+                qccEquityPledgeVO.setValue(CommonUtils.transferMoney2(qccEquityPledgeVO.getValue(), "-", Math.pow(10, 4)));
+                break;
+            // 经营风险 - 股权出质
+            case "equityOutPledge":
+                object = qccSubDetailMapper.getQccEquityOutPledgeVO(id);
+                QccEquityOutPledgeVO qccEquityOutPledgeVO = (QccEquityOutPledgeVO) object;
+                qccEquityOutPledgeVO.setAmount(CommonUtils.transferMoney2(qccEquityOutPledgeVO.getAmount(), "-", Math.pow(10, 4)));
                 break;
             default:
 

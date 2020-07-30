@@ -12,12 +12,12 @@ public class ResultData<T> {
         this.data = t;
     }
 
-    public ResultData(String message, T t) {
+    public ResultData(T t, String message) {
         this.message = message;
         this.data = t;
     }
 
-    public ResultData(String message, T t, Integer code) {
+    public ResultData(T t, Integer code, String message) {
         this.message = message;
         this.data = t;
         this.code = code;
@@ -30,10 +30,21 @@ public class ResultData<T> {
         return resultData;
     }
 
+    public static <T> ResultData SUCCESS(T t, String message) {
+        ResultData<T> resultData = new ResultData<T>(t, message);
+        resultData.code = 200;
+        return resultData;
+    }
+
     public static <T> ResultData FAIL(T t, Integer code) {
         ResultData<T> resultData = new ResultData<T>(t);
         resultData.message = "请求失败";
         resultData.code = code;
+        return resultData;
+    }
+
+    public static <T> ResultData FAIL(T t, Integer code, String message) {
+        ResultData<T> resultData = new ResultData<T>(t, code, message);
         return resultData;
     }
 
