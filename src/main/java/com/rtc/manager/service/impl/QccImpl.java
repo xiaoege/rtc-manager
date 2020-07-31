@@ -7,6 +7,7 @@ import com.rtc.manager.dao.QccSubDetailMapper;
 import com.rtc.manager.service.Qcc;
 import com.rtc.manager.util.CommonUtils;
 import com.rtc.manager.vo.*;
+import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,47 +39,91 @@ public class QccImpl implements Qcc {
 
         logger.info("开启多线程");
         // todo
-        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(10, 15, 30L,
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(0, Integer.MAX_VALUE, 30L,
                 TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
         threadPoolExecutor.prestartAllCoreThreads();
 
-
+        List result = new ArrayList();
         if (!CollectionUtils.isEmpty(list)) {
             final List<Future> futures = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
                 QccListVO qccListVO = (QccListVO) list.get(i);
-                Future<Object> future = threadPoolExecutor.submit(new Callable<Object>() {
+                String transferMoney = CommonUtils.transferMoney(qccListVO.getRegisteredCapital());
+                qccListVO.setRegisteredCapital(transferMoney);
+
+                futures.add(threadPoolExecutor.submit(new Callable<Object>() {
                     @Override
                     public Object call() throws Exception {
-//                        String transferMoney = CommonUtils.transferMoney(qccListVO.getRegisteredCapital());
-//                        qccListVO.setRegisteredCapital(transferMoney);
                         CommonUtils.translate3(qccListVO.getName(), "zh", "en", qccListVO, "name");
-                        CommonUtils.translate3(qccListVO.getCountryRegion(), "zh", "en", qccListVO, "countryRegion");
                         CommonUtils.translate3(qccListVO.getAddress(), "zh", "en", qccListVO, "address");
                         CommonUtils.translate3(qccListVO.getLegalRepresentative(), "zh", "en", qccListVO, "legalRepresentative");
-                        return null;
+                        CommonUtils.translate3(qccListVO.getCountryRegion(), "zh", "en", qccListVO, "countryRegion");
+                        return qccListVO;
                     }
-                });
-                futures.add(future);
+                }));
 
-
-//                while (true) {
-//                    if (future.isDone()) {
-//                        break;
+//                futures.add(threadPoolExecutor.submit(new Callable<Object>() {
+//                    @Override
+//                    public Object call() throws Exception {
+//                        CommonUtils.translate3(qccListVO.getName(), "zh", "en", qccListVO, "name");
+////                        CommonUtils.translate3(qccListVO.getAddress(), "zh", "en", qccListVO, "address");
+////                        CommonUtils.translate3(qccListVO.getLegalRepresentative(), "zh", "en", qccListVO, "legalRepresentative");
+////                        CommonUtils.translate3(qccListVO.getCountryRegion(), "zh", "en", qccListVO, "countryRegion");
+//                        return qccListVO;
 //                    }
-//                }
+//                }));
+//                futures.add(threadPoolExecutor.submit(new Callable<Object>() {
+//                    @Override
+//                    public Object call() throws Exception {
+////                        CommonUtils.translate3(qccListVO.getName(), "zh", "en", qccListVO, "name");
+//                        CommonUtils.translate3(qccListVO.getAddress(), "zh", "en", qccListVO, "address");
+////                        CommonUtils.translate3(qccListVO.getLegalRepresentative(), "zh", "en", qccListVO, "legalRepresentative");
+////                        CommonUtils.translate3(qccListVO.getCountryRegion(), "zh", "en", qccListVO, "countryRegion");
+//                        return qccListVO;
+//                    }
+//                }));
+//                futures.add(threadPoolExecutor.submit(new Callable<Object>() {
+//                    @Override
+//                    public Object call() throws Exception {
+////                        CommonUtils.translate3(qccListVO.getName(), "zh", "en", qccListVO, "name");
+////                        CommonUtils.translate3(qccListVO.getAddress(), "zh", "en", qccListVO, "address");
+//                        CommonUtils.translate3(qccListVO.getLegalRepresentative(), "zh", "en", qccListVO, "legalRepresentative");
+////                        CommonUtils.translate3(qccListVO.getCountryRegion(), "zh", "en", qccListVO, "countryRegion");
+//                        return qccListVO;
+//                    }
+//                }));
+//
+//                futures.add(threadPoolExecutor.submit(new Callable<Object>() {
+//                    @Override
+//                    public Object call() throws Exception {
+////                        CommonUtils.translate3(qccListVO.getName(), "zh", "en", qccListVO, "name");
+////                        CommonUtils.translate3(qccListVO.getAddress(), "zh", "en", qccListVO, "address");
+////                        CommonUtils.translate3(qccListVO.getLegalRepresentative(), "zh", "en", qccListVO, "legalRepresentative");
+//                        CommonUtils.translate3(qccListVO.getCountryRegion(), "zh", "en", qccListVO, "countryRegion");
+//                        return qccListVO;
+//                    }
+//                }));
+
+
+//                threadPoolExecutor.execute(new Runnable() {
+//                    @SneakyThrows
+//                    @Override
+//                    public void run() {
+//                        CommonUtils.translate3(qccListVO.getAddress(), "zh", "en", qccListVO, "address");
+//                    }
+//                });
+
+
+
             }
+
+            int iii = 0;
             for (Future<?> f :
                     futures) {
-                while (true) {
-                    if (f.isDone()) {
-                        break;
-                    }
-                }
+                f.get();
             }
 
         }
-
         logger.info("多线程结束");
 
 
@@ -99,7 +144,6 @@ public class QccImpl implements Qcc {
 //                qccListVO.setAddress(address);
 //            }
 //        }
-//        threadPoolExecutor.shutdown();
         return new PageInfo<>(list);
     }
 

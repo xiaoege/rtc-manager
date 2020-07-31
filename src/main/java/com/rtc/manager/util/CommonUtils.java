@@ -1,5 +1,6 @@
 package com.rtc.manager.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rtc.manager.util.baidutranslate.BaiduTranslatePOJO;
 import com.rtc.manager.util.baidutranslate.TransApi;
@@ -12,6 +13,7 @@ import org.springframework.util.StringUtils;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -267,18 +269,23 @@ public final class CommonUtils {
             return "";
         }
         logger.info("开始翻译{}", Instant.now());
-        query = query.strip();
-        TransApi transApi = new TransApi(APP_ID, SECURITY_KEY);
-        String transResult = transApi.getTransResult(query, from, to);
-        ObjectMapper objectMapper = new ObjectMapper();
-        BaiduTranslatePOJO baiduTranslatePOJO = objectMapper.readValue(transResult, BaiduTranslatePOJO.class);
-        if (baiduTranslatePOJO != null) {
-            List list = (List) baiduTranslatePOJO.getTrans_result();
-            if (!CollectionUtils.isEmpty(list)) {
-                TransResult o = (TransResult) list.get(0);
-                String dst = o.getDst();
-                return dst;
+        try {
+            query = query.strip();
+            TransApi transApi = new TransApi(APP_ID, SECURITY_KEY);
+            String transResult = transApi.getTransResult(query, from, to);
+            ObjectMapper objectMapper = new ObjectMapper();
+            BaiduTranslatePOJO baiduTranslatePOJO = objectMapper.readValue(transResult, BaiduTranslatePOJO.class);
+            if (baiduTranslatePOJO != null) {
+                List list = (List) baiduTranslatePOJO.getTrans_result();
+                if (!CollectionUtils.isEmpty(list)) {
+                    TransResult o = (TransResult) list.get(0);
+                    String dst = o.getDst();
+                    return dst;
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info("翻译错误{}", CommonUtils.getExceptionInfo(e));
         }
         logger.info("结束翻译{}", Instant.now());
         return null;
