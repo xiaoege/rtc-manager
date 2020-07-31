@@ -126,12 +126,14 @@ public class UserServiceImpl implements UserService {
         if (!stringRedisTemplate.hasKey(email)) {
             stringRedisTemplate.opsForValue().set(email, verificationCode, 15, TimeUnit.MINUTES);
             stringRedisTemplate.opsForValue().increment(email + "_incr");
+            stringRedisTemplate.expire(email + "_incr", 15, TimeUnit.MINUTES);
             return true;
         } else if (stringRedisTemplate.hasKey(email)) {
             int i = Integer.parseInt(stringRedisTemplate.opsForValue().get(email + "_incr"));
-            if (i <= redisEmailLimt) {
+            if (i < redisEmailLimt) {
                 stringRedisTemplate.opsForValue().set(email, verificationCode, 15, TimeUnit.MINUTES);
                 stringRedisTemplate.opsForValue().increment(email + "_incr");
+                stringRedisTemplate.expire(email + "_incr", 15, TimeUnit.MINUTES);
                 return true;
             }
 

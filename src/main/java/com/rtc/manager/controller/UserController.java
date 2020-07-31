@@ -24,11 +24,28 @@ public class UserController {
         return resultData;
     }
 
+    /**
+     * 校验邮箱，发送验证码
+     * @param email
+     * @return
+     */
     @PostMapping("checkEmaillRegistered")
     public ResultData checkEmaillRegistered(@RequestParam(name = "email") String email) {
         ResultData resultData = userService.checkEmaillRegistered(email);
 
         return resultData;
+    }
+
+    /**
+     * 登录
+     * @param user
+     * @return
+     */
+    @PostMapping("login")
+    public ResultData login(@RequestBody String user) {
+
+
+        return null;
     }
 
 }

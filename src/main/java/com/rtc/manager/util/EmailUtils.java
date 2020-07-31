@@ -46,7 +46,6 @@ public class EmailUtils {
             // 主题
             helper.setSubject("测试邮件");
             // 内容
-            verificationCode = EmailUtils.getVerificationCode();
             String text = "Welcome to register. Your verification code is " + verificationCode + " ,please use within 15 minutes.";
             text = "<p style='font-size=16px'>Welcome to register.</p>" +
                     "<p style='font-size=16px'>Your verification code is  <b>" + verificationCode + "</b>  ,please use within 15 minutes.</p>";
