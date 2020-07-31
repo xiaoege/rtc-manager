@@ -5,7 +5,7 @@ import com.rtc.manager.dao.RtcUserMapper;
 import com.rtc.manager.entity.RtcUser;
 import com.rtc.manager.entity.dto.RtcUserDTO;
 import com.rtc.manager.service.UserService;
-import com.rtc.manager.util.EmailUtils;
+import com.rtc.manager.util.UserUtils;
 import com.rtc.manager.vo.ResultData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +17,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -59,19 +60,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResultData checkEmaillRegistered(String emaill) {
         // 正则判断是否是邮箱
-        if (!EmailUtils.checkEmailRegex(emaill)) {
+        if (!UserUtils.checkEmailRegex(emaill)) {
             return ResultData.FAIL(emaill, 700, EMAIL_CODE_700);
         } else if (rtcUserMapper.checkEmaillRegistered(emaill) != null) {
             return ResultData.FAIL(emaill, 701, EMAIL_CODE_701);
         }
 
         // 验证码
-        String verificationCode = EmailUtils.getVerificationCode();
+        String verificationCode = UserUtils.getVerificationCode();
 
         // 验证，15分钟内最多发5次，一个验证码有效期15分钟
         if (checkVerificationCodeRedis(emaill, verificationCode)) {
             // 发送邮件验证码
-            EmailUtils.sendEmailVerificationCode(emaill, verificationCode);
+            UserUtils.sendEmailVerificationCode(emaill, verificationCode);
             return ResultData.SUCCESS(emaill, "验证码已发送");
         } else if (!checkVerificationCodeRedis(emaill, verificationCode)) {
             return ResultData.FAIL(emaill, 702, EMAIL_CODE_702);
@@ -95,7 +96,7 @@ public class UserServiceImpl implements UserService {
         String email = rtcUserDTO.getEmail();
 
         // 邮箱格式错误
-        if (!EmailUtils.checkEmailRegex(email)) {
+        if (!UserUtils.checkEmailRegex(email)) {
             return ResultData.FAIL(email, 700, EMAIL_CODE_700);
             // 邮箱已注册
         } else if (rtcUserMapper.checkEmaillRegistered(email) != null) {
@@ -109,6 +110,9 @@ public class UserServiceImpl implements UserService {
         }
         String verificationCodeRedis = stringRedisTemplate.opsForValue().get(email);
         if (rtcUserDTO.getVerificationCode().equals(verificationCodeRedis)) {
+            Map<String, String> map = UserUtils.haxPasswork(rtcUser.getPassword());
+            rtcUser.setPassword(map.get("password"));
+            rtcUser.setSalt(map.get("salt"));
             rtcUserMapper.insertSelective(rtcUser);
             return ResultData.SUCCESS(data, "注册成功");
         }

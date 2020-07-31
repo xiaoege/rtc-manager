@@ -3,6 +3,7 @@ package com.rtc.manager.util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 
 import javax.mail.internet.MimeMessage;
@@ -10,13 +11,16 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * @author ChenHang
  */
-public class EmailUtils {
+public class UserUtils {
 
 
     /**
@@ -86,6 +90,17 @@ public class EmailUtils {
         DecimalFormat decimalFormat = new DecimalFormat("######");
         String format = decimalFormat.format(multiply);
         return format;
+    }
+
+    public static Map<String, String> haxPasswork(String password) {
+        Map map = new HashMap();
+        String salt = UUID.randomUUID().toString();
+        String salt1 = "9981";
+        String hex = DigestUtils.md5DigestAsHex((DigestUtils.md5DigestAsHex((password + salt).getBytes()) + salt1).getBytes());
+
+        map.put("password", hex);
+        map.put("salt", salt);
+        return map;
     }
 
     public static void main(String[] args) {

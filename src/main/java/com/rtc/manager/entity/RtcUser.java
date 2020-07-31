@@ -26,4 +26,6 @@ public class RtcUser {
     private LocalDateTime gmtModify;
 
     private Integer status;
+
+    private String salt;
 }

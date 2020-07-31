@@ -17,7 +17,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("register")
-    public ResultData register(@RequestBody String data) throws Exception {
+    public ResultData register(@RequestParam(name = "data") String data) throws Exception {
         //校验验证码,注册
         ResultData resultData = userService.register(data);
 

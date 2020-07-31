@@ -9,6 +9,13 @@ spring:
     timeout: 3000
     port: 6379
     database: 0
+  mail:
+    properties:
+      mail:
+        stmp:
+          connection: 30
+          timeout: 30
+          writetimeout: 30
 
 server:
   port: 9981
@@ -34,5 +41,7 @@ rtc:
   url: "http://192.168.1.125"
   mail:
     redisEmailLimt: 5
+
+
 
 

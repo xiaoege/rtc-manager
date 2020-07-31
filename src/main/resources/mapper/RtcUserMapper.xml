@@ -10,9 +10,10 @@
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="salt" jdbcType="VARCHAR" property="salt" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, nickname, password, phone, email, gmt_create, gmt_modify, status
+    id, nickname, password, phone, email, gmt_create, gmt_modify, status, salt
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -27,10 +28,10 @@
   <insert id="insert" parameterType="com.rtc.manager.entity.RtcUser">
     insert into rtc_user (id, nickname, password, 
       phone, email, gmt_create, 
-      gmt_modify, status)
+      gmt_modify, status, salt)
     values (#{id,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
-      #{gmtModify,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
+      #{gmtModify,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER} ,#{salt,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.rtc.manager.entity.RtcUser">
     insert into rtc_user
@@ -59,6 +60,9 @@
       <if test="status != null">
         status,
       </if>
+      <if test="salt != null">
+        salt,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -84,6 +88,9 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
+      </if>
+      <if test="salt != null">
+        #{salt,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -111,6 +118,9 @@
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
       </if>
+      <if test="salt != null">
+        status = #{salt,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -122,7 +132,8 @@
       email = #{email,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER}
+      status = #{status,jdbcType=INTEGER},
+      salt = #{salt,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
