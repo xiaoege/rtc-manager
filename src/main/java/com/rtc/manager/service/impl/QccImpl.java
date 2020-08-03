@@ -1,6 +1,5 @@
 package com.rtc.manager.service.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.rtc.manager.dao.QccMapper;
@@ -8,7 +7,6 @@ import com.rtc.manager.dao.QccSubDetailMapper;
 import com.rtc.manager.service.Qcc;
 import com.rtc.manager.util.CommonUtils;
 import com.rtc.manager.vo.*;
-import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,26 +47,19 @@ public class QccImpl implements Qcc {
             final List<Future> futures = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
                 QccListVO qccListVO = (QccListVO) list.get(i);
-
-                ObjectMapper objectMapper = new ObjectMapper();
-                String sssss = objectMapper.writeValueAsString(qccListVO);
-                String translate = CommonUtils.translate(sssss, "zh", "en");
-                qccListVO = objectMapper.readValue(translate, QccListVO.class);
-
-
                 String transferMoney = CommonUtils.transferMoney(qccListVO.getRegisteredCapital());
                 qccListVO.setRegisteredCapital(transferMoney);
 
-//                futures.add(threadPoolExecutor.submit(new Callable<Object>() {
-//                    @Override
-//                    public Object call() throws Exception {
-//                        CommonUtils.translate3(qccListVO.getName(), "zh", "en", qccListVO, "name");
-//                        CommonUtils.translate3(qccListVO.getAddress(), "zh", "en", qccListVO, "address");
-//                        CommonUtils.translate3(qccListVO.getLegalRepresentative(), "zh", "en", qccListVO, "legalRepresentative");
-//                        CommonUtils.translate3(qccListVO.getCountryRegion(), "zh", "en", qccListVO, "countryRegion");
-//                        return qccListVO;
-//                    }
-//                }));
+                futures.add(threadPoolExecutor.submit(new Callable<Object>() {
+                    @Override
+                    public Object call() throws Exception {
+                        CommonUtils.translate3(qccListVO.getName(), "zh", "en", qccListVO, "name");
+                        CommonUtils.translate3(qccListVO.getAddress(), "zh", "en", qccListVO, "address");
+                        CommonUtils.translate3(qccListVO.getLegalRepresentative(), "zh", "en", qccListVO, "legalRepresentative");
+                        CommonUtils.translate3(qccListVO.getCountryRegion(), "zh", "en", qccListVO, "countryRegion");
+                        return qccListVO;
+                    }
+                }));
 
             }
 
