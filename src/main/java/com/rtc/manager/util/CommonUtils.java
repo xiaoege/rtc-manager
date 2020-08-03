@@ -1,6 +1,5 @@
 package com.rtc.manager.util;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rtc.manager.util.baidutranslate.BaiduTranslatePOJO;
 import com.rtc.manager.util.baidutranslate.TransApi;
@@ -13,7 +12,6 @@ import org.springframework.util.StringUtils;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -201,8 +199,8 @@ public final class CommonUtils {
      * xxx万元/xxx - $x,xx0,000
      *
      * @param registeredCapital 钱
-     * @param arg 不是数字的钱展示arg
-     * @param magnification 倍率
+     * @param arg               不是数字的钱展示arg
+     * @param magnification     倍率
      * @return $x, xx0, 000
      */
     public static String transferMoney2(String registeredCapital, String arg, double magnification) {
@@ -273,6 +271,7 @@ public final class CommonUtils {
             query = query.strip();
             TransApi transApi = new TransApi(APP_ID, SECURITY_KEY);
             String transResult = transApi.getTransResult(query, from, to);
+            logger.info("翻译返回json：{}", transResult);
             ObjectMapper objectMapper = new ObjectMapper();
             BaiduTranslatePOJO baiduTranslatePOJO = objectMapper.readValue(transResult, BaiduTranslatePOJO.class);
             if (baiduTranslatePOJO != null) {
@@ -302,6 +301,7 @@ public final class CommonUtils {
         query = query.strip();
         TransApi transApi = new TransApi(APP_ID, SECURITY_KEY);
         String transResult = transApi.getTransResult(query, from, to);
+        logger.info("翻译返回json：{}", transResult);
         ObjectMapper objectMapper = new ObjectMapper();
         BaiduTranslatePOJO baiduTranslatePOJO = objectMapper.readValue(transResult, BaiduTranslatePOJO.class);
         if (baiduTranslatePOJO != null) {
@@ -320,28 +320,35 @@ public final class CommonUtils {
 
     public static void translate3(String query, String from, String to, Object object, String field) throws Exception {
 
-        if (!StringUtils.isEmpty(query) && !StringUtils.isEmpty(query.strip())) {
-            logger.info("开始翻译{}", Instant.now());
-            query = query.strip();
-            TransApi transApi = new TransApi(APP_ID, SECURITY_KEY);
-            String transResult = transApi.getTransResult(query, from, to);
-            ObjectMapper objectMapper = new ObjectMapper();
-            BaiduTranslatePOJO baiduTranslatePOJO = objectMapper.readValue(transResult, BaiduTranslatePOJO.class);
-            if (baiduTranslatePOJO != null) {
-                List list = (List) baiduTranslatePOJO.getTrans_result();
-                if (!CollectionUtils.isEmpty(list)) {
-                    TransResult o = (TransResult) list.get(0);
-                    String dst = o.getDst();
+        try {
+            if (!StringUtils.isEmpty(query) && !StringUtils.isEmpty(query.strip())) {
+                logger.info("开始翻译{}", Instant.now());
+                query = query.strip();
+                TransApi transApi = new TransApi(APP_ID, SECURITY_KEY);
+                String transResult = transApi.getTransResult(query, from, to);
+                logger.info("翻译返回json：{}", transResult);
+                ObjectMapper objectMapper = new ObjectMapper();
+                BaiduTranslatePOJO baiduTranslatePOJO = objectMapper.readValue(transResult, BaiduTranslatePOJO.class);
+                if (baiduTranslatePOJO != null) {
+                    List list = (List) baiduTranslatePOJO.getTrans_result();
+                    if (!CollectionUtils.isEmpty(list)) {
+                        TransResult o = (TransResult) list.get(0);
+                        String dst = o.getDst();
 
-                    Class<?> aClass = object.getClass();
-                    field = "set" + field.substring(0, 1).toUpperCase() + field.substring(1);
-                    Method method = aClass.getDeclaredMethod(field, String.class);
-                    method.invoke(object, dst);
+                        Class<?> aClass = object.getClass();
+                        field = "set" + field.substring(0, 1).toUpperCase() + field.substring(1);
+                        Method method = aClass.getDeclaredMethod(field, String.class);
+                        method.invoke(object, dst);
 
+                    }
                 }
+                logger.info("结束翻译{}", Instant.now());
             }
-            logger.info("结束翻译{}", Instant.now());
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info("翻译错误{}", CommonUtils.getExceptionInfo(e));
         }
+
 
     }
 
