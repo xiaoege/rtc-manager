@@ -37,6 +37,9 @@ pagehelper:
   #Mapper传入pageNum,pageSize参数,不需要写额外SQL,service层调用时候传入即可
   reasonable: true
 
+swagger:
+  enable: true
+
 rtc:
   url: "http://192.168.1.125"
   mail:

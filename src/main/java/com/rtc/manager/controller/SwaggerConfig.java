@@ -1,5 +1,6 @@
 package com.rtc.manager.controller;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -13,6 +14,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @author ChenHang
  */
 @Configuration
+@ConditionalOnProperty(name = "swagger.enable", havingValue = "true")
 @EnableSwagger2
 public class SwaggerConfig {
     @Bean
