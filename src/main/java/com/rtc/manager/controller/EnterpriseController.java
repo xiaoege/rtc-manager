@@ -3,6 +3,7 @@ package com.rtc.manager.controller;
 import com.github.pagehelper.PageInfo;
 import com.rtc.manager.service.Qcc;
 import com.rtc.manager.vo.QccListVO;
+import com.rtc.manager.vo.QccVO;
 import com.rtc.manager.vo.ResultData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -43,7 +44,7 @@ public class EnterpriseController {
             @ApiImplicitParam(name = "pageNum", value = "当前页数", required = false),
             @ApiImplicitParam(name = "pageSize", value = "当前页大小", required = false)})
     @GetMapping("listEnterprise")
-    public ResultData listEnterprise(@RequestParam(name = "name", required = true) String name,
+    public ResultData<QccListVO> listEnterprise(@RequestParam(name = "name", required = true) String name,
                                      @RequestParam(name = "pageNum", required = false, defaultValue = "1") int pageNum,
                                      @RequestParam(name = "pageSize", required = false, defaultValue = "10") int pageSize) {
         PageInfo<QccListVO> info = null;
@@ -66,8 +67,8 @@ public class EnterpriseController {
     @ApiOperation("企业详情")
     @ApiImplicitParam(name = "enterpriseId", value = "企业id", required = true)
     @GetMapping("getEnterprise")
-    public ResultData getEnterprise(@RequestParam(name = "enterpriseId", required = true) String enterpriseId) {
-        Object qccVO = null;
+    public ResultData<QccVO> getEnterprise(@RequestParam(name = "enterpriseId", required = true) String enterpriseId) {
+        QccVO qccVO = null;
         try {
             qccVO = qcc.getEnterprise(enterpriseId);
         } catch (Exception e) {
