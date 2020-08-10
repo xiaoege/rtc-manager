@@ -5,10 +5,11 @@ package com.rtc.manager.service;
  */
 public interface Elasticsearch {
 
-    Object getTest();
+    Object getTest() throws Exception;
 
-    void addTest();
+    void addTest() throws Exception;
 
     Object removeTest();
 
+    Object search(String index, String field, String value) throws Exception;
 }
