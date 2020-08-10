@@ -1,6 +1,9 @@
 package com.rtc.manager.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rtc.manager.service.Elasticsearch;
+import com.rtc.manager.util.CommonUtils;
+import com.rtc.manager.vo.QccListVO;
 import org.apache.http.HttpHost;
 import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.get.GetRequest;
@@ -23,11 +26,12 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * @author ChenHang
@@ -85,7 +89,7 @@ public class ElasticsearchImpl implements Elasticsearch {
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 //        searchSourceBuilder.sort(new FieldSortBuilder("_id").order(SortOrder.DESC));
 //        searchSourceBuilder.from(5);
-        searchSourceBuilder.size(20);
+        searchSourceBuilder.size(5);
         searchSourceBuilder.timeout(new TimeValue(2, TimeUnit.SECONDS));
 //        searchRequest.scroll(TimeValue.timeValueMillis(10));
         // 查所有
@@ -116,7 +120,8 @@ public class ElasticsearchImpl implements Elasticsearch {
             String sourceAsString = s.getSourceAsString();
             System.out.println(sourceAsMap);
             System.out.println(sourceAsString);
-            resultList.add(sourceAsMap);
+//            resultList.add(sourceAsMap);
+            resultList.add(sourceAsString);
         }
 
         logger.info("searchRequest：{}", searchRequest);
@@ -130,8 +135,49 @@ public class ElasticsearchImpl implements Elasticsearch {
 
 //        ExplainRequest request = new ExplainRequest("bank", "1");
 //        request.query(QueryBuilders.termQuery("user", "tanguy"));
+        List qccList = new ArrayList();
+        if (!CollectionUtils.isEmpty(resultList)) {
+            for (int i = 0; i < resultList.size(); i++) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                QccListVO qccListVO = objectMapper.readValue(resultList.get(i).toString(), QccListVO.class);
+                qccList.add(qccListVO);
+            }
+        }
 
-        return resultList;
+
+        logger.info("开启多线程");
+        // todo
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(0, Integer.MAX_VALUE, 30L,
+                TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
+        threadPoolExecutor.prestartAllCoreThreads();
+        if (!CollectionUtils.isEmpty(qccList)) {
+            final List<Future> futures = new ArrayList<>();
+            for (int i = 0; i < qccList.size(); i++) {
+                QccListVO qccListVO = (QccListVO) qccList.get(i);
+                String transferMoney = CommonUtils.transferMoney(qccListVO.getRegisteredCapital());
+                qccListVO.setRegisteredCapital(transferMoney);
+
+                futures.add(threadPoolExecutor.submit(new Callable<Object>() {
+                    @Override
+                    public Object call() throws Exception {
+                        CommonUtils.translate3(qccListVO.getName(), "zh", "en", qccListVO, "name");
+                        CommonUtils.translate3(qccListVO.getAddress(), "zh", "en", qccListVO, "address");
+                        CommonUtils.translate3(qccListVO.getLegalRepresentative(), "zh", "en", qccListVO, "legalRepresentative");
+                        CommonUtils.translate3(qccListVO.getCountryRegion(), "zh", "en", qccListVO, "countryRegion");
+                        return qccListVO;
+                    }
+                }));
+
+            }
+
+            for (Future<?> f :
+                    futures) {
+                f.get();
+            }
+
+        }
+        logger.info("多线程结束");
+        return qccList;
     }
 
 
