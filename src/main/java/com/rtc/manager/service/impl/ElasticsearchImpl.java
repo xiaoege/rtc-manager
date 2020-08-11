@@ -6,12 +6,15 @@ import com.rtc.manager.util.CommonUtils;
 import com.rtc.manager.vo.QccListVO;
 import org.apache.http.HttpHost;
 import org.apache.lucene.search.TotalHits;
+import org.elasticsearch.action.DocWriteResponse;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -28,7 +31,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
@@ -178,6 +184,22 @@ public class ElasticsearchImpl implements Elasticsearch {
         }
         logger.info("多线程结束");
         return qccList;
+    }
+
+    @Override
+    public Object modify(String index, String document) throws Exception {
+        Map<String, Object> jsonMap = new HashMap<>();
+        jsonMap.put("updated", Instant.now());
+        jsonMap.put("reason", "daily update");
+        jsonMap.put("name", "喵喵");
+        UpdateRequest updateRequest = new UpdateRequest(index, document).doc(jsonMap);
+        UpdateResponse updateResponse = client.update(updateRequest, RequestOptions.DEFAULT);
+        String inde = updateResponse.getIndex();
+        String id = updateResponse.getId();
+        long version = updateResponse.getVersion();
+
+
+        return null;
     }
 
 
