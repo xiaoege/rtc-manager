@@ -7,6 +7,8 @@ import com.rtc.manager.vo.QccListVO;
 import org.apache.http.HttpHost;
 import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.DocWriteResponse;
+import org.elasticsearch.action.delete.DeleteRequest;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
@@ -23,6 +25,7 @@ import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.MatchPhraseQueryBuilder;
 import org.elasticsearch.index.query.MatchQueryBuilder;
+import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -198,6 +201,15 @@ public class ElasticsearchImpl implements Elasticsearch {
         String id = updateResponse.getId();
         long version = updateResponse.getVersion();
 
+
+        return null;
+    }
+
+    @Override
+    public Object remove(String index, String document) throws Exception {
+        DeleteRequest deleteRequest = new DeleteRequest(index, document);
+        DeleteResponse deleteResponse = client.delete(deleteRequest, RequestOptions.DEFAULT);
+        RestStatus status = deleteResponse.status();
 
         return null;
     }

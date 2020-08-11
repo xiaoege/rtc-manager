@@ -42,4 +42,10 @@ public class ElasticsearchController {
 
         return elasticsearch.modify(index, document);
     }
+
+    @DeleteMapping("remove")
+    public Object remove(String index, String document) throws Exception {
+
+        return elasticsearch.remove(index, document);
+    }
 }

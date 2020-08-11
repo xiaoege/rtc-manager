@@ -16,4 +16,6 @@ public interface Elasticsearch {
     Object search(String index, String field, String value) throws Exception;
 
     Object modify(String index, String document) throws Exception;
+
+    Object remove(String index, String document) throws Exception;
 }
