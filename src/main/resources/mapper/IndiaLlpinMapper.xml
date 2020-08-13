@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.IndiaLlpinMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.india.IndiaLlpin">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="llpin" jdbcType="VARCHAR" property="llpin" />
+    <result column="llp_name" jdbcType="VARCHAR" property="llpName" />
+    <result column="number_of_partners" jdbcType="VARCHAR" property="numberOfPartners" />
+    <result column="number_of_designated_partners" jdbcType="VARCHAR" property="numberOfDesignatedPartners" />
+    <result column="roc_code" jdbcType="VARCHAR" property="rocCode" />
+    <result column="date_of_incorporation" jdbcType="VARCHAR" property="dateOfIncorporation" />
+    <result column="registrated_address" jdbcType="VARCHAR" property="registratedAddress" />
+    <result column="email_id" jdbcType="VARCHAR" property="emailId" />
+    <result column="previous_firm" jdbcType="VARCHAR" property="previousFirm" />
+    <result column="total_obligation_of_contribution" jdbcType="VARCHAR" property="totalObligationOfContribution" />
+    <result column="main_division_of_business" jdbcType="VARCHAR" property="mainDivisionOfBusiness" />
+    <result column="description_of_main_division" jdbcType="VARCHAR" property="descriptionOfMainDivision" />
+    <result column="statement_date" jdbcType="VARCHAR" property="statementDate" />
+    <result column="annual_date" jdbcType="VARCHAR" property="annualDate" />
+    <result column="llp_status" jdbcType="VARCHAR" property="llpStatus" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, llpin, llp_name, number_of_partners, number_of_designated_partners, 
+    roc_code, date_of_incorporation, registrated_address, email_id, previous_firm, total_obligation_of_contribution, 
+    main_division_of_business, description_of_main_division, statement_date, annual_date, 
+    llp_status, gmt_create, gmt_modify, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from india_llpin
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from india_llpin
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rtc.manager.entity.india.IndiaLlpin">
+    insert into india_llpin (id, enterprise_id, llpin, 
+      llp_name, number_of_partners, number_of_designated_partners, 
+      roc_code, date_of_incorporation, registrated_address, 
+      email_id, previous_firm, total_obligation_of_contribution, 
+      main_division_of_business, description_of_main_division, 
+      statement_date, annual_date, llp_status, 
+      gmt_create, gmt_modify, status
+      )
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{llpin,jdbcType=VARCHAR}, 
+      #{llpName,jdbcType=VARCHAR}, #{numberOfPartners,jdbcType=VARCHAR}, #{numberOfDesignatedPartners,jdbcType=VARCHAR}, 
+      #{rocCode,jdbcType=VARCHAR}, #{dateOfIncorporation,jdbcType=VARCHAR}, #{registratedAddress,jdbcType=VARCHAR}, 
+      #{emailId,jdbcType=VARCHAR}, #{previousFirm,jdbcType=VARCHAR}, #{totalObligationOfContribution,jdbcType=VARCHAR}, 
+      #{mainDivisionOfBusiness,jdbcType=VARCHAR}, #{descriptionOfMainDivision,jdbcType=VARCHAR}, 
+      #{statementDate,jdbcType=VARCHAR}, #{annualDate,jdbcType=VARCHAR}, #{llpStatus,jdbcType=VARCHAR}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.india.IndiaLlpin">
+    insert into india_llpin
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="llpin != null">
+        llpin,
+      </if>
+      <if test="llpName != null">
+        llp_name,
+      </if>
+      <if test="numberOfPartners != null">
+        number_of_partners,
+      </if>
+      <if test="numberOfDesignatedPartners != null">
+        number_of_designated_partners,
+      </if>
+      <if test="rocCode != null">
+        roc_code,
+      </if>
+      <if test="dateOfIncorporation != null">
+        date_of_incorporation,
+      </if>
+      <if test="registratedAddress != null">
+        registrated_address,
+      </if>
+      <if test="emailId != null">
+        email_id,
+      </if>
+      <if test="previousFirm != null">
+        previous_firm,
+      </if>
+      <if test="totalObligationOfContribution != null">
+        total_obligation_of_contribution,
+      </if>
+      <if test="mainDivisionOfBusiness != null">
+        main_division_of_business,
+      </if>
+      <if test="descriptionOfMainDivision != null">
+        description_of_main_division,
+      </if>
+      <if test="statementDate != null">
+        statement_date,
+      </if>
+      <if test="annualDate != null">
+        annual_date,
+      </if>
+      <if test="llpStatus != null">
+        llp_status,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="llpin != null">
+        #{llpin,jdbcType=VARCHAR},
+      </if>
+      <if test="llpName != null">
+        #{llpName,jdbcType=VARCHAR},
+      </if>
+      <if test="numberOfPartners != null">
+        #{numberOfPartners,jdbcType=VARCHAR},
+      </if>
+      <if test="numberOfDesignatedPartners != null">
+        #{numberOfDesignatedPartners,jdbcType=VARCHAR},
+      </if>
+      <if test="rocCode != null">
+        #{rocCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dateOfIncorporation != null">
+        #{dateOfIncorporation,jdbcType=VARCHAR},
+      </if>
+      <if test="registratedAddress != null">
+        #{registratedAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="emailId != null">
+        #{emailId,jdbcType=VARCHAR},
+      </if>
+      <if test="previousFirm != null">
+        #{previousFirm,jdbcType=VARCHAR},
+      </if>
+      <if test="totalObligationOfContribution != null">
+        #{totalObligationOfContribution,jdbcType=VARCHAR},
+      </if>
+      <if test="mainDivisionOfBusiness != null">
+        #{mainDivisionOfBusiness,jdbcType=VARCHAR},
+      </if>
+      <if test="descriptionOfMainDivision != null">
+        #{descriptionOfMainDivision,jdbcType=VARCHAR},
+      </if>
+      <if test="statementDate != null">
+        #{statementDate,jdbcType=VARCHAR},
+      </if>
+      <if test="annualDate != null">
+        #{annualDate,jdbcType=VARCHAR},
+      </if>
+      <if test="llpStatus != null">
+        #{llpStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.india.IndiaLlpin">
+    update india_llpin
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="llpin != null">
+        llpin = #{llpin,jdbcType=VARCHAR},
+      </if>
+      <if test="llpName != null">
+        llp_name = #{llpName,jdbcType=VARCHAR},
+      </if>
+      <if test="numberOfPartners != null">
+        number_of_partners = #{numberOfPartners,jdbcType=VARCHAR},
+      </if>
+      <if test="numberOfDesignatedPartners != null">
+        number_of_designated_partners = #{numberOfDesignatedPartners,jdbcType=VARCHAR},
+      </if>
+      <if test="rocCode != null">
+        roc_code = #{rocCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dateOfIncorporation != null">
+        date_of_incorporation = #{dateOfIncorporation,jdbcType=VARCHAR},
+      </if>
+      <if test="registratedAddress != null">
+        registrated_address = #{registratedAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="emailId != null">
+        email_id = #{emailId,jdbcType=VARCHAR},
+      </if>
+      <if test="previousFirm != null">
+        previous_firm = #{previousFirm,jdbcType=VARCHAR},
+      </if>
+      <if test="totalObligationOfContribution != null">
+        total_obligation_of_contribution = #{totalObligationOfContribution,jdbcType=VARCHAR},
+      </if>
+      <if test="mainDivisionOfBusiness != null">
+        main_division_of_business = #{mainDivisionOfBusiness,jdbcType=VARCHAR},
+      </if>
+      <if test="descriptionOfMainDivision != null">
+        description_of_main_division = #{descriptionOfMainDivision,jdbcType=VARCHAR},
+      </if>
+      <if test="statementDate != null">
+        statement_date = #{statementDate,jdbcType=VARCHAR},
+      </if>
+      <if test="annualDate != null">
+        annual_date = #{annualDate,jdbcType=VARCHAR},
+      </if>
+      <if test="llpStatus != null">
+        llp_status = #{llpStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.india.IndiaLlpin">
+    update india_llpin
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      llpin = #{llpin,jdbcType=VARCHAR},
+      llp_name = #{llpName,jdbcType=VARCHAR},
+      number_of_partners = #{numberOfPartners,jdbcType=VARCHAR},
+      number_of_designated_partners = #{numberOfDesignatedPartners,jdbcType=VARCHAR},
+      roc_code = #{rocCode,jdbcType=VARCHAR},
+      date_of_incorporation = #{dateOfIncorporation,jdbcType=VARCHAR},
+      registrated_address = #{registratedAddress,jdbcType=VARCHAR},
+      email_id = #{emailId,jdbcType=VARCHAR},
+      previous_firm = #{previousFirm,jdbcType=VARCHAR},
+      total_obligation_of_contribution = #{totalObligationOfContribution,jdbcType=VARCHAR},
+      main_division_of_business = #{mainDivisionOfBusiness,jdbcType=VARCHAR},
+      description_of_main_division = #{descriptionOfMainDivision,jdbcType=VARCHAR},
+      statement_date = #{statementDate,jdbcType=VARCHAR},
+      annual_date = #{annualDate,jdbcType=VARCHAR},
+      llp_status = #{llpStatus,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

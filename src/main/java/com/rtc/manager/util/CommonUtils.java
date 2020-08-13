@@ -21,9 +21,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
@@ -386,6 +384,22 @@ public final class CommonUtils {
         return "";
     }
 
+    /**
+     * 获得map的key
+     * @param map
+     * @return
+     */
+    public static List getKeys(Map map) {
+        List list = new ArrayList();
+        if (!CollectionUtils.isEmpty(map)) {
+            Set<Map.Entry> entrySet = map.entrySet();
+            for (Map.Entry e:
+                 entrySet) {
+                list.add(e.getKey());
+            }
+        }
+        return list;
+    }
 
     public static void main(String[] args) {
 

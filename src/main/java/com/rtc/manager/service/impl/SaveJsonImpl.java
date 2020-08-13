@@ -6,6 +6,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rtc.manager.dao.*;
 import com.rtc.manager.entity.*;
+import com.rtc.manager.entity.dto.IndiaCinDTO;
+import com.rtc.manager.entity.dto.IndiaLlpinDTO;
+import com.rtc.manager.entity.india.IndiaCharge;
+import com.rtc.manager.entity.india.IndiaCin;
+import com.rtc.manager.entity.india.IndiaLlpin;
+import com.rtc.manager.entity.india.IndiaSignatory;
 import com.rtc.manager.service.SaveJson;
 import com.rtc.manager.util.CommonUtils;
 import org.slf4j.Logger;
@@ -16,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.io.*;
+import java.time.LocalDate;
 import java.util.*;
 
 import static java.util.UUID.randomUUID;
@@ -159,6 +166,18 @@ public class SaveJsonImpl implements SaveJson {
 
     @Autowired
     private QccEquityOutPledgeMapper qccEquityOutPledgeMapper;
+
+    @Autowired
+    private IndiaCinMapper indiaCinMapper;
+
+    @Autowired
+    private IndiaLlpinMapper indiaLlpinMapper;
+
+    @Autowired
+    private IndiaChargeMapper indiaChargeMapper;
+
+    @Autowired
+    private IndiaSignatoryMapper indiaSignatoryMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -765,6 +784,84 @@ public class SaveJsonImpl implements SaveJson {
             logger.info("json文件导入成功，文件是{}", file.getName());
             reader.close();
             bis.close();
+        }
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void readJsonIndia(File filePath) throws Exception {
+        List<String> fileList = new ArrayList();
+        CommonUtils.readFiles(filePath, fileList);
+        for (int z = 0; z < fileList.size(); z++) {
+            File file = new File(fileList.get(z));
+
+            // 忽略mac的隐藏文件
+            if (file.getName().contains(".DS_Store")) {
+                continue;
+            }
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
+
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
+
+            StringBuilder sb = new StringBuilder();
+            while (reader.ready()) {
+                sb.append((char) reader.read());
+            }
+            String sss = sb.toString();
+//            sss = sss.replace("\uFeFF", "");
+            ObjectMapper objectMapper = new ObjectMapper();
+            List<HashMap> list = (List<HashMap>) objectMapper.readValue(sss, Object.class);
+            int cin = 0;
+            int llpin = 0;
+            if (!CollectionUtils.isEmpty(list)) {
+                for (int i = 0; i < list.size(); i++) {
+                    HashMap hashMap = list.get(i);
+                    if (!CollectionUtils.isEmpty(hashMap)) {
+                        String hashMapString = objectMapper.writeValueAsString(hashMap);
+                        List keys = CommonUtils.getKeys((Map) hashMap.get("basic"));
+                        if (keys.contains("CIN")) {
+                            IndiaCinDTO indiaCinDTO = objectMapper.readValue(hashMapString, IndiaCinDTO.class);
+                            String enterpriseId = getUUID();
+                            IndiaCin basic = indiaCinDTO.getBasic();
+                            List<IndiaCharge> charges = indiaCinDTO.getCharges();
+                            List<IndiaSignatory> signatoryList = indiaCinDTO.getSignatory();
+                            basic.setEnterpriseId(enterpriseId);
+                            indiaCinMapper.insertSelective(basic);
+                            for (IndiaCharge indiaCharge :
+                                    charges) {
+                                indiaCharge.setEnterpriseId(enterpriseId);
+                                indiaChargeMapper.insertSelective(indiaCharge);
+                            }
+                            for (IndiaSignatory indiaSignatory :
+                                    signatoryList) {
+                                indiaSignatory.setEnterpriseId(enterpriseId);
+                                indiaSignatoryMapper.insertSelective(indiaSignatory);
+                            }
+                            cin++;
+                        } else if (keys.contains("LLPIN")) {
+                            IndiaLlpinDTO indiaLlpinDTO = objectMapper.readValue(hashMapString, IndiaLlpinDTO.class);
+                            String enterpriseId = getUUID();
+                            IndiaLlpin basic = indiaLlpinDTO.getBasic();
+                            List<IndiaCharge> charges = indiaLlpinDTO.getCharges();
+                            List<IndiaSignatory> signatoryList = indiaLlpinDTO.getSignatory();
+                            basic.setEnterpriseId(enterpriseId);
+                            indiaLlpinMapper.insertSelective(basic);
+                            for (IndiaCharge indiaCharge :
+                                    charges) {
+                                indiaCharge.setEnterpriseId(enterpriseId);
+                                indiaChargeMapper.insertSelective(indiaCharge);
+                            }
+                            for (IndiaSignatory indiaSignatory :
+                                    signatoryList) {
+                                indiaSignatory.setEnterpriseId(enterpriseId);
+                                indiaSignatoryMapper.insertSelective(indiaSignatory);
+                            }
+                        }
+
+                    }
+                }
+            }
         }
     }
 

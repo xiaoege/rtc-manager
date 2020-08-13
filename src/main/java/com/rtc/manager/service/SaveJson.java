@@ -7,4 +7,6 @@ import java.io.File;
  */
 public interface SaveJson {
     void readJson(File filePath) throws Exception;
+
+    void readJsonIndia(File filePath) throws Exception;
 }

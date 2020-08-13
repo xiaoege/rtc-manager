@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.IndiaCinMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.india.IndiaCin">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="cin" jdbcType="VARCHAR" property="cin" />
+    <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+    <result column="roc_code" jdbcType="VARCHAR" property="rocCode" />
+    <result column="registration_number" jdbcType="VARCHAR" property="registrationNumber" />
+    <result column="company_category" jdbcType="VARCHAR" property="companyCategory" />
+    <result column="company_sub_category" jdbcType="VARCHAR" property="companySubCategory" />
+    <result column="class_of_company" jdbcType="VARCHAR" property="classOfCompany" />
+    <result column="authorised_capital" jdbcType="VARCHAR" property="authorisedCapital" />
+    <result column="paid_up_capital" jdbcType="VARCHAR" property="paidUpCapital" />
+    <result column="number_of_members" jdbcType="VARCHAR" property="numberOfMembers" />
+    <result column="date_of_incorporation" jdbcType="VARCHAR" property="dateOfIncorporation" />
+    <result column="email_id" jdbcType="VARCHAR" property="emailId" />
+    <result column="whether_listed_or_not" jdbcType="VARCHAR" property="whetherListedOrNot" />
+    <result column="active_compliant" jdbcType="VARCHAR" property="activeCompliant" />
+    <result column="suspended_at_stock_exchange" jdbcType="VARCHAR" property="suspendedAtStockExchange" />
+    <result column="date_of_last_agm" jdbcType="VARCHAR" property="dateOfLastAgm" />
+    <result column="date_of_balance_sheet" jdbcType="VARCHAR" property="dateOfBalanceSheet" />
+    <result column="company_status" jdbcType="VARCHAR" property="companyStatus" />
+    <result column="registered_address" jdbcType="VARCHAR" property="registeredAddress" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, cin, company_name, roc_code, registration_number, company_category, 
+    company_sub_category, class_of_company, authorised_capital, paid_up_capital, number_of_members, 
+    date_of_incorporation, email_id, whether_listed_or_not, active_compliant, suspended_at_stock_exchange, 
+    date_of_last_agm, date_of_balance_sheet, company_status, registered_address, gmt_create, 
+    gmt_modify, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from india_cin
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from india_cin
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rtc.manager.entity.india.IndiaCin">
+    insert into india_cin (id, enterprise_id, cin, 
+      company_name, roc_code, registration_number, 
+      company_category, company_sub_category, class_of_company, 
+      authorised_capital, paid_up_capital, number_of_members, 
+      date_of_incorporation, email_id, whether_listed_or_not, 
+      active_compliant, suspended_at_stock_exchange, 
+      date_of_last_agm, date_of_balance_sheet, company_status, 
+      registered_address, gmt_create, gmt_modify, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{cin,jdbcType=VARCHAR}, 
+      #{companyName,jdbcType=VARCHAR}, #{rocCode,jdbcType=VARCHAR}, #{registrationNumber,jdbcType=VARCHAR}, 
+      #{companyCategory,jdbcType=VARCHAR}, #{companySubCategory,jdbcType=VARCHAR}, #{classOfCompany,jdbcType=VARCHAR}, 
+      #{authorisedCapital,jdbcType=VARCHAR}, #{paidUpCapital,jdbcType=VARCHAR}, #{numberOfMembers,jdbcType=VARCHAR}, 
+      #{dateOfIncorporation,jdbcType=VARCHAR}, #{emailId,jdbcType=VARCHAR}, #{whetherListedOrNot,jdbcType=VARCHAR}, 
+      #{activeCompliant,jdbcType=VARCHAR}, #{suspendedAtStockExchange,jdbcType=VARCHAR}, 
+      #{dateOfLastAgm,jdbcType=VARCHAR}, #{dateOfBalanceSheet,jdbcType=VARCHAR}, #{companyStatus,jdbcType=VARCHAR}, 
+      #{registeredAddress,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.india.IndiaCin">
+    insert into india_cin
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="cin != null">
+        cin,
+      </if>
+      <if test="companyName != null">
+        company_name,
+      </if>
+      <if test="rocCode != null">
+        roc_code,
+      </if>
+      <if test="registrationNumber != null">
+        registration_number,
+      </if>
+      <if test="companyCategory != null">
+        company_category,
+      </if>
+      <if test="companySubCategory != null">
+        company_sub_category,
+      </if>
+      <if test="classOfCompany != null">
+        class_of_company,
+      </if>
+      <if test="authorisedCapital != null">
+        authorised_capital,
+      </if>
+      <if test="paidUpCapital != null">
+        paid_up_capital,
+      </if>
+      <if test="numberOfMembers != null">
+        number_of_members,
+      </if>
+      <if test="dateOfIncorporation != null">
+        date_of_incorporation,
+      </if>
+      <if test="emailId != null">
+        email_id,
+      </if>
+      <if test="whetherListedOrNot != null">
+        whether_listed_or_not,
+      </if>
+      <if test="activeCompliant != null">
+        active_compliant,
+      </if>
+      <if test="suspendedAtStockExchange != null">
+        suspended_at_stock_exchange,
+      </if>
+      <if test="dateOfLastAgm != null">
+        date_of_last_agm,
+      </if>
+      <if test="dateOfBalanceSheet != null">
+        date_of_balance_sheet,
+      </if>
+      <if test="companyStatus != null">
+        company_status,
+      </if>
+      <if test="registeredAddress != null">
+        registered_address,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="cin != null">
+        #{cin,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null">
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="rocCode != null">
+        #{rocCode,jdbcType=VARCHAR},
+      </if>
+      <if test="registrationNumber != null">
+        #{registrationNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="companyCategory != null">
+        #{companyCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="companySubCategory != null">
+        #{companySubCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="classOfCompany != null">
+        #{classOfCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="authorisedCapital != null">
+        #{authorisedCapital,jdbcType=VARCHAR},
+      </if>
+      <if test="paidUpCapital != null">
+        #{paidUpCapital,jdbcType=VARCHAR},
+      </if>
+      <if test="numberOfMembers != null">
+        #{numberOfMembers,jdbcType=VARCHAR},
+      </if>
+      <if test="dateOfIncorporation != null">
+        #{dateOfIncorporation,jdbcType=VARCHAR},
+      </if>
+      <if test="emailId != null">
+        #{emailId,jdbcType=VARCHAR},
+      </if>
+      <if test="whetherListedOrNot != null">
+        #{whetherListedOrNot,jdbcType=VARCHAR},
+      </if>
+      <if test="activeCompliant != null">
+        #{activeCompliant,jdbcType=VARCHAR},
+      </if>
+      <if test="suspendedAtStockExchange != null">
+        #{suspendedAtStockExchange,jdbcType=VARCHAR},
+      </if>
+      <if test="dateOfLastAgm != null">
+        #{dateOfLastAgm,jdbcType=VARCHAR},
+      </if>
+      <if test="dateOfBalanceSheet != null">
+        #{dateOfBalanceSheet,jdbcType=VARCHAR},
+      </if>
+      <if test="companyStatus != null">
+        #{companyStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredAddress != null">
+        #{registeredAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.india.IndiaCin">
+    update india_cin
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="cin != null">
+        cin = #{cin,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null">
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="rocCode != null">
+        roc_code = #{rocCode,jdbcType=VARCHAR},
+      </if>
+      <if test="registrationNumber != null">
+        registration_number = #{registrationNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="companyCategory != null">
+        company_category = #{companyCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="companySubCategory != null">
+        company_sub_category = #{companySubCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="classOfCompany != null">
+        class_of_company = #{classOfCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="authorisedCapital != null">
+        authorised_capital = #{authorisedCapital,jdbcType=VARCHAR},
+      </if>
+      <if test="paidUpCapital != null">
+        paid_up_capital = #{paidUpCapital,jdbcType=VARCHAR},
+      </if>
+      <if test="numberOfMembers != null">
+        number_of_members = #{numberOfMembers,jdbcType=VARCHAR},
+      </if>
+      <if test="dateOfIncorporation != null">
+        date_of_incorporation = #{dateOfIncorporation,jdbcType=VARCHAR},
+      </if>
+      <if test="emailId != null">
+        email_id = #{emailId,jdbcType=VARCHAR},
+      </if>
+      <if test="whetherListedOrNot != null">
+        whether_listed_or_not = #{whetherListedOrNot,jdbcType=VARCHAR},
+      </if>
+      <if test="activeCompliant != null">
+        active_compliant = #{activeCompliant,jdbcType=VARCHAR},
+      </if>
+      <if test="suspendedAtStockExchange != null">
+        suspended_at_stock_exchange = #{suspendedAtStockExchange,jdbcType=VARCHAR},
+      </if>
+      <if test="dateOfLastAgm != null">
+        date_of_last_agm = #{dateOfLastAgm,jdbcType=VARCHAR},
+      </if>
+      <if test="dateOfBalanceSheet != null">
+        date_of_balance_sheet = #{dateOfBalanceSheet,jdbcType=VARCHAR},
+      </if>
+      <if test="companyStatus != null">
+        company_status = #{companyStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredAddress != null">
+        registered_address = #{registeredAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.india.IndiaCin">
+    update india_cin
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      cin = #{cin,jdbcType=VARCHAR},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      roc_code = #{rocCode,jdbcType=VARCHAR},
+      registration_number = #{registrationNumber,jdbcType=VARCHAR},
+      company_category = #{companyCategory,jdbcType=VARCHAR},
+      company_sub_category = #{companySubCategory,jdbcType=VARCHAR},
+      class_of_company = #{classOfCompany,jdbcType=VARCHAR},
+      authorised_capital = #{authorisedCapital,jdbcType=VARCHAR},
+      paid_up_capital = #{paidUpCapital,jdbcType=VARCHAR},
+      number_of_members = #{numberOfMembers,jdbcType=VARCHAR},
+      date_of_incorporation = #{dateOfIncorporation,jdbcType=VARCHAR},
+      email_id = #{emailId,jdbcType=VARCHAR},
+      whether_listed_or_not = #{whetherListedOrNot,jdbcType=VARCHAR},
+      active_compliant = #{activeCompliant,jdbcType=VARCHAR},
+      suspended_at_stock_exchange = #{suspendedAtStockExchange,jdbcType=VARCHAR},
+      date_of_last_agm = #{dateOfLastAgm,jdbcType=VARCHAR},
+      date_of_balance_sheet = #{dateOfBalanceSheet,jdbcType=VARCHAR},
+      company_status = #{companyStatus,jdbcType=VARCHAR},
+      registered_address = #{registeredAddress,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
