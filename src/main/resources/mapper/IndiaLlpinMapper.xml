@@ -270,4 +270,94 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
+  <resultMap id="selectEnterprise" type="com.rtc.manager.vo.india.IndiaLlpinEnterpriseVO">
+    <result column="code" property="code"/>
+    <association property="indiaLlpinVO" javaType="com.rtc.manager.vo.india.IndiaLlpinVO">
+      <id column="llpin_id" property="id" jdbcType="INTEGER" />
+      <result column="llpin_enterprise_id" property="enterpriseId" jdbcType="VARCHAR" />
+      <result column="llpin_llpin" property="llpin" jdbcType="VARCHAR" />
+      <result column="llpin_llp_name" property="llpName" jdbcType="VARCHAR" />
+      <result column="llpin_number_of_partners" property="numberOfPartners" jdbcType="VARCHAR" />
+      <result column="llpin_number_of_designated_partners" property="numberOfDesignatedPartners" jdbcType="VARCHAR" />
+      <result column="llpin_roc_code" property="rocCode" jdbcType="VARCHAR" />
+      <result column="llpin_date_of_incorporation" property="dateOfIncorporation" jdbcType="VARCHAR" />
+      <result column="llpin_registrated_address" property="registratedAddress" jdbcType="VARCHAR" />
+      <result column="llpin_email_id" property="emailId" jdbcType="VARCHAR" />
+      <result column="llpin_previous_firm" property="previousFirm" jdbcType="VARCHAR" />
+      <result column="llpin_total_obligation_of_contribution" property="totalObligationOfContribution" jdbcType="VARCHAR" />
+      <result column="llpin_main_division_of_business" property="mainDivisionOfBusiness" jdbcType="VARCHAR" />
+      <result column="llpin_description_of_main_division" property="descriptionOfMainDivision" jdbcType="VARCHAR" />
+      <result column="llpin_statement_date" property="statementDate" jdbcType="VARCHAR" />
+      <result column="llpin_annual_date" property="annualDate" jdbcType="VARCHAR" />
+      <result column="llpin_llp_status" property="llpStatus" jdbcType="VARCHAR" />
+    </association>
+    <collection property="chargeList" ofType="com.rtc.manager.vo.india.IndiaChargeVO">
+      <id column="charge_id" property="id" jdbcType="INTEGER" />
+      <result column="charge_enterprise_id" property="enterpriseId" jdbcType="VARCHAR"/>
+      <result column="charge_srn" property="srn" jdbcType="VARCHAR"/>
+      <result column="charge_charge_id" property="chargeId" jdbcType="VARCHAR"/>
+      <result column="charge_charge_holder_name" property="chargeHolderName" jdbcType="VARCHAR"/>
+      <result column="charge_date_of_creation" property="dateOfCreation" jdbcType="VARCHAR"/>
+      <result column="charge_date_of_modification" property="dateOfModification" jdbcType="VARCHAR"/>
+      <result column="charge_date_of_satisfaction" property="dateOfSatisfaction" jdbcType="VARCHAR"/>
+      <result column="charge_amount" property="amount" jdbcType="VARCHAR"/>
+      <result column="charge_address" property="address" jdbcType="VARCHAR"/>
+    </collection>
+    <collection property="signatoryList" ofType="com.rtc.manager.vo.india.IndiaSignatoryVO">
+      <id column="signatory_id" property="id" jdbcType="INTEGER" />
+      <result column="signatory_enterprise_id" property="enterpriseId" jdbcType="VARCHAR"/>
+      <result column="signatory_din_pan" property="dinPan" jdbcType="VARCHAR"/>
+      <result column="signatory_name" property="name" jdbcType="VARCHAR"/>
+      <result column="signatory_begin_date" property="beginDate" jdbcType="VARCHAR"/>
+      <result column="signatory_end_date" property="endDate" jdbcType="VARCHAR"/>
+      <result column="signatory_surrendered_din" property="surrenderedDin" jdbcType="VARCHAR"/>
+    </collection>
+  </resultMap>
+  <select id="selectEnterprise" resultMap="selectEnterprise">
+    SELECT
+      200 code,
+      india_llpin.id llpin_id,
+      india_llpin.enterprise_id llpin_enterprise_id,
+      india_llpin.llpin llpin_llpin,
+      india_llpin.llp_name llpin_llp_name,
+      india_llpin.number_of_partners llpin_number_of_partners,
+      india_llpin.number_of_designated_partners llpin_number_of_designated_partners,
+      india_llpin.roc_code llpin_roc_code,
+      india_llpin.date_of_incorporation llpin_date_of_incorporation,
+      india_llpin.registrated_address llpin_registrated_address,
+      india_llpin.email_id llpin_email_id,
+      india_llpin.previous_firm llpin_previous_firm,
+      india_llpin.total_obligation_of_contribution llpin_total_obligation_of_contribution,
+      india_llpin.main_division_of_business llpin_main_division_of_business,
+      india_llpin.description_of_main_division llpin_description_of_main_division,
+      india_llpin.statement_date llpin_statement_date,
+      india_llpin.annual_date llpin_annual_date,
+      india_llpin.llp_status llpin_llp_status,
+      india_charge.id charge_id,
+      india_charge.enterprise_id charge_enterprise_id,
+      india_charge.srn charge_srn,
+      india_charge.charge_id charge_charge_id,
+      india_charge.charge_holder_name charge_charge_holder_name,
+      india_charge.date_of_creation charge_date_of_creation,
+      india_charge.date_of_modification charge_date_of_modification,
+      india_charge.date_of_satisfaction charge_date_of_satisfaction,
+      india_charge.amount charge_amount,
+      india_charge.address charge_address,
+      india_signatory.id signatory_id,
+      india_signatory.enterprise_id signatory_enterprise_id,
+      india_signatory.din_pan signatory_din_pan,
+      india_signatory.`name` signatory_name,
+      india_signatory.begin_date signatory_begin_date,
+      india_signatory.end_date signatory_end_date,
+      india_signatory.surrendered_din signatory_surrendered_din
+    FROM
+        india_llpin
+        LEFT JOIN india_charge ON india_llpin.enterprise_id = india_charge.enterprise_id
+        LEFT JOIN india_signatory ON india_llpin.enterprise_id = india_signatory.enterprise_id
+    WHERE
+        india_llpin.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+        AND india_llpin.enterprise_id = #{enterpriseId}
+  </select>
 </mapper>

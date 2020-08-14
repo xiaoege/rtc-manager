@@ -14,4 +14,6 @@ public interface IndiaLlpinMapper {
     int updateByPrimaryKeySelective(IndiaLlpin record);
 
     int updateByPrimaryKey(IndiaLlpin record);
+
+    Object selectEnterprise(String enterpriseId);
 }

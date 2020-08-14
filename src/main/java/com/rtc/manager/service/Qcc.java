@@ -1,8 +1,7 @@
 package com.rtc.manager.service;
 
 import com.github.pagehelper.PageInfo;
-import com.rtc.manager.vo.QccListVO;
-import com.rtc.manager.vo.QccVO;
+import com.rtc.manager.vo.EnterpriseListResultData;
 
 import java.util.List;
 
@@ -15,13 +14,13 @@ public interface Qcc {
      * @param name 企业名
      * @return
      */
-    PageInfo<QccListVO> listEnterprise(String name, int pageNum, int pageSize) throws Exception;
+    EnterpriseListResultData listEnterprise(String name, int pageNum, int pageSize) throws Exception;
 
-    QccVO getEnterprise(String enterpriseId) throws Exception;
+    Object getEnterprise(String enterpriseId, String nation, String eType) throws Exception;
 
-    PageInfo<List> getEnterpriseDetail(String name, String enterpriseId, int pageNum, int pageSize);
+    PageInfo<List> getEnterpriseDetail(String name, String enterpriseId, int pageNum, int pageSize, String nation, String eType);
 
-    Object getEnterpriseSubDetail(String name, Integer id);
+    Object getEnterpriseSubDetail(String name, Integer id, String nation, String eType);
 
-    Object getEnterpriseSubDetailMuti(String name, String enterpriseId, Integer id, int pageNum, int pageSize);
+    Object getEnterpriseSubDetailMuti(String name, String enterpriseId, Integer id, int pageNum, int pageSize, String nation, String eType);
 }

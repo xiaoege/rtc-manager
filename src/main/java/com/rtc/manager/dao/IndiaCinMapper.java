@@ -14,4 +14,6 @@ public interface IndiaCinMapper {
     int updateByPrimaryKeySelective(IndiaCin record);
 
     int updateByPrimaryKey(IndiaCin record);
+
+    Object selectEnterprise(String enterpriseId);
 }
