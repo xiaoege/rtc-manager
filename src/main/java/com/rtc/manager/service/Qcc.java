@@ -1,7 +1,7 @@
 package com.rtc.manager.service;
 
 import com.github.pagehelper.PageInfo;
-import com.rtc.manager.vo.EnterpriseListResultData;
+import com.rtc.manager.vo.ResultData;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ public interface Qcc {
      * @param name 企业名
      * @return
      */
-    EnterpriseListResultData listEnterprise(String name, int pageNum, int pageSize) throws Exception;
+    ResultData listEnterprise(String name, int pageNum, int pageSize) throws Exception;
 
     Object getEnterprise(String enterpriseId, String nation, String eType) throws Exception;
 

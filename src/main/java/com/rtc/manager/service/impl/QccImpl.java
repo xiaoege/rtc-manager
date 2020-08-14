@@ -31,7 +31,9 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author ChenHang
@@ -55,7 +57,7 @@ public class QccImpl implements Qcc {
     private India india;
 
     @Override
-    public EnterpriseListResultData listEnterprise(String name, int pageNum, int pageSize) throws Exception {
+    public ResultData listEnterprise(String name, int pageNum, int pageSize) throws Exception {
         SearchRequest searchRequest = new SearchRequest("china", "india-cin", "india-llpin");
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.size(pageSize);
@@ -80,8 +82,12 @@ public class QccImpl implements Qcc {
                 }
             }
         }
-
-        return EnterpriseListResultData.SUCCESS(resultList, total, pageNum, pageSize);
+        Map map = new HashMap();
+        map.put("list", resultList);
+        map.put("total", total);
+        map.put("pageNum", pageNum);
+        map.put("pageSize", pageSize);
+        return ResultData.SUCCESS(map);
     }
 
 
