@@ -22,6 +22,7 @@ public class UserController {
      * @return
      * @throws Exception
      */
+    @ApiIgnore
     @ApiOperation("邮箱注册")
     @ApiResponses({@ApiResponse(code = 700,message = "邮箱格式错误"),
             @ApiResponse(code = 701,message = "邮箱已注册"),

@@ -5,10 +5,8 @@ import com.rtc.manager.service.India;
 import com.rtc.manager.service.Qcc;
 import com.rtc.manager.util.CommonUtils;
 import com.rtc.manager.vo.ResultData;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import com.rtc.manager.vo.SearchEnterpriseListVO;
+import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,14 +40,14 @@ public class EnterpriseController {
      * @param name 企业名
      * @return
      */
-    @ApiOperation("搜索企业-列表")
+    @ApiOperation(value = "搜索企业-列表")
     @ApiImplicitParams({@ApiImplicitParam(name = "name", value = "企业名", required = true),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false, defaultValue = "1"),
             @ApiImplicitParam(name = "pageSize", value = "当前页大小", required = false, defaultValue = "20")})
     @GetMapping("listEnterprise")
-    public ResultData listEnterprise(@RequestParam(name = "name", required = true) String name,
-                                     @RequestParam(name = "pageNum", required = false, defaultValue = "0") int pageNum,
-                                     @RequestParam(name = "pageSize", required = false, defaultValue = "20") int pageSize) {
+    public ResultData<SearchEnterpriseListVO> listEnterprise(@RequestParam(name = "name", required = true) String name,
+                                                             @RequestParam(name = "pageNum", required = false, defaultValue = "0") int pageNum,
+                                                             @RequestParam(name = "pageSize", required = false, defaultValue = "20") int pageSize) {
         // 此处的pageNum在es里从0开始
         if (pageNum < 2) {
             pageNum = 0;
