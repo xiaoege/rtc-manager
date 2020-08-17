@@ -78,7 +78,8 @@ public class QccImpl implements Qcc {
                 ObjectMapper objectMapper = new ObjectMapper();
                 for (int i = 0; i < hits.length; i++) {
                     SearchHit hit = hits[i];
-                    resultList.add(hit.getSourceAsMap());
+                    SearchEnterpriseListVO vo = objectMapper.readValue(hit.getSourceAsString(), SearchEnterpriseListVO.class);
+                    resultList.add(vo);
                 }
             }
         }
@@ -235,7 +236,7 @@ public class QccImpl implements Qcc {
     public Object getEnterprise(String enterpriseId, String nation, String eType) throws Exception {
         Object o = null;
         switch (nation) {
-            case "china":
+            case "China":
                 QccVO qccVO = qccMapper.selectByEnterpriseId(enterpriseId);
                 if (qccVO != null) {
                     String transferMoney = CommonUtils.transferMoney(qccVO.getRegisteredCapital());
@@ -264,7 +265,7 @@ public class QccImpl implements Qcc {
                     o = qccVO;
                 }
                 return o;
-            case "india":
+            case "India":
                 return india.getIndiaEnterprise(enterpriseId, eType);
         }
         return null;
@@ -272,8 +273,8 @@ public class QccImpl implements Qcc {
 
     @Override
     public PageInfo<List> getEnterpriseDetail(String name, String enterpriseId, int pageNum, int pageSize, String nation, String eType) {
-        List list = null;
-        if ("china".equals(nation) && "china".equals(eType)) {
+        List list = new ArrayList();
+        if ("China".equals(nation) && "China".equals(eType)) {
             PageHelper.startPage(pageNum, pageSize);
             switch (name) {
                 case "judgmentDocument":
@@ -430,7 +431,7 @@ public class QccImpl implements Qcc {
     @Override
     public Object getEnterpriseSubDetail(String name, Integer id, String nation, String eType) {
         Object object = null;
-        if ("china".equals(nation) && "china".equals(eType)) {
+        if ("China".equals(nation) && "China".equals(eType)) {
             switch (name) {
                 case "judgmentDocument":
                     object = qccSubDetailMapper.getQccJudgmentDocumentVO(id);
@@ -567,7 +568,7 @@ public class QccImpl implements Qcc {
     @Override
     public Object getEnterpriseSubDetailMuti(String name, String enterpriseId, Integer id, int pageNum, int pageSize, String nation, String eType) {
         Object o = null;
-        if ("china".equals(nation) && "china".equals(eType)) {
+        if ("China".equals(nation) && "China".equals(eType)) {
             if (null != enterpriseId) {
                 PageInfo<List> listPageInfo = getEnterpriseDetail(name, enterpriseId, pageNum, pageSize, nation, eType);
                 List list = listPageInfo.getList();

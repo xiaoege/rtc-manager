@@ -44,12 +44,18 @@ public class EnterpriseController {
      */
     @ApiOperation("搜索企业-列表")
     @ApiImplicitParams({@ApiImplicitParam(name = "name", value = "企业名", required = true),
-            @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从0开始", required = false, defaultValue = "0"),
+            @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false, defaultValue = "1"),
             @ApiImplicitParam(name = "pageSize", value = "当前页大小", required = false, defaultValue = "20")})
     @GetMapping("listEnterprise")
     public ResultData listEnterprise(@RequestParam(name = "name", required = true) String name,
                                      @RequestParam(name = "pageNum", required = false, defaultValue = "0") int pageNum,
                                      @RequestParam(name = "pageSize", required = false, defaultValue = "20") int pageSize) {
+        // 此处的pageNum在es里从0开始
+        if (pageNum < 2) {
+            pageNum = 0;
+        } else {
+            pageNum -= 1;
+        }
         ResultData resultData = null;
         try {
             resultData = qcc.listEnterprise(name, pageNum, pageSize);
