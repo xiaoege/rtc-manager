@@ -79,10 +79,10 @@ public class QccImpl implements Qcc {
                 for (int i = 0; i < hits.length; i++) {
                     SearchHit hit = hits[i];
                     SearchEnterpriseListVO vo = objectMapper.readValue(hit.getSourceAsString(), SearchEnterpriseListVO.class);
-                    if (vo != null && vo.getRegisteredCapital() != null) {
-                        String registeredCapital = vo.getRegisteredCapital();
-                        vo.setRegisteredCapital(CommonUtils.transferMoney(registeredCapital));
-                    }
+//                    if (vo != null && vo.getRegisteredCapital() != null) {
+//                        String registeredCapital = vo.getRegisteredCapital();
+//                        vo.setRegisteredCapital(CommonUtils.transferMoney(registeredCapital));
+//                    }
                     resultList.add(vo);
                 }
             }

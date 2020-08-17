@@ -25,7 +25,7 @@ public class SearchEnterpriseListVO {
     @JsonAlias("enterprise_id")
     private String enterpriseId;
     // india-cin
-    private String cin;
+    /*private String cin;
     @JsonAlias("roc_code")
     private String rocCode;
     @JsonAlias("registration_number")
@@ -59,10 +59,10 @@ public class SearchEnterpriseListVO {
     @JsonAlias("company_status")
     private String companyStatus;
     @JsonAlias("registered_address")
-    private String registeredAddress;
+    private String registeredAddress;*/
 
     // india-llpin
-    private String llpin;
+    /*private String llpin;
     @JsonAlias("number_of_partners")
     private String numberOfPartners;
     @JsonAlias("number_of_designated_partners")
@@ -82,16 +82,17 @@ public class SearchEnterpriseListVO {
     @JsonAlias("annual_date")
     private String annualDate;
     @JsonAlias("llp_status")
-    private String llpStatus;
+    private String llpStatus;*/
 
     // China
-    @JsonAlias("registered_capital")
-    private String registeredCapital;
+//    @JsonAlias("registered_capital")
+//    private String registeredCapital;
     @JsonAlias("legal_representative")
     private String legalRepresentative;
-    @JsonAlias("establishment_date")
+    @JsonAlias({"establishment_date", "date_of_incorporation"})
     private String establishmentDate;
+    @JsonAlias({"registered_address", "address"})
     private String address;
-    @JsonAlias("country_region")
-    private String countryRegion;
+//    @JsonAlias("country_region")
+//    private String countryRegion;
 }
