@@ -104,15 +104,15 @@ public class EnterpriseController {
             @ApiImplicitParam(name = "enterpriseId", value = "企业id", required = true),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false),
             @ApiImplicitParam(name = "pageSize", value = "当前页大小", required = false),
-            @ApiImplicitParam(name = "nation", value = "国家：China", required = true),
-            @ApiImplicitParam(name = "e_type", value = "企业类型，对应国家：China.China", required = true)})
+            @ApiImplicitParam(name = "nation", value = "国家：China", required = false),
+            @ApiImplicitParam(name = "e_type", value = "企业类型，对应国家：China.China", required = false)})
     @GetMapping("getEnterpriseDetail")
     public ResultData<Object> getEnterpriseDetail(@RequestParam(name = "name", required = true) String name,
                                                   @RequestParam(name = "enterpriseId", required = true) String enterpriseId,
                                                   @RequestParam(name = "pageNum", required = false, defaultValue = "1") int pageNum,
                                                   @RequestParam(name = "pageSize", required = false, defaultValue = "0") int pageSize,
-                                                  @RequestParam(name = "nation", required = true) String nation,
-                                                  @RequestParam(name = "e_type", required = true) String eType) {
+                                                  @RequestParam(name = "nation", required = false) String nation,
+                                                  @RequestParam(name = "e_type", required = false) String eType) {
 
         PageInfo<List> list = qcc.getEnterpriseDetail(name, enterpriseId, pageNum, pageSize, nation, eType);
         return ResultData.SUCCESS(list);
@@ -130,8 +130,8 @@ public class EnterpriseController {
     @GetMapping("getEnterpriseSubDetail")
     public ResultData<Object> getEnterpriseSubDetail(@RequestParam(name = "name", required = true) String name,
                                                      @RequestParam(name = "pid", required = true) Integer id,
-                                                     @RequestParam(name = "nation", required = true) String nation,
-                                                     @RequestParam(name = "e_type", required = true) String eType) {
+                                                     @RequestParam(name = "nation", required = false) String nation,
+                                                     @RequestParam(name = "e_type", required = false) String eType) {
         Object data = qcc.getEnterpriseSubDetail(name, id, nation, eType);
         return ResultData.SUCCESS(data);
     }
@@ -151,16 +151,16 @@ public class EnterpriseController {
             @ApiImplicitParam(name = "enterpriseId", value = "企业id", required = false),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false),
             @ApiImplicitParam(name = "pageSize", value = "当前页大小", required = false),
-            @ApiImplicitParam(name = "nation", value = "国家：China", required = true),
-            @ApiImplicitParam(name = "e_type", value = "企业类型，对应国家：China.China", required = true)})
+            @ApiImplicitParam(name = "nation", value = "国家：China", required = false),
+            @ApiImplicitParam(name = "e_type", value = "企业类型，对应国家：China.China", required = false)})
     @GetMapping("getEnterpriseSubDetailMuti")
     public ResultData<Object> getEnterpriseSubDetailMuti(@RequestParam(name = "name", required = true) String name,
                                                          @RequestParam(name = "pid", required = false) Integer id,
                                                          @RequestParam(name = "enterpriseId", required = false) String enterpriseId,
                                                          @RequestParam(name = "pageNum", required = false, defaultValue = "1") int pageNum,
                                                          @RequestParam(name = "pageSize", required = false, defaultValue = "0") int pageSize,
-                                                         @RequestParam(name = "nation", required = true) String nation,
-                                                         @RequestParam(name = "e_type", required = true) String eType) {
+                                                         @RequestParam(name = "nation", required = false) String nation,
+                                                         @RequestParam(name = "e_type", required = false) String eType) {
         Object list = qcc.getEnterpriseSubDetailMuti(name, enterpriseId, id, pageNum, pageSize, nation, eType);
         return ResultData.SUCCESS(list);
     }

@@ -278,210 +278,59 @@ public class QccImpl implements Qcc {
     @Override
     public PageInfo<List> getEnterpriseDetail(String name, String enterpriseId, int pageNum, int pageSize, String nation, String eType) {
         List list = new ArrayList();
-        if ("China".equals(nation) && "China".equals(eType)) {
-            PageHelper.startPage(pageNum, pageSize);
-            switch (name) {
-                case "judgmentDocument":
-                    list = qccMapper.listQccJudgmentDocumentVO(enterpriseId);
-                    break;
-                case "administrativeLicense":
-                    list = qccMapper.listQccAdministrativeLicenseVO(enterpriseId);
-                    break;
-                case "taxCredit":
-                    list = qccMapper.listQccTaxCreditVO(enterpriseId);
-                    break;
-                case "bidding":
-                    list = qccMapper.listQccBiddingVO(enterpriseId);
-                    break;
-                case "importExportCredit":
-                    list = qccMapper.listQccImportExportCreditVO(enterpriseId);
-                    break;
-                case "landPurchaseInformation":
-                    list = qccMapper.listQccLandPurchaseInformationVO(enterpriseId);
-                    break;
-                case "supplier":
-                    list = qccMapper.listQccSupplierVO(enterpriseId);
-                    if (!CollectionUtils.isEmpty(list)) {
-                        for (int i = 0; i < list.size(); i++) {
-                            QccSupplierVO qccSupplierVO = (QccSupplierVO) list.get(i);
-                            qccSupplierVO.setPurchaseAmount(CommonUtils.transferMoney2(qccSupplierVO.getPurchaseAmount(), "-", Math.pow(10, 4)));
-                        }
-                    }
-                    break;
-                case "client":
-                    list = qccMapper.listQccClientVO(enterpriseId);
-                    if (!CollectionUtils.isEmpty(list)) {
-                        for (int i = 0; i < list.size(); i++) {
-                            QccClientVO qccClientVO = (QccClientVO) list.get(i);
-                            qccClientVO.setSaleAmount(CommonUtils.transferMoney2(qccClientVO.getSaleAmount(), "-", Math.pow(10, 4)));
-                        }
-                    }
-                    break;
-                case "generalTaxpayer":
-                    list = qccMapper.listQccGeneralTaxpayerVO(enterpriseId);
-                    break;
-                case "abnormalOperation":
-                    list = qccMapper.listQccAbnormalOperationVO(enterpriseId);
-                    break;
-                case "administrativeSanction":
-                    list = qccMapper.listQccAdministrativeSanctionVO(enterpriseId);
-                    break;
-                case "annualReport":
-                    list = qccMapper.listQccAnnualReportVO(enterpriseId);
-                    if (!CollectionUtils.isEmpty(list)) {
-                        for (int i = 0; i < list.size(); i++) {
-                            QccAnnualReportVO qccAnnualReportVO = (QccAnnualReportVO) list.get(i);
-                            qccAnnualReportVO.setTotalAssets(CommonUtils.transferMoney2(qccAnnualReportVO.getTotalAssets(), "Enterprises choose not to publicize", Math.pow(10, 4)));
-                            qccAnnualReportVO.setTotalEquity(CommonUtils.transferMoney2(qccAnnualReportVO.getTotalEquity(), "Enterprises choose not to publicize", Math.pow(10, 4)));
-                            qccAnnualReportVO.setTotalOperatingIncome(CommonUtils.transferMoney2(qccAnnualReportVO.getTotalOperatingIncome(), "Enterprises choose not to publicize", Math.pow(10, 4)));
-                            qccAnnualReportVO.setTotalProfit(CommonUtils.transferMoney2(qccAnnualReportVO.getTotalProfit(), "Enterprises choose not to publicize", Math.pow(10, 4)));
-                            qccAnnualReportVO.setNetProfit(CommonUtils.transferMoney2(qccAnnualReportVO.getNetProfit(), "Enterprises choose not to publicize", Math.pow(10, 4)));
-                            qccAnnualReportVO.setMainBusinessIncome(CommonUtils.transferMoney2(qccAnnualReportVO.getMainBusinessIncome(), "Enterprises choose not to publicize", Math.pow(10, 4)));
-                            qccAnnualReportVO.setTotalTax(CommonUtils.transferMoney2(qccAnnualReportVO.getTotalTax(), "Enterprises choose not to publicize", Math.pow(10, 4)));
-                            qccAnnualReportVO.setTotalLiabilities(CommonUtils.transferMoney2(qccAnnualReportVO.getTotalLiabilities(), "Enterprises choose not to publicize", Math.pow(10, 4)));
-                            List<QccAnnualReportShareholderVO> qccAnnualReportShareholderVOList = qccAnnualReportVO.getQccAnnualReportShareholderVOList();
-                            for (int j = 0; j < qccAnnualReportShareholderVOList.size(); j++) {
-                                QccAnnualReportShareholderVO qccAnnualReportShareholderVO = qccAnnualReportShareholderVOList.get(j);
-                                qccAnnualReportShareholderVO.setSubscribedCapital(CommonUtils.transferMoney2(qccAnnualReportShareholderVO.getSubscribedCapital(), "-", Math.pow(10, 4)));
-                                qccAnnualReportShareholderVO.setPaidCapital(CommonUtils.transferMoney2(qccAnnualReportShareholderVO.getPaidCapital(), "-", Math.pow(10, 4)));
-                            }
-                        }
-                    }
-                    break;
-                case "financingConsultation":
-                    list = qccMapper.listQccFinancingConsultationVO(enterpriseId);
-                    if (!CollectionUtils.isEmpty(list)) {
-                        for (int i = 0; i < list.size(); i++) {
-                            QccFinancingConsultationVO qccFinancingConsultationVO = (QccFinancingConsultationVO) list.get(i);
-                            qccFinancingConsultationVO.setAmount(CommonUtils.transferMoney(qccFinancingConsultationVO.getAmount()));
-                        }
-                    }
-                    break;
-                case "keyman":
-                    list = qccMapper.listQccKeymanVO(enterpriseId);
-                    break;
-                case "qualificationCertificate":
-                    list = qccMapper.listQccQualificationCertificateVO(enterpriseId);
-                    break;
-                case "softwareCopyright":
-                    list = qccMapper.listQccSoftwareCopyrightVO(enterpriseId);
-                    break;
-                case "websiteInformation":
-                    list = qccMapper.listQccWebsiteInformationVO(enterpriseId);
-                    break;
-                case "app":
-                    list = qccMapper.listQccAppVO(enterpriseId);
-                    break;
-                case "applet":
-                    list = qccMapper.listQccAppletVO(enterpriseId);
-                    break;
-                case "wechat":
-                    list = qccMapper.listQccWechatVO(enterpriseId);
-                    break;
-                case "weibo":
-                    list = qccMapper.listQccWeiboVO(enterpriseId);
-                    break;
-                // 法律诉讼 - 开庭公告
-                case "courtNotice":
-                    list = qccMapper.listQccCourtNoticeVO(enterpriseId);
-                    break;
-                // 法律诉讼 - 立案信息
-                case "filingInformation":
-                    list = qccMapper.listQccFilingInformationVO(enterpriseId);
-                    break;
-                // 经营状况 - 行政许可 [信用中国]
-                case "administrativeLicenseChina":
-                    list = qccMapper.listQccAdministrativeLicenseChinaVO(enterpriseId);
-                    break;
-                // 经营风险 - 欠税公告
-                case "taxArrearsNotice":
-                    list = qccMapper.listQccTaxArrearsNoticeVO(enterpriseId);
-                    if (!CollectionUtils.isEmpty(list)) {
-                        for (int i = 0; i < list.size(); i++) {
-                            QccTaxArrearsNoticeVO o = (QccTaxArrearsNoticeVO) list.get(i);
-                            o.setBalance(CommonUtils.transferMoney2(o.getBalance(), "-", 1d));
-                            o.setCurrentArrears(CommonUtils.transferMoney2(o.getCurrentArrears(), "-", 1d));
-                        }
-                    }
-                    break;
-                // 经营风险 - 股权质押
-                case "equityPledge":
-                    list = qccMapper.listQccEquityPledgeVO(enterpriseId);
-                    if (!CollectionUtils.isEmpty(list)) {
-                        for (int i = 0; i < list.size(); i++) {
-                            QccEquityPledgeVO o = (QccEquityPledgeVO) list.get(i);
-                            o.setShares(CommonUtils.transferMoney2(o.getShares(), "-", Math.pow(10, 4)));
-                            o.setValue(CommonUtils.transferMoney2(o.getValue(), "-", Math.pow(10, 4)));
-                        }
-                    }
-                    break;
-                // 经营风险 - 股权出质
-                case "equityOutPledge":
-                    list = qccMapper.listQccEquityOutPledgeVO(enterpriseId);
-                    if (!CollectionUtils.isEmpty(list)) {
-                        for (int i = 0; i < list.size(); i++) {
-                            QccEquityOutPledgeVO o = (QccEquityOutPledgeVO) list.get(i);
-                            o.setAmount(CommonUtils.transferMoney2(o.getAmount(), "-", Math.pow(10, 4)));
-                        }
-                    }
-                    break;
-                default:
-            }
-        }
-
-        return new PageInfo<>(list);
-    }
-
-    @Override
-    public Object getEnterpriseSubDetail(String name, Integer id, String nation, String eType) {
-        Object object = null;
-        if ("China".equals(nation) && "China".equals(eType)) {
-            switch (name) {
-                case "judgmentDocument":
-                    object = qccSubDetailMapper.getQccJudgmentDocumentVO(id);
-                    break;
-                case "administrativeLicense":
-                    object = qccSubDetailMapper.getQccAdministrativeLicenseVO(id);
-                    break;
-                case "taxCredit":
-                    object = qccSubDetailMapper.getQccTaxCreditVO(id);
-                    break;
-                case "bidding":
-                    object = qccSubDetailMapper.getQccBiddingVO(id);
-                    break;
-                case "importExportCredit":
-                    object = qccSubDetailMapper.getQccImportExportCreditVO(id);
-                    break;
-                case "landPurchaseInformation":
-                    object = qccSubDetailMapper.getQccLandPurchaseInformationVO(id);
-                    break;
-                case "supplier":
-                    object = qccSubDetailMapper.getQccSupplierVO(id);
-                    if (object != null) {
-                        QccSupplierVO qccSupplierVO = (QccSupplierVO) object;
+//        if ("China".equals(nation) && "China".equals(eType)) {
+        PageHelper.startPage(pageNum, pageSize);
+        switch (name) {
+            case "judgmentDocument":
+                list = qccMapper.listQccJudgmentDocumentVO(enterpriseId);
+                break;
+            case "administrativeLicense":
+                list = qccMapper.listQccAdministrativeLicenseVO(enterpriseId);
+                break;
+            case "taxCredit":
+                list = qccMapper.listQccTaxCreditVO(enterpriseId);
+                break;
+            case "bidding":
+                list = qccMapper.listQccBiddingVO(enterpriseId);
+                break;
+            case "importExportCredit":
+                list = qccMapper.listQccImportExportCreditVO(enterpriseId);
+                break;
+            case "landPurchaseInformation":
+                list = qccMapper.listQccLandPurchaseInformationVO(enterpriseId);
+                break;
+            case "supplier":
+                list = qccMapper.listQccSupplierVO(enterpriseId);
+                if (!CollectionUtils.isEmpty(list)) {
+                    for (int i = 0; i < list.size(); i++) {
+                        QccSupplierVO qccSupplierVO = (QccSupplierVO) list.get(i);
                         qccSupplierVO.setPurchaseAmount(CommonUtils.transferMoney2(qccSupplierVO.getPurchaseAmount(), "-", Math.pow(10, 4)));
                     }
-                    break;
-                case "client":
-                    object = qccSubDetailMapper.getQccClientVO(id);
-                    if (object != null) {
-                        QccClientVO qccClientVO = (QccClientVO) object;
+                }
+                break;
+            case "client":
+                list = qccMapper.listQccClientVO(enterpriseId);
+                if (!CollectionUtils.isEmpty(list)) {
+                    for (int i = 0; i < list.size(); i++) {
+                        QccClientVO qccClientVO = (QccClientVO) list.get(i);
                         qccClientVO.setSaleAmount(CommonUtils.transferMoney2(qccClientVO.getSaleAmount(), "-", Math.pow(10, 4)));
                     }
-                    break;
-                case "generalTaxpayer":
-                    object = qccSubDetailMapper.getQccGeneralTaxpayerVO(id);
-                    break;
-                case "abnormalOperation":
-                    object = qccSubDetailMapper.getQccAbnormalOperationVO(id);
-                    break;
-                case "administrativeSanction":
-                    object = qccSubDetailMapper.getQccAdministrativeSanctionVO(id);
-                    break;
-                case "annualReport":
-                    object = qccSubDetailMapper.getQccAnnualReportVO(id);
-                    if (object != null) {
-                        QccAnnualReportVO qccAnnualReportVO = (QccAnnualReportVO) object;
+                }
+                break;
+            case "generalTaxpayer":
+                list = qccMapper.listQccGeneralTaxpayerVO(enterpriseId);
+                break;
+            case "abnormalOperation":
+                list = qccMapper.listQccAbnormalOperationVO(enterpriseId);
+                break;
+            case "administrativeSanction":
+                list = qccMapper.listQccAdministrativeSanctionVO(enterpriseId);
+                break;
+            case "annualReport":
+                list = qccMapper.listQccAnnualReportVO(enterpriseId);
+                if (!CollectionUtils.isEmpty(list)) {
+                    for (int i = 0; i < list.size(); i++) {
+                        QccAnnualReportVO qccAnnualReportVO = (QccAnnualReportVO) list.get(i);
                         qccAnnualReportVO.setTotalAssets(CommonUtils.transferMoney2(qccAnnualReportVO.getTotalAssets(), "Enterprises choose not to publicize", Math.pow(10, 4)));
                         qccAnnualReportVO.setTotalEquity(CommonUtils.transferMoney2(qccAnnualReportVO.getTotalEquity(), "Enterprises choose not to publicize", Math.pow(10, 4)));
                         qccAnnualReportVO.setTotalOperatingIncome(CommonUtils.transferMoney2(qccAnnualReportVO.getTotalOperatingIncome(), "Enterprises choose not to publicize", Math.pow(10, 4)));
@@ -497,74 +346,225 @@ public class QccImpl implements Qcc {
                             qccAnnualReportShareholderVO.setPaidCapital(CommonUtils.transferMoney2(qccAnnualReportShareholderVO.getPaidCapital(), "-", Math.pow(10, 4)));
                         }
                     }
-                    break;
-                case "financingConsultation":
-                    object = qccSubDetailMapper.getQccFinancingConsultationVO(id);
-                    if (object != null) {
-                        QccFinancingConsultationVO qccFinancingConsultationVO = (QccFinancingConsultationVO) object;
+                }
+                break;
+            case "financingConsultation":
+                list = qccMapper.listQccFinancingConsultationVO(enterpriseId);
+                if (!CollectionUtils.isEmpty(list)) {
+                    for (int i = 0; i < list.size(); i++) {
+                        QccFinancingConsultationVO qccFinancingConsultationVO = (QccFinancingConsultationVO) list.get(i);
                         qccFinancingConsultationVO.setAmount(CommonUtils.transferMoney(qccFinancingConsultationVO.getAmount()));
                     }
-                    break;
-                case "keyman":
-                    object = qccSubDetailMapper.getQccKeymanVO(id);
-                    break;
-                case "qualificationCertificate":
-                    object = qccSubDetailMapper.getQccQualificationCertificateVO(id);
-                    break;
-                case "softwareCopyright":
-                    object = qccSubDetailMapper.getQccSoftwareCopyrightVO(id);
-                    break;
-                case "websiteInformation":
-                    object = qccSubDetailMapper.getQccWebsiteInformationVO(id);
-                    break;
-                case "app":
-                    object = qccSubDetailMapper.getQccAppVO(id);
-                    break;
-                case "applet":
-                    object = qccSubDetailMapper.getQccAppletVO(id);
-                    break;
-                case "wechat":
-                    object = qccSubDetailMapper.getQccWechatVO(id);
-                    break;
-                case "weibo":
-                    object = qccSubDetailMapper.getQccWeiboVO(id);
-                    break;
-                // 法律诉讼 - 开庭公告
-                case "courtNotice":
-                    object = qccSubDetailMapper.getQccCourtNoticeVO(id);
-                    break;
-                // 法律诉讼 - 立案信息
-                case "filingInformation":
-                    object = qccSubDetailMapper.getQccFilingInformationVO(id);
-                    break;
-                // 经营状况 - 行政许可 [信用中国]
-                case "administrativeLicenseChina":
-                    object = qccSubDetailMapper.getQccAdministrativeLicenseChinaVO(id);
-                    break;
-                // 经营风险 - 欠税公告
-                case "taxArrearsNotice":
-                    object = qccSubDetailMapper.getQccTaxArrearsNoticeVO(id);
-                    QccTaxArrearsNoticeVO qccTaxArrearsNoticeVO = (QccTaxArrearsNoticeVO) object;
-                    qccTaxArrearsNoticeVO.setBalance(CommonUtils.transferMoney2(qccTaxArrearsNoticeVO.getBalance(), "-", 1d));
-                    qccTaxArrearsNoticeVO.setCurrentArrears(CommonUtils.transferMoney2(qccTaxArrearsNoticeVO.getCurrentArrears(), "-", 1d));
-                    break;
-                // 经营风险 - 股权质押
-                case "equityPledge":
-                    object = qccSubDetailMapper.getQccEquityPledgeVO(id);
-                    QccEquityPledgeVO qccEquityPledgeVO = (QccEquityPledgeVO) object;
-                    qccEquityPledgeVO.setShares(CommonUtils.transferMoney2(qccEquityPledgeVO.getShares(), "-", Math.pow(10, 4)));
-                    qccEquityPledgeVO.setValue(CommonUtils.transferMoney2(qccEquityPledgeVO.getValue(), "-", Math.pow(10, 4)));
-                    break;
-                // 经营风险 - 股权出质
-                case "equityOutPledge":
-                    object = qccSubDetailMapper.getQccEquityOutPledgeVO(id);
-                    QccEquityOutPledgeVO qccEquityOutPledgeVO = (QccEquityOutPledgeVO) object;
-                    qccEquityOutPledgeVO.setAmount(CommonUtils.transferMoney2(qccEquityOutPledgeVO.getAmount(), "-", Math.pow(10, 4)));
-                    break;
-                default:
-
-            }
+                }
+                break;
+            case "keyman":
+                list = qccMapper.listQccKeymanVO(enterpriseId);
+                break;
+            case "qualificationCertificate":
+                list = qccMapper.listQccQualificationCertificateVO(enterpriseId);
+                break;
+            case "softwareCopyright":
+                list = qccMapper.listQccSoftwareCopyrightVO(enterpriseId);
+                break;
+            case "websiteInformation":
+                list = qccMapper.listQccWebsiteInformationVO(enterpriseId);
+                break;
+            case "app":
+                list = qccMapper.listQccAppVO(enterpriseId);
+                break;
+            case "applet":
+                list = qccMapper.listQccAppletVO(enterpriseId);
+                break;
+            case "wechat":
+                list = qccMapper.listQccWechatVO(enterpriseId);
+                break;
+            case "weibo":
+                list = qccMapper.listQccWeiboVO(enterpriseId);
+                break;
+            // 法律诉讼 - 开庭公告
+            case "courtNotice":
+                list = qccMapper.listQccCourtNoticeVO(enterpriseId);
+                break;
+            // 法律诉讼 - 立案信息
+            case "filingInformation":
+                list = qccMapper.listQccFilingInformationVO(enterpriseId);
+                break;
+            // 经营状况 - 行政许可 [信用中国]
+            case "administrativeLicenseChina":
+                list = qccMapper.listQccAdministrativeLicenseChinaVO(enterpriseId);
+                break;
+            // 经营风险 - 欠税公告
+            case "taxArrearsNotice":
+                list = qccMapper.listQccTaxArrearsNoticeVO(enterpriseId);
+                if (!CollectionUtils.isEmpty(list)) {
+                    for (int i = 0; i < list.size(); i++) {
+                        QccTaxArrearsNoticeVO o = (QccTaxArrearsNoticeVO) list.get(i);
+                        o.setBalance(CommonUtils.transferMoney2(o.getBalance(), "-", 1d));
+                        o.setCurrentArrears(CommonUtils.transferMoney2(o.getCurrentArrears(), "-", 1d));
+                    }
+                }
+                break;
+            // 经营风险 - 股权质押
+            case "equityPledge":
+                list = qccMapper.listQccEquityPledgeVO(enterpriseId);
+                if (!CollectionUtils.isEmpty(list)) {
+                    for (int i = 0; i < list.size(); i++) {
+                        QccEquityPledgeVO o = (QccEquityPledgeVO) list.get(i);
+                        o.setShares(CommonUtils.transferMoney2(o.getShares(), "-", Math.pow(10, 4)));
+                        o.setValue(CommonUtils.transferMoney2(o.getValue(), "-", Math.pow(10, 4)));
+                    }
+                }
+                break;
+            // 经营风险 - 股权出质
+            case "equityOutPledge":
+                list = qccMapper.listQccEquityOutPledgeVO(enterpriseId);
+                if (!CollectionUtils.isEmpty(list)) {
+                    for (int i = 0; i < list.size(); i++) {
+                        QccEquityOutPledgeVO o = (QccEquityOutPledgeVO) list.get(i);
+                        o.setAmount(CommonUtils.transferMoney2(o.getAmount(), "-", Math.pow(10, 4)));
+                    }
+                }
+                break;
+            default:
         }
+//        }
+
+        return new PageInfo<>(list);
+    }
+
+    @Override
+    public Object getEnterpriseSubDetail(String name, Integer id, String nation, String eType) {
+        Object object = null;
+//        if ("China".equals(nation) && "China".equals(eType)) {
+        switch (name) {
+            case "judgmentDocument":
+                object = qccSubDetailMapper.getQccJudgmentDocumentVO(id);
+                break;
+            case "administrativeLicense":
+                object = qccSubDetailMapper.getQccAdministrativeLicenseVO(id);
+                break;
+            case "taxCredit":
+                object = qccSubDetailMapper.getQccTaxCreditVO(id);
+                break;
+            case "bidding":
+                object = qccSubDetailMapper.getQccBiddingVO(id);
+                break;
+            case "importExportCredit":
+                object = qccSubDetailMapper.getQccImportExportCreditVO(id);
+                break;
+            case "landPurchaseInformation":
+                object = qccSubDetailMapper.getQccLandPurchaseInformationVO(id);
+                break;
+            case "supplier":
+                object = qccSubDetailMapper.getQccSupplierVO(id);
+                if (object != null) {
+                    QccSupplierVO qccSupplierVO = (QccSupplierVO) object;
+                    qccSupplierVO.setPurchaseAmount(CommonUtils.transferMoney2(qccSupplierVO.getPurchaseAmount(), "-", Math.pow(10, 4)));
+                }
+                break;
+            case "client":
+                object = qccSubDetailMapper.getQccClientVO(id);
+                if (object != null) {
+                    QccClientVO qccClientVO = (QccClientVO) object;
+                    qccClientVO.setSaleAmount(CommonUtils.transferMoney2(qccClientVO.getSaleAmount(), "-", Math.pow(10, 4)));
+                }
+                break;
+            case "generalTaxpayer":
+                object = qccSubDetailMapper.getQccGeneralTaxpayerVO(id);
+                break;
+            case "abnormalOperation":
+                object = qccSubDetailMapper.getQccAbnormalOperationVO(id);
+                break;
+            case "administrativeSanction":
+                object = qccSubDetailMapper.getQccAdministrativeSanctionVO(id);
+                break;
+            case "annualReport":
+                object = qccSubDetailMapper.getQccAnnualReportVO(id);
+                if (object != null) {
+                    QccAnnualReportVO qccAnnualReportVO = (QccAnnualReportVO) object;
+                    qccAnnualReportVO.setTotalAssets(CommonUtils.transferMoney2(qccAnnualReportVO.getTotalAssets(), "Enterprises choose not to publicize", Math.pow(10, 4)));
+                    qccAnnualReportVO.setTotalEquity(CommonUtils.transferMoney2(qccAnnualReportVO.getTotalEquity(), "Enterprises choose not to publicize", Math.pow(10, 4)));
+                    qccAnnualReportVO.setTotalOperatingIncome(CommonUtils.transferMoney2(qccAnnualReportVO.getTotalOperatingIncome(), "Enterprises choose not to publicize", Math.pow(10, 4)));
+                    qccAnnualReportVO.setTotalProfit(CommonUtils.transferMoney2(qccAnnualReportVO.getTotalProfit(), "Enterprises choose not to publicize", Math.pow(10, 4)));
+                    qccAnnualReportVO.setNetProfit(CommonUtils.transferMoney2(qccAnnualReportVO.getNetProfit(), "Enterprises choose not to publicize", Math.pow(10, 4)));
+                    qccAnnualReportVO.setMainBusinessIncome(CommonUtils.transferMoney2(qccAnnualReportVO.getMainBusinessIncome(), "Enterprises choose not to publicize", Math.pow(10, 4)));
+                    qccAnnualReportVO.setTotalTax(CommonUtils.transferMoney2(qccAnnualReportVO.getTotalTax(), "Enterprises choose not to publicize", Math.pow(10, 4)));
+                    qccAnnualReportVO.setTotalLiabilities(CommonUtils.transferMoney2(qccAnnualReportVO.getTotalLiabilities(), "Enterprises choose not to publicize", Math.pow(10, 4)));
+                    List<QccAnnualReportShareholderVO> qccAnnualReportShareholderVOList = qccAnnualReportVO.getQccAnnualReportShareholderVOList();
+                    for (int j = 0; j < qccAnnualReportShareholderVOList.size(); j++) {
+                        QccAnnualReportShareholderVO qccAnnualReportShareholderVO = qccAnnualReportShareholderVOList.get(j);
+                        qccAnnualReportShareholderVO.setSubscribedCapital(CommonUtils.transferMoney2(qccAnnualReportShareholderVO.getSubscribedCapital(), "-", Math.pow(10, 4)));
+                        qccAnnualReportShareholderVO.setPaidCapital(CommonUtils.transferMoney2(qccAnnualReportShareholderVO.getPaidCapital(), "-", Math.pow(10, 4)));
+                    }
+                }
+                break;
+            case "financingConsultation":
+                object = qccSubDetailMapper.getQccFinancingConsultationVO(id);
+                if (object != null) {
+                    QccFinancingConsultationVO qccFinancingConsultationVO = (QccFinancingConsultationVO) object;
+                    qccFinancingConsultationVO.setAmount(CommonUtils.transferMoney(qccFinancingConsultationVO.getAmount()));
+                }
+                break;
+            case "keyman":
+                object = qccSubDetailMapper.getQccKeymanVO(id);
+                break;
+            case "qualificationCertificate":
+                object = qccSubDetailMapper.getQccQualificationCertificateVO(id);
+                break;
+            case "softwareCopyright":
+                object = qccSubDetailMapper.getQccSoftwareCopyrightVO(id);
+                break;
+            case "websiteInformation":
+                object = qccSubDetailMapper.getQccWebsiteInformationVO(id);
+                break;
+            case "app":
+                object = qccSubDetailMapper.getQccAppVO(id);
+                break;
+            case "applet":
+                object = qccSubDetailMapper.getQccAppletVO(id);
+                break;
+            case "wechat":
+                object = qccSubDetailMapper.getQccWechatVO(id);
+                break;
+            case "weibo":
+                object = qccSubDetailMapper.getQccWeiboVO(id);
+                break;
+            // 法律诉讼 - 开庭公告
+            case "courtNotice":
+                object = qccSubDetailMapper.getQccCourtNoticeVO(id);
+                break;
+            // 法律诉讼 - 立案信息
+            case "filingInformation":
+                object = qccSubDetailMapper.getQccFilingInformationVO(id);
+                break;
+            // 经营状况 - 行政许可 [信用中国]
+            case "administrativeLicenseChina":
+                object = qccSubDetailMapper.getQccAdministrativeLicenseChinaVO(id);
+                break;
+            // 经营风险 - 欠税公告
+            case "taxArrearsNotice":
+                object = qccSubDetailMapper.getQccTaxArrearsNoticeVO(id);
+                QccTaxArrearsNoticeVO qccTaxArrearsNoticeVO = (QccTaxArrearsNoticeVO) object;
+                qccTaxArrearsNoticeVO.setBalance(CommonUtils.transferMoney2(qccTaxArrearsNoticeVO.getBalance(), "-", 1d));
+                qccTaxArrearsNoticeVO.setCurrentArrears(CommonUtils.transferMoney2(qccTaxArrearsNoticeVO.getCurrentArrears(), "-", 1d));
+                break;
+            // 经营风险 - 股权质押
+            case "equityPledge":
+                object = qccSubDetailMapper.getQccEquityPledgeVO(id);
+                QccEquityPledgeVO qccEquityPledgeVO = (QccEquityPledgeVO) object;
+                qccEquityPledgeVO.setShares(CommonUtils.transferMoney2(qccEquityPledgeVO.getShares(), "-", Math.pow(10, 4)));
+                qccEquityPledgeVO.setValue(CommonUtils.transferMoney2(qccEquityPledgeVO.getValue(), "-", Math.pow(10, 4)));
+                break;
+            // 经营风险 - 股权出质
+            case "equityOutPledge":
+                object = qccSubDetailMapper.getQccEquityOutPledgeVO(id);
+                QccEquityOutPledgeVO qccEquityOutPledgeVO = (QccEquityOutPledgeVO) object;
+                qccEquityOutPledgeVO.setAmount(CommonUtils.transferMoney2(qccEquityOutPledgeVO.getAmount(), "-", Math.pow(10, 4)));
+                break;
+            default:
+
+        }
+//        }
 
         return object;
     }
@@ -572,17 +572,17 @@ public class QccImpl implements Qcc {
     @Override
     public Object getEnterpriseSubDetailMuti(String name, String enterpriseId, Integer id, int pageNum, int pageSize, String nation, String eType) {
         Object o = null;
-        if ("China".equals(nation) && "China".equals(eType)) {
-            if (null != enterpriseId) {
-                PageInfo<List> listPageInfo = getEnterpriseDetail(name, enterpriseId, pageNum, pageSize, nation, eType);
-                List list = listPageInfo.getList();
-                if (!CollectionUtils.isEmpty(list) && list.size() > 0) {
-                    o = list.get(0);
-                }
-            } else if (null != id) {
-                o = getEnterpriseSubDetail(name, id, nation, eType);
+//        if ("China".equals(nation) && "China".equals(eType)) {
+        if (null != enterpriseId) {
+            PageInfo<List> listPageInfo = getEnterpriseDetail(name, enterpriseId, pageNum, pageSize, nation, eType);
+            List list = listPageInfo.getList();
+            if (!CollectionUtils.isEmpty(list) && list.size() > 0) {
+                o = list.get(0);
             }
+        } else if (null != id) {
+            o = getEnterpriseSubDetail(name, id, nation, eType);
         }
+//        }
         return o;
     }
 
