@@ -75,8 +75,8 @@ public class EnterpriseController {
     @ApiOperation("企业详情")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "enterpriseId", value = "企业id", required = true),
-            @ApiImplicitParam(name = "nation", value = "国家：china / india", required = true),
-            @ApiImplicitParam(name = "e_type", value = "企业类型，对应国家：china:china / india:[cin, llpin]", required = true)})
+            @ApiImplicitParam(name = "nation", value = "国家：China / India", required = true),
+            @ApiImplicitParam(name = "e_type", value = "企业类型，对应国家：China.China / India.[cin, llpin]", required = true)})
     @GetMapping("getEnterprise")
     public ResultData<Object> getEnterprise(@RequestParam(name = "enterpriseId", required = true) String enterpriseId,
                                             @RequestParam(name = "nation", required = true) String nation,
@@ -106,8 +106,8 @@ public class EnterpriseController {
             @ApiImplicitParam(name = "enterpriseId", value = "企业id", required = true),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false),
             @ApiImplicitParam(name = "pageSize", value = "当前页大小", required = false),
-            @ApiImplicitParam(name = "nation", value = "国家：china", required = true),
-            @ApiImplicitParam(name = "e_type", value = "企业类型，对应国家：china:china", required = true)})
+            @ApiImplicitParam(name = "nation", value = "国家：China", required = true),
+            @ApiImplicitParam(name = "e_type", value = "企业类型，对应国家：China.China", required = true)})
     @GetMapping("getEnterpriseDetail")
     public ResultData<Object> getEnterpriseDetail(@RequestParam(name = "name", required = true) String name,
                                                   @RequestParam(name = "enterpriseId", required = true) String enterpriseId,
@@ -153,8 +153,8 @@ public class EnterpriseController {
             @ApiImplicitParam(name = "enterpriseId", value = "企业id", required = false),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false),
             @ApiImplicitParam(name = "pageSize", value = "当前页大小", required = false),
-            @ApiImplicitParam(name = "nation", value = "国家：china", required = true),
-            @ApiImplicitParam(name = "e_type", value = "企业类型，对应国家：china:china", required = true)})
+            @ApiImplicitParam(name = "nation", value = "国家：China", required = true),
+            @ApiImplicitParam(name = "e_type", value = "企业类型，对应国家：China.China", required = true)})
     @GetMapping("getEnterpriseSubDetailMuti")
     public ResultData<Object> getEnterpriseSubDetailMuti(@RequestParam(name = "name", required = true) String name,
                                                          @RequestParam(name = "pid", required = false) Integer id,
