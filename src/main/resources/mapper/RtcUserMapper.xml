@@ -138,6 +138,10 @@
   </update>
 
   <select id="checkEmaillRegistered" resultType="java.lang.Integer">
-    select id from rtc_user where email = #{email, jdbcType=INTEGER}
+    select id from rtc_user where email = #{email, jdbcType=INTEGER} and status = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+  </select>
+
+  <select id="checkPhoneRegistered" resultType="java.lang.Integer">
+    select id from rtc_user where phone = #{email, jdbcType=INTEGER} and status = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
   </select>
 </mapper>

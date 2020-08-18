@@ -1,4 +1,4 @@
-package com.rtc.manager.controller;
+package com.rtc.manager.config;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -27,7 +27,7 @@ public class SwaggerConfig {
                 .build().apiInfo(new ApiInfoBuilder()
                         .title("接口文档")
                         .description("接口文档")
-                        .version("0.1.0")
+                        .version("0.2.0")
 //                        .contact(new Contact("啊啊啊啊","blog.csdn.net","aaa@gmail.com"))
 //                        .license("The Apache License")
 //                        .licenseUrl("http://www.baidu.com")

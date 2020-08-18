@@ -92,6 +92,11 @@ public class UserUtils {
         return format;
     }
 
+    /**
+     * 密码加密
+     * @param password
+     * @return password和salt的map
+     */
     public static Map<String, String> haxPasswork(String password) {
         Map map = new HashMap();
         String salt = UUID.randomUUID().toString();

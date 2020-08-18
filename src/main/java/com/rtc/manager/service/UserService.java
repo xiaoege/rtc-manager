@@ -14,9 +14,29 @@ public interface UserService {
     ResultData checkEmaillRegistered(String email);
 
     /**
-     * 注册
+     * 邮箱注册
      * @param data
      * @return
      */
-    ResultData register(String data) throws Exception;
+    ResultData emailRegister(String data) throws Exception;
+
+    /**
+     * 校验手机，发送验证码
+     * @param phone
+     * @return
+     */
+    ResultData checkPhoneRegistered(String phone);
+
+    /**
+     * 手机注册
+     * @param user
+     * @return
+     */
+    ResultData phoneRegister (String user)throws Exception;
+
+    /**
+     * 登录
+     * @param user
+     */
+    void login(String user);
 }

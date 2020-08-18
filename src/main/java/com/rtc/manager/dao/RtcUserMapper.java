@@ -17,4 +17,6 @@ public interface RtcUserMapper {
 
 
     Integer checkEmaillRegistered(String emaill);
+
+    Integer checkPhoneRegistered(String phone);
 }
