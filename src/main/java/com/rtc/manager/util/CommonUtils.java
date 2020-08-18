@@ -386,6 +386,7 @@ public final class CommonUtils {
 
     /**
      * 获得map的key
+     *
      * @param map
      * @return
      */
@@ -393,16 +394,44 @@ public final class CommonUtils {
         List list = new ArrayList();
         if (!CollectionUtils.isEmpty(map)) {
             Set<Map.Entry> entrySet = map.entrySet();
-            for (Map.Entry e:
-                 entrySet) {
+            for (Map.Entry e :
+                    entrySet) {
                 list.add(e.getKey());
             }
         }
         return list;
     }
 
-    public static void main(String[] args) {
+    /**
+     * 印度企业charges-address修改格式，把结尾的xxxxIN用空格隔开
+     *
+     * @param address
+     * @return
+     */
+    public static String formatIndiaChargeAddress(String address) {
+        // 不是以IN结尾，并且IN前一位不是数字的则跳过
+        if (address == null || !address.endsWith("IN") || !Character.isDigit(address.charAt(address.length() - 3))) {
+            return address;
+        }
 
+        int in = address.lastIndexOf("IN");
+        int i = 1;
+        for (; i < in; i++) {
+            char c = address.charAt(in - i);
+            if (!Character.isDigit(c)) {
+                break;
+            }
+        }
+        int addressDigit = address.length() - i - 1;
+
+        return address.substring(0, addressDigit) + " " + address.substring(addressDigit, in) + " " + address.substring(in);
+    }
+
+    public static void main(String[] args) {
+        String address = "FEDERAL TOWERSP B NO 103ALWAYEERANAKULAMKe683101IN";
+        address = "ndsnjfdsn1111f33333IN";
+        String s = formatIndiaChargeAddress(address);
+        System.out.println(s);
     }
 
 

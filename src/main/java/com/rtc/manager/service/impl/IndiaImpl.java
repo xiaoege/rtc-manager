@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rtc.manager.dao.IndiaCinMapper;
 import com.rtc.manager.dao.IndiaLlpinMapper;
 import com.rtc.manager.service.India;
-import com.rtc.manager.vo.india.IndiaCinListVO;
-import com.rtc.manager.vo.india.IndiaLlpinLIstVO;
+import com.rtc.manager.util.CommonUtils;
+import com.rtc.manager.vo.india.*;
 import org.apache.http.HttpHost;
 import org.elasticsearch.action.search.MultiSearchRequest;
 import org.elasticsearch.action.search.MultiSearchResponse;
@@ -99,9 +99,25 @@ public class IndiaImpl implements India {
     public Object getIndiaEnterprise(String enterpriseId, String eType) {
         Object o = null;
         if ("cin".equals(eType)) {
-            o = indiaCinMapper.selectEnterprise(enterpriseId);
+            IndiaCinEnterpriseVO indiaCinEnterpriseVO = indiaCinMapper.selectEnterprise(enterpriseId);
+            List<IndiaChargeVO> chargeList = indiaCinEnterpriseVO.getChargeList();
+            if (!ObjectUtils.isEmpty(chargeList)) {
+                for (int i = 0; i < chargeList.size(); i++) {
+                    IndiaChargeVO indiaChargeVO = chargeList.get(i);
+                    indiaChargeVO.setAddress(CommonUtils.formatIndiaChargeAddress(indiaChargeVO.getAddress()));
+                }
+            }
+            o = indiaCinEnterpriseVO;
         } else if ("llpin".equals(eType)) {
-            o = indiaLlpinMapper.selectEnterprise(enterpriseId);
+            IndiaLlpinEnterpriseVO indiaLlpinEnterpriseVO = indiaLlpinMapper.selectEnterprise(enterpriseId);
+            List<IndiaChargeVO> chargeList = indiaLlpinEnterpriseVO.getChargeList();
+            if (!ObjectUtils.isEmpty(chargeList)) {
+                for (int i = 0; i < chargeList.size(); i++) {
+                    IndiaChargeVO indiaChargeVO = chargeList.get(i);
+                    indiaChargeVO.setAddress(CommonUtils.formatIndiaChargeAddress(indiaChargeVO.getAddress()));
+                }
+            }
+            o = indiaLlpinEnterpriseVO;
         }
         return o;
     }

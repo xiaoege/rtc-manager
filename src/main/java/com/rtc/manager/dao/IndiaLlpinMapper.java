@@ -1,6 +1,7 @@
 package com.rtc.manager.dao;
 
 import com.rtc.manager.entity.india.IndiaLlpin;
+import com.rtc.manager.vo.india.IndiaLlpinEnterpriseVO;
 
 public interface IndiaLlpinMapper {
     int deleteByPrimaryKey(Integer id);
@@ -15,5 +16,5 @@ public interface IndiaLlpinMapper {
 
     int updateByPrimaryKey(IndiaLlpin record);
 
-    Object selectEnterprise(String enterpriseId);
+    IndiaLlpinEnterpriseVO selectEnterprise(String enterpriseId);
 }
