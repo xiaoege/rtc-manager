@@ -76,7 +76,15 @@ public class UserController {
      * @return
      * @throws Exception
      */
-    @ApiOperation(value = "手机注册")
+    @ApiOperation(value = "手机注册", notes = "参数user例子:\n" +
+            "{\n" +
+            "    \"phone\":\"189\",\n" +
+            "    \"countryCode\":\"\",\n" +
+            "    \"password\":\"asd\",\n" +
+            "    \"retypePassword\":\"asd\",\n" +
+            "    \"verificationCode\":\"30505\"\n" +
+            "}\n" +
+            "phone:手机号,countryCode:手机号国家代码,password:密码,retypePassword:确认密码,verificationCode:验证码")
     @PostMapping("phoneRegister")
     public ResultData<PhoneRegisterDTO> phoneRegister(@RequestParam(name = "user", required = true) String user,
                                                       HttpServletRequest request) throws Exception {
