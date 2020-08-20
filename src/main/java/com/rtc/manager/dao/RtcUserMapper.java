@@ -1,6 +1,7 @@
 package com.rtc.manager.dao;
 
 import com.rtc.manager.entity.RtcUser;
+import com.rtc.manager.entity.dto.RtcUserDTO;
 
 public interface RtcUserMapper {
     int deleteByPrimaryKey(Integer id);
@@ -19,4 +20,6 @@ public interface RtcUserMapper {
     Integer checkEmaillRegistered(String emaill);
 
     Integer checkPhoneRegistered(String phone);
+
+    RtcUserDTO selectByPhoneOrAccount(String account);
 }

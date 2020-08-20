@@ -1,12 +1,12 @@
 package com.rtc.manager.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.rtc.manager.dao.RtcUserMapper;
 import com.rtc.manager.entity.RtcUser;
 import com.rtc.manager.entity.dto.PhoneRegisterDTO;
 import com.rtc.manager.entity.dto.RtcUserDTO;
 import com.rtc.manager.service.UserService;
-import com.rtc.manager.util.CommonUtils;
 import com.rtc.manager.util.UserUtils;
 import com.rtc.manager.vo.ResultData;
 import org.slf4j.Logger;
@@ -16,9 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -141,11 +143,15 @@ public class UserServiceImpl implements UserService {
      * 校验手机，发送验证码
      *
      * @param phone
+     * @param countryCode
      * @return
      */
     @Override
-    public ResultData checkPhoneRegistered(String phone) {
-        //todo 手机号格式验证
+    public ResultData checkPhoneRegistered(String phone, String countryCode) {
+        // todo 手机号格式验证
+        if (phone == null || countryCode == null) {
+            return ResultData.FAIL(phone, 800, PHONE_CODE_800);
+        }
 
         // 手机号已注册
         if (rtcUserMapper.checkPhoneRegistered(phone) != null) {
@@ -158,7 +164,7 @@ public class UserServiceImpl implements UserService {
             return ResultData.FAIL(phone, 702, CODE_702);
         }
 
-        //todo 发送验证码
+        // todo 发送验证码
 
 
         return ResultData.SUCCESS(phone, "验证码发送成功");
@@ -168,10 +174,11 @@ public class UserServiceImpl implements UserService {
      * 手机注册
      *
      * @param user
+     * @param request
      * @return
      */
     @Override
-    public ResultData phoneRegister(String user) throws Exception {
+    public ResultData phoneRegister(String user, HttpServletRequest request) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         PhoneRegisterDTO phoneRegisterDTO = objectMapper.readValue(user, PhoneRegisterDTO.class);
         // 数据格式错误
@@ -180,6 +187,7 @@ public class UserServiceImpl implements UserService {
         }
 
         String phone = phoneRegisterDTO.getPhone();
+        String countryCode = phoneRegisterDTO.getCountryCode();
         String verificationCode = phoneRegisterDTO.getVerificationCode();
         String password = phoneRegisterDTO.getPassword();
         String retypePassword = phoneRegisterDTO.getRetypePassword();
@@ -189,6 +197,10 @@ public class UserServiceImpl implements UserService {
         }
 
         // todo 手机号格式验证
+        if (phone == null || countryCode == null) {
+            return ResultData.FAIL(phone, 800, PHONE_CODE_800);
+        }
+
 
         // todo 密码格式验证
         // 密码验证
@@ -198,7 +210,7 @@ public class UserServiceImpl implements UserService {
 
         // 验证手机号是否注册
         if (rtcUserMapper.checkPhoneRegistered(phone) != null) {
-            return ResultData.FAIL(user, 804, PHONE_CODE_801);
+            return ResultData.FAIL(user, 801, PHONE_CODE_801);
         }
         // 该手机号还没发验证码
         if (!stringRedisTemplate.hasKey(phone)) {
@@ -211,10 +223,12 @@ public class UserServiceImpl implements UserService {
         // 注册
         RtcUser rtcUser = new RtcUser();
         BeanUtils.copyProperties(phoneRegisterDTO, rtcUser);
-        Map<String, String> passwordMap = UserUtils.haxPasswork(password);
-        rtcUser.setPassword(passwordMap.get("password"));
-        rtcUser.setSalt(passwordMap.get("salt"));
+//        Map<String, String> passwordMap = UserUtils.haxPasswork(password);
+//        rtcUser.setPassword(passwordMap.get("password"));
+        rtcUser.setPassword(new BCryptPasswordEncoder().encode(rtcUser.getPassword()));
+//        rtcUser.setSalt(passwordMap.get("salt"));
         rtcUser.setPhone(phone);
+        rtcUser.setNickname(phone);
         rtcUserMapper.insertSelective(rtcUser);
 
         return ResultData.SUCCESS(user, "注册成功");
@@ -222,13 +236,13 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 登录
+     *
      * @param user
      */
     @Override
     public void login(String user) {
 
     }
-
 
     /**
      * 检验验证码发送频率限制并记录在redis，设置过期时间

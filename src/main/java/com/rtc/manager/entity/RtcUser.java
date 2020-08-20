@@ -19,13 +19,18 @@ public class RtcUser {
 
     private String phone;
 
+    private String countryCode;
+
     private String email;
 
     private LocalDateTime gmtCreate;
 
-    private LocalDateTime gmtModify;
+    private LocalDateTime gmtModified;
 
     private Integer status;
 
     private String salt;
+
+    private Integer roleId;
+
 }

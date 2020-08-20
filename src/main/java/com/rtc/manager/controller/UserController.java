@@ -1,17 +1,17 @@
 package com.rtc.manager.controller;
 
+import com.rtc.manager.entity.dto.PhoneRegisterDTO;
 import com.rtc.manager.service.UserService;
 import com.rtc.manager.vo.ResultData;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author ChenHang
@@ -52,6 +52,7 @@ public class UserController {
      * @param email
      * @return
      */
+    @ApiIgnore
     @ApiOperation("校验邮箱，发送验证码")
     @ApiResponses({@ApiResponse(code = 700, message = "邮箱格式错误"),
             @ApiResponse(code = 701, message = "邮箱已注册"),
@@ -77,8 +78,10 @@ public class UserController {
      */
     @ApiOperation(value = "手机注册")
     @PostMapping("phoneRegister")
-    public ResultData phoneRegister(@RequestParam(name = "user", required = true) String user) throws Exception {
-        ResultData resultData = userService.phoneRegister(user);
+    public ResultData<PhoneRegisterDTO> phoneRegister(@RequestParam(name = "user", required = true) String user,
+                                                      HttpServletRequest request) throws Exception {
+        ResultData resultData = userService.phoneRegister(user, request);
+
         return resultData;
     }
 
@@ -89,24 +92,21 @@ public class UserController {
      * @return
      */
     @ApiOperation(value = "校验手机，发送验证码")
+    @ApiImplicitParams({@ApiImplicitParam(name = "phone", value = "手机号", required = true),
+            @ApiImplicitParam(name = "countryCode", value = "手机号国家代码", required = true)})
+    @ApiResponses({@ApiResponse(code = 702, message = "验证码发送次数过多，请15分钟稍后再试"),
+            @ApiResponse(code = 703, message = "验证码发送失败"),
+            @ApiResponse(code = 705, message = "数据有误"),
+            @ApiResponse(code = 707, message = "验证码错误"),
+            @ApiResponse(code = 800, message = "手机号格式错误"),
+            @ApiResponse(code = 801, message = "手机号已注册"),
+            @ApiResponse(code = 802, message = "请输入手机号"),
+            @ApiResponse(code = 804, message = "该手机号尚未发送验证码")})
     @PostMapping("checkPhoneRegistered")
-    public ResultData checkPhoneRegistered(@RequestParam(name = "phone", required = true) String phone) {
-        ResultData resultData = userService.checkPhoneRegistered(phone);
+    public ResultData checkPhoneRegistered(@RequestParam(name = "phone", required = true) String phone,
+                                           @RequestParam(name = "countryCode", required = true) String countryCode) {
+        ResultData resultData = userService.checkPhoneRegistered(phone, countryCode);
         return resultData;
-    }
-
-    /**
-     * 登录
-     *
-     * @param user
-     * @return
-     */
-    @ApiOperation("登录")
-    @PostMapping("login")
-    public ResultData login(@RequestParam(name = "user", required = true) String user) {
-        userService.login(user);
-
-        return null;
     }
 
 }

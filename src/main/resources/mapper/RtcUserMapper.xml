@@ -6,14 +6,15 @@
     <result column="nickname" jdbcType="VARCHAR" property="nickname" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="country_code" jdbcType="VARCHAR" property="countryCode" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="salt" jdbcType="VARCHAR" property="salt" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, nickname, password, phone, email, gmt_create, gmt_modify, status, salt
+    id, nickname, password, phone,country_code, email, gmt_create, gmt_modified, status, salt
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -27,11 +28,11 @@
   </delete>
   <insert id="insert" parameterType="com.rtc.manager.entity.RtcUser">
     insert into rtc_user (id, nickname, password, 
-      phone, email, gmt_create, 
-      gmt_modify, status, salt)
+      phone,country_code, email, gmt_create,
+      gmt_modified, status, salt)
     values (#{id,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
-      #{gmtModify,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER} ,#{salt,jdbcType=VARCHAR})
+      #{phone,jdbcType=VARCHAR},#{countryCode,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP},
+      #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER} ,#{salt,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.rtc.manager.entity.RtcUser">
     insert into rtc_user
@@ -48,14 +49,17 @@
       <if test="phone != null">
         phone,
       </if>
+      <if test="countryCode != null">
+        country_code,
+      </if>
       <if test="email != null">
         email,
       </if>
       <if test="gmtCreate != null">
         gmt_create,
       </if>
-      <if test="gmtModify != null">
-        gmt_modify,
+      <if test="gmtModified != null">
+        gmt_modified,
       </if>
       <if test="status != null">
         status,
@@ -77,14 +81,17 @@
       <if test="phone != null">
         #{phone,jdbcType=VARCHAR},
       </if>
+      <if test="countryCode != null">
+        #{countryCode,jdbcType=VARCHAR},
+      </if>
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
       </if>
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModify != null">
-        #{gmtModify,jdbcType=TIMESTAMP},
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
@@ -106,14 +113,17 @@
       <if test="phone != null">
         phone = #{phone,jdbcType=VARCHAR},
       </if>
+      <if test="countryCode != null">
+        country_code = #{countryCode,jdbcType=VARCHAR},
+      </if>
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
       </if>
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModify != null">
-        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
@@ -129,9 +139,10 @@
     set nickname = #{nickname,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
+      country_code = #{countryCode,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER},
       salt = #{salt,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
@@ -143,5 +154,24 @@
 
   <select id="checkPhoneRegistered" resultType="java.lang.Integer">
     select id from rtc_user where phone = #{email, jdbcType=INTEGER} and status = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+  </select>
+
+  <select id="selectByPhoneOrAccount" resultType="com.rtc.manager.entity.dto.RtcUserDTO">
+        SELECT
+            rtc_user.*,
+            rtc_user_role.role_name AS roleName
+        FROM
+            rtc_user
+            LEFT JOIN rtc_user_role ON rtc_user.role_id = rtc_user_role.id
+        WHERE
+            rtc_user.phone = #{account, jdbcType=VARCHAR} UNION
+        SELECT
+            rtc_user.*,
+            rtc_user_role.role_name AS roleName
+        FROM
+            rtc_user
+            LEFT JOIN rtc_user_role ON rtc_user.role_id = rtc_user_role.id
+        WHERE
+             rtc_user.nickname = #{account, jdbcType=VARCHAR}
   </select>
 </mapper>

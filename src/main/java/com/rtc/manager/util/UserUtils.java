@@ -1,5 +1,10 @@
 package com.rtc.manager.util;
 
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberToTimeZonesMapper;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
+import com.google.i18n.phonenumbers.geocoding.PhoneNumberOfflineGeocoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -12,6 +17,7 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -108,7 +114,37 @@ public class UserUtils {
         return map;
     }
 
+    public static boolean checkPhoneFormat(String phone) {
+        /*PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+        Phonenumber.PhoneNumber phoneNumber = null;
+        try {
+            // 需要传入国家代码，如果不传，phone则必须以+开头
+            phoneNumber = phoneUtil.parse(phone, "");
+            Phonenumber.PhoneNumber.CountryCodeSource countryCodeSource = phoneNumber.getCountryCodeSource();
+            // 验证是否是一个正确的手机号，注意以防运营商对手机号段发生变化
+            boolean validNumber = phoneUtil.isValidNumber(phoneNumber);
+            // 可能是一个正确的手机号（只验证格式）
+            boolean possibleNumber = phoneUtil.isPossibleNumber(phoneNumber);
+            int countryCode = phoneNumber.getCountryCode();
+            String extension = phoneNumber.getExtension();
+            PhoneNumberOfflineGeocoder geocoder = PhoneNumberOfflineGeocoder.getInstance();
+            String descriptionForNumber = geocoder.getDescriptionForNumber(phoneNumber, Locale.CHINA);
+            System.out.println(phoneNumber.getCountryCode());
+        } catch (NumberParseException e) {
+            e.printStackTrace();
+        }*/
+
+        return false;
+    }
+
     public static void main(String[] args) {
         String email = "237113730@qqcom";
+        String phone = "+86123456";
+        phone = "+86189517887331";
+        phone = "18951788733";
+        phone = "+911895178873";
+        phone = "+918790071998";
+//        phone = "11122224444";
+        System.out.println(checkPhoneFormat(phone));
     }
 }
