@@ -31,7 +31,7 @@ public interface UserService {
      * @param countryCode
      * @return
      */
-    ResultData checkPhoneRegistered(String phone, String countryCode);
+    ResultData verificationCodeRegistered(String phone, String countryCode);
 
     /**
      * 手机注册

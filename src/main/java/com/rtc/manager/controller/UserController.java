@@ -115,10 +115,10 @@ public class UserController {
     @ApiResponses({@ApiResponse(code = 702, message = "验证码发送次数过多，请15分钟稍后再试"),
             @ApiResponse(code = 800, message = "手机号格式错误"),
             @ApiResponse(code = 801, message = "手机号已注册")})
-    @PostMapping("checkPhoneRegistered")
-    public ResultData checkPhoneRegistered(@RequestParam(name = "phone", required = true) String phone,
+    @PostMapping("verificationCodeRegistered")
+    public ResultData verificationCodeRegistered(@RequestParam(name = "phone", required = true) String phone,
                                            @RequestParam(name = "countryCode", required = true) String countryCode) {
-        ResultData resultData = userService.checkPhoneRegistered(phone, countryCode);
+        ResultData resultData = userService.verificationCodeRegistered(phone, countryCode);
         return resultData;
     }
 
@@ -166,7 +166,7 @@ public class UserController {
     }
 
     /**
-     * 修改密码
+     * 根据原始密码修改密码
      *
      * @param oldPassword    oldPassword
      * @param newPassword    newPassword
@@ -174,6 +174,7 @@ public class UserController {
      * @return
      */
     @ApiIgnore
+    @ApiOperation(value = "根据原始密码修改密码")
     @PatchMapping("updatePassword")
     public ResultData updatePassword(String oldPassword, String newPassword, String retypePassword) {
         userService.updatePassword(oldPassword, newPassword, retypePassword);
@@ -205,5 +206,15 @@ public class UserController {
     @GetMapping("checkVerificationCode")
     public ResultData checkVerificationCode(String phone, String countryCode, String verificationCode) {
         return userService.checkVerificationCode(phone, countryCode, verificationCode);
+    }
+
+    /**
+     * 上传头像
+     */
+    @ApiIgnore
+    @PostMapping("uploadPortrait")
+    public ResultData uploadPortrait() {
+
+        return null;
     }
 }

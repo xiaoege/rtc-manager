@@ -147,7 +147,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public ResultData checkPhoneRegistered(String phone, String countryCode) {
+    public ResultData verificationCodeRegistered(String phone, String countryCode) {
         // todo 手机号格式验证
         if (phone == null || countryCode == null) {
             return ResultData.FAIL(phone, 800, PHONE_CODE_800);
