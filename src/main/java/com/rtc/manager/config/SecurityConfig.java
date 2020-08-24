@@ -97,7 +97,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     response.setContentType("application/json;charset=utf-8");
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                     PrintWriter out = response.getWriter();
-                    map.put("code", 403);
+                    map.put("code", 401);
                     map.put("message", "未登录");
                     map.put("data", null);
                     out.write(objectMapper.writeValueAsString(map));
