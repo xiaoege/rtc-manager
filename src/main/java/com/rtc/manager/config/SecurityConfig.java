@@ -73,6 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                        String message = exception.getMessage();
                         map.put("message", "密码错误");
                     }
+                    map.put("data", null);
                     out.write(objectMapper.writeValueAsString(map));
                     out.flush();
                     out.close();
@@ -98,6 +99,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     PrintWriter out = response.getWriter();
                     map.put("code", 403);
                     map.put("message", "未登录");
+                    map.put("data", null);
                     out.write(objectMapper.writeValueAsString(map));
                     out.flush();
                     out.close();

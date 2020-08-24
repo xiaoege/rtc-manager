@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * spring security专用
  * @author ChenHang
  */
 @Service

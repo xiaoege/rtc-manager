@@ -42,11 +42,35 @@ public interface UserService {
      */
     ResultData phoneRegister(String user, HttpServletRequest request) throws Exception;
 
+
     /**
-     * 登录
+     * 修改用户基本信息
      *
      * @param user
      */
-    void login(String user);
+    void updateUser(String user) throws Exception;
 
+    /**
+     * 修改密码
+     * @param oldPassword
+     * @param newPassword
+     * @param retypePassword
+     */
+    void updatePassword(String oldPassword, String newPassword, String retypePassword);
+
+    /**
+     * 忘记密码，通过手机号发送验证码
+     * @param phone
+     * @param countryCode
+     */
+    void forgetPasswordSendVerificationCode(String phone, String countryCode);
+
+    /**
+     * 检验手机号相对应的验证码
+     * @param phone
+     * @param countryCode
+     * @param verificationCode
+     * @return
+     */
+    ResultData checkVerificationCode(String phone, String countryCode, String verificationCode);
 }

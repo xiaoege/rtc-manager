@@ -158,20 +158,25 @@
 
   <select id="selectByPhoneOrAccount" resultType="com.rtc.manager.entity.dto.RtcUserDTO">
         SELECT
-            rtc_user.*,
+            rtc_user.id,
+            rtc_user.`password`,
             rtc_user_role.role_name AS roleName
         FROM
             rtc_user
             LEFT JOIN rtc_user_role ON rtc_user.role_id = rtc_user_role.id
         WHERE
-            rtc_user.phone = #{account, jdbcType=VARCHAR} UNION
+            rtc_user.phone = #{account, jdbcType=VARCHAR}
+            AND rtc_user.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+        UNION
         SELECT
-            rtc_user.*,
+            rtc_user.id,
+            rtc_user.`password`,
             rtc_user_role.role_name AS roleName
         FROM
             rtc_user
             LEFT JOIN rtc_user_role ON rtc_user.role_id = rtc_user_role.id
         WHERE
-             rtc_user.nickname = #{account, jdbcType=VARCHAR}
+            rtc_user.nickname = #{account, jdbcType=VARCHAR}
+            AND rtc_user.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
   </select>
 </mapper>

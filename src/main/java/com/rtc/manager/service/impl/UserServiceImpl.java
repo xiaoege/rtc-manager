@@ -1,7 +1,6 @@
 package com.rtc.manager.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.rtc.manager.dao.RtcUserMapper;
 import com.rtc.manager.entity.RtcUser;
 import com.rtc.manager.entity.dto.PhoneRegisterDTO;
@@ -16,11 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -130,7 +130,7 @@ public class UserServiceImpl implements UserService {
         }
         String verificationCodeRedis = stringRedisTemplate.opsForValue().get(email);
         if (rtcUserDTO.getVerificationCode().equals(verificationCodeRedis)) {
-            Map<String, String> map = UserUtils.haxPasswork(rtcUser.getPassword());
+            Map<String, String> map = UserUtils.hexPassword(rtcUser.getPassword());
             rtcUser.setPassword(map.get("password"));
             rtcUser.setSalt(map.get("salt"));
             rtcUserMapper.insertSelective(rtcUser);
@@ -225,7 +225,8 @@ public class UserServiceImpl implements UserService {
         BeanUtils.copyProperties(phoneRegisterDTO, rtcUser);
 //        Map<String, String> passwordMap = UserUtils.haxPasswork(password);
 //        rtcUser.setPassword(passwordMap.get("password"));
-        rtcUser.setPassword(new BCryptPasswordEncoder().encode(rtcUser.getPassword()));
+        rtcUser.setPassword(UserUtils.hexBCryptPassword(rtcUser.getPassword()));
+
 //        rtcUser.setSalt(passwordMap.get("salt"));
         rtcUser.setPhone(phone);
         rtcUser.setNickname(phone);
@@ -234,14 +235,94 @@ public class UserServiceImpl implements UserService {
         return ResultData.SUCCESS(user, "注册成功");
     }
 
+
     /**
-     * 登录
+     * 修改用户基本信息
      *
      * @param user
      */
     @Override
-    public void login(String user) {
+    public void updateUser(String user) throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        RtcUser rtcUser = objectMapper.readValue(user, RtcUser.class);
+        String nickname = rtcUser.getNickname();
+        if (nickname != null) {
+            // 验证昵称格式
+            if (!UserUtils.checkNicknameFormat(nickname)) {
 
+            }
+            // 检验昵称是否存在
+        }
+        // todo 修改mapper
+        rtcUserMapper.updateByPrimaryKeySelective(rtcUser);
+    }
+
+    /**
+     * 修改密码
+     *
+     * @param oldPassword
+     * @param newPassword
+     * @param retypePassword
+     */
+    @Override
+    public void updatePassword(String oldPassword, String newPassword, String retypePassword) {
+        if (newPassword == null || retypePassword == null || !newPassword.equals(retypePassword)) {
+
+        }
+        // todo 校验密码格式
+        if (UserUtils.checkPasswordFormat(newPassword)) {
+            HashMap<String, String> principal = (HashMap) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            String username = principal.get("username");
+            RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(username);
+            RtcUser rtcUser = new RtcUser();
+            rtcUser.setId(rtcUserDTO.getId());
+            rtcUser.setPassword(UserUtils.hexBCryptPassword(newPassword));
+            // 注意此时的昵称和手机号都是登录账号，谨防昵称在没有限制的条件下会是别人的手机号
+            rtcUserMapper.updateByPrimaryKeySelective(rtcUser);
+        }
+
+    }
+
+    /**
+     * 忘记密码，通过手机号发送验证码
+     *
+     * @param phone
+     * @param countryCode
+     */
+    @Override
+    public void forgetPasswordSendVerificationCode(String phone, String countryCode) {
+        // 手机号格式校验
+
+        // 该手机号尚未注册
+        if (rtcUserMapper.checkPhoneRegistered(phone) == null) {
+
+        }
+
+        // 发送验证码
+    }
+
+    /**
+     * 检验手机号相对应的验证码
+     *
+     * @param phone
+     * @param countryCode
+     * @param verificationCode
+     * @return
+     */
+    @Override
+    public ResultData checkVerificationCode(String phone, String countryCode, String verificationCode) {
+        // 该手机号尚未注册
+        if (rtcUserMapper.checkPhoneRegistered(phone) == null) {
+
+        }
+        // 该手机号尚未发送验证码
+        if (!stringRedisTemplate.hasKey(phone)) {
+
+        }
+        if (verificationCode.equals(stringRedisTemplate.opsForValue().get(phone))) {
+
+        }
+        return ResultData.FAIL(verificationCode, 0);
     }
 
     /**

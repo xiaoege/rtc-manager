@@ -8,6 +8,7 @@ import com.google.i18n.phonenumbers.geocoding.PhoneNumberOfflineGeocoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 
@@ -34,6 +35,11 @@ public class UserUtils {
      */
     private final static Pattern PATTERN_EMAIL = Pattern.compile("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$");
 
+    /**
+     * 验证昵称，可以有字母，数字，下划线，点，5-30个字符之间
+     */
+    private final static Pattern PATTERN_NICKNAME = Pattern.compile("^[A-Za-z][A-Za-z0-9_.]{4,29}$");
+
     private static JavaMailSenderImpl JAVA_MAIL_SENDER;
 
     static {
@@ -45,6 +51,13 @@ public class UserUtils {
 
     }
 
+    /**
+     * 发送邮箱验证码
+     *
+     * @param email
+     * @param verificationCode
+     * @return
+     */
     public static boolean sendEmailVerificationCode(String email, String verificationCode) {
         //发送邮箱验证码
         try {
@@ -100,10 +113,11 @@ public class UserUtils {
 
     /**
      * 密码加密
+     *
      * @param password
      * @return password和salt的map
      */
-    public static Map<String, String> haxPasswork(String password) {
+    public static Map<String, String> hexPassword(String password) {
         Map map = new HashMap();
         String salt = UUID.randomUUID().toString();
         String salt1 = "9981";
@@ -114,8 +128,14 @@ public class UserUtils {
         return map;
     }
 
+    /**
+     * 检验手机号格式
+     *
+     * @param phone
+     * @return
+     */
     public static boolean checkPhoneFormat(String phone) {
-        /*PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+        PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
         Phonenumber.PhoneNumber phoneNumber = null;
         try {
             // 需要传入国家代码，如果不传，phone则必须以+开头
@@ -132,8 +152,35 @@ public class UserUtils {
             System.out.println(phoneNumber.getCountryCode());
         } catch (NumberParseException e) {
             e.printStackTrace();
-        }*/
+        }
 
+        return false;
+    }
+
+    /**
+     * 校验密码格式
+     *
+     * @param password 加密前的密码
+     * @return boolean
+     */
+    public static boolean checkPasswordFormat(String password) {
+
+        return false;
+    }
+
+    /**
+     * 校验昵称格式，可以有字母，数字，下划线，点，5-30个字符之间，不能以Comcheck开头，只能以字母开头
+     *
+     * @param nickname
+     */
+    public static boolean checkNicknameFormat(String nickname) {
+        if (nickname != null && !nickname.toLowerCase().startsWith("comcheck")) {
+            Matcher matcher = PATTERN_NICKNAME.matcher(nickname);
+            if (matcher.matches()) {
+                return true;
+            }
+            return false;
+        }
         return false;
     }
 
@@ -145,6 +192,19 @@ public class UserUtils {
         phone = "+911895178873";
         phone = "+918790071998";
 //        phone = "11122224444";
-        System.out.println(checkPhoneFormat(phone));
+//        System.out.println(checkPhoneFormat(phone));
+
+        String nickName = "a_123c.";
+        System.out.println(checkNicknameFormat(nickName));
+    }
+
+    /**
+     * BCrypt加密密码
+     */
+    public static String hexBCryptPassword(String password) {
+        if (password == null) {
+            return null;
+        }
+        return new BCryptPasswordEncoder().encode(password);
     }
 }

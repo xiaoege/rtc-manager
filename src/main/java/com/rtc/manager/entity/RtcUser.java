@@ -33,4 +33,10 @@ public class RtcUser {
 
     private Integer roleId;
 
+    private String synopsis;
+
+    private String country;
+
+    private String enterprise;
+
 }
