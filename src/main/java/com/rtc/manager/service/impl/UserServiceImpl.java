@@ -177,6 +177,7 @@ public class UserServiceImpl implements UserService {
      * @param request
      * @return
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public ResultData phoneRegister(String user, HttpServletRequest request) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -242,19 +243,23 @@ public class UserServiceImpl implements UserService {
      * @param user
      */
     @Override
-    public void updateUser(String user) throws Exception {
+    @Transactional(rollbackFor = Exception.class)
+    public ResultData updateUser(String user) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         RtcUser rtcUser = objectMapper.readValue(user, RtcUser.class);
         String nickname = rtcUser.getNickname();
         if (nickname != null) {
             // 验证昵称格式
             if (!UserUtils.checkNicknameFormat(nickname)) {
-                
+                return ResultData.FAIL(user, 901, "昵称格式错误");
             }
             // 检验昵称是否存在
+            if (rtcUserMapper.checkNicknameRegistered(nickname) != null) {
+                return ResultData.FAIL(user, 902, "昵称已存在");
+            }
         }
-        // todo 修改mapper
         rtcUserMapper.updateByPrimaryKeySelective(rtcUser);
+        return ResultData.SUCCESS(user);
     }
 
     /**

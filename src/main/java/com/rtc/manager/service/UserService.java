@@ -48,7 +48,7 @@ public interface UserService {
      *
      * @param user
      */
-    void updateUser(String user) throws Exception;
+    ResultData updateUser(String user) throws Exception;
 
     /**
      * 修改密码

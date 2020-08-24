@@ -207,4 +207,15 @@ public class UserUtils {
         }
         return new BCryptPasswordEncoder().encode(password);
     }
+
+    /**
+     * 创建token
+     */
+    public static String getToken(String name) {
+        if (name != null) {
+
+            return "9527asd123";
+        }
+        return "";
+    }
 }

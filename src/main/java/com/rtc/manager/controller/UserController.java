@@ -155,14 +155,15 @@ public class UserController {
     @ApiIgnore
     @PutMapping("updateUser")
     public ResultData updateUser(@RequestParam(name = "user", required = true) String user) {
+        ResultData resultData;
         try {
-            userService.updateUser(user);
+            resultData = userService.updateUser(user);
         } catch (Exception e) {
             e.printStackTrace();
             return ResultData.FAIL(user, 400, "数据有误");
         }
 
-        return ResultData.SUCCESS(user);
+        return resultData;
     }
 
     /**
@@ -216,5 +217,16 @@ public class UserController {
     public ResultData uploadPortrait() {
 
         return null;
+    }
+
+    @PostMapping("login")
+    public Object login() {
+
+        return "喵帕斯";
+    }
+    @PostMapping("success")
+    public Object success() {
+
+        return "喵帕斯";
     }
 }

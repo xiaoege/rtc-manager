@@ -2,6 +2,7 @@ package com.rtc.manager.dao;
 
 import com.rtc.manager.entity.RtcUser;
 import com.rtc.manager.entity.dto.RtcUserDTO;
+import org.springframework.security.core.userdetails.UserDetails;
 
 public interface RtcUserMapper {
     int deleteByPrimaryKey(Integer id);
@@ -22,4 +23,8 @@ public interface RtcUserMapper {
     Integer checkPhoneRegistered(String phone);
 
     RtcUserDTO selectByPhoneOrAccount(String account);
+
+    String checkNicknameRegistered(String nickname);
+
+    UserDetails loadUserByUsername(String username);
 }

@@ -179,4 +179,15 @@
             rtc_user.nickname = #{account, jdbcType=VARCHAR}
             AND rtc_user.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
   </select>
+
+  <select id="checkNicknameRegistered" resultType="java.lang.Integer">
+    select
+        nickname
+    from
+        rtc_user
+    where
+        rtc_user.nickname = #{nickname, jdbcType=VARCHAR}
+        AND rtc_user.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+  </select>
+
 </mapper>

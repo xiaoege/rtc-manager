@@ -1,21 +1,25 @@
 package com.rtc.manager.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rtc.manager.filter.TokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.context.HttpRequestResponseHolder;
+import org.springframework.security.web.context.SecurityContextRepository;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +33,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private TokenFilter tokenFilter;
+
+//    @Autowired
+//    private SuccessFilter successFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -45,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         Map map = new HashMap<>();
         map.put("data", null);
-        http.csrf().disable()
+        /*http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/user/**").permitAll()
                 .anyRequest().authenticated()
@@ -103,7 +112,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     out.write(objectMapper.writeValueAsString(map));
                     out.flush();
                     out.close();
-                });
+                });*/
+
+        http.cors().and()
+                // 禁用 CSRF
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/user/**").permitAll()
+                .anyRequest().authenticated()
+                .and().formLogin().loginPage("/user/login").successForwardUrl("/user/success").permitAll()//使用 spring security 默认登录页面
+                .and()
+                //添加自定义Filter
+                // 不需要session（不创建会话）
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
+//                .addFilterAfter(successFilter, );
+        http.headers().cacheControl();
+
 
     }
 
@@ -111,4 +136,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         super.configure(web);
     }
+
 }
