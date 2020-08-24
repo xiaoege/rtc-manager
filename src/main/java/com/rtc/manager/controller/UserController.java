@@ -81,7 +81,7 @@ public class UserController {
      * @return
      * @throws Exception
      */
-    @ApiOperation(value = "手机注册", notes = "参数user例子:\n" +
+    @ApiOperation(value = "手机注册", notes = "参数例子:\n" +
             "{\n" +
             "    \"phone\":\"189\",\n" +
             "    \"countryCode\":\"\",\n" +
@@ -96,7 +96,7 @@ public class UserController {
             @ApiResponse(code = 801, message = "手机号已注册"),
             @ApiResponse(code = 804, message = "该手机号尚未发送验证码")})
     @PostMapping("phoneRegister")
-    public ResultData<PhoneRegisterDTO> phoneRegister(@RequestParam(name = "user", required = true) String user,
+    public ResultData<PhoneRegisterDTO> phoneRegister(@RequestBody String user,
                                                       HttpServletRequest request) throws Exception {
         ResultData resultData = userService.phoneRegister(user, request);
 
@@ -106,7 +106,6 @@ public class UserController {
     /**
      * 注册-校验手机，发送验证码
      *
-     * @param phone
      * @return
      */
     @ApiOperation(value = "注册-校验手机，发送验证码")
@@ -116,8 +115,9 @@ public class UserController {
             @ApiResponse(code = 800, message = "手机号格式错误"),
             @ApiResponse(code = 801, message = "手机号已注册")})
     @PostMapping("verificationCodeRegistered")
-    public ResultData verificationCodeRegistered(@RequestParam(name = "phone", required = true) String phone,
-                                           @RequestParam(name = "countryCode", required = true) String countryCode) {
+    public ResultData verificationCodeRegistered(@RequestBody(required = true) HashMap<String, String> map) {
+        String phone = map.get("phone");
+        String countryCode = map.get("countryCode");
         ResultData resultData = userService.verificationCodeRegistered(phone, countryCode);
         return resultData;
     }

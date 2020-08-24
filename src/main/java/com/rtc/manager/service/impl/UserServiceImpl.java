@@ -249,7 +249,7 @@ public class UserServiceImpl implements UserService {
         if (nickname != null) {
             // 验证昵称格式
             if (!UserUtils.checkNicknameFormat(nickname)) {
-
+                
             }
             // 检验昵称是否存在
         }

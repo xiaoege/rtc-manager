@@ -23,12 +23,6 @@ public class RtcUser {
 
     private String email;
 
-    private LocalDateTime gmtCreate;
-
-    private LocalDateTime gmtModified;
-
-    private Integer status;
-
     private String salt;
 
     private Integer roleId;
@@ -38,5 +32,13 @@ public class RtcUser {
     private String country;
 
     private String enterprise;
+
+    private String address;
+
+    private LocalDateTime gmtCreate;
+
+    private LocalDateTime gmtModified;
+
+    private Integer status;
 
 }
