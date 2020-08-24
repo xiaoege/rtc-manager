@@ -91,19 +91,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 })
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
-                .and().httpBasic()//启用http 基础验证
+                .and().httpBasic();//启用http 基础验证
                 // 未登录
-                .authenticationEntryPoint((request, response, authentication) -> {
-                    response.setContentType("application/json;charset=utf-8");
-                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                    PrintWriter out = response.getWriter();
-                    map.put("code", 401);
-                    map.put("message", "未登录");
-                    map.put("data", null);
-                    out.write(objectMapper.writeValueAsString(map));
-                    out.flush();
-                    out.close();
-                });
+//                .authenticationEntryPoint((request, response, authentication) -> {
+//                    response.setContentType("application/json;charset=utf-8");
+//                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+//                    PrintWriter out = response.getWriter();
+//                    map.put("code", 401);
+//                    map.put("message", "未登录");
+//                    map.put("data", null);
+//                    out.write(objectMapper.writeValueAsString(map));
+//                    out.flush();
+//                    out.close();
+//                });
 
     }
 
