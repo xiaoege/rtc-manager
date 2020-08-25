@@ -219,15 +219,4 @@ public class UserController {
         return null;
     }
 
-    @PostMapping("login")
-    public Object login() {
-        System.out.println(1);
-        return "喵帕斯1";
-    }
-    @PostMapping("success")
-    public Object success() {
-        System.out.println(2);
-        return "喵帕斯2";
-    }
-
 }
