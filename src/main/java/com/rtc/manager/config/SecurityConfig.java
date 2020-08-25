@@ -54,8 +54,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        Map map = new HashMap<>();
-        map.put("data", null);
+//        Map map = new HashMap<>();
+//        map.put("data", null);
         /*http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/user/**").permitAll()
@@ -122,6 +122,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             response.setContentType("application/json;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_OK);
             PrintWriter out = response.getWriter();
+            Map map = new HashMap<>();
             map.put("code", 1001);
             map.put("message", "没有登录");
             out.write(objectMapper.writeValueAsString(map));
@@ -137,11 +138,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and().formLogin()//使用 spring security 默认登录页面
                 .successHandler((request, response, authentication) -> {
+                    Map map = new HashMap<>();
                     map.put("code", 200);
                     map.put("message", "登录成功");
 //                    map.put("authentication", authentication);
                     UserDetails principal = (UserDetails) authentication.getPrincipal();
-                    map.put("Authorization", "Bearer " + UserUtils.getToken(principal.getUsername()));
+                    Map data = new HashMap();
+                    data.put("account", principal.getUsername());
+                    data.put("Authorization", "Bearer " + UserUtils.getToken(principal.getUsername()));
+                    map.put("data", data);
                     response.setHeader("Authorization", "cat");
                     response.setContentType("application/json;charset=utf-8");
                     PrintWriter out = response.getWriter();
@@ -150,10 +155,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     out.close();
                 }).permitAll()
                 .and().logout().logoutSuccessHandler((request, response, authentication) -> {
+            Map map = new HashMap<>();
             String authHeader = request.getHeader("Authorization");
             if (authHeader != null && authHeader.startsWith("Bearer ")) {
                 authHeader = authHeader.substring("Bearer ".length());
                 if (stringRedisTemplate.hasKey(authHeader)) {
+                    map.put("message", stringRedisTemplate.opsForValue().get(authHeader) + "登出成功");
                     stringRedisTemplate.delete(authHeader);
                 }
             }
@@ -167,9 +174,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             out.close();
         })
                 .and().exceptionHandling().accessDeniedHandler((request, response, authentication) -> {
+            Map map = new HashMap<>();
             response.setContentType("application/json;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_OK);
             PrintWriter out = response.getWriter();
+            Map data = new HashMap();
             map.put("code", 403);
             map.put("message", "没有权限");
             out.write(objectMapper.writeValueAsString(map));

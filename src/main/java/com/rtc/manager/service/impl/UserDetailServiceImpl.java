@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * spring security专用
@@ -40,7 +41,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
             throw new InternalAuthenticationServiceException("该账号不存在");
         }
         if (!stringRedisTemplate.hasKey(UserUtils.getToken(account))) {
-            stringRedisTemplate.opsForValue().set(UserUtils.getToken(account), account);
+            stringRedisTemplate.opsForValue().set(UserUtils.getToken(account), account, 30, TimeUnit.DAYS);
         }
         // 角色
         if ("user".equals(rtcUser.getRoleName())) {
