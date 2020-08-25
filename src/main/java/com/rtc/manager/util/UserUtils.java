@@ -212,7 +212,7 @@ public class UserUtils {
     public static String getToken(String name) {
         if (name != null) {
             String salt = "9981";
-            return DigestUtils.md5DigestAsHex((name + salt).getBytes());
+            return "Bearer " + DigestUtils.md5DigestAsHex((name + salt).getBytes());
         }
         return "";
     }

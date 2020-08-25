@@ -15,7 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +38,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private UserDetailServiceImpl userDetailService;
 
     Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -182,6 +188,7 @@ public class UserServiceImpl implements UserService {
     public ResultData phoneRegister(String user, HttpServletRequest request) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         PhoneRegisterDTO phoneRegisterDTO = objectMapper.readValue(user, PhoneRegisterDTO.class);
+        String failUser = objectMapper.writeValueAsString(user);
         // 数据格式错误
         if (phoneRegisterDTO == null) {
             return ResultData.FAIL(user, 705, CODE_705);
@@ -233,7 +240,21 @@ public class UserServiceImpl implements UserService {
         rtcUser.setNickname(phone);
         rtcUserMapper.insertSelective(rtcUser);
 
-        return ResultData.SUCCESS(user, "注册成功");
+        // 注册完自动登录，返回token
+        UserDetails userDetails = userDetailService.loadUserByUsername(phone);
+        if (userDetails != null) {
+            UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
+        String token = UserUtils.getToken(phone);
+        stringRedisTemplate.opsForValue().set(token, phone, 30, TimeUnit.DAYS);
+        Map map = new HashMap();
+        map.put("account", phone);
+        map.put("Authorization", token);
+        return ResultData.SUCCESS(map, "注册成功");
     }
 
 
