@@ -1,6 +1,7 @@
 package com.rtc.manager.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rtc.manager.filter.LoginFilter;
 import com.rtc.manager.filter.TokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -36,8 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private TokenFilter tokenFilter;
 
-//    @Autowired
-//    private SuccessFilter successFilter;
+    @Autowired
+    private LoginFilter loginFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
