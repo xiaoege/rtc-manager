@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -38,6 +39,7 @@ public class TokenFilter extends OncePerRequestFilter {
 //            final String authToken = authHeader.substring(tokenHead.length()); // The part after "Bearer "
 //            if (authToken != null && stringRedisTemplate.hasKey(authToken)) {
 //                String username = stringRedisTemplate.opsForValue().get(authToken);
+        Authentication authentication1 = SecurityContextHolder.getContext().getAuthentication();
         String username = request.getParameter("username");
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailService.loadUserByUsername(username);
