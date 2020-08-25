@@ -23,4 +23,8 @@ public class RedisUtils {
     public String getValue(String key) {
         return stringRedisTemplate.opsForValue().get(key);
     }
+
+    public boolean hasKey(String key) {
+        return stringRedisTemplate.hasKey(key);
+    }
 }

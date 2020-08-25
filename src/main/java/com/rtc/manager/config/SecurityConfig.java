@@ -1,21 +1,27 @@
 package com.rtc.manager.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rtc.manager.filter.LoginFilter;
 import com.rtc.manager.filter.TokenFilter;
+import com.rtc.manager.util.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private TokenFilter tokenFilter;
 
     @Autowired
-    private LoginFilter loginFilter;
+    private StringRedisTemplate stringRedisTemplate;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -43,8 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 //        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-        auth.authenticationProvider(new MyProvider());
-//        super.configure(auth);
+        super.configure(auth);
     }
 
     @Override
@@ -111,20 +116,68 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     out.close();
                 });*/
 
-        http.cors().and()
-                // 禁用 CSRF
-                .csrf().disable()
+        http.csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().httpBasic().authenticationEntryPoint((request, response, authentication) -> {
+            response.setContentType("application/json;charset=utf-8");
+            response.setStatus(HttpServletResponse.SC_OK);
+            PrintWriter out = response.getWriter();
+            map.put("code", 1001);
+            map.put("message", "没有登录");
+            out.write(objectMapper.writeValueAsString(map));
+            out.flush();
+            out.close();
+        })
+                .and()
                 .authorizeRequests()
+                .antMatchers("/news/getNews").hasRole("USER")
+                .antMatchers("/news/listNews").hasRole("VIP")
+                .antMatchers("/logout").hasRole("USER")
                 .antMatchers("/user/**").permitAll()
                 .anyRequest().authenticated()
-                .and().formLogin().loginPage("/user/login").successForwardUrl("/user/success").permitAll()//使用 spring security 默认登录页面
-                .and()
-                //添加自定义Filter
-                // 不需要session（不创建会话）
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
-//                .addFilterAfter(successFilter, );
-        http.headers().cacheControl();
+                .and().formLogin()//使用 spring security 默认登录页面
+                .successHandler((request, response, authentication) -> {
+                    map.put("code", 200);
+                    map.put("message", "登录成功");
+//                    map.put("authentication", authentication);
+                    UserDetails principal = (UserDetails) authentication.getPrincipal();
+                    map.put("Authorization", "Bearer " + UserUtils.getToken(principal.getUsername()));
+                    response.setHeader("Authorization", "cat");
+                    response.setContentType("application/json;charset=utf-8");
+                    PrintWriter out = response.getWriter();
+                    out.write(objectMapper.writeValueAsString(map));
+                    out.flush();
+                    out.close();
+                }).permitAll()
+                .and().logout().logoutSuccessHandler((request, response, authentication) -> {
+            String authHeader = request.getHeader("Authorization");
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                authHeader = authHeader.substring("Bearer ".length());
+                if (stringRedisTemplate.hasKey(authHeader)) {
+                    stringRedisTemplate.delete(authHeader);
+                }
+            }
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.setContentType("application/json;charset=utf-8");
+            map.put("code", 200);
+            map.put("message", "登出成功");
+            PrintWriter out = response.getWriter();
+            out.write(objectMapper.writeValueAsString(map));
+            out.flush();
+            out.close();
+        })
+                .and().exceptionHandling().accessDeniedHandler((request, response, authentication) -> {
+            response.setContentType("application/json;charset=utf-8");
+            response.setStatus(HttpServletResponse.SC_OK);
+            PrintWriter out = response.getWriter();
+            map.put("code", 403);
+            map.put("message", "没有权限");
+            out.write(objectMapper.writeValueAsString(map));
+            out.flush();
+            out.close();
+        });
+
+        http.addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
 
 
     }

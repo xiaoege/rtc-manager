@@ -1,11 +1,9 @@
 package com.rtc.manager.util;
 
 import com.google.i18n.phonenumbers.NumberParseException;
-import com.google.i18n.phonenumbers.PhoneNumberToTimeZonesMapper;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 import com.google.i18n.phonenumbers.geocoding.PhoneNumberOfflineGeocoder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -112,7 +110,7 @@ public class UserUtils {
     }
 
     /**
-     * 密码加密
+     * 密码md5加密
      *
      * @param password
      * @return password和salt的map
@@ -213,9 +211,10 @@ public class UserUtils {
      */
     public static String getToken(String name) {
         if (name != null) {
-
-            return "9527asd123";
+            String salt = "9981";
+            return DigestUtils.md5DigestAsHex((name + salt).getBytes());
         }
         return "";
     }
+
 }

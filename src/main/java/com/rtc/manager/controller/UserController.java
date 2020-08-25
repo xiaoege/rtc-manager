@@ -221,12 +221,13 @@ public class UserController {
 
     @PostMapping("login")
     public Object login() {
-
-        return "喵帕斯";
+        System.out.println(1);
+        return "喵帕斯1";
     }
     @PostMapping("success")
     public Object success() {
-
-        return "喵帕斯";
+        System.out.println(2);
+        return "喵帕斯2";
     }
+
 }

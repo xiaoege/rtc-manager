@@ -39,23 +39,22 @@ public class UserDetailServiceImpl implements UserDetailsService {
         if (rtcUser == null) {
             throw new InternalAuthenticationServiceException("该账号不存在");
         }
-
+        if (!stringRedisTemplate.hasKey(UserUtils.getToken(account))) {
+            stringRedisTemplate.opsForValue().set(UserUtils.getToken(account), account);
+        }
         // 角色
         if ("user".equals(rtcUser.getRoleName())) {
             GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_USER");
             grantedAuthorities.add(grantedAuthority);
-            stringRedisTemplate.opsForValue().set("access-token", UserUtils.getToken(account));
             return new User(account, rtcUser.getPassword(), grantedAuthorities);
         } else if ("vip".equals(rtcUser.getRoleName())) {
             GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_VIP");
             grantedAuthorities.add(grantedAuthority);
-            stringRedisTemplate.opsForValue().set("access-token", UserUtils.getToken(account));
             return new User(account, rtcUser.getPassword(), grantedAuthorities);
         }
 
         return null;
     }
-
 
 
 }
