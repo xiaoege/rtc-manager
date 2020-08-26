@@ -2,6 +2,7 @@ package com.rtc.manager.dao;
 
 import com.rtc.manager.entity.RtcUser;
 import com.rtc.manager.entity.dto.RtcUserDTO;
+import com.rtc.manager.vo.RtcUserVO;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public interface RtcUserMapper {
@@ -27,4 +28,6 @@ public interface RtcUserMapper {
     String checkNicknameRegistered(String nickname);
 
     UserDetails loadUserByUsername(String username);
+
+    RtcUserVO selectByPhoneOrAccount2RtcUserVO(String account);
 }

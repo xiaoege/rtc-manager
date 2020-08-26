@@ -73,4 +73,11 @@ public interface UserService {
      * @return
      */
     ResultData checkVerificationCode(String phone, String countryCode, String verificationCode);
+
+    /**
+     * 查询用户信息，从header里读取用户账号
+     * @return
+     * @param request
+     */
+    ResultData getUserInformation(HttpServletRequest request);
 }

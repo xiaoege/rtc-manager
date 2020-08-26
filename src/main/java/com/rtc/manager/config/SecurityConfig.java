@@ -1,9 +1,12 @@
 package com.rtc.manager.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rtc.manager.dao.RtcUserMapper;
+import com.rtc.manager.entity.dto.RtcUserDTO;
 import com.rtc.manager.filter.CustomAuthenticationFilter;
 import com.rtc.manager.filter.TokenFilter;
 import com.rtc.manager.util.UserUtils;
+import com.rtc.manager.vo.RtcUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,6 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private RtcUserMapper rtcUserMapper;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -148,6 +154,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/**").permitAll()
 //                .antMatchers("/news/getNews").hasRole("VIP")
 //                .antMatchers("/news/listNews").hasRole("USER")
+                .antMatchers("/user/getUserInformation").authenticated()
                 .antMatchers("/user/**").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin()//使用 spring security 默认登录页面
@@ -235,6 +242,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             Map data = new HashMap();
             data.put("account", principal.getUsername());
             data.put("Authorization", UserUtils.getToken(principal.getUsername()));
+            RtcUserVO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount2RtcUserVO(principal.getUsername());
+            data.put("user", rtcUserDTO);
             map.put("data", data);
             response.setHeader("Authorization", "cat");
             response.setContentType("application/json;charset=utf-8");

@@ -8,6 +8,7 @@ import com.rtc.manager.entity.dto.RtcUserDTO;
 import com.rtc.manager.service.UserService;
 import com.rtc.manager.util.UserUtils;
 import com.rtc.manager.vo.ResultData;
+import com.rtc.manager.vo.RtcUserVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -349,6 +350,26 @@ public class UserServiceImpl implements UserService {
 
         }
         return ResultData.FAIL(verificationCode, 0);
+    }
+
+    /**
+     * 查询用户信息，从header里读取用户账号
+     *
+     * @param request
+     * @return
+     */
+    @Override
+    public ResultData getUserInformation(HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            if (stringRedisTemplate.hasKey(authHeader)) {
+                String username = stringRedisTemplate.opsForValue().get(authHeader);
+                RtcUserVO rtcUserVO = rtcUserMapper.selectByPhoneOrAccount2RtcUserVO(username);
+                return ResultData.SUCCESS(rtcUserVO);
+            }
+        }
+        return ResultData.FAIL("查询失败", 400);
+
     }
 
     /**

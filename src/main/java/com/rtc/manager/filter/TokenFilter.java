@@ -1,5 +1,7 @@
 package com.rtc.manager.filter;
 
+import com.rtc.manager.dao.RtcUserMapper;
+import com.rtc.manager.entity.dto.RtcUserDTO;
 import com.rtc.manager.service.impl.UserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +20,7 @@ import java.io.IOException;
 
 /**
  * token验证
+ *
  * @author ChenHang
  */
 @Configuration

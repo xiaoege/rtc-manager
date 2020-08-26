@@ -1,5 +1,6 @@
 package com.rtc.manager.controller;
 
+import com.rtc.manager.dao.RtcUserMapper;
 import com.rtc.manager.entity.dto.PhoneRegisterDTO;
 import com.rtc.manager.service.UserService;
 import com.rtc.manager.util.RedisUtils;
@@ -24,9 +25,6 @@ import java.util.Set;
 public class UserController {
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private RedisUtils redisUtils;
 
     /**
      * @param data
@@ -198,16 +196,27 @@ public class UserController {
     @ApiOperation(value = "登录，此文档仅供参考，不可在swagger里调用，调用请使用/login路径", notes = "参数放在body里")
     @ApiResponses({@ApiResponse(code = 200, message = "{\n" +
             "    \"code\": 200,\n" +
-            "    \"data\": " +
-            "           {\n" +
+            "    \"data\": {\n" +
             "        \"Authorization\": \"Bearer 9b8dc8b599368836ed7deb163e01ded1\",\n" +
+            "        \"user\": {\n" +
+            "            \"nickname\": \"333\",\n" +
+            "            \"phone\": \"333\",\n" +
+            "            \"countryCode\": null,\n" +
+            "            \"email\": \"xxxx\",\n" +
+            "            \"synopsis\": \"简介\",\n" +
+            "            \"country\": \"天朝\",\n" +
+            "            \"enterprise\": \"公司\",\n" +
+            "            \"address\": \"南京\",\n" +
+            "            \"pid\": 12\n" +
+            "        },\n" +
             "        \"account\": \"333\"\n" +
-            "           },\n" +
+            "    },\n" +
             "    \"message\": \"登录成功\"\n" +
-            "}"), @ApiResponse(code = 1002, message = "{\n" +
-            "    \"code\": 401,\n" +
-            "    \"message\": \"该账号不存在\"\n" +
-            "}"), @ApiResponse(code = 1003, message = "{\n" +
+            "}"),
+            @ApiResponse(code = 1002, message = "{\n" +
+                    "    \"code\": 401,\n" +
+                    "    \"message\": \"该账号不存在\"\n" +
+                    "}"), @ApiResponse(code = 1003, message = "{\n" +
             "    \"code\": 401,\n" +
             "    \"message\": \"密码错误\"\n" +
             "}")})
@@ -226,5 +235,33 @@ public class UserController {
     @PostMapping("logout")
     public String swagger_logout() {
         return "请使用/logout来调用";
+    }
+
+
+    /**
+     * 查询用户信息，从header里读取用户账号
+     *
+     * @return
+     */
+    @ApiOperation(value = "查询用户信息", notes = "参数在header里")
+    @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9b8dc8b599368836ed7deb163e01ded1", paramType = "header")
+    @ApiResponses({@ApiResponse(code = 200, message = "{\n" +
+            "    \"message\": \"请求成功\",\n" +
+            "    \"data\": {\n" +
+            "        \"nickname\": \"333\",\n" +
+            "        \"phone\": \"333\",\n" +
+            "        \"countryCode\": null,\n" +
+            "        \"email\": \"xxxx\",\n" +
+            "        \"synopsis\": \"简介\",\n" +
+            "        \"country\": \"天朝\",\n" +
+            "        \"enterprise\": \"公司\",\n" +
+            "        \"address\": \"南京\",\n" +
+            "        \"pid\": 12\n" +
+            "    },\n" +
+            "    \"code\": 200\n" +
+            "}")})
+    @GetMapping("getUserInformation")
+    public ResultData getUserInformation(HttpServletRequest request) {
+        return userService.getUserInformation(request);
     }
 }
