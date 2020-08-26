@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * AuthenticationFilter that supports rest login(json login) and form login.
+ * 获得请求体里的username和password
  *
  * @author chenhuanming
  */
@@ -49,4 +49,5 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             return super.attemptAuthentication(request, response);
         }
     }
+
 }

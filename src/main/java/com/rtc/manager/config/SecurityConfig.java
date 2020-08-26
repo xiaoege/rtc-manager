@@ -3,28 +3,25 @@ package com.rtc.manager.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rtc.manager.filter.CustomAuthenticationFilter;
 import com.rtc.manager.filter.TokenFilter;
-import com.rtc.manager.filter.UserAuthenticationFilter;
 import com.rtc.manager.util.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -45,8 +42,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
-
-    private UserAuthenticationFilter userAuthenticationFilter = new UserAuthenticationFilter();
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -126,42 +121,60 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().httpBasic()
-                .authenticationEntryPoint((request, response, authentication) -> {
-                    response.setContentType("application/json;charset=utf-8");
-                    response.setStatus(HttpServletResponse.SC_OK);
-                    PrintWriter out = response.getWriter();
-                    Map map = new HashMap<>();
-                    map.put("code", 1001);
-                    map.put("message", "没有登录");
-                    out.write(objectMapper.writeValueAsString(map));
-                    out.flush();
-                    out.close();
-                })
+//                .authenticationEntryPoint((request, response, authenticationException) -> {
+//                    Map map = new HashMap();
+//                    response.setContentType("application/json;charset=utf-8");
+//                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//                    PrintWriter out = response.getWriter();
+//                    map.put("code", 401);
+//                    map.put("message", "登录失败");
+//                    if (authenticationException instanceof InsufficientAuthenticationException) {
+//                        map.put("message", "该账号不存在");
+//                    }
+//                    if (authenticationException instanceof BadCredentialsException) {
+////                        String message = exception.getMessage();
+//                        map.put("message", "密码错误");
+//                    }
+//                    out.write(objectMapper.writeValueAsString(map));
+//                    out.flush();
+//                    out.close();
+//                })
                 .and()
                 .authorizeRequests()
-                .antMatchers("/swagger-ui.html").anonymous()
-                .antMatchers("/swagger-resources/**").anonymous()
-                .antMatchers("/webjars/**").anonymous()
-                .antMatchers("/v2/**").anonymous()
-                .antMatchers("/api/**").anonymous()
+                .antMatchers("/swagger-ui.html").permitAll()
+                .antMatchers("/swagger-resources/**").permitAll()
+                .antMatchers("/webjars/**").permitAll()
+                .antMatchers("/v2/**").permitAll()
+                .antMatchers("/api/**").permitAll()
                 .antMatchers("/news/getNews").hasRole("VIP")
                 .antMatchers("/news/listNews").hasRole("USER")
                 .antMatchers("/user/**").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin()//使用 spring security 默认登录页面
-                .successHandler((request, response, authentication) -> {
-                    Map map = new HashMap<>();
-                    map.put("code", 200);
-                    map.put("message", "登录成功");
-//                    map.put("authentication", authentication);
-                    UserDetails principal = (UserDetails) authentication.getPrincipal();
-                    Map data = new HashMap();
-                    data.put("account", principal.getUsername());
-                    data.put("Authorization", UserUtils.getToken(principal.getUsername()));
-                    map.put("data", data);
-                    response.setHeader("Authorization", "cat");
+//                .successHandler((request, response, authentication) -> {
+//                    Map map = new HashMap<>();
+//                    map.put("code", 200);
+//                    map.put("message", "登录成功");
+////                    map.put("authentication", authentication);
+//                    UserDetails principal = (UserDetails) authentication.getPrincipal();
+//                    Map data = new HashMap();
+//                    data.put("account", principal.getUsername());
+//                    data.put("Authorization", UserUtils.getToken(principal.getUsername()));
+//                    map.put("data", data);
+//                    response.setHeader("Authorization", "cat");
+//                    response.setContentType("application/json;charset=utf-8");
+//                    PrintWriter out = response.getWriter();
+//                    out.write(objectMapper.writeValueAsString(map));
+//                    out.flush();
+//                    out.close();
+//                })
+                .failureHandler((request, response, exception) -> {
+                    Map map = new HashMap();
                     response.setContentType("application/json;charset=utf-8");
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     PrintWriter out = response.getWriter();
+                    map.put("code", 401);
+                    map.put("data", null);
                     out.write(objectMapper.writeValueAsString(map));
                     out.flush();
                     out.close();
@@ -230,13 +243,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             out.flush();
             out.close();
         });
-//        filter.setAuthenticationFailureHandler(( var1,  var2,  var3) ->{
-//
-//        });
-//        filter.setFilterProcessesUrl("/login/self");
+        // 覆盖http.authenticationEntryPoint
+        filter.setAuthenticationFailureHandler((request, response, authenticationException) -> {
+            Map map = new HashMap();
+            response.setContentType("application/json;charset=utf-8");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            PrintWriter out = response.getWriter();
+            map.put("code", 401);
+            map.put("message", "登录失败");
+            if (authenticationException instanceof InternalAuthenticationServiceException) {
+                map.put("code", 1002);
+                map.put("message", "该账号不存在");
+            }else if (authenticationException instanceof BadCredentialsException) {
+                 map.put("code", 1003);
+                map.put("message", "密码错误");
+            }
+            out.write(objectMapper.writeValueAsString(map));
+            out.flush();
+            out.close();
+        });
 
         //这句很关键，重用WebSecurityConfigurerAdapter配置的AuthenticationManager，不然要自己组装AuthenticationManager
         filter.setAuthenticationManager(authenticationManagerBean());
         return filter;
     }
+
 }

@@ -219,4 +219,36 @@ public class UserController {
         return null;
     }
 
+    @ApiOperation(value = "登录，此文档仅供参考，不可在swagger里调用，调用请使用/login路径", notes = "参数放在body里")
+    @ApiResponses({@ApiResponse(code = 200, message = "{\n" +
+            "    \"code\": 200,\n" +
+            "    \"data\": " +
+            "           {\n" +
+            "        \"Authorization\": \"Bearer 9b8dc8b599368836ed7deb163e01ded1\",\n" +
+            "        \"account\": \"333\"\n" +
+            "           },\n" +
+            "    \"message\": \"登录成功\"\n" +
+            "}"), @ApiResponse(code = 1002, message = "{\n" +
+            "    \"code\": 401,\n" +
+            "    \"message\": \"该账号不存在\"\n" +
+            "}"), @ApiResponse(code = 1003, message = "{\n" +
+            "    \"code\": 401,\n" +
+            "    \"message\": \"密码错误\"\n" +
+            "}")})
+    @ApiImplicitParam(name = "", value = "参数示例：{\"username\":\"333\",\"password\":\"asd\"}", paramType = "body")
+    @PostMapping("login")
+    public String swagger_login() {
+        return "请使用/login来调用";
+    }
+
+    @ApiOperation(value = "登出，此文档仅供参考，不可在swagger里调用，调用请使用/logout路径", notes = "参数放在header里")
+    @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9b8dc8b599368836ed7deb163e01ded1", paramType = "header")
+    @ApiResponses(@ApiResponse(code = 200, message = "{\n" +
+            "    \"code\": 200,\n" +
+            "    \"message\": \"登出成功\"\n" +
+            "}"))
+    @PostMapping("logout")
+    public String swagger_logout() {
+        return "请使用/logout来调用";
+    }
 }
