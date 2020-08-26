@@ -146,8 +146,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/webjars/**").permitAll()
                 .antMatchers("/v2/**").permitAll()
                 .antMatchers("/api/**").permitAll()
-                .antMatchers("/news/getNews").hasRole("VIP")
-                .antMatchers("/news/listNews").hasRole("USER")
+//                .antMatchers("/news/getNews").hasRole("VIP")
+//                .antMatchers("/news/listNews").hasRole("USER")
                 .antMatchers("/user/**").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin()//使用 spring security 默认登录页面

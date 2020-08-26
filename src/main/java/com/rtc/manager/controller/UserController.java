@@ -123,30 +123,6 @@ public class UserController {
     }
 
     /**
-     * 查找当前登录的用户 + 查找该用户的验证码
-     *
-     * @return
-     */
-    @ApiOperation(value = "查找当前登录的用户 + 查找该用户的验证码")
-    @GetMapping("listLoginUser")
-    public Object listLoginUser(@RequestParam(name = "key", required = false) String key) {
-        Map map = new HashMap();
-
-        map.put("getPrincipal", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        map.put("getAuthorities", SecurityContextHolder.getContext().getAuthentication().getAuthorities());
-        map.put("getDetails", SecurityContextHolder.getContext().getAuthentication().getDetails());
-        Set<String> keys = redisUtils.listKey();
-        map.put("keys", keys);
-        Object value = null;
-        if (key != null) {
-            redisUtils.getValue(key);
-        }
-        map.put("value", value);
-        return map;
-    }
-
-
-    /**
      * 修改用户基本信息
      *
      * @param user
