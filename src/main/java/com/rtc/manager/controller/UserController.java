@@ -207,7 +207,7 @@ public class UserController {
             @ApiResponse(code = 903, message = "密码格式错误"),
             @ApiResponse(code = 1004, message = "原始密码错误")
     })
-    @PatchMapping("updatePassword")
+    @PutMapping("updatePassword")
     public ResultData updatePassword(@RequestBody String user) throws Exception {
         return userService.updatePassword(user);
     }
