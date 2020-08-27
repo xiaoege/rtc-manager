@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 public class RtcUser {
     private Integer id;
 
+    private String uuid;
+
     private String nickname;
 
     private String password;

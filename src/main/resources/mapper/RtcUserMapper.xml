@@ -3,6 +3,7 @@
 <mapper namespace="com.rtc.manager.dao.RtcUserMapper">
   <resultMap id="BaseResultMap" type="com.rtc.manager.entity.RtcUser">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="uuid" jdbcType="VARCHAR" property="uuid" />
     <result column="nickname" jdbcType="VARCHAR" property="nickname" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
@@ -52,6 +53,9 @@
       <if test="id != null">
         id,
       </if>
+      <if test="uuid != null">
+        uuid,
+      </if>
       <if test="nickname != null">
         nickname,
       </if>
@@ -98,6 +102,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uuid != null">
+        #{uuid,jdbcType=VARCHAR},
       </if>
       <if test="nickname != null">
         #{nickname,jdbcType=VARCHAR},
@@ -222,23 +229,40 @@
         SELECT
             rtc_user.id,
             rtc_user.`password`,
-            rtc_user_role.role_name AS roleName
+            rtc_user_role.role_name AS roleName,
+            rtc_user.uuid,
+            rtc_user.phone
         FROM
             rtc_user
             LEFT JOIN rtc_user_role ON rtc_user.role_id = rtc_user_role.id
         WHERE
-            rtc_user.phone = #{account, jdbcType=VARCHAR}
+            rtc_user.uuid = #{uuid,jdbcType=VARCHAR}
             AND rtc_user.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
         UNION
         SELECT
             rtc_user.id,
             rtc_user.`password`,
-            rtc_user_role.role_name AS roleName
+            rtc_user_role.role_name AS roleName,
+            rtc_user.uuid,
+            rtc_user.phone
         FROM
             rtc_user
             LEFT JOIN rtc_user_role ON rtc_user.role_id = rtc_user_role.id
         WHERE
-            rtc_user.nickname = #{account, jdbcType=VARCHAR}
+            rtc_user.nickname = #{uuid,jdbcType=VARCHAR}
+            AND rtc_user.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+        UNION
+        SELECT
+            rtc_user.id,
+            rtc_user.`password`,
+            rtc_user_role.role_name AS roleName,
+            rtc_user.uuid,
+            rtc_user.phone
+        FROM
+            rtc_user
+            LEFT JOIN rtc_user_role ON rtc_user.role_id = rtc_user_role.id
+        WHERE
+            rtc_user.phone = #{uuid,jdbcType=VARCHAR}
             AND rtc_user.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
   </select>
 

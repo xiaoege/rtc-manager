@@ -132,7 +132,7 @@ public class UserController {
                     "    \"enterprise\":\"enterprise\",\n" +
                     "    \"address\":\"address\"\n" +
                     "}", paramType = "body")})
-    @ApiResponses(@ApiResponse(code = 200, message = "{\n" +
+    @ApiResponses({@ApiResponse(code = 200, message = "{\n" +
             "    \"message\": \"请求成功\",\n" +
             "    \"data\": {\n" +
             "        \"Authorization\": \"Bearer c745e0ffd74e6a9ebf8670c057374b12\",\n" +
@@ -152,7 +152,9 @@ public class UserController {
             "        \"account\": \"qweasdas\"\n" +
             "    },\n" +
             "    \"code\": 200\n" +
-            "}"))
+            "}"),
+            @ApiResponse(code = 901, message = "昵称格式错误"),
+            @ApiResponse(code = 902, message = "昵称已存在")})
     @PutMapping("updateUser")
     public ResultData updateUser(@RequestBody String user, HttpServletRequest request) {
         ResultData resultData;
@@ -177,9 +179,8 @@ public class UserController {
     @ApiIgnore
     @ApiOperation(value = "根据原始密码修改密码")
     @PatchMapping("updatePassword")
-    public ResultData updatePassword(String oldPassword, String newPassword, String retypePassword) {
-        userService.updatePassword(oldPassword, newPassword, retypePassword);
-        return null;
+    public ResultData updatePassword(@RequestBody String user) throws Exception {
+        return userService.updatePassword(user);
     }
 
     /**

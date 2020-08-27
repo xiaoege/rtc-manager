@@ -25,5 +25,6 @@ public class RtcUserDTO {
     private String synopsis;
     private String country;
     private String enterprise;
+    private String uuid;
 
 }

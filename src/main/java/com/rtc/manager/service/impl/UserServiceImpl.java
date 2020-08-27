@@ -24,13 +24,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -244,10 +242,11 @@ public class UserServiceImpl implements UserService {
 //        rtcUser.setSalt(passwordMap.get("salt"));
         rtcUser.setPhone(phone);
         rtcUser.setNickname(phone);
+        String uuid = UUID.randomUUID().toString();
+        rtcUser.setUuid(uuid);
         rtcUserMapper.insertSelective(rtcUser);
-
         // 注册完自动登录，返回token
-        UserDetails userDetails = userDetailService.loadUserByUsername(phone);
+        UserDetails userDetails = userDetailService.loadUserByUsername(uuid);
         if (userDetails != null) {
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
@@ -255,14 +254,14 @@ public class UserServiceImpl implements UserService {
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
-        String token = UserUtils.getToken(phone);
-        stringRedisTemplate.opsForValue().set(token, phone, 30, TimeUnit.DAYS);
+        RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(uuid);
+        String token = UserUtils.getToken(rtcUserDTO.getUuid());
+        stringRedisTemplate.opsForValue().set(token, rtcUserDTO.getUuid(), 30, TimeUnit.DAYS);
         Map map = new HashMap();
         map.put("account", phone);
         map.put("Authorization", token);
         return ResultData.SUCCESS(map, "注册成功");
     }
-
 
     /**
      * 修改用户基本信息，成功后返回该用户的最新信息 + 新昵称/旧昵称的token

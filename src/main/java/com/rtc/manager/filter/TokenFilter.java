@@ -36,10 +36,11 @@ public class TokenFilter extends OncePerRequestFilter {
         String authHeader = request.getHeader("Authorization");
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             if (stringRedisTemplate.hasKey(authHeader)) {
-                String username = stringRedisTemplate.opsForValue().get(authHeader);
+//                String username = stringRedisTemplate.opsForValue().get(authHeader);
+                String uuid = stringRedisTemplate.opsForValue().get(authHeader);
 
-                if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                    UserDetails userDetails = userDetailService.loadUserByUsername(username);
+                if (uuid != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                    UserDetails userDetails = userDetailService.loadUserByUsername(uuid);
 
                     if (userDetails != null) {
                         UsernamePasswordAuthenticationToken authentication =

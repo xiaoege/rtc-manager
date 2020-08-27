@@ -40,18 +40,19 @@ public class UserDetailServiceImpl implements UserDetailsService {
         if (rtcUser == null) {
             throw new InternalAuthenticationServiceException("该账号不存在");
         }
-        if (!stringRedisTemplate.hasKey(UserUtils.getToken(account))) {
-            stringRedisTemplate.opsForValue().set(UserUtils.getToken(account), account, 30, TimeUnit.DAYS);
+        String uuid = rtcUser.getUuid();
+        if (!stringRedisTemplate.hasKey(UserUtils.getToken(uuid))) {
+            stringRedisTemplate.opsForValue().set(UserUtils.getToken(uuid), uuid, 30, TimeUnit.DAYS);
         }
         // 角色
         if ("user".equals(rtcUser.getRoleName())) {
             GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_USER");
             grantedAuthorities.add(grantedAuthority);
-            return new User(account, rtcUser.getPassword(), grantedAuthorities);
+            return new User(rtcUser.getPhone(), rtcUser.getPassword(), grantedAuthorities);
         } else if ("vip".equals(rtcUser.getRoleName())) {
             GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_VIP");
             grantedAuthorities.add(grantedAuthority);
-            return new User(account, rtcUser.getPassword(), grantedAuthorities);
+            return new User(rtcUser.getPhone(), rtcUser.getPassword(), grantedAuthorities);
         }
 
         return null;

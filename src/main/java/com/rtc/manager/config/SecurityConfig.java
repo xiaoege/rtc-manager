@@ -194,7 +194,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     if (authHeader != null && authHeader.startsWith("Bearer ")) {
 //                authHeader = authHeader.substring("Bearer ".length());
                         if (stringRedisTemplate.hasKey(authHeader)) {
-                            map.put("message", stringRedisTemplate.opsForValue().get(authHeader) + "登出成功");
+//                            map.put("message", stringRedisTemplate.opsForValue().get(authHeader) + "登出成功");
                             stringRedisTemplate.delete(authHeader);
                         }
                     }
