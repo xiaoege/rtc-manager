@@ -291,15 +291,6 @@ public class UserServiceImpl implements UserService {
         String nicknameToken = authHeader;
         RtcUserVO rtcUserVO = rtcUserMapper.selectByPhoneOrAccount2RtcUserVO(account);
         String oldNickname = rtcUserVO.getNickname();
-//        if (!nickname.equals(oldNickname)) {
-            // redis里新建nickname的token，并移除原nickname的token
-//            nicknameToken = UserUtils.getToken(nickname);
-//            stringRedisTemplate.opsForValue().set(nicknameToken, nickname, 30, TimeUnit.DAYS);
-            // 昵称默认手机号，第一次修改不能删除原token即手机号的token，直接新建昵称的token
-//            if (!Character.isDigit(oldNickname.charAt(0))) {
-//                stringRedisTemplate.delete(UserUtils.getToken(oldNickname));
-//            }
-//        }
         rtcUser.setId(rtcUserVO.getId());
         rtcUser.setPassword(null);
         rtcUser.setPhone(null);
@@ -311,7 +302,6 @@ public class UserServiceImpl implements UserService {
         ArrayList<SimpleGrantedAuthority> authoritieList = new ArrayList(authorities);
         SimpleGrantedAuthority simpleGrantedAuthority = authoritieList.get(0);
         Map map = new HashMap();
-        map.put("Authorization", nicknameToken);
         map.put("user", vo);
         map.put("role", simpleGrantedAuthority.getAuthority());
         map.put("account", nickname == null ? oldNickname : nickname);

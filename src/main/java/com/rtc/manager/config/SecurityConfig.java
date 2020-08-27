@@ -134,7 +134,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint((request, response, authenticationException) -> {
                     Map map = new HashMap();
                     response.setContentType("application/json;charset=utf-8");
-                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    response.setStatus(HttpServletResponse.SC_OK);
                     PrintWriter out = response.getWriter();
                     map.put("code", 1001);
                     map.put("message", "Unauthorized");
@@ -260,7 +260,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         filter.setAuthenticationFailureHandler((request, response, authenticationException) -> {
             Map map = new HashMap();
             response.setContentType("application/json;charset=utf-8");
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setStatus(HttpServletResponse.SC_OK);
             PrintWriter out = response.getWriter();
             map.put("code", 401);
             map.put("message", "登录失败");

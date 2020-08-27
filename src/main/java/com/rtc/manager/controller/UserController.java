@@ -135,7 +135,6 @@ public class UserController {
     @ApiResponses({@ApiResponse(code = 200, message = "{\n" +
             "    \"message\": \"请求成功\",\n" +
             "    \"data\": {\n" +
-            "        \"Authorization\": \"Bearer 3dd563cf6464cb6878746969b37b582d\",\n" +
             "        \"role\": \"ROLE_USER\",\n" +
             "        \"user\": {\n" +
             "            \"nickname\": \"miaopasi211\",\n" +
