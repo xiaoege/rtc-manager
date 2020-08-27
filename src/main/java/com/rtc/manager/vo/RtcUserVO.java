@@ -22,4 +22,6 @@ public class RtcUserVO {
     private String country;
     private String enterprise;
     private String address;
+    @JsonSetter("Authorization")
+    private String authorization;
 }

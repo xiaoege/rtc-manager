@@ -20,6 +20,8 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,6 +29,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -127,24 +131,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().httpBasic()
-//                .authenticationEntryPoint((request, response, authenticationException) -> {
-//                    Map map = new HashMap();
-//                    response.setContentType("application/json;charset=utf-8");
-//                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-//                    PrintWriter out = response.getWriter();
-//                    map.put("code", 401);
-//                    map.put("message", "登录失败");
-//                    if (authenticationException instanceof InsufficientAuthenticationException) {
-//                        map.put("message", "该账号不存在");
-//                    }
-//                    if (authenticationException instanceof BadCredentialsException) {
-////                        String message = exception.getMessage();
-//                        map.put("message", "密码错误");
-//                    }
-//                    out.write(objectMapper.writeValueAsString(map));
-//                    out.flush();
-//                    out.close();
-//                })
+                .authenticationEntryPoint((request, response, authenticationException) -> {
+                    Map map = new HashMap();
+                    response.setContentType("application/json;charset=utf-8");
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    PrintWriter out = response.getWriter();
+                    map.put("code", 1001);
+                    map.put("message", "Unauthorized");
+                    if (authenticationException instanceof InsufficientAuthenticationException) {
+                        map.put("message", "未登录");
+                    }
+                    out.write(objectMapper.writeValueAsString(map));
+                    out.flush();
+                    out.close();
+                })
                 .and()
                 .authorizeRequests()
                 .antMatchers("/swagger-ui.html").permitAll()
@@ -154,27 +154,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/**").permitAll()
 //                .antMatchers("/news/getNews").hasRole("VIP")
 //                .antMatchers("/news/listNews").hasRole("USER")
-                .antMatchers("/user/getUserInformation").authenticated()
-                .antMatchers("/user/**").permitAll()
+                .antMatchers("/user/phoneRegister").permitAll()
+                .antMatchers("/user/verificationCodeRegistered").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin()//使用 spring security 默认登录页面
-//                .successHandler((request, response, authentication) -> {
-//                    Map map = new HashMap<>();
-//                    map.put("code", 200);
-//                    map.put("message", "登录成功");
-////                    map.put("authentication", authentication);
-//                    UserDetails principal = (UserDetails) authentication.getPrincipal();
-//                    Map data = new HashMap();
-//                    data.put("account", principal.getUsername());
-//                    data.put("Authorization", UserUtils.getToken(principal.getUsername()));
-//                    map.put("data", data);
-//                    response.setHeader("Authorization", "cat");
-//                    response.setContentType("application/json;charset=utf-8");
-//                    PrintWriter out = response.getWriter();
-//                    out.write(objectMapper.writeValueAsString(map));
-//                    out.flush();
-//                    out.close();
-//                })
+                .successHandler((request, response, authentication) -> {
+                    Map map = new HashMap<>();
+                    map.put("code", 200);
+                    map.put("message", "登录成功");
+//                    map.put("authentication", authentication);
+                    UserDetails principal = (UserDetails) authentication.getPrincipal();
+                    Map data = new HashMap();
+                    data.put("account", principal.getUsername());
+                    data.put("Authorization", UserUtils.getToken(principal.getUsername()));
+                    map.put("data", data);
+                    response.setHeader("Authorization", "cat");
+                    response.setContentType("application/json;charset=utf-8");
+                    PrintWriter out = response.getWriter();
+                    out.write(objectMapper.writeValueAsString(map));
+                    out.flush();
+                    out.close();
+                })
                 .failureHandler((request, response, exception) -> {
                     Map map = new HashMap();
                     response.setContentType("application/json;charset=utf-8");
@@ -244,6 +244,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             data.put("Authorization", UserUtils.getToken(principal.getUsername()));
             RtcUserVO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount2RtcUserVO(principal.getUsername());
             data.put("user", rtcUserDTO);
+            Collection<? extends GrantedAuthority> authorities = principal.getAuthorities();
+            ArrayList<SimpleGrantedAuthority> authoritieList = new ArrayList(authorities);
+            SimpleGrantedAuthority simpleGrantedAuthority = authoritieList.get(0);
+            data.put("role", simpleGrantedAuthority.getAuthority());
             map.put("data", data);
             response.setHeader("Authorization", "cat");
             response.setContentType("application/json;charset=utf-8");

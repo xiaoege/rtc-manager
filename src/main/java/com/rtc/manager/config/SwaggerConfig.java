@@ -26,9 +26,14 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build().apiInfo(new ApiInfoBuilder()
                         .title("接口文档")
-                        .description("接口文档")
+                        .description("自定义错误码：{702:验证码发送次数过多，请15分钟稍后再试, 705:数据有误, 707:验证码错误, " +
+                                "800:手机号格式错误, 801:手机号已注册, 804:该手机号尚未发送验证码, " +
+                                "901:昵称格式错误, 902:昵称已存在, 903:密码格式错误, " +
+                                "1001:未登录, 1002:该账号不存在, 1003:密码错误}" + "\n" +
+                                "参数位置：{query:url里, header:请求头里, body:请求体里}" + "\n" +
+                                "用户角色：role:{ROLE_USER, ROLE_VIP}")
                         .version("0.2.0")
-//                        .contact(new Contact("啊啊啊啊","blog.csdn.net","aaa@gmail.com"))
+//                        .contact(new Contact("啊啊啊啊", "blog.csdn.net", "aaa@gmail.com"))
 //                        .license("The Apache License")
 //                        .licenseUrl("http://www.baidu.com")
                         .build());

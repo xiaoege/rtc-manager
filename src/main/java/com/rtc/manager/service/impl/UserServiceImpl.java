@@ -1,5 +1,6 @@
 package com.rtc.manager.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rtc.manager.dao.RtcUserMapper;
 import com.rtc.manager.entity.RtcUser;
@@ -17,6 +18,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -24,6 +27,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -260,13 +265,14 @@ public class UserServiceImpl implements UserService {
 
 
     /**
-     * 修改用户基本信息
+     * 修改用户基本信息，成功后返回该用户的最新信息 + 新昵称/旧昵称的token
      *
      * @param user
+     * @param request
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResultData updateUser(String user) throws Exception {
+    public ResultData updateUser(String user, HttpServletRequest request) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         RtcUser rtcUser = objectMapper.readValue(user, RtcUser.class);
         String nickname = rtcUser.getNickname();
@@ -280,8 +286,38 @@ public class UserServiceImpl implements UserService {
                 return ResultData.FAIL(user, 902, "昵称已存在");
             }
         }
+        String authHeader = request.getHeader("Authorization");
+        // 手机号，昵称唯一。对应的2个token也唯一。修改昵称，则原token删除，生成新token，返回新的token
+        String account = stringRedisTemplate.opsForValue().get(authHeader);
+        String nicknameToken = authHeader;
+        RtcUserVO rtcUserVO = rtcUserMapper.selectByPhoneOrAccount2RtcUserVO(account);
+        String oldNickname = rtcUserVO.getNickname();
+        if (!nickname.equals(oldNickname)) {
+            // redis里新建nickname的token，并移除原nickname的token
+            nicknameToken = UserUtils.getToken(nickname);
+            stringRedisTemplate.opsForValue().set(nicknameToken, nickname, 30, TimeUnit.DAYS);
+            // 昵称默认手机号，第一次修改不能删除原token即手机号的token，直接新建昵称的token
+            if (!Character.isDigit(oldNickname.charAt(0))) {
+                stringRedisTemplate.delete(UserUtils.getToken(oldNickname));
+            }
+        }
+        rtcUser.setId(rtcUserVO.getId());
+        rtcUser.setPassword(null);
+        rtcUser.setPhone(null);
+        rtcUser.setCountryCode(null);
         rtcUserMapper.updateByPrimaryKeySelective(rtcUser);
-        return ResultData.SUCCESS(user);
+        RtcUserVO vo = rtcUserMapper.selectByPhoneOrAccount2RtcUserVO(nickname == null ? oldNickname : nickname);
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+        ArrayList<SimpleGrantedAuthority> authoritieList = new ArrayList(authorities);
+        SimpleGrantedAuthority simpleGrantedAuthority = authoritieList.get(0);
+        Map map = new HashMap();
+        map.put("Authorization", nicknameToken);
+        map.put("user", vo);
+        map.put("role", simpleGrantedAuthority.getAuthority());
+        map.put("account", nickname == null ? oldNickname : nickname);
+
+        return ResultData.SUCCESS(map);
     }
 
     /**

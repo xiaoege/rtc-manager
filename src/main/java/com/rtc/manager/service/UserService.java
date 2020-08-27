@@ -44,11 +44,12 @@ public interface UserService {
 
 
     /**
-     * 修改用户基本信息
+     * 修改用户基本信息，成功后返回该用户的最新信息 + 新昵称/旧昵称的token
      *
      * @param user
+     * @param request
      */
-    ResultData updateUser(String user) throws Exception;
+    ResultData updateUser(String user, HttpServletRequest request) throws Exception;
 
     /**
      * 修改密码

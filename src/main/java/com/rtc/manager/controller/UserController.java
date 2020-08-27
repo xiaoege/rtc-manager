@@ -1,20 +1,15 @@
 package com.rtc.manager.controller;
 
-import com.rtc.manager.dao.RtcUserMapper;
 import com.rtc.manager.entity.dto.PhoneRegisterDTO;
 import com.rtc.manager.service.UserService;
-import com.rtc.manager.util.RedisUtils;
 import com.rtc.manager.vo.ResultData;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * @author ChenHang
@@ -41,6 +36,7 @@ public class UserController {
             @ApiResponse(code = 705, message = "数据有误"),
             @ApiResponse(code = 706, message = "请输入验证码"),
             @ApiResponse(code = 707, message = "验证码错误")})
+    @Deprecated
     @PostMapping("emailRegister")
     public ResultData emailRegister(@RequestParam(name = "data") String data) throws Exception {
         //校验验证码,注册
@@ -65,6 +61,7 @@ public class UserController {
             @ApiResponse(code = 705, message = "数据有误"),
             @ApiResponse(code = 706, message = "请输入验证码"),
             @ApiResponse(code = 707, message = "验证码错误")})
+    @Deprecated
     @PostMapping("checkEmaillRegistered")
     public ResultData checkEmaillRegistered(@RequestParam(name = "email") String email) {
         ResultData resultData = userService.checkEmaillRegistered(email);
@@ -121,17 +118,46 @@ public class UserController {
     }
 
     /**
-     * 修改用户基本信息
+     * 修改用户基本信息，成功后返回该用户的最新信息 + 新昵称/旧昵称的token
      *
      * @param user
      * @return
      */
-    @ApiIgnore
+    @ApiOperation(value = "修改用户基本信息", notes = "成功后返回该用户的最新信息 + 新昵称/旧昵称的token")
+    @ApiImplicitParams({@ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9b8dc8b599368836ed7deb163e01ded1", paramType = "header"),
+            @ApiImplicitParam(name = "user", value = "参数示例：{\n" +
+                    "    \"nickname\":\"miaomiao\",\n" +
+                    "    \"synopsis\":\"synopsis\",\n" +
+                    "    \"country\":\"country\",\n" +
+                    "    \"enterprise\":\"enterprise\",\n" +
+                    "    \"address\":\"address\"\n" +
+                    "}", paramType = "body")})
+    @ApiResponses(@ApiResponse(code = 200, message = "{\n" +
+            "    \"message\": \"请求成功\",\n" +
+            "    \"data\": {\n" +
+            "        \"Authorization\": \"Bearer c745e0ffd74e6a9ebf8670c057374b12\",\n" +
+            "        \"role\": \"ROLE_USER\",\n" +
+            "        \"user\": {\n" +
+            "            \"nickname\": \"qweasdas\",\n" +
+            "            \"phone\": \"333\",\n" +
+            "            \"countryCode\": null,\n" +
+            "            \"email\": \"email\",\n" +
+            "            \"synopsis\": \"synopsis\",\n" +
+            "            \"country\": \"country\",\n" +
+            "            \"enterprise\": \"ca\",\n" +
+            "            \"address\": \"ddd\",\n" +
+            "            \"pid\": 19,\n" +
+            "            \"Authorization\": null\n" +
+            "        },\n" +
+            "        \"account\": \"qweasdas\"\n" +
+            "    },\n" +
+            "    \"code\": 200\n" +
+            "}"))
     @PutMapping("updateUser")
-    public ResultData updateUser(@RequestParam(name = "user", required = true) String user) {
+    public ResultData updateUser(@RequestBody String user, HttpServletRequest request) {
         ResultData resultData;
         try {
-            resultData = userService.updateUser(user);
+            resultData = userService.updateUser(user, request);
         } catch (Exception e) {
             e.printStackTrace();
             return ResultData.FAIL(user, 400, "数据有误");
@@ -198,16 +224,18 @@ public class UserController {
             "    \"code\": 200,\n" +
             "    \"data\": {\n" +
             "        \"Authorization\": \"Bearer 9b8dc8b599368836ed7deb163e01ded1\",\n" +
+            "        \"role\": \"ROLE_USER\",\n" +
             "        \"user\": {\n" +
-            "            \"nickname\": \"333\",\n" +
+            "            \"nickname\": \"ca123tddd\",\n" +
             "            \"phone\": \"333\",\n" +
             "            \"countryCode\": null,\n" +
-            "            \"email\": \"xxxx\",\n" +
-            "            \"synopsis\": \"简介\",\n" +
-            "            \"country\": \"天朝\",\n" +
-            "            \"enterprise\": \"公司\",\n" +
-            "            \"address\": \"南京\",\n" +
-            "            \"pid\": 12\n" +
+            "            \"email\": \"email\",\n" +
+            "            \"synopsis\": \"synopsis\",\n" +
+            "            \"country\": \"country\",\n" +
+            "            \"enterprise\": \"enterprise\",\n" +
+            "            \"address\": \"address\",\n" +
+            "            \"pid\": 19,\n" +
+            "            \"Authorization\": null\n" +
             "        },\n" +
             "        \"account\": \"333\"\n" +
             "    },\n" +

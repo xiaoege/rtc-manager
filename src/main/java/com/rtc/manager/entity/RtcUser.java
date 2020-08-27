@@ -1,5 +1,6 @@
 package com.rtc.manager.entity;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
@@ -19,6 +20,7 @@ public class RtcUser {
 
     private String phone;
 
+    @JsonAlias("country_code")
     private String countryCode;
 
     private String email;
