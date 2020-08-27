@@ -34,9 +34,14 @@ public class UserUtils {
     private final static Pattern PATTERN_EMAIL = Pattern.compile("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$");
 
     /**
-     * 验证昵称，可以有字母，数字，下划线，点，5-30个字符之间
+     * 验证昵称，可以有字母，数字，下划线，点。5-30个字符之间，不能以Comcheck开头，只能以字母开头
      */
     private final static Pattern PATTERN_NICKNAME = Pattern.compile("^[A-Za-z][A-Za-z0-9_.]{4,29}$");
+
+    /**
+     * 验证密码，可以有字母，数字，5-15个字符之间，只能以字母开头
+     */
+    private final static Pattern PATTERN_PASSWORD = Pattern.compile("^[A-Za-z][A-Za-z0-9]{4,14}$");
 
     private static JavaMailSenderImpl JAVA_MAIL_SENDER;
 
@@ -156,14 +161,20 @@ public class UserUtils {
     }
 
     /**
-     * 校验密码格式
+     * 验证密码，可以有字母，数字，5-15个字符之间，只能以字母开头
      *
      * @param password 加密前的密码
      * @return boolean
      */
     public static boolean checkPasswordFormat(String password) {
-
-        return true;
+        if (password != null) {
+            Matcher matcher = PATTERN_PASSWORD.matcher(password);
+            if (matcher.matches()) {
+                return true;
+            }
+            return false;
+        }
+        return false;
     }
 
     /**
@@ -183,17 +194,9 @@ public class UserUtils {
     }
 
     public static void main(String[] args) {
-        String email = "237113730@qqcom";
-        String phone = "+86123456";
-        phone = "+86189517887331";
-        phone = "18951788733";
-        phone = "+911895178873";
-        phone = "+918790071998";
-//        phone = "11122224444";
-//        System.out.println(checkPhoneFormat(phone));
+        String passWord = "B123C";
+        System.out.println(checkPasswordFormat(passWord));
 
-        String nickName = "a_123c.";
-        System.out.println(checkNicknameFormat(nickName));
     }
 
     /**

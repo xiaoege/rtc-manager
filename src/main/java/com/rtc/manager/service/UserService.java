@@ -62,7 +62,7 @@ public interface UserService {
      * @param phone
      * @param countryCode
      */
-    void forgetPasswordSendVerificationCode(String phone, String countryCode);
+    ResultData sendPhoneVerificationCode(String phone, String countryCode);
 
     /**
      * 检验手机号相对应的验证码

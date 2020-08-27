@@ -36,6 +36,11 @@ public class ResultData<T> {
         return resultData;
     }
 
+    public static <T> ResultData SUCCESS(T t, Integer code, String message) {
+        ResultData<T> resultData = new ResultData<T>(t, code, message);
+        return resultData;
+    }
+
     public static <T> ResultData FAIL(T t, Integer code) {
         ResultData<T> resultData = new ResultData<T>(t);
         resultData.message = "请求失败";

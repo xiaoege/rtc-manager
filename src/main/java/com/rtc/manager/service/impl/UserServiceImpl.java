@@ -22,9 +22,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -204,7 +204,7 @@ public class UserServiceImpl implements UserService {
         String password = phoneRegisterDTO.getPassword();
         String retypePassword = phoneRegisterDTO.getRetypePassword();
         // 数据格式错误
-        if (phone == null || verificationCode == null || password == null || retypePassword == null) {
+        if (phone == null || verificationCode == null || password == null || retypePassword == null || !password.equals(retypePassword)) {
             return ResultData.FAIL(user, 705, CODE_705);
         }
 
@@ -214,11 +214,11 @@ public class UserServiceImpl implements UserService {
         }
 
 
-        // todo 密码格式验证
-        // 密码验证
-        if (!password.equals(retypePassword)) {
-            return ResultData.FAIL(user, 705, CODE_705);
+        // 密码格式验证
+        if (!UserUtils.checkPasswordFormat(password)) {
+            return ResultData.FAIL(user, 903, "密码格式错误");
         }
+
 
         // 验证手机号是否注册
         if (rtcUserMapper.checkPhoneRegistered(phone) != null) {
@@ -334,21 +334,19 @@ public class UserServiceImpl implements UserService {
             return ResultData.FAIL("请检查密码", 400, "请检查密码");
         }
         // todo 校验密码格式
-        if (UserUtils.checkPasswordFormat(newPassword)) {
-            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if (!UserUtils.hexBCryptPassword(oldPassword).equals(userDetails.getPassword())) {
-                return ResultData.FAIL(oldPassword, 1004, "原始密码错误");
-            }
-//            String username = principal.get("username");
-//            RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(username);
-//            RtcUser rtcUser = new RtcUser();
-//            rtcUser.setId(rtcUserDTO.getId());
-//            rtcUser.setPassword(UserUtils.hexBCryptPassword(newPassword));
-            // 注意此时的昵称和手机号都是登录账号，谨防昵称在没有限制的条件下会是别人的手机号
-//            rtcUserMapper.updateByPrimaryKeySelective(rtcUser);
-            int i = 0;
+        if (!UserUtils.checkPasswordFormat(newPassword)) {
+            return ResultData.FAIL(user, 903, "密码格式错误");
         }
-        return null;
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!new BCryptPasswordEncoder().matches(oldPassword, userDetails.getPassword())) {
+            return ResultData.FAIL(user, 1004, "原始密码错误");
+        }
+        RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(userDetails.getUsername());
+        RtcUser rtcUser = new RtcUser();
+        rtcUser.setId(rtcUserDTO.getId());
+        rtcUser.setPassword(UserUtils.hexBCryptPassword(newPassword));
+        rtcUserMapper.updateByPrimaryKeySelective(rtcUser);
+        return ResultData.SUCCESS(null);
     }
 
     /**
@@ -358,15 +356,26 @@ public class UserServiceImpl implements UserService {
      * @param countryCode
      */
     @Override
-    public void forgetPasswordSendVerificationCode(String phone, String countryCode) {
-        // 手机号格式校验
+    public ResultData sendPhoneVerificationCode(String phone, String countryCode) {
+        // todo 手机号格式校验
+        if (phone == null || countryCode == null) {
+        }
 
         // 该手机号尚未注册
         if (rtcUserMapper.checkPhoneRegistered(phone) == null) {
+            return ResultData.FAIL(null, 805, "该手机号尚未注册");
+        }
 
+        // 校验验证码次数
+        String verificationCode = UserUtils.getVerificationCode();
+        if (!checkVerificationCodeRedis(phone, verificationCode)) {
+            return ResultData.FAIL(phone, 702, CODE_702);
         }
 
         // 发送验证码
+
+
+        return ResultData.SUCCESS(null, "发送验证码成功");
     }
 
     /**
@@ -379,18 +388,22 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public ResultData checkVerificationCode(String phone, String countryCode, String verificationCode) {
+        // todo 手机号格式校验
+        if (phone == null || countryCode == null) {
+        }
         // 该手机号尚未注册
         if (rtcUserMapper.checkPhoneRegistered(phone) == null) {
-
+            return ResultData.FAIL(null, 805, "该手机号尚未注册");
         }
         // 该手机号尚未发送验证码
         if (!stringRedisTemplate.hasKey(phone)) {
-
+            return ResultData.FAIL(null, 804, "该手机号尚未发送验证码");
         }
-        if (verificationCode.equals(stringRedisTemplate.opsForValue().get(phone))) {
-
+        // 校验验证码
+        if (stringRedisTemplate.opsForValue().get(phone).equals(verificationCode)) {
+            return ResultData.SUCCESS(null, 806, "校验验证码成功");
         }
-        return ResultData.FAIL(verificationCode, 0);
+        return ResultData.FAIL(null, 807, "校验验证码失败");
     }
 
     /**
@@ -406,7 +419,14 @@ public class UserServiceImpl implements UserService {
             if (stringRedisTemplate.hasKey(authHeader)) {
                 String uuid = stringRedisTemplate.opsForValue().get(authHeader);
                 RtcUserVO rtcUserVO = rtcUserMapper.selectByPhoneOrAccount2RtcUserVO(uuid);
-                return ResultData.SUCCESS(rtcUserVO);
+                UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                Collection<? extends GrantedAuthority> authorities = principal.getAuthorities();
+                ArrayList<SimpleGrantedAuthority> authoritieList = new ArrayList(authorities);
+                SimpleGrantedAuthority simpleGrantedAuthority = authoritieList.get(0);
+                Map map = new HashMap();
+                map.put("role", simpleGrantedAuthority.getAuthority());
+                map.put("user", rtcUserVO);
+                return ResultData.SUCCESS(map);
             }
         }
         return ResultData.FAIL("查询失败", 400);
