@@ -290,40 +290,40 @@
         <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
         <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
         <!--        </table>-->
-<!--        <table tableName="rtc_user" domainObjectName="RtcUser"-->
+        <table tableName="rtc_user" domainObjectName="RtcUser"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>
+            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>
+        </table>
+<!--        <table tableName="india_cin" domainObjectName="IndiaCin"-->
 <!--               enableCountByExample="false" enableUpdateByExample="false"-->
 <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false">-->
 <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
 <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
 <!--        </table>-->
-        <table tableName="india_cin" domainObjectName="IndiaCin"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>
-            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>
-        </table>
-        <table tableName="india_llpin" domainObjectName="IndiaLlpin"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>
-            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>
-        </table>
-        <table tableName="india_charge" domainObjectName="IndiaCharge"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>
-            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>
-        </table>
-        <table tableName="india_signatory" domainObjectName="IndiaSignatory"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>
-            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>
-        </table>
+<!--        <table tableName="india_llpin" domainObjectName="IndiaLlpin"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+<!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+<!--        </table>-->
+<!--        <table tableName="india_charge" domainObjectName="IndiaCharge"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+<!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+<!--        </table>-->
+<!--        <table tableName="india_signatory" domainObjectName="IndiaSignatory"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+<!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+<!--        </table>-->
     </context>
 </generatorConfiguration>

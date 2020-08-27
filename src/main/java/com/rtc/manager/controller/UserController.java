@@ -127,29 +127,28 @@ public class UserController {
     @ApiImplicitParams({@ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9b8dc8b599368836ed7deb163e01ded1", paramType = "header"),
             @ApiImplicitParam(name = "user", value = "参数示例：{\n" +
                     "    \"nickname\":\"miaomiao\",\n" +
-                    "    \"synopsis\":\"synopsis\",\n" +
-                    "    \"country\":\"country\",\n" +
-                    "    \"enterprise\":\"enterprise\",\n" +
-                    "    \"address\":\"address\"\n" +
+                    "    \"synopsis\":\"喵喵\",\n" +
+                    "    \"country\":\"喵喵\",\n" +
+                    "    \"enterprise\":\"喵喵\",\n" +
+                    "    \"address\":\"喵喵\"\n" +
                     "}", paramType = "body")})
     @ApiResponses({@ApiResponse(code = 200, message = "{\n" +
             "    \"message\": \"请求成功\",\n" +
             "    \"data\": {\n" +
-            "        \"Authorization\": \"Bearer c745e0ffd74e6a9ebf8670c057374b12\",\n" +
+            "        \"Authorization\": \"Bearer 3dd563cf6464cb6878746969b37b582d\",\n" +
             "        \"role\": \"ROLE_USER\",\n" +
             "        \"user\": {\n" +
-            "            \"nickname\": \"qweasdas\",\n" +
-            "            \"phone\": \"333\",\n" +
-            "            \"countryCode\": null,\n" +
-            "            \"email\": \"email\",\n" +
-            "            \"synopsis\": \"synopsis\",\n" +
-            "            \"country\": \"country\",\n" +
-            "            \"enterprise\": \"ca\",\n" +
-            "            \"address\": \"ddd\",\n" +
-            "            \"pid\": 19,\n" +
-            "            \"Authorization\": null\n" +
+            "            \"nickname\": \"miaopasi211\",\n" +
+            "            \"phone\": \"321\",\n" +
+            "            \"countryCode\": \"+86\",\n" +
+            "            \"email\": \"ad\",\n" +
+            "            \"synopsis\": \"喵喵\",\n" +
+            "            \"country\": \"喵喵\",\n" +
+            "            \"enterprise\": \"喵喵\",\n" +
+            "            \"address\": \"喵喵\",\n" +
+            "            \"pid\": 45\n" +
             "        },\n" +
-            "        \"account\": \"qweasdas\"\n" +
+            "        \"account\": \"miaopasi211\"\n" +
             "    },\n" +
             "    \"code\": 200\n" +
             "}"),

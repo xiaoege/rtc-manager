@@ -281,12 +281,13 @@
             rtc_user.id,
             rtc_user.nickname,
             rtc_user.phone,
-            rtc_user.country_code,
+            rtc_user.country_code countryCode,
             rtc_user.email,
             rtc_user.synopsis,
             rtc_user.country,
             rtc_user.enterprise,
-            rtc_user.address
+            rtc_user.address,
+            rtc_user.uuid
         FROM
             rtc_user
         WHERE
@@ -297,16 +298,34 @@
             rtc_user.id,
             rtc_user.nickname,
             rtc_user.phone,
-            rtc_user.country_code,
+            rtc_user.country_code countryCode,
             rtc_user.email,
             rtc_user.synopsis,
             rtc_user.country,
             rtc_user.enterprise,
-            rtc_user.address
+            rtc_user.address,
+            rtc_user.uuid
         FROM
             rtc_user
         WHERE
             rtc_user.nickname = #{account, jdbcType=VARCHAR}
+            AND rtc_user.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+        UNION
+        SELECT
+            rtc_user.id,
+            rtc_user.nickname,
+            rtc_user.phone,
+            rtc_user.country_code countryCode,
+            rtc_user.email,
+            rtc_user.synopsis,
+            rtc_user.country,
+            rtc_user.enterprise,
+            rtc_user.address,
+            rtc_user.uuid
+        FROM
+            rtc_user
+        WHERE
+            rtc_user.uuid = #{uuid, jdbcType=VARCHAR}
             AND rtc_user.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
   </select>
 </mapper>

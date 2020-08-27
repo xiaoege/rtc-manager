@@ -241,8 +241,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             UserDetails principal = (UserDetails) authentication.getPrincipal();
             Map data = new HashMap();
             data.put("account", principal.getUsername());
-            data.put("Authorization", UserUtils.getToken(principal.getUsername()));
             RtcUserVO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount2RtcUserVO(principal.getUsername());
+            data.put("Authorization", UserUtils.getToken(rtcUserDTO.getUuid()));
             data.put("user", rtcUserDTO);
             Collection<? extends GrantedAuthority> authorities = principal.getAuthorities();
             ArrayList<SimpleGrantedAuthority> authoritieList = new ArrayList(authorities);

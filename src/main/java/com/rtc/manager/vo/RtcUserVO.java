@@ -1,6 +1,7 @@
 package com.rtc.manager.vo;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.Data;
@@ -22,6 +23,8 @@ public class RtcUserVO {
     private String country;
     private String enterprise;
     private String address;
-    @JsonSetter("Authorization")
-    private String authorization;
+//    @JsonSetter("Authorization")
+//    private String authorization;
+    @JsonIgnore
+    private String uuid;
 }

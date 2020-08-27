@@ -291,15 +291,15 @@ public class UserServiceImpl implements UserService {
         String nicknameToken = authHeader;
         RtcUserVO rtcUserVO = rtcUserMapper.selectByPhoneOrAccount2RtcUserVO(account);
         String oldNickname = rtcUserVO.getNickname();
-        if (!nickname.equals(oldNickname)) {
+//        if (!nickname.equals(oldNickname)) {
             // redis里新建nickname的token，并移除原nickname的token
-            nicknameToken = UserUtils.getToken(nickname);
-            stringRedisTemplate.opsForValue().set(nicknameToken, nickname, 30, TimeUnit.DAYS);
+//            nicknameToken = UserUtils.getToken(nickname);
+//            stringRedisTemplate.opsForValue().set(nicknameToken, nickname, 30, TimeUnit.DAYS);
             // 昵称默认手机号，第一次修改不能删除原token即手机号的token，直接新建昵称的token
-            if (!Character.isDigit(oldNickname.charAt(0))) {
-                stringRedisTemplate.delete(UserUtils.getToken(oldNickname));
-            }
-        }
+//            if (!Character.isDigit(oldNickname.charAt(0))) {
+//                stringRedisTemplate.delete(UserUtils.getToken(oldNickname));
+//            }
+//        }
         rtcUser.setId(rtcUserVO.getId());
         rtcUser.setPassword(null);
         rtcUser.setPhone(null);
@@ -327,22 +327,38 @@ public class UserServiceImpl implements UserService {
      * @param retypePassword
      */
     @Override
-    public void updatePassword(String oldPassword, String newPassword, String retypePassword) {
+    public ResultData updatePassword(String user) {
+        logger.info("updatePassword():{}", user);
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, String> map = null;
+        try {
+            map = objectMapper.readValue(user, HashMap.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return ResultData.FAIL(user, 400, "数据有误");
+        }
+        String oldPassword = map.get("oldPassword");
+        String newPassword = map.get("newPassword");
+        String retypePassword = map.get("retypePassword");
         if (newPassword == null || retypePassword == null || !newPassword.equals(retypePassword)) {
-
+            return ResultData.FAIL("请检查密码", 400, "请检查密码");
         }
         // todo 校验密码格式
         if (UserUtils.checkPasswordFormat(newPassword)) {
-            HashMap<String, String> principal = (HashMap) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            String username = principal.get("username");
-            RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(username);
-            RtcUser rtcUser = new RtcUser();
-            rtcUser.setId(rtcUserDTO.getId());
-            rtcUser.setPassword(UserUtils.hexBCryptPassword(newPassword));
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (!UserUtils.hexBCryptPassword(oldPassword).equals(userDetails.getPassword())) {
+                return ResultData.FAIL(oldPassword, 1004, "原始密码错误");
+            }
+//            String username = principal.get("username");
+//            RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(username);
+//            RtcUser rtcUser = new RtcUser();
+//            rtcUser.setId(rtcUserDTO.getId());
+//            rtcUser.setPassword(UserUtils.hexBCryptPassword(newPassword));
             // 注意此时的昵称和手机号都是登录账号，谨防昵称在没有限制的条件下会是别人的手机号
-            rtcUserMapper.updateByPrimaryKeySelective(rtcUser);
+//            rtcUserMapper.updateByPrimaryKeySelective(rtcUser);
+            int i = 0;
         }
-
+        return null;
     }
 
     /**
@@ -398,8 +414,8 @@ public class UserServiceImpl implements UserService {
         String authHeader = request.getHeader("Authorization");
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             if (stringRedisTemplate.hasKey(authHeader)) {
-                String username = stringRedisTemplate.opsForValue().get(authHeader);
-                RtcUserVO rtcUserVO = rtcUserMapper.selectByPhoneOrAccount2RtcUserVO(username);
+                String uuid = stringRedisTemplate.opsForValue().get(authHeader);
+                RtcUserVO rtcUserVO = rtcUserMapper.selectByPhoneOrAccount2RtcUserVO(uuid);
                 return ResultData.SUCCESS(rtcUserVO);
             }
         }

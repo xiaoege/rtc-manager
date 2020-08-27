@@ -53,11 +53,9 @@ public interface UserService {
 
     /**
      * 修改密码
-     * @param oldPassword
-     * @param newPassword
-     * @param retypePassword
+     * @param user
      */
-    void updatePassword(String oldPassword, String newPassword, String retypePassword);
+    ResultData updatePassword(String user) throws Exception;
 
     /**
      * 忘记密码，通过手机号发送验证码

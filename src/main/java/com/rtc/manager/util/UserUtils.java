@@ -163,7 +163,7 @@ public class UserUtils {
      */
     public static boolean checkPasswordFormat(String password) {
 
-        return false;
+        return true;
     }
 
     /**
