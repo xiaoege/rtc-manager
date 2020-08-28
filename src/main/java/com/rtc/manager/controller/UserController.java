@@ -273,7 +273,6 @@ public class UserController {
      */
     @ApiOperation("忘记密码-修改密码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9b8dc8b599368836ed7deb163e01ded1", paramType = "header"),
             @ApiImplicitParam(name = "user", value = "参数示例：", paramType = "body")
     })
     @ApiResponses({

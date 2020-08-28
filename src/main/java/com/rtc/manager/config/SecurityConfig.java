@@ -158,6 +158,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/verificationCodeRegistered").permitAll()
                 .antMatchers("/user/sendPhoneVerificationCode").permitAll()
                 .antMatchers("/user/checkVerificationCode").permitAll()
+                .antMatchers("/user/forgetPassword").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin()//使用 spring security 默认登录页面
                 .successHandler((request, response, authentication) -> {
