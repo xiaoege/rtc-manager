@@ -260,7 +260,7 @@ public class UserController {
     @ApiResponses({
             @ApiResponse(code = 804, message = "该手机号尚未发送验证码"),
             @ApiResponse(code = 805, message = "该手机号尚未注册"),
-            @ApiResponse(code = 806, message = "校验验证码成功"),
+            @ApiResponse(code = 200, message = "校验验证码成功"),
             @ApiResponse(code = 807, message = "校验验证码失败")
     })
     @PostMapping("checkVerificationCode")
