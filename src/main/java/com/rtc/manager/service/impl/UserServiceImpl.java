@@ -408,7 +408,7 @@ public class UserServiceImpl implements UserService {
         if (stringRedisTemplate.opsForValue().get(phone).equals(verificationCode)) {
             // 验证码只能使用一次
 //            stringRedisTemplate.delete(phone);
-            return ResultData.SUCCESS(null, 806, "校验验证码成功");
+            return ResultData.SUCCESS(null, 200, "校验验证码成功");
         }
         return ResultData.FAIL(null, 807, "校验验证码失败");
     }

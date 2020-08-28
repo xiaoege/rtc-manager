@@ -220,8 +220,10 @@ public class UserController {
      */
     @ApiOperation(value = "忘记密码-通过手机号发送验证码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "phone", value = "手机号", paramType = "query"),
-            @ApiImplicitParam(name = "countryCode", value = "手机号国家代码", paramType = "query")
+            @ApiImplicitParam(name = "map", value = "参数示例：{\n" +
+                    "    \"phone\":\"777\",\n" +
+                    "    \"countryCode\":\"+86\"\n" +
+                    "}", paramType = "body")
     })
     @ApiResponses({
             @ApiResponse(code = 200, message = "{\n" +
@@ -233,7 +235,7 @@ public class UserController {
             @ApiResponse(code = 805, message = "该手机号尚未注册")
     })
     @PostMapping("sendPhoneVerificationCode")
-    public ResultData sendPhoneVerificationCode(@RequestBody HashMap<String,String> map) {
+    public ResultData sendPhoneVerificationCode(@RequestBody HashMap<String, String> map) {
         String phone = map.get("phone");
         String countryCode = map.get("countryCode");
         return userService.sendPhoneVerificationCode(phone, countryCode);
@@ -249,9 +251,11 @@ public class UserController {
      */
     @ApiOperation(value = "忘记密码-检验验证码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "phone", value = "手机号", paramType = "query"),
-            @ApiImplicitParam(name = "countryCode", value = "手机号国家代码", paramType = "query"),
-            @ApiImplicitParam(name = "verificationCode", value = "验证码", paramType = "query")
+            @ApiImplicitParam(name = "map", value = "参数示例：{\n" +
+                    "    \"phone\":\"777\",\n" +
+                    "    \"countryCode\":\"+86\",\n" +
+                    "    \"verificationCode\":\"123456\"\n" +
+                    "}", paramType = "body")
     })
     @ApiResponses({
             @ApiResponse(code = 804, message = "该手机号尚未发送验证码"),
