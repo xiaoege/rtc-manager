@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.VietnamEnterpriseMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.vietnam.VietnamEnterprise">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName" />
+    <result column="enterprise_name_in_foreign_language" jdbcType="VARCHAR" property="enterpriseNameInForeignLanguage" />
+    <result column="enterprise_short_name" jdbcType="VARCHAR" property="enterpriseShortName" />
+    <result column="enterpirse_status" jdbcType="VARCHAR" property="enterpirseStatus" />
+    <result column="enterprise_code" jdbcType="VARCHAR" property="enterpriseCode" />
+    <result column="legal_type" jdbcType="VARCHAR" property="legalType" />
+    <result column="founding_date" jdbcType="VARCHAR" property="foundingDate" />
+    <result column="representative_first_name" jdbcType="VARCHAR" property="representativeFirstName" />
+    <result column="head_office_address" jdbcType="VARCHAR" property="headOfficeAddress" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, enterprise_name, enterprise_name_in_foreign_language, enterprise_short_name, 
+    enterpirse_status, enterprise_code, legal_type, founding_date, representative_first_name, 
+    head_office_address, gmt_create, gmt_modified, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from vietnam_enterprise
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from vietnam_enterprise
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rtc.manager.entity.vietnam.VietnamEnterprise">
+    insert into vietnam_enterprise (id, enterprise_id, enterprise_name, 
+      enterprise_name_in_foreign_language, enterprise_short_name, 
+      enterpirse_status, enterprise_code, legal_type, 
+      founding_date, representative_first_name, 
+      head_office_address, gmt_create, gmt_modified, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{enterpriseName,jdbcType=VARCHAR}, 
+      #{enterpriseNameInForeignLanguage,jdbcType=VARCHAR}, #{enterpriseShortName,jdbcType=VARCHAR}, 
+      #{enterpirseStatus,jdbcType=VARCHAR}, #{enterpriseCode,jdbcType=VARCHAR}, #{legalType,jdbcType=VARCHAR}, 
+      #{foundingDate,jdbcType=VARCHAR}, #{representativeFirstName,jdbcType=VARCHAR}, 
+      #{headOfficeAddress,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.vietnam.VietnamEnterprise">
+    insert into vietnam_enterprise
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="enterpriseName != null">
+        enterprise_name,
+      </if>
+      <if test="enterpriseNameInForeignLanguage != null">
+        enterprise_name_in_foreign_language,
+      </if>
+      <if test="enterpriseShortName != null">
+        enterprise_short_name,
+      </if>
+      <if test="enterpirseStatus != null">
+        enterpirse_status,
+      </if>
+      <if test="enterpriseCode != null">
+        enterprise_code,
+      </if>
+      <if test="legalType != null">
+        legal_type,
+      </if>
+      <if test="foundingDate != null">
+        founding_date,
+      </if>
+      <if test="representativeFirstName != null">
+        representative_first_name,
+      </if>
+      <if test="headOfficeAddress != null">
+        head_office_address,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseName != null">
+        #{enterpriseName,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseNameInForeignLanguage != null">
+        #{enterpriseNameInForeignLanguage,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseShortName != null">
+        #{enterpriseShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpirseStatus != null">
+        #{enterpirseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseCode != null">
+        #{enterpriseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="legalType != null">
+        #{legalType,jdbcType=VARCHAR},
+      </if>
+      <if test="foundingDate != null">
+        #{foundingDate,jdbcType=VARCHAR},
+      </if>
+      <if test="representativeFirstName != null">
+        #{representativeFirstName,jdbcType=VARCHAR},
+      </if>
+      <if test="headOfficeAddress != null">
+        #{headOfficeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.vietnam.VietnamEnterprise">
+    update vietnam_enterprise
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseName != null">
+        enterprise_name = #{enterpriseName,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseNameInForeignLanguage != null">
+        enterprise_name_in_foreign_language = #{enterpriseNameInForeignLanguage,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseShortName != null">
+        enterprise_short_name = #{enterpriseShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpirseStatus != null">
+        enterpirse_status = #{enterpirseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseCode != null">
+        enterprise_code = #{enterpriseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="legalType != null">
+        legal_type = #{legalType,jdbcType=VARCHAR},
+      </if>
+      <if test="foundingDate != null">
+        founding_date = #{foundingDate,jdbcType=VARCHAR},
+      </if>
+      <if test="representativeFirstName != null">
+        representative_first_name = #{representativeFirstName,jdbcType=VARCHAR},
+      </if>
+      <if test="headOfficeAddress != null">
+        head_office_address = #{headOfficeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.vietnam.VietnamEnterprise">
+    update vietnam_enterprise
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      enterprise_name = #{enterpriseName,jdbcType=VARCHAR},
+      enterprise_name_in_foreign_language = #{enterpriseNameInForeignLanguage,jdbcType=VARCHAR},
+      enterprise_short_name = #{enterpriseShortName,jdbcType=VARCHAR},
+      enterpirse_status = #{enterpirseStatus,jdbcType=VARCHAR},
+      enterprise_code = #{enterpriseCode,jdbcType=VARCHAR},
+      legal_type = #{legalType,jdbcType=VARCHAR},
+      founding_date = #{foundingDate,jdbcType=VARCHAR},
+      representative_first_name = #{representativeFirstName,jdbcType=VARCHAR},
+      head_office_address = #{headOfficeAddress,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

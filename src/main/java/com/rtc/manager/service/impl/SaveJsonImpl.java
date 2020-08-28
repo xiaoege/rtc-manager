@@ -8,21 +8,24 @@ import com.rtc.manager.dao.*;
 import com.rtc.manager.entity.*;
 import com.rtc.manager.entity.dto.IndiaCinDTO;
 import com.rtc.manager.entity.dto.IndiaLlpinDTO;
+import com.rtc.manager.entity.dto.VietnamJsonDTO;
 import com.rtc.manager.entity.india.IndiaCharge;
 import com.rtc.manager.entity.india.IndiaCin;
 import com.rtc.manager.entity.india.IndiaLlpin;
 import com.rtc.manager.entity.india.IndiaSignatory;
+import com.rtc.manager.entity.vietnam.VietnamBusinessActivities;
+import com.rtc.manager.entity.vietnam.VietnamEnterprise;
 import com.rtc.manager.service.SaveJson;
 import com.rtc.manager.util.CommonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.io.*;
-import java.time.LocalDate;
 import java.util.*;
 
 import static java.util.UUID.randomUUID;
@@ -178,6 +181,12 @@ public class SaveJsonImpl implements SaveJson {
 
     @Autowired
     private IndiaSignatoryMapper indiaSignatoryMapper;
+
+    @Autowired
+    private VietnamEnterpriseMapper vietnamEnterpriseMapper;
+
+    @Autowired
+    private VietnamBusinessActivitiesMapper vietnamBusinessActivitiesMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -864,6 +873,61 @@ public class SaveJsonImpl implements SaveJson {
                 logger.info("json文件导入成功，文件是{}", file.getName());
                 reader.close();
                 bis.close();
+            }
+        }
+    }
+
+    /**
+     * 解析json文件导入到数据库
+     * 越南企业
+     *
+     * @param dirPath json文件上一级文件夹路径，里面只能有json文件
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void readJsonVietnam(File fileDirPath) throws Exception {
+        List<String> fileList = new ArrayList();
+        CommonUtils.readFiles(fileDirPath, fileList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (int z = 0; z < fileList.size(); z++) {
+            File file = new File(fileList.get(z));
+
+            // 忽略mac的隐藏文件
+            if (file.getName().contains(".DS_Store")) {
+                continue;
+            }
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
+
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
+
+            StringBuilder sb = new StringBuilder();
+            while (reader.ready()) {
+                sb.append((char) reader.read());
+            }
+            String sss = sb.toString();
+//            sss = sss.replace("\uFeFF", "");
+            List<VietnamJsonDTO> list = objectMapper.readValue(sss, new TypeReference<List<VietnamJsonDTO>>() {
+            });
+            if (!CollectionUtils.isEmpty(list)) {
+                for (int i = 0; i < list.size(); i++) {
+                    VietnamJsonDTO vietnamJsonDTO = list.get(i);
+                    String uuid = getUUID();
+                    vietnamJsonDTO.setEnterpriseId(uuid);
+                    VietnamEnterprise vietnamEnterprise = new VietnamEnterprise();
+                    BeanUtils.copyProperties(vietnamJsonDTO, vietnamEnterprise);
+                    vietnamEnterpriseMapper.insertSelective(vietnamEnterprise);
+                    List<VietnamBusinessActivities> vietnamBusinessActivitiesList = vietnamJsonDTO.getVietnamBusinessActivitiesList();
+                    if (!CollectionUtils.isEmpty(vietnamBusinessActivitiesList)) {
+                        for (int j = 0; j < vietnamBusinessActivitiesList.size(); j++) {
+                            VietnamBusinessActivities vietnamBusinessActivities = vietnamBusinessActivitiesList.get(j);
+                            vietnamBusinessActivities.setEnterpriseId(uuid);
+                            vietnamBusinessActivitiesMapper.insertSelective(vietnamBusinessActivities);
+                        }
+                    }
+
+                }
             }
         }
     }
