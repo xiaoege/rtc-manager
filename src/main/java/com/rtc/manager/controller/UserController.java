@@ -239,14 +239,14 @@ public class UserController {
     }
 
     /**
-     * 忘记密码/修改手机号-检验验证码,校验成功后删除验证码
+     * 忘记密码/修改手机号-检验验证码
      *
      * @param phone
      * @param countryCode
      * @param verificationCode
      * @return
      */
-    @ApiOperation(value = "忘记密码/修改手机号-检验验证码,校验成功后删除验证码")
+    @ApiOperation(value = "忘记密码/修改手机号-检验验证码")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "phone", value = "手机号", paramType = "query"),
             @ApiImplicitParam(name = "countryCode", value = "手机号国家代码", paramType = "query"),
@@ -266,18 +266,26 @@ public class UserController {
     }
 
     /**
-     * 忘记密码-修改密码
+     * 忘记密码-修改密码,修改成功后删除验证码
      *
      * @param user
      * @return
      */
-    @ApiOperation("忘记密码-修改密码")
+    @ApiOperation("忘记密码-修改密码,修改成功后删除验证码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "user", value = "参数示例：", paramType = "body")
+            @ApiImplicitParam(name = "user", value = "参数示例：{\n" +
+                    "    \"phone\":\"321\",\n" +
+                    "    \"password\":\"asd123\",\n" +
+                    "    \"retypePassword\":\"asd123\",\n" +
+                    "    \"countryCode\":\"86\",\n" +
+                    "    \"verificationCode\":\"783269\"\n" +
+                    "}", paramType = "body")
     })
     @ApiResponses({
             @ApiResponse(code = 903, message = "密码格式错误"),
             @ApiResponse(code = 904, message = "新密码不能和原密码相同"),
+            @ApiResponse(code = 804, message = "该手机号尚未发送验证码"),
+            @ApiResponse(code = 707, message = "验证码错误"),
     })
     @PutMapping("forgetPassword")
     public ResultData forgetPassword(@RequestBody String user) {

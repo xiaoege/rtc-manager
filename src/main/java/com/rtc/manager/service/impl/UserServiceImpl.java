@@ -405,7 +405,7 @@ public class UserServiceImpl implements UserService {
         // 校验验证码
         if (stringRedisTemplate.opsForValue().get(phone).equals(verificationCode)) {
             // 验证码只能使用一次
-            stringRedisTemplate.delete(phone);
+//            stringRedisTemplate.delete(phone);
             return ResultData.SUCCESS(null, 806, "校验验证码成功");
         }
         return ResultData.FAIL(null, 807, "校验验证码失败");
@@ -458,7 +458,8 @@ public class UserServiceImpl implements UserService {
         }
         String password = map.get("password");
         String retypePassword = map.get("retypePassword");
-        if (password == null || retypePassword == null || !password.equals(retypePassword)) {
+        String verificationCode = map.get("verificationCode");
+        if (password == null || retypePassword == null || !password.equals(retypePassword) || verificationCode == null) {
             return ResultData.FAIL(user, 400, "数据有误");
         }
         // 未登录的操作需提供账号
@@ -470,7 +471,14 @@ public class UserServiceImpl implements UserService {
         if (!UserUtils.checkPasswordFormat(password)) {
             return ResultData.FAIL(user, 903, "密码格式错误");
         }
-
+        // 该手机号尚未发送验证码
+        if (!stringRedisTemplate.hasKey(phone)) {
+            return ResultData.FAIL(null, 804, "该手机号尚未发送验证码");
+        }
+        // 校验验证码
+        if (!stringRedisTemplate.opsForValue().get(phone).equals(verificationCode)) {
+            return ResultData.SUCCESS(null, 707, "验证码错误");
+        }
         RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(phone);
         if (new BCryptPasswordEncoder().matches(password, rtcUserDTO.getPassword())) {
             return ResultData.FAIL(user, 904, "新密码不能和原密码相同");
@@ -479,6 +487,8 @@ public class UserServiceImpl implements UserService {
         rtcUser.setId(rtcUserDTO.getId());
         rtcUser.setPassword(UserUtils.hexBCryptPassword(password));
         rtcUserMapper.updateByPrimaryKeySelective(rtcUser);
+        // 验证码只能使用一次
+        stringRedisTemplate.delete(phone);
         return ResultData.SUCCESS(null);
     }
 
