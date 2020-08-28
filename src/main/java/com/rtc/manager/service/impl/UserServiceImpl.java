@@ -362,6 +362,7 @@ public class UserServiceImpl implements UserService {
     public ResultData sendPhoneVerificationCode(String phone, String countryCode) {
         // todo 手机号格式校验
         if (phone == null || countryCode == null) {
+            return ResultData.FAIL(null, 400, "数据有误");
         }
 
         // 该手机号尚未注册
@@ -393,6 +394,7 @@ public class UserServiceImpl implements UserService {
     public ResultData checkVerificationCode(String phone, String countryCode, String verificationCode) {
         // todo 手机号格式校验
         if (phone == null || countryCode == null) {
+            return ResultData.FAIL(null, 400, "数据有误");
         }
         // 该手机号尚未注册
         if (rtcUserMapper.checkPhoneRegistered(phone) == null) {

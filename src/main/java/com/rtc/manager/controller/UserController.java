@@ -213,12 +213,12 @@ public class UserController {
     }
 
     /**
-     * 忘记密码/修改手机号-通过手机号发送验证码
+     * 忘记密码-通过手机号发送验证码
      *
      * @param phone
      * @return
      */
-    @ApiOperation(value = "忘记密码/修改手机号-通过手机号发送验证码")
+    @ApiOperation(value = "忘记密码-通过手机号发送验证码")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "phone", value = "手机号", paramType = "query"),
             @ApiImplicitParam(name = "countryCode", value = "手机号国家代码", paramType = "query")
@@ -232,21 +232,22 @@ public class UserController {
             @ApiResponse(code = 702, message = "验证码发送次数过多，请15分钟稍后再试"),
             @ApiResponse(code = 805, message = "该手机号尚未注册")
     })
-    @GetMapping("sendPhoneVerificationCode")
-    public ResultData sendPhoneVerificationCode(@RequestParam(name = "phone", required = true) String phone,
-                                                @RequestParam(name = "countryCode", required = true) String countryCode) {
+    @PostMapping("sendPhoneVerificationCode")
+    public ResultData sendPhoneVerificationCode(@RequestBody HashMap<String,String> map) {
+        String phone = map.get("phone");
+        String countryCode = map.get("countryCode");
         return userService.sendPhoneVerificationCode(phone, countryCode);
     }
 
     /**
-     * 忘记密码/修改手机号-检验验证码
+     * 忘记密码-检验验证码
      *
      * @param phone
      * @param countryCode
      * @param verificationCode
      * @return
      */
-    @ApiOperation(value = "忘记密码/修改手机号-检验验证码")
+    @ApiOperation(value = "忘记密码-检验验证码")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "phone", value = "手机号", paramType = "query"),
             @ApiImplicitParam(name = "countryCode", value = "手机号国家代码", paramType = "query"),
@@ -258,10 +259,11 @@ public class UserController {
             @ApiResponse(code = 806, message = "校验验证码成功"),
             @ApiResponse(code = 807, message = "校验验证码失败")
     })
-    @GetMapping("checkVerificationCode")
-    public ResultData checkVerificationCode(@RequestParam(name = "phone", required = true) String phone,
-                                            @RequestParam(name = "countryCode", required = true) String countryCode,
-                                            @RequestParam(name = "verificationCode", required = true) String verificationCode) {
+    @PostMapping("checkVerificationCode")
+    public ResultData checkVerificationCode(@RequestBody HashMap<String, String> map) {
+        String phone = map.get("phone");
+        String countryCode = map.get("countryCode");
+        String verificationCode = map.get("verificationCode");
         return userService.checkVerificationCode(phone, countryCode, verificationCode);
     }
 
