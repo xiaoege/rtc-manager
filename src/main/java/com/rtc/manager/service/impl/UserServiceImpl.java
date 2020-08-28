@@ -245,6 +245,8 @@ public class UserServiceImpl implements UserService {
         String uuid = UUID.randomUUID().toString();
         rtcUser.setUuid(uuid);
         rtcUserMapper.insertSelective(rtcUser);
+        // 注册成功后删除验证码
+        stringRedisTemplate.delete(phone);
         // 注册完自动登录，返回token
         UserDetails userDetails = userDetailService.loadUserByUsername(uuid);
         if (userDetails != null) {
@@ -316,6 +318,7 @@ public class UserServiceImpl implements UserService {
      * @param newPassword
      * @param retypePassword
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public ResultData updatePassword(String user) {
         logger.info("updatePassword():{}", user);
@@ -333,7 +336,7 @@ public class UserServiceImpl implements UserService {
         if (newPassword == null || retypePassword == null || !newPassword.equals(retypePassword)) {
             return ResultData.FAIL("请检查密码", 400, "请检查密码");
         }
-        // todo 校验密码格式
+        // 校验密码格式
         if (!UserUtils.checkPasswordFormat(newPassword)) {
             return ResultData.FAIL(user, 903, "密码格式错误");
         }
@@ -401,6 +404,8 @@ public class UserServiceImpl implements UserService {
         }
         // 校验验证码
         if (stringRedisTemplate.opsForValue().get(phone).equals(verificationCode)) {
+            // 验证码只能使用一次
+            stringRedisTemplate.delete(phone);
             return ResultData.SUCCESS(null, 806, "校验验证码成功");
         }
         return ResultData.FAIL(null, 807, "校验验证码失败");
@@ -431,6 +436,103 @@ public class UserServiceImpl implements UserService {
         }
         return ResultData.FAIL("查询失败", 400);
 
+    }
+
+    /**
+     * 忘记密码-修改密码
+     *
+     * @param user
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public ResultData forgetPassword(String user) {
+        logger.info("forgetPassword():{}", user);
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, String> map = new HashMap();
+        try {
+            map = objectMapper.readValue(user, HashMap.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return ResultData.FAIL(user, 400, "数据有误");
+        }
+        String password = map.get("password");
+        String retypePassword = map.get("retypePassword");
+        if (password == null || retypePassword == null || !password.equals(retypePassword)) {
+            return ResultData.FAIL(user, 400, "数据有误");
+        }
+        // 未登录的操作需提供账号
+        String phone = map.get("phone");
+        String countryCode = map.get("countryCode");
+        if (phone == null || countryCode == null) {
+            return ResultData.FAIL(user, 400, "数据有误");
+        }
+        if (!UserUtils.checkPasswordFormat(password)) {
+            return ResultData.FAIL(user, 903, "密码格式错误");
+        }
+
+        RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(phone);
+        if (new BCryptPasswordEncoder().matches(password, rtcUserDTO.getPassword())) {
+            return ResultData.FAIL(user, 904, "新密码不能和原密码相同");
+        }
+        RtcUser rtcUser = new RtcUser();
+        rtcUser.setId(rtcUserDTO.getId());
+        rtcUser.setPassword(UserUtils.hexBCryptPassword(password));
+        rtcUserMapper.updateByPrimaryKeySelective(rtcUser);
+        return ResultData.SUCCESS(null);
+    }
+
+    /**
+     * 更换手机号
+     *
+     * @param user
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public ResultData changePhone(String user) {
+        logger.info("changePhone():{}", user);
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, String> map = new HashMap();
+        try {
+            map = objectMapper.readValue(user, HashMap.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return ResultData.FAIL(user, 400, "数据有误");
+        }
+        String oldPhone = map.get("oldPhone");
+        String newPhone = map.get("newPhone");
+        String countryCode = map.get("countryCode");
+        String verificationCode = map.get("verificationCode");
+        if (oldPhone == null || newPhone == null || countryCode == null || verificationCode == null) {
+            return ResultData.FAIL(user, 400, "数据有误");
+        }
+        if (oldPhone.equals(newPhone)) {
+            return ResultData.FAIL(user, 805, "新手机号不能和原来一样");
+        }
+
+        if (rtcUserMapper.checkPhoneRegistered(newPhone) != null) {
+            return ResultData.FAIL(user, 801, "手机号已注册");
+        }
+
+        // 手机尚未发送验证码
+        if (!stringRedisTemplate.hasKey(newPhone)) {
+            return ResultData.FAIL(user, 804, "该手机号尚未发送验证码");
+        }
+        // 验证码错误
+        if (!stringRedisTemplate.opsForValue().get(newPhone).equals(verificationCode)) {
+            return ResultData.FAIL(user, 707, "验证码错误");
+        }
+
+        RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(oldPhone);
+        RtcUser rtcUser = new RtcUser();
+        rtcUser.setId(rtcUserDTO.getId());
+        rtcUser.setPhone(newPhone);
+        rtcUserMapper.updateByPrimaryKeySelective(rtcUser);
+
+        // 验证码只能使用一次
+        stringRedisTemplate.delete(newPhone);
+        return ResultData.SUCCESS(null, "修改手机号成功");
     }
 
     /**

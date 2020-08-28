@@ -79,4 +79,18 @@ public interface UserService {
      * @param request
      */
     ResultData getUserInformation(HttpServletRequest request);
+
+    /**
+     * 忘记密码-修改密码
+     * @param user
+     * @return
+     */
+    ResultData forgetPassword(String user);
+
+    /**
+     * 更换手机号
+     * @param user
+     * @return
+     */
+    ResultData changePhone(String user);
 }

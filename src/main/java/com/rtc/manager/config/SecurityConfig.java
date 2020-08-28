@@ -156,6 +156,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/news/listNews").hasRole("USER")
                 .antMatchers("/user/phoneRegister").permitAll()
                 .antMatchers("/user/verificationCodeRegistered").permitAll()
+                .antMatchers("/user/sendPhoneVerificationCode").permitAll()
+                .antMatchers("/user/checkVerificationCode").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin()//使用 spring security 默认登录页面
                 .successHandler((request, response, authentication) -> {

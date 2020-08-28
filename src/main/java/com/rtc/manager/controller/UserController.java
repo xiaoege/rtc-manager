@@ -74,13 +74,13 @@ public class UserController {
     }
 
     /**
-     * 手机注册
+     * 手机注册,注册成功后删除验证码
      *
      * @param user
      * @return
      * @throws Exception
      */
-    @ApiOperation(value = "手机注册", notes = "参数例子:\n" +
+    @ApiOperation(value = "手机注册,注册成功后删除验证码", notes = "参数例子:\n" +
             "{\n" +
             "    \"phone\":\"189\",\n" +
             "    \"countryCode\":\"\",\n" +
@@ -213,13 +213,12 @@ public class UserController {
     }
 
     /**
-     * 忘记密码/修改手机号-发送验证码
+     * 忘记密码/修改手机号-通过手机号发送验证码
      *
      * @param phone
      * @return
      */
-    @ApiIgnore
-    @ApiOperation(value = "忘记密码-通过手机号发送验证码")
+    @ApiOperation(value = "忘记密码/修改手机号-通过手机号发送验证码")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "phone", value = "手机号", paramType = "query"),
             @ApiImplicitParam(name = "countryCode", value = "手机号国家代码", paramType = "query")
@@ -240,15 +239,14 @@ public class UserController {
     }
 
     /**
-     * 忘记密码/修改手机号-检验验证码
+     * 忘记密码/修改手机号-检验验证码,校验成功后删除验证码
      *
      * @param phone
      * @param countryCode
      * @param verificationCode
      * @return
      */
-    @ApiIgnore
-    @ApiOperation(value = "忘记密码/修改手机号-检验验证码")
+    @ApiOperation(value = "忘记密码/修改手机号-检验验证码,校验成功后删除验证码")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "phone", value = "手机号", paramType = "query"),
             @ApiImplicitParam(name = "countryCode", value = "手机号国家代码", paramType = "query"),
@@ -267,12 +265,35 @@ public class UserController {
         return userService.checkVerificationCode(phone, countryCode, verificationCode);
     }
 
-    public ResultData forgetPassword() {
-        return null;
+    /**
+     * 忘记密码-修改密码
+     *
+     * @param user
+     * @return
+     */
+    @ApiOperation("忘记密码-修改密码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9b8dc8b599368836ed7deb163e01ded1", paramType = "header"),
+            @ApiImplicitParam(name = "user", value = "参数示例：", paramType = "body")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 903, message = "密码格式错误"),
+            @ApiResponse(code = 904, message = "新密码不能和原密码相同"),
+    })
+    @PutMapping("forgetPassword")
+    public ResultData forgetPassword(@RequestBody String user) {
+        return userService.forgetPassword(user);
     }
 
-    public ResultData changePhone() {
-        return null;
+    /**
+     * 更换手机号
+     *
+     * @return
+     */
+    @ApiIgnore
+    @PostMapping("changePhone")
+    public ResultData changePhone(@RequestBody String user) {
+        return userService.changePhone(user);
     }
 
     /**
