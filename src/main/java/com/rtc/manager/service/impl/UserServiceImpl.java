@@ -26,6 +26,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -376,7 +378,7 @@ public class UserServiceImpl implements UserService {
             return ResultData.FAIL(phone, 702, CODE_702);
         }
 
-        // 发送验证码
+        // todo 发送验证码
 
 
         return ResultData.SUCCESS(null, "发送验证码成功");
@@ -512,11 +514,14 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
             return ResultData.FAIL(user, 400, "数据有误");
         }
-        String oldPhone = map.get("oldPhone");
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String oldPhone = userDetails.getUsername();
+//        String oldPhone = map.get("oldPhone");
         String newPhone = map.get("newPhone");
         String countryCode = map.get("countryCode");
         String verificationCode = map.get("verificationCode");
-        if (oldPhone == null || newPhone == null || countryCode == null || verificationCode == null) {
+        // todo 手机号格式校验
+        if (newPhone == null || countryCode == null || verificationCode == null) {
             return ResultData.FAIL(user, 400, "数据有误");
         }
         if (oldPhone.equals(newPhone)) {
@@ -545,6 +550,97 @@ public class UserServiceImpl implements UserService {
         // 验证码只能使用一次
         stringRedisTemplate.delete(newPhone);
         return ResultData.SUCCESS(null, "修改手机号成功");
+    }
+
+    @Override
+    public ResultData send4ChangePhone(String phone, String countryCode) {
+        // todo 手机号格式校验
+        if (phone == null || countryCode == null) {
+            return ResultData.FAIL(null, 400, "数据有误");
+        }
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (phone.equals(userDetails.getUsername())) {
+            return ResultData.FAIL(null, 805, "新手机号不能和原来一样");
+        }
+        // 该手机号已注册
+        if (rtcUserMapper.checkPhoneRegistered(phone) != null) {
+            return ResultData.FAIL(null, 801, "该手机号已注册");
+        }
+
+        // 校验验证码次数
+        String verificationCode = UserUtils.getVerificationCode();
+        if (!checkVerificationCodeRedis(phone, verificationCode)) {
+            return ResultData.FAIL(phone, 702, CODE_702);
+        }
+        // todo 发送验证码
+
+        return ResultData.FAIL(null, 200, "发送验证码成功");
+    }
+
+    /**
+     * 更换手机号-校验验证码
+     *
+     * @param phone
+     * @param countryCode
+     * @return
+     */
+    @Override
+    public ResultData check4ChangePhone(String user) {
+        logger.info("changePhone():{}", user);
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, String> map = new HashMap();
+        try {
+            map = objectMapper.readValue(user, HashMap.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return ResultData.FAIL(user, 400, "数据有误");
+        }
+        String phone = map.get("phone");
+        String countryCode = map.get("countryCode");
+        String verificationCode = map.get("verificationCode");
+        // todo 手机号格式校验
+        if (phone == null || countryCode == null || verificationCode == null) {
+            return ResultData.FAIL(null, 400, "数据有误");
+        }
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (phone.equals(userDetails.getUsername())) {
+            return ResultData.FAIL(null, 805, "新手机号不能和原来一样");
+        }
+        // 手机号已注册
+        if (rtcUserMapper.checkPhoneRegistered(phone) != null) {
+            return ResultData.FAIL(null, 801, "手机号已注册");
+        }
+        // 该手机号尚未发送验证码
+        if (!stringRedisTemplate.hasKey(phone)) {
+            return ResultData.FAIL(null, 804, "该手机号尚未发送验证码");
+        }
+        // 校验验证码
+        if (stringRedisTemplate.opsForValue().get(phone).equals(verificationCode)) {
+            // 验证码只能使用一次
+//            stringRedisTemplate.delete(phone);
+            return ResultData.SUCCESS(null, 200, "校验验证码成功");
+        }
+        return ResultData.FAIL(null, 707, "验证码错误");
+    }
+
+    /**
+     * 上传头像
+     *
+     * @param file
+     * @return
+     */
+    @Override
+    public ResultData uploadPortrait(@RequestParam(name = "file", required = true) MultipartFile file) {
+        String name = file.getName();
+        String originalFilename = file.getOriginalFilename();
+        List<String> suffList = List.of("jpg", "jpeg", "png", "bmp");
+        if (!suffList.contains(originalFilename.substring(originalFilename.lastIndexOf(".") + 1))) {
+            return ResultData.FAIL(null, 905, "头像文件格式错误");
+        }
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(userDetails.getUsername());
+
+        return ResultData.SUCCESS(null, 200, "上传头像成功");
     }
 
     /**

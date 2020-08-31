@@ -1,6 +1,7 @@
 package com.rtc.manager.service;
 
 import com.rtc.manager.vo.ResultData;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 

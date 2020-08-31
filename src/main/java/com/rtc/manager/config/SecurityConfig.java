@@ -154,10 +154,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/**").permitAll()
 //                .antMatchers("/news/getNews").hasRole("VIP")
 //                .antMatchers("/news/listNews").hasRole("USER")
+                // 手机注册
                 .antMatchers("/user/phoneRegister").permitAll()
+                // 注册-校验手机，发送验证码
                 .antMatchers("/user/verificationCodeRegistered").permitAll()
+                // 忘记密码-通过手机号发送验证码
                 .antMatchers("/user/sendPhoneVerificationCode").permitAll()
+                // 忘记密码-检验验证码
                 .antMatchers("/user/checkVerificationCode").permitAll()
+                // 忘记密码-修改密码
                 .antMatchers("/user/forgetPassword").permitAll()
                 .antMatchers("/savejson/**").permitAll()
                 .anyRequest().authenticated()

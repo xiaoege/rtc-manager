@@ -6,6 +6,7 @@ import com.rtc.manager.vo.ResultData;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
@@ -299,11 +300,85 @@ public class UserController {
     }
 
     /**
-     * 更换手机号
+     * 更换手机号-通过手机号发送验证码
+     *
+     * @param phone
+     * @return
+     */
+    @ApiOperation(value = "更换手机号-通过手机号发送验证码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9b8dc8b599368836ed7deb163e01ded1", paramType = "header"),
+            @ApiImplicitParam(name = "user", value = "参数示例：{\n" +
+                    "    \"phone\":\"777\",\n" +
+                    "    \"countryCode\":\"+86\"\n" +
+                    "}", paramType = "body")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "{\n" +
+                    "    \"message\": \"发送验证码成功\",\n" +
+                    "    \"data\": null,\n" +
+                    "    \"code\": 200\n" +
+                    "}"),
+            @ApiResponse(code = 702, message = "验证码发送次数过多，请15分钟稍后再试"),
+            @ApiResponse(code = 801, message = "该手机号已注册")
+    })
+    @PostMapping("send4ChangePhone")
+    public ResultData send4ChangePhone(@RequestBody HashMap<String, String> user) {
+        String phone = user.get("phone");
+        String countryCode = user.get("countryCode");
+        return userService.send4ChangePhone(phone, countryCode);
+    }
+
+    /**
+     * 更换手机号-校验验证码
+     *
+     * @param phone
+     * @return
+     */
+    @ApiOperation(value = "更换手机号-校验验证码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9b8dc8b599368836ed7deb163e01ded1", paramType = "header"),
+            @ApiImplicitParam(name = "user", value = "参数示例：{\n" +
+                    "    \"phone\":\"777\",\n" +
+                    "    \"countryCode\":\"+86\",\n" +
+                    "    \"verificationCode\":\"581106\"\n" +
+                    "}", paramType = "body")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "{\n" +
+                    "    \"message\": \"发送验证码成功\",\n" +
+                    "    \"data\": null,\n" +
+                    "    \"code\": 200\n" +
+                    "}"),
+            @ApiResponse(code = 801, message = "手机号已注册"),
+            @ApiResponse(code = 804, message = "该手机号尚未发送验证码"),
+            @ApiResponse(code = 707, message = "验证码错误")
+    })
+    @PostMapping("check4ChangePhone")
+    public ResultData check4ChangePhone(@RequestBody String user) {
+        return userService.check4ChangePhone(user);
+    }
+
+    /**
+     * 更换手机号,更换成功后删除验证码
      *
      * @return
      */
-    @ApiIgnore
+    @ApiOperation(value = "更换手机号,更换成功后删除验证码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9b8dc8b599368836ed7deb163e01ded1", paramType = "header"),
+            @ApiImplicitParam(name = "user", value = "参数示例：{\n" +
+                    "    \"newPhone\": \"777\",\n" +
+                    "    \"countryCode\": \"asd\",\n" +
+                    "    \"verificationCode\": \"581106\"\n" +
+                    "}", paramType = "body")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 707, message = "验证码错误"),
+            @ApiResponse(code = 801, message = "手机号已注册"),
+            @ApiResponse(code = 804, message = "该手机号尚未发送验证码"),
+            @ApiResponse(code = 805, message = "新手机号不能和原来一样")
+    })
     @PostMapping("changePhone")
     public ResultData changePhone(@RequestBody String user) {
         return userService.changePhone(user);
