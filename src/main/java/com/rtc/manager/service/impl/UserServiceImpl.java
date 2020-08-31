@@ -517,7 +517,7 @@ public class UserServiceImpl implements UserService {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String oldPhone = userDetails.getUsername();
 //        String oldPhone = map.get("oldPhone");
-        String newPhone = map.get("newPhone");
+        String newPhone = map.get("phone");
         String countryCode = map.get("countryCode");
         String verificationCode = map.get("verificationCode");
         // todo 手机号格式校验
@@ -637,9 +637,16 @@ public class UserServiceImpl implements UserService {
         if (!suffList.contains(originalFilename.substring(originalFilename.lastIndexOf(".") + 1))) {
             return ResultData.FAIL(null, 905, "头像文件格式错误");
         }
+
+
+
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(userDetails.getUsername());
 
+        RtcUser rtcUser = new RtcUser();
+        rtcUser.setId(rtcUserDTO.getId());
+        rtcUser.setPortrait("");
+        rtcUserMapper.updateByPrimaryKeySelective(rtcUser);
         return ResultData.SUCCESS(null, 200, "上传头像成功");
     }
 

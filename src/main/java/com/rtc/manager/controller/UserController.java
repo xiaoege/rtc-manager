@@ -5,6 +5,8 @@ import com.rtc.manager.service.UserService;
 import com.rtc.manager.vo.ResultData;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
@@ -113,8 +115,7 @@ public class UserController {
      */
     @ApiOperation(value = "注册-校验手机，发送验证码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "phone", value = "手机号", required = true),
-            @ApiImplicitParam(name = "countryCode", value = "手机号国家代码", required = true)
+            @ApiImplicitParam(name = "map", value = "参数示例：{\"phone\":\"123\", \"countryCode\":\"123456\"}", required = true),
     })
     @ApiResponses({
             @ApiResponse(code = 702, message = "验证码发送次数过多，请15分钟稍后再试"),
@@ -300,6 +301,22 @@ public class UserController {
     }
 
     /**
+     * 更换手机号-校验原始手机号
+     */
+    @PostMapping("checkOriginalPhone")
+    public ResultData checkOriginalPhone(@RequestBody String phone) {
+        // todo 校验手机号
+        if (phone == null) {
+            return ResultData.FAIL(null, 400, "数据有误");
+        }
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!phone.equals(userDetails.getUsername())) {
+            return ResultData.FAIL(null, 806, "输入的手机号和原始手机号不一致");
+        }
+        return ResultData.SUCCESS(null);
+    }
+
+    /**
      * 更换手机号-通过手机号发送验证码
      *
      * @param phone
@@ -336,6 +353,8 @@ public class UserController {
      * @param phone
      * @return
      */
+    @Deprecated
+    @ApiIgnore
     @ApiOperation(value = "更换手机号-校验验证码")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9b8dc8b599368836ed7deb163e01ded1", paramType = "header"),

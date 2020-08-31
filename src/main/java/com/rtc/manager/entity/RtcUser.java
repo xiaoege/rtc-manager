@@ -45,4 +45,5 @@ public class RtcUser {
 
     private Integer status;
 
+    private String portrait;
 }
