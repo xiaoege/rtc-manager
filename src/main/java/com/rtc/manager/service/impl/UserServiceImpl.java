@@ -48,6 +48,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDetailServiceImpl userDetailService;
 
+    @Value("${rtc.portrait}")
+    private String portrait;
+
     Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private static final JavaMailSenderImpl JAVA_MAIL_SENDER;
@@ -292,7 +295,7 @@ public class UserServiceImpl implements UserService {
                 return ResultData.FAIL(user, 901, "昵称格式错误");
             }
             // 检验昵称是否存在
-            if (nickname != oldNickname && rtcUserMapper.checkNicknameRegistered(nickname) != null) {
+            if (!nickname.equals(oldNickname) && rtcUserMapper.checkNicknameRegistered(nickname) != null) {
                 return ResultData.FAIL(user, 902, "昵称已存在");
             }
         }
