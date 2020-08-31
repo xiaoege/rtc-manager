@@ -231,7 +231,8 @@
             rtc_user.`password`,
             rtc_user_role.role_name AS roleName,
             rtc_user.uuid,
-            rtc_user.phone
+            rtc_user.phone,
+            rtc_user.country_code countryCode
         FROM
             rtc_user
             LEFT JOIN rtc_user_role ON rtc_user.role_id = rtc_user_role.id
@@ -244,7 +245,8 @@
             rtc_user.`password`,
             rtc_user_role.role_name AS roleName,
             rtc_user.uuid,
-            rtc_user.phone
+            rtc_user.phone,
+            rtc_user.country_code countryCode
         FROM
             rtc_user
             LEFT JOIN rtc_user_role ON rtc_user.role_id = rtc_user_role.id
@@ -257,7 +259,8 @@
             rtc_user.`password`,
             rtc_user_role.role_name AS roleName,
             rtc_user.uuid,
-            rtc_user.phone
+            rtc_user.phone,
+            rtc_user.country_code countryCode
         FROM
             rtc_user
             LEFT JOIN rtc_user_role ON rtc_user.role_id = rtc_user_role.id
