@@ -320,7 +320,8 @@ public class UserController {
                     "    \"code\": 200\n" +
                     "}"),
             @ApiResponse(code = 702, message = "验证码发送次数过多，请15分钟稍后再试"),
-            @ApiResponse(code = 801, message = "该手机号已注册")
+            @ApiResponse(code = 801, message = "该手机号已注册"),
+            @ApiResponse(code = 805, message = "新手机号不能和原来一样")
     })
     @PostMapping("send4ChangePhone")
     public ResultData send4ChangePhone(@RequestBody HashMap<String, String> user) {
@@ -352,7 +353,8 @@ public class UserController {
                     "}"),
             @ApiResponse(code = 801, message = "手机号已注册"),
             @ApiResponse(code = 804, message = "该手机号尚未发送验证码"),
-            @ApiResponse(code = 707, message = "验证码错误")
+            @ApiResponse(code = 707, message = "验证码错误"),
+            @ApiResponse(code = 805, message = "新手机号不能和原来一样")
     })
     @PostMapping("check4ChangePhone")
     public ResultData check4ChangePhone(@RequestBody String user) {
