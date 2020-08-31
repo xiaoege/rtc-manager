@@ -585,51 +585,6 @@ public class UserServiceImpl implements UserService {
         return ResultData.FAIL(null, 200, "发送验证码成功");
     }
 
-    /**
-     * 更换手机号-校验验证码
-     *
-     * @param phone
-     * @param countryCode
-     * @return
-     */
-    @Override
-    public ResultData check4ChangePhone(String user) {
-        logger.info("changePhone():{}", user);
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, String> map = new HashMap();
-        try {
-            map = objectMapper.readValue(user, HashMap.class);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return ResultData.FAIL(user, 400, "数据有误");
-        }
-        String phone = map.get("phone");
-        String countryCode = map.get("countryCode");
-        String verificationCode = map.get("verificationCode");
-        // todo 手机号格式校验
-        if (phone == null || countryCode == null || verificationCode == null) {
-            return ResultData.FAIL(null, 400, "数据有误");
-        }
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (phone.equals(userDetails.getUsername())) {
-            return ResultData.FAIL(null, 805, "新手机号不能和原来一样");
-        }
-        // 手机号已注册
-        if (rtcUserMapper.checkPhoneRegistered(phone) != null) {
-            return ResultData.FAIL(null, 801, "手机号已注册");
-        }
-        // 该手机号尚未发送验证码
-        if (!stringRedisTemplate.hasKey(phone)) {
-            return ResultData.FAIL(null, 804, "该手机号尚未发送验证码");
-        }
-        // 校验验证码
-        if (stringRedisTemplate.opsForValue().get(phone).equals(verificationCode)) {
-            // 验证码只能使用一次
-//            stringRedisTemplate.delete(phone);
-            return ResultData.SUCCESS(null, 200, "校验验证码成功");
-        }
-        return ResultData.FAIL(null, 707, "验证码错误");
-    }
 
     /**
      * 上传头像

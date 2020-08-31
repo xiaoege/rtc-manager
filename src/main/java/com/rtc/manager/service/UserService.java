@@ -104,13 +104,6 @@ public interface UserService {
     ResultData send4ChangePhone(String phone, String countryCode);
 
     /**
-     * 更换手机号-校验验证码
-     * @param user
-     * @return
-     */
-    ResultData check4ChangePhone(String user);
-
-    /**
      * 上传头像
      * @param file
      * @return
