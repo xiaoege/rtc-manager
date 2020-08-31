@@ -47,6 +47,8 @@ rtc:
   url: "http://192.168.1.125"
   mail:
     redisEmailLimt: 1000
+  portrait:
+    "/home/work"
 
 
 
