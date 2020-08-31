@@ -305,6 +305,14 @@ public class UserController {
     /**
      * 更换手机号-校验原始手机号
      */
+    @ApiOperation(value = "更换手机号-校验原始手机号")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "phone", value = "参数示例：{\"phone\":\"666\"}", paramType = "body")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 806, message = "输入的手机号和原始手机号不一致")
+    }
+    )
     @PostMapping("checkOriginalPhone")
     public ResultData checkOriginalPhone(@RequestBody String phone) {
         // todo 校验手机号
