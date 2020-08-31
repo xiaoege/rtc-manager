@@ -389,7 +389,7 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9b8dc8b599368836ed7deb163e01ded1", paramType = "header"),
             @ApiImplicitParam(name = "user", value = "参数示例：{\n" +
-                    "    \"newPhone\": \"777\",\n" +
+                    "    \"phone\": \"777\",\n" +
                     "    \"countryCode\": \"asd\",\n" +
                     "    \"verificationCode\": \"581106\"\n" +
                     "}", paramType = "body")
