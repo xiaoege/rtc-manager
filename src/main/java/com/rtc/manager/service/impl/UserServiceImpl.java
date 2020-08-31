@@ -371,6 +371,10 @@ public class UserServiceImpl implements UserService {
         if (rtcUserMapper.checkPhoneRegistered(phone) == null) {
             return ResultData.FAIL(null, 805, "该手机号尚未注册");
         }
+        RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(phone);
+        if (!countryCode.equals(rtcUserDTO.getCountryCode())) {
+            return ResultData.FAIL(null, 803, "国家代码与手机号不符");
+        }
 
         // 校验验证码次数
         String verificationCode = UserUtils.getVerificationCode();
@@ -401,6 +405,10 @@ public class UserServiceImpl implements UserService {
         // 该手机号尚未注册
         if (rtcUserMapper.checkPhoneRegistered(phone) == null) {
             return ResultData.FAIL(null, 805, "该手机号尚未注册");
+        }
+        RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(phone);
+        if (!countryCode.equals(rtcUserDTO.getCountryCode())) {
+            return ResultData.FAIL(null, 803, "国家代码与手机号不符");
         }
         // 该手机号尚未发送验证码
         if (!stringRedisTemplate.hasKey(phone)) {
@@ -637,7 +645,6 @@ public class UserServiceImpl implements UserService {
         if (!suffList.contains(originalFilename.substring(originalFilename.lastIndexOf(".") + 1))) {
             return ResultData.FAIL(null, 905, "头像文件格式错误");
         }
-
 
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

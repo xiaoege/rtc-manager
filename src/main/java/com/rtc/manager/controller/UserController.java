@@ -234,6 +234,7 @@ public class UserController {
                     "    \"code\": 200\n" +
                     "}"),
             @ApiResponse(code = 702, message = "验证码发送次数过多，请15分钟稍后再试"),
+            @ApiResponse(code = 803, message = "国家代码与手机号不符"),
             @ApiResponse(code = 805, message = "该手机号尚未注册")
     })
     @PostMapping("sendPhoneVerificationCode")
@@ -260,6 +261,7 @@ public class UserController {
                     "}", paramType = "body")
     })
     @ApiResponses({
+            @ApiResponse(code = 803, message = "国家代码与手机号不符"),
             @ApiResponse(code = 804, message = "该手机号尚未发送验证码"),
             @ApiResponse(code = 805, message = "该手机号尚未注册"),
             @ApiResponse(code = 200, message = "校验验证码成功"),
