@@ -94,4 +94,26 @@ public interface UserService {
      * @return
      */
     ResultData changePhone(String user);
+
+    /**
+     * 更换手机号-通过手机号发送验证码
+     * @param phone
+     * @param countryCode
+     * @return
+     */
+    ResultData send4ChangePhone(String phone, String countryCode);
+
+    /**
+     * 更换手机号-校验验证码
+     * @param user
+     * @return
+     */
+    ResultData check4ChangePhone(String user);
+
+    /**
+     * 上传头像
+     * @param file
+     * @return
+     */
+    ResultData uploadPortrait(MultipartFile file);
 }

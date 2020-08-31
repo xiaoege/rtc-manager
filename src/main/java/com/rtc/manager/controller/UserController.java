@@ -390,10 +390,10 @@ public class UserController {
      * 上传头像
      */
     @ApiIgnore
+    @ApiOperation(value = "上传头像")
     @PostMapping("uploadPortrait")
-    public ResultData uploadPortrait() {
-
-        return null;
+    public ResultData uploadPortrait(MultipartFile file) {
+        return userService.uploadPortrait(file);
     }
 
     @ApiOperation(value = "登录，此文档仅供参考，不可在swagger里调用，调用请使用/login路径", notes = "参数放在body里")

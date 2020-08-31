@@ -16,6 +16,9 @@ spring:
           connection: 30
           timeout: 30
           writetimeout: 30
+  servlet:
+    multipart:
+      max-file-size: 2MB
 
 server:
   port: 9981
