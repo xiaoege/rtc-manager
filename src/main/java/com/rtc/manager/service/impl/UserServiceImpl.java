@@ -279,22 +279,24 @@ public class UserServiceImpl implements UserService {
         ObjectMapper objectMapper = new ObjectMapper();
         RtcUser rtcUser = objectMapper.readValue(user, RtcUser.class);
         String nickname = rtcUser.getNickname();
+
+        String authHeader = request.getHeader("Authorization");
+        String account = stringRedisTemplate.opsForValue().get(authHeader);
+        RtcUserVO rtcUserVO = rtcUserMapper.selectByPhoneOrAccount2RtcUserVO(account);
+        String oldNickname = rtcUserVO.getNickname();
+        String nicknameToken = authHeader;
+
         if (nickname != null) {
             // 验证昵称格式
             if (!UserUtils.checkNicknameFormat(nickname)) {
                 return ResultData.FAIL(user, 901, "昵称格式错误");
             }
             // 检验昵称是否存在
-            if (rtcUserMapper.checkNicknameRegistered(nickname) != null) {
+            if (nickname != oldNickname && rtcUserMapper.checkNicknameRegistered(nickname) != null) {
                 return ResultData.FAIL(user, 902, "昵称已存在");
             }
         }
-        String authHeader = request.getHeader("Authorization");
-        // 手机号，昵称唯一。对应的2个token也唯一。修改昵称，则原token删除，生成新token，返回新的token
-        String account = stringRedisTemplate.opsForValue().get(authHeader);
-        String nicknameToken = authHeader;
-        RtcUserVO rtcUserVO = rtcUserMapper.selectByPhoneOrAccount2RtcUserVO(account);
-        String oldNickname = rtcUserVO.getNickname();
+
         rtcUser.setId(rtcUserVO.getId());
         rtcUser.setPassword(null);
         rtcUser.setPhone(null);
@@ -604,6 +606,7 @@ public class UserServiceImpl implements UserService {
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(userDetails.getUsername());
+        String uuid = rtcUserDTO.getUuid();
 
         RtcUser rtcUser = new RtcUser();
         rtcUser.setId(rtcUserDTO.getId());
