@@ -174,16 +174,8 @@ public class UserController {
             @ApiResponse(code = 905, message = "请重新上传头像")
     })
     @PutMapping("updateUser")
-    public ResultData updateUser(@RequestBody String user, HttpServletRequest request) {
-        ResultData resultData;
-        try {
-            resultData = userService.updateUser(user, request);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResultData.FAIL(user, 400, "数据有误");
-        }
-
-        return resultData;
+    public ResultData updateUser(@RequestBody String user, HttpServletRequest request) throws Exception {
+        return userService.updateUser(user, request);
     }
 
     /**
