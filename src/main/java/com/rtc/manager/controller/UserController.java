@@ -145,7 +145,7 @@ public class UserController {
                     "    \"country\":\"喵\",\n" +
                     "    \"enterprise\":\"喵\",\n" +
                     "    \"address\":\"喵\",\n" +
-                    "    \"portrait\":\"/Users/chenhang/work/temp/8f2928ea-377e-4141-803b-129d5942acb5/2020-09-01-11318770761144930586.png\"\n" +
+                    "    \"portrait\":\"/home/work/portrait/temp/dc410238-c5cc-4ad3-8e2f-96e0b145b239/2020-09-01-16151861998804882934.png\"\n" +
                     "}", paramType = "body")
     })
     @ApiResponses({
@@ -155,15 +155,15 @@ public class UserController {
                     "        \"role\": \"ROLE_USER\",\n" +
                     "        \"user\": {\n" +
                     "            \"nickname\": \"miaopasi\",\n" +
-                    "            \"phone\": \"333\",\n" +
-                    "            \"countryCode\": \"+86\",\n" +
-                    "            \"email\": \"ad\",\n" +
+                    "            \"phone\": \"996\",\n" +
+                    "            \"countryCode\": \"\",\n" +
+                    "            \"email\": null,\n" +
                     "            \"synopsis\": \"喵\",\n" +
                     "            \"country\": \"喵\",\n" +
                     "            \"enterprise\": \"喵\",\n" +
                     "            \"address\": \"喵\",\n" +
-                    "            \"portrait\": \"/Users/chenhang/work/8f2928ea-377e-4141-803b-129d5942acb5/2020-09-01-11318770761144930586.png\",\n" +
-                    "            \"pid\": 45\n" +
+                    "            \"portrait\": \"http://192.168.1.125/portrait/dc410238-c5cc-4ad3-8e2f-96e0b145b239/2020-09-01-16151861998804882934.png\",\n" +
+                    "            \"pid\": 35\n" +
                     "        },\n" +
                     "        \"account\": \"miaopasi\"\n" +
                     "    },\n" +
@@ -171,7 +171,7 @@ public class UserController {
                     "}"),
             @ApiResponse(code = 901, message = "昵称格式错误"),
             @ApiResponse(code = 902, message = "昵称已存在"),
-            @ApiResponse(code = 905, message = "请重新上传头像")
+            @ApiResponse(code = 906, message = "请重新上传头像")
     })
     @PutMapping("updateUser")
     public ResultData updateUser(@RequestBody String user, HttpServletRequest request) throws Exception {
@@ -389,10 +389,11 @@ public class UserController {
             @ApiResponse(code = 200, message = "{\n" +
                     "    \"message\": \"上传头像成功\",\n" +
                     "    \"data\": {\n" +
-                    "        \"portrait\": \"/Users/chenhang/work/temp/8f2928ea-377e-4141-803b-129d5942acb5/2020-09-01-11318770761144930586.png\"\n" +
+                    "        \"portrait\": \"/home/work/portrait/temp/dc410238-c5cc-4ad3-8e2f-96e0b145b239/2020-09-01-16151861998804882934.png\"\n" +
                     "    },\n" +
                     "    \"code\": 200\n" +
-                    "}")
+                    "}"),
+            @ApiResponse(code = 905,message = "头像文件格式错误")
     })
     @PostMapping("uploadPortrait")
     public ResultData uploadPortrait(@RequestParam(name = "file", required = true)MultipartFile file) throws Exception {

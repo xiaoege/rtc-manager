@@ -325,7 +325,7 @@ public class UserServiceImpl implements UserService {
                     in = new BufferedInputStream(new FileInputStream(tempFile));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
-                    return ResultData.FAIL(null, 905, "请重新上传头像");
+                    return ResultData.FAIL(null, 906, "请重新上传头像");
                 }
                 BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(portraitFile));
                 byte[] bytes = new byte[1024 * 2];
