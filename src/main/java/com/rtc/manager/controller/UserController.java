@@ -131,7 +131,7 @@ public class UserController {
     }
 
     /**
-     * 修改用户基本信息，成功后返回该用户的最新信息 + 新昵称/旧昵称的token
+     * 修改用户基本信息，成功后返回该用户的最新信息
      *
      * @param user
      * @return
@@ -140,11 +140,12 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9b8dc8b599368836ed7deb163e01ded1", paramType = "header"),
             @ApiImplicitParam(name = "user", value = "参数示例：{\n" +
-                    "    \"nickname\":\"miaomiao\",\n" +
-                    "    \"synopsis\":\"喵喵\",\n" +
-                    "    \"country\":\"喵喵\",\n" +
-                    "    \"enterprise\":\"喵喵\",\n" +
-                    "    \"address\":\"喵喵\"\n" +
+                    "    \"nickname\":\"miaopasi\",\n" +
+                    "    \"synopsis\":\"喵\",\n" +
+                    "    \"country\":\"喵\",\n" +
+                    "    \"enterprise\":\"喵\",\n" +
+                    "    \"address\":\"喵\",\n" +
+                    "    \"portrait\":\"/Users/chenhang/work/temp/8f2928ea-377e-4141-803b-129d5942acb5/2020-09-01-11318770761144930586.png\"\n" +
                     "}", paramType = "body")
     })
     @ApiResponses({
@@ -153,22 +154,24 @@ public class UserController {
                     "    \"data\": {\n" +
                     "        \"role\": \"ROLE_USER\",\n" +
                     "        \"user\": {\n" +
-                    "            \"nickname\": \"miaopasi211\",\n" +
-                    "            \"phone\": \"321\",\n" +
+                    "            \"nickname\": \"miaopasi\",\n" +
+                    "            \"phone\": \"333\",\n" +
                     "            \"countryCode\": \"+86\",\n" +
                     "            \"email\": \"ad\",\n" +
-                    "            \"synopsis\": \"喵喵\",\n" +
-                    "            \"country\": \"喵喵\",\n" +
-                    "            \"enterprise\": \"喵喵\",\n" +
-                    "            \"address\": \"喵喵\",\n" +
+                    "            \"synopsis\": \"喵\",\n" +
+                    "            \"country\": \"喵\",\n" +
+                    "            \"enterprise\": \"喵\",\n" +
+                    "            \"address\": \"喵\",\n" +
+                    "            \"portrait\": \"/Users/chenhang/work/8f2928ea-377e-4141-803b-129d5942acb5/2020-09-01-11318770761144930586.png\",\n" +
                     "            \"pid\": 45\n" +
                     "        },\n" +
-                    "        \"account\": \"miaopasi211\"\n" +
+                    "        \"account\": \"miaopasi\"\n" +
                     "    },\n" +
                     "    \"code\": 200\n" +
                     "}"),
             @ApiResponse(code = 901, message = "昵称格式错误"),
-            @ApiResponse(code = 902, message = "昵称已存在")
+            @ApiResponse(code = 902, message = "昵称已存在"),
+            @ApiResponse(code = 905, message = "请重新上传头像")
     })
     @PutMapping("updateUser")
     public ResultData updateUser(@RequestBody String user, HttpServletRequest request) {
@@ -383,12 +386,24 @@ public class UserController {
     }
 
     /**
-     * 上传头像
+     * 上传头像,返回头像的URL
      */
-    @ApiIgnore
-    @ApiOperation(value = "上传头像")
+    @ApiOperation(value = "上传头像,返回头像的URL")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9b8dc8b599368836ed7deb163e01ded1", paramType = "header"),
+            @ApiImplicitParam(name = "file", value = "后缀名是jpg,jpeg,png,bmp格式的图片,大小在2MB以内", paramType = "form", dataType = "__file")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "{\n" +
+                    "    \"message\": \"上传头像成功\",\n" +
+                    "    \"data\": {\n" +
+                    "        \"portrait\": \"/Users/chenhang/work/temp/8f2928ea-377e-4141-803b-129d5942acb5/2020-09-01-11318770761144930586.png\"\n" +
+                    "    },\n" +
+                    "    \"code\": 200\n" +
+                    "}")
+    })
     @PostMapping("uploadPortrait")
-    public ResultData uploadPortrait(MultipartFile file) {
+    public ResultData uploadPortrait(@RequestParam(name = "file", required = true)MultipartFile file) throws Exception {
         return userService.uploadPortrait(file);
     }
 

@@ -195,6 +195,9 @@
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
       </if>
+      <if test="portrait != null">
+          portrait = #{portrait,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -290,7 +293,8 @@
             rtc_user.country,
             rtc_user.enterprise,
             rtc_user.address,
-            rtc_user.uuid
+            rtc_user.uuid,
+            rtc_user.portrait
         FROM
             rtc_user
         WHERE
@@ -307,7 +311,8 @@
             rtc_user.country,
             rtc_user.enterprise,
             rtc_user.address,
-            rtc_user.uuid
+            rtc_user.uuid,
+            rtc_user.portrait
         FROM
             rtc_user
         WHERE
@@ -324,7 +329,8 @@
             rtc_user.country,
             rtc_user.enterprise,
             rtc_user.address,
-            rtc_user.uuid
+            rtc_user.uuid,
+            rtc_user.portrait
         FROM
             rtc_user
         WHERE

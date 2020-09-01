@@ -48,7 +48,11 @@ rtc:
   mail:
     redisEmailLimt: 1000
   portrait:
-    "/home/work"
+#    实际保存位置
+    "/home/work/portrait"
+#  对外暴露位置
+  portraitURI:
+    "http://192.168.1.125/portrait"
 
 
 

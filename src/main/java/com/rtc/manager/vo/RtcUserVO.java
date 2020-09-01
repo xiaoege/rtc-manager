@@ -27,4 +27,6 @@ public class RtcUserVO {
 //    private String authorization;
     @JsonIgnore
     private String uuid;
+
+    private String portrait;
 }

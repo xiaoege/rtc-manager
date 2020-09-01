@@ -4,6 +4,7 @@ import com.rtc.manager.vo.ResultData;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.FileNotFoundException;
 
 /**
  * @author ChenHang
@@ -104,9 +105,9 @@ public interface UserService {
     ResultData send4ChangePhone(String phone, String countryCode);
 
     /**
-     * 上传头像
+     * 上传头像,返回头像的URL
      * @param file
      * @return
      */
-    ResultData uploadPortrait(MultipartFile file);
+    ResultData uploadPortrait(MultipartFile file) throws FileNotFoundException, Exception;
 }

@@ -26,10 +26,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.*;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -49,7 +50,7 @@ public class UserServiceImpl implements UserService {
     private UserDetailServiceImpl userDetailService;
 
     @Value("${rtc.portrait}")
-    private String portrait;
+    private String PORTRAIT;
 
     Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -69,6 +70,9 @@ public class UserServiceImpl implements UserService {
 
     @Value("${rtc.mail.redisEmailLimt}")
     private Integer redisEmailLimt;
+
+    @Value("${rtc.portraitURI}")
+    private String PORTRAIT_URI;
 
     static {
         JAVA_MAIL_SENDER = new JavaMailSenderImpl();
@@ -279,9 +283,11 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultData updateUser(String user, HttpServletRequest request) throws Exception {
+        logger.info("updateUser():{}", user);
         ObjectMapper objectMapper = new ObjectMapper();
         RtcUser rtcUser = objectMapper.readValue(user, RtcUser.class);
         String nickname = rtcUser.getNickname();
+        String portrait = rtcUser.getPortrait();
 
         String authHeader = request.getHeader("Authorization");
         String account = stringRedisTemplate.opsForValue().get(authHeader);
@@ -300,11 +306,44 @@ public class UserServiceImpl implements UserService {
             }
         }
 
+        String portraitPath = "";
+        String portraitURI = "";
+        if (!rtcUserVO.getPortrait().equals(portrait)) {
+            // 删除原来头像文件，把临时头像文件夹里的文件放进头像文件夹，然后删除临时文件夹头像
+            String uuid = rtcUserVO.getUuid();
+            File tempFile = new File(portrait);
+            portraitPath = PORTRAIT + "/" + uuid + "/" + tempFile.getName();
+            portraitURI = PORTRAIT_URI + "/" + uuid + "/" + tempFile.getName();
+            File portraitFile = new File(portraitPath);
+            File[] files = portraitFile.listFiles();
+            if (files != null && files.length > 0) {
+                files[0].delete();
+            }
+            BufferedInputStream in = null;
+            try {
+                in = new BufferedInputStream(new FileInputStream(tempFile));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                return ResultData.FAIL(null, 905, "请重新上传头像");
+            }
+            BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(portraitFile));
+            byte[] bytes = new byte[1024 * 2];
+            while (in.read(bytes) > 0) {
+                out.write(bytes);
+            }
+            out.flush();
+            out.close();
+            in.close();
+            tempFile.delete();
+        }
+
         rtcUser.setId(rtcUserVO.getId());
         rtcUser.setPassword(null);
         rtcUser.setPhone(null);
         rtcUser.setCountryCode(null);
+        rtcUser.setPortrait(portraitURI);
         rtcUserMapper.updateByPrimaryKeySelective(rtcUser);
+
         RtcUserVO vo = rtcUserMapper.selectByPhoneOrAccount2RtcUserVO(nickname == null ? oldNickname : nickname);
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
@@ -565,6 +604,13 @@ public class UserServiceImpl implements UserService {
         return ResultData.SUCCESS(null, "修改手机号成功");
     }
 
+    /**
+     * 更换手机号-通过手机号发送验证码
+     *
+     * @param phone
+     * @param countryCode
+     * @return
+     */
     @Override
     public ResultData send4ChangePhone(String phone, String countryCode) {
         // todo 手机号格式校验
@@ -592,30 +638,53 @@ public class UserServiceImpl implements UserService {
 
 
     /**
-     * 上传头像
+     * 上传头像,返回头像的URL
      *
      * @param file
      * @return
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
-    public ResultData uploadPortrait(@RequestParam(name = "file", required = true) MultipartFile file) {
+    public ResultData uploadPortrait(MultipartFile file) throws Exception {
+        logger.info("uploadPortrait():{}", file);
         String name = file.getName();
         String originalFilename = file.getOriginalFilename();
         List<String> suffList = List.of("jpg", "jpeg", "png", "bmp");
-        if (!suffList.contains(originalFilename.substring(originalFilename.lastIndexOf(".") + 1))) {
+        String suffString = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
+        if (!suffList.contains(suffString)) {
             return ResultData.FAIL(null, 905, "头像文件格式错误");
         }
-
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(userDetails.getUsername());
         String uuid = rtcUserDTO.getUuid();
+        // 头像文件夹路径
+        File portraitPath = new File(PORTRAIT);
+        String filePath = PORTRAIT + "/" + uuid;
+        String tempPath = PORTRAIT + "/temp/" + uuid;
+        File portrait = new File(filePath);
+        File temp = new File(tempPath);
+        if (!portraitPath.exists()) {
+            return ResultData.FAIL(null, 500, "文件服务器错误");
+        }
+        if (!portrait.exists()) {
+            portrait.mkdir();
+        }
+        temp.mkdirs();
 
-        RtcUser rtcUser = new RtcUser();
-        rtcUser.setId(rtcUserDTO.getId());
-        rtcUser.setPortrait("");
-        rtcUserMapper.updateByPrimaryKeySelective(rtcUser);
-        return ResultData.SUCCESS(null, 200, "上传头像成功");
+        // 删除上一次上传的临时头像
+        File[] files = temp.listFiles();
+        if (files.length == 1) {
+            files[0].delete();
+        }
+
+        File portraitFile = File.createTempFile(LocalDate.now() + "-", "." + suffString, temp);
+        file.transferTo(portraitFile);
+
+        Map map = new HashMap();
+        map.put("portrait", portraitFile.getCanonicalPath());
+
+        return ResultData.SUCCESS(map, 200, "上传头像成功");
     }
 
     /**
