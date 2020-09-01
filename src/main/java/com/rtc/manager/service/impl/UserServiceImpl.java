@@ -308,34 +308,37 @@ public class UserServiceImpl implements UserService {
 
         String portraitPath = "";
         String portraitURI = "";
-        if (!rtcUserVO.getPortrait().equals(portrait)) {
-            // 删除原来头像文件，把临时头像文件夹里的文件放进头像文件夹，然后删除临时文件夹头像
-            String uuid = rtcUserVO.getUuid();
-            File tempFile = new File(portrait);
-            portraitPath = PORTRAIT + "/" + uuid + "/" + tempFile.getName();
-            portraitURI = PORTRAIT_URI + "/" + uuid + "/" + tempFile.getName();
-            File portraitFile = new File(portraitPath);
-            File[] files = portraitFile.listFiles();
-            if (files != null && files.length > 0) {
-                files[0].delete();
+        if (portrait != null) {
+            if (!portrait.equals(rtcUserVO.getPortrait())) {
+                // 删除原来头像文件，把临时头像文件夹里的文件放进头像文件夹，然后删除临时文件夹头像
+                String uuid = rtcUserVO.getUuid();
+                File tempFile = new File(portrait);
+                portraitPath = PORTRAIT + "/" + uuid + "/" + tempFile.getName();
+                portraitURI = PORTRAIT_URI + "/" + uuid + "/" + tempFile.getName();
+                File portraitFile = new File(portraitPath);
+                File[] files = portraitFile.listFiles();
+                if (files != null && files.length > 0) {
+                    files[0].delete();
+                }
+                BufferedInputStream in = null;
+                try {
+                    in = new BufferedInputStream(new FileInputStream(tempFile));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    return ResultData.FAIL(null, 905, "请重新上传头像");
+                }
+                BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(portraitFile));
+                byte[] bytes = new byte[1024 * 2];
+                while (in.read(bytes) > 0) {
+                    out.write(bytes);
+                }
+                out.flush();
+                out.close();
+                in.close();
+                tempFile.delete();
             }
-            BufferedInputStream in = null;
-            try {
-                in = new BufferedInputStream(new FileInputStream(tempFile));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                return ResultData.FAIL(null, 905, "请重新上传头像");
-            }
-            BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(portraitFile));
-            byte[] bytes = new byte[1024 * 2];
-            while (in.read(bytes) > 0) {
-                out.write(bytes);
-            }
-            out.flush();
-            out.close();
-            in.close();
-            tempFile.delete();
         }
+
 
         rtcUser.setId(rtcUserVO.getId());
         rtcUser.setPassword(null);
