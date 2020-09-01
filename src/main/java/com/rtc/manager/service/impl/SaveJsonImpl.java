@@ -926,10 +926,11 @@ public class SaveJsonImpl implements SaveJson {
                             vietnamBusinessActivitiesMapper.insertSelective(vietnamBusinessActivities);
                         }
                     }
-                    logger.info("json文件导入成功，文件是{}", file.getName());
-                    reader.close();
-                    bis.close();
+
                 }
+                logger.info("json文件导入成功，文件是{}", file.getName());
+                reader.close();
+                bis.close();
             }
         }
     }
