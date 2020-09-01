@@ -336,6 +336,8 @@ public class UserServiceImpl implements UserService {
                 out.close();
                 in.close();
                 tempFile.delete();
+                File tempDir = new File(PORTRAIT + "/temp/" + uuid);
+                tempDir.delete();
             }
         }
 
