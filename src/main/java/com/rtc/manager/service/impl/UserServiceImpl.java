@@ -294,6 +294,7 @@ public class UserServiceImpl implements UserService {
         RtcUserVO rtcUserVO = rtcUserMapper.selectByPhoneOrAccount2RtcUserVO(account);
         String oldNickname = rtcUserVO.getNickname();
         String nicknameToken = authHeader;
+        String oldPortrait = rtcUserVO.getPortrait();
 
         if (nickname != null) {
             // 验证昵称格式
@@ -312,14 +313,11 @@ public class UserServiceImpl implements UserService {
             if (!portrait.equals(rtcUserVO.getPortrait())) {
                 // 删除原来头像文件，把临时头像文件夹里的文件放进头像文件夹，然后删除临时文件夹头像
                 String uuid = rtcUserVO.getUuid();
+                portrait = PORTRAIT + "/temp/" + uuid + "/" + portrait.substring(portrait.indexOf("/temp/") + "/temp/".length());
                 File tempFile = new File(portrait);
                 portraitPath = PORTRAIT + "/" + uuid + "/" + tempFile.getName();
                 portraitURI = PORTRAIT_URI + "/" + uuid + "/" + tempFile.getName();
                 File portraitFile = new File(portraitPath);
-                File[] files = portraitFile.listFiles();
-                if (files != null && files.length > 0) {
-                    files[0].delete();
-                }
                 BufferedInputStream in = null;
                 try {
                     in = new BufferedInputStream(new FileInputStream(tempFile));
@@ -335,9 +333,16 @@ public class UserServiceImpl implements UserService {
                 out.flush();
                 out.close();
                 in.close();
+                // 删除临时头像
                 tempFile.delete();
                 File tempDir = new File(PORTRAIT + "/temp/" + uuid);
                 tempDir.delete();
+                // 删除原来头像
+                if (oldPortrait != null) {
+                    oldPortrait = PORTRAIT + "/" + oldPortrait.substring(oldPortrait.indexOf("/portrait/") + "/portrait/".length());
+                    File file = new File(oldPortrait);
+                    file.delete();
+                }
             }
         }
 
@@ -687,7 +692,7 @@ public class UserServiceImpl implements UserService {
         file.transferTo(portraitFile);
 
         Map map = new HashMap();
-        map.put("portrait", portraitFile.getCanonicalPath());
+        map.put("portrait", PORTRAIT_URI + "/temp/" + portraitFile.getName());
 
         return ResultData.SUCCESS(map, 200, "上传头像成功");
     }

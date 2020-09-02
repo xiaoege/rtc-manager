@@ -18,7 +18,7 @@ spring:
           writetimeout: 30
   servlet:
     multipart:
-      max-file-size: 2MB
+      max-file-size: 5MB
 
 server:
   port: 9981
@@ -48,9 +48,10 @@ rtc:
   mail:
     redisEmailLimt: 1000
   portrait:
-#    实际保存位置
+    #    "/Users/chenhang/work/portrait"
+    #    实际保存位置
     "/home/work/portrait"
-#  对外暴露位置
+  #  对外暴露位置
   portraitURI:
     "http://192.168.1.125/portrait"
 
