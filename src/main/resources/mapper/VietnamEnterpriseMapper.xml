@@ -200,4 +200,50 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
+  <resultMap id="selectIndiaEnterpriseMap" type="com.rtc.manager.vo.vietnam.VietnamEnterpriseVO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName" />
+    <result column="enterprise_name_in_foreign_language" jdbcType="VARCHAR" property="enterpriseNameInForeignLanguage" />
+    <result column="enterprise_short_name" jdbcType="VARCHAR" property="enterpriseShortName" />
+    <result column="enterpirse_status" jdbcType="VARCHAR" property="enterpirseStatus" />
+    <result column="enterprise_code" jdbcType="VARCHAR" property="enterpriseCode" />
+    <result column="legal_type" jdbcType="VARCHAR" property="legalType" />
+    <result column="founding_date" jdbcType="VARCHAR" property="foundingDate" />
+    <result column="representative_first_name" jdbcType="VARCHAR" property="representativeFirstName" />
+    <result column="head_office_address" jdbcType="VARCHAR" property="headOfficeAddress" />
+    <collection property="vsciList" ofType="com.rtc.manager.vo.vietnam.VietnamBusinessActivitiesVO">
+      <id column="vba_id" jdbcType="INTEGER" property="id" />
+      <result column="vba_enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+      <result column="vba_code" jdbcType="VARCHAR" property="code" />
+      <result column="vba_name" jdbcType="VARCHAR" property="name" />
+    </collection>
+  </resultMap>
+
+  <select id="selectIndiaEnterprise" resultMap="selectIndiaEnterpriseMap">
+        SELECT
+            vietnam_enterprise.id,
+            vietnam_enterprise.enterprise_id,
+            vietnam_enterprise.enterprise_name,
+            vietnam_enterprise.enterprise_name_in_foreign_language,
+            vietnam_enterprise.enterprise_short_name,
+            vietnam_enterprise.enterpirse_status,
+            vietnam_enterprise.enterprise_code,
+            vietnam_enterprise.legal_type,
+            vietnam_enterprise.founding_date,
+            vietnam_enterprise.representative_first_name,
+            vietnam_enterprise.head_office_address,
+            vietnam_business_activities.id AS vba_id,
+            vietnam_business_activities.enterprise_id AS vba_enterprise_id,
+            vietnam_business_activities.`code` AS vba_code,
+            vietnam_business_activities.`name` AS vba_name
+        FROM
+            vietnam_enterprise
+            LEFT JOIN vietnam_business_activities ON vietnam_enterprise.enterprise_id = vietnam_business_activities.enterprise_id
+        WHERE
+            vietnam_enterprise.enterprise_id = #{enterpriseId}
+            AND vietnam_enterprise.`status` = 1
+        ORDER BY
+            vietnam_enterprise.id,vietnam_business_activities.id
+  </select>
 </mapper>

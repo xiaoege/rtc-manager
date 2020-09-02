@@ -14,4 +14,6 @@ public interface VietnamEnterpriseMapper {
     int updateByPrimaryKeySelective(VietnamEnterprise record);
 
     int updateByPrimaryKey(VietnamEnterprise record);
+
+    Object selectIndiaEnterprise(String enterpriseId);
 }

@@ -41,9 +41,33 @@ public class EnterpriseController {
      * @return
      */
     @ApiOperation(value = "搜索企业-列表")
-    @ApiImplicitParams({@ApiImplicitParam(name = "name", value = "企业名", required = true),
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d",paramType = "header", required = true,example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
+            @ApiImplicitParam(name = "name", value = "企业名，参数示例：China:南京，India:banana，Vietnam:viet", required = true),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false, defaultValue = "1"),
-            @ApiImplicitParam(name = "pageSize", value = "当前页大小", required = false, defaultValue = "20")})
+            @ApiImplicitParam(name = "pageSize", value = "当前页大小", required = false, defaultValue = "20")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "{\n" +
+                    "\"message\": \"请求成功\",\n" +
+                    "\"data\": {\n" +
+                    "\"total\": 4,\n" +
+                    "\"pageSize\": 20,\n" +
+                    "\"list\": [{\n" +
+                    "\"nation\": \"China\",\n" +
+                    "\"pid\": 6326,\n" +
+                    "\"enterpriseId\": \"a29f22683e08421581defa47168bd44b\",\n" +
+                    "\"legalRepresentative\": \"潘崇福\",\n" +
+                    "\"establishmentDate\": \"2008-12-29\",\n" +
+                    "\"address\": \"南京市溧水区永阳镇高塘村东山边村60号\",\n" +
+                    "\"e_type\": \"China\",\n" +
+                    "\"e_name\": \"南京崇福物流有限公司\"\n" +
+                    "}],\n" +
+                    "\"pageNum\": 0\n" +
+                    "},\n" +
+                    "\"code\": 200\n" +
+                    "}")
+    })
     @GetMapping("listEnterprise")
     public ResultData<SearchEnterpriseListVO> listEnterprise(@RequestParam(name = "name", required = true) String name,
                                                              @RequestParam(name = "pageNum", required = false, defaultValue = "0") int pageNum,
@@ -72,9 +96,11 @@ public class EnterpriseController {
      */
     @ApiOperation("企业详情")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d",paramType = "header", required = true,example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
             @ApiImplicitParam(name = "enterpriseId", value = "企业id", required = true),
-            @ApiImplicitParam(name = "nation", value = "国家：China / India", required = true),
-            @ApiImplicitParam(name = "e_type", value = "企业类型，对应国家：China.China / India.[cin, llpin]", required = true)})
+            @ApiImplicitParam(name = "nation", value = "国家：China / India / Vietnam", required = true),
+            @ApiImplicitParam(name = "e_type", value = "企业类型，对应国家：China.China / India.[cin, llpin] / Vietnam.Vietnam", required = true)
+    })
     @GetMapping("getEnterprise")
     public ResultData<Object> getEnterprise(@RequestParam(name = "enterpriseId", required = true) String enterpriseId,
                                             @RequestParam(name = "nation", required = true) String nation,
@@ -100,12 +126,15 @@ public class EnterpriseController {
      * @return
      */
     @ApiOperation("五大类-列表")
-    @ApiImplicitParams({@ApiImplicitParam(name = "name", value = "类别", required = true),
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d",paramType = "header", required = true,example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
+            @ApiImplicitParam(name = "name", value = "类别", required = true),
             @ApiImplicitParam(name = "enterpriseId", value = "企业id", required = true),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false),
             @ApiImplicitParam(name = "pageSize", value = "当前页大小", required = false),
             @ApiImplicitParam(name = "nation", value = "国家：China", required = false),
-            @ApiImplicitParam(name = "e_type", value = "企业类型，对应国家：China.China", required = false)})
+            @ApiImplicitParam(name = "e_type", value = "企业类型，对应国家：China.China", required = false)
+    })
     @GetMapping("getEnterpriseDetail")
     public ResultData<Object> getEnterpriseDetail(@RequestParam(name = "name", required = true) String name,
                                                   @RequestParam(name = "enterpriseId", required = true) String enterpriseId,
@@ -146,13 +175,16 @@ public class EnterpriseController {
      * @return
      */
     @ApiOperation("五大类-详情")
-    @ApiImplicitParams({@ApiImplicitParam(name = "name", value = "类别", required = true),
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d",paramType = "header", required = true,example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
+            @ApiImplicitParam(name = "name", value = "类别", required = true),
             @ApiImplicitParam(name = "pid", value = "详情id", required = false),
             @ApiImplicitParam(name = "enterpriseId", value = "企业id", required = false),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false),
             @ApiImplicitParam(name = "pageSize", value = "当前页大小", required = false),
             @ApiImplicitParam(name = "nation", value = "国家：China", required = false),
-            @ApiImplicitParam(name = "e_type", value = "企业类型，对应国家：China.China", required = false)})
+            @ApiImplicitParam(name = "e_type", value = "企业类型，对应国家：China.China", required = false)
+    })
     @GetMapping("getEnterpriseSubDetailMuti")
     public ResultData<Object> getEnterpriseSubDetailMuti(@RequestParam(name = "name", required = true) String name,
                                                          @RequestParam(name = "pid", required = false) Integer id,
@@ -198,4 +230,5 @@ public class EnterpriseController {
         Object vo = india.getIndiaEnterprise(enterpriseId, eType);
         return ResultData.SUCCESS(vo);
     }
+
 }

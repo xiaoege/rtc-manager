@@ -7,6 +7,7 @@ import com.rtc.manager.dao.QccMapper;
 import com.rtc.manager.dao.QccSubDetailMapper;
 import com.rtc.manager.service.India;
 import com.rtc.manager.service.Qcc;
+import com.rtc.manager.service.Vietnam;
 import com.rtc.manager.util.CommonUtils;
 import com.rtc.manager.vo.*;
 import com.rtc.manager.vo.india.IndiaCinListVO;
@@ -56,9 +57,12 @@ public class QccImpl implements Qcc {
     @Autowired
     private India india;
 
+    @Autowired
+    private Vietnam vietnam;
+
     @Override
     public ResultData listEnterprise(String name, int pageNum, int pageSize) throws Exception {
-        SearchRequest searchRequest = new SearchRequest("china", "india-cin", "india-llpin");
+        SearchRequest searchRequest = new SearchRequest("china", "india-cin", "india-llpin", "vietnam");
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.size(pageSize);
         searchSourceBuilder.from(pageNum * pageSize);
@@ -271,6 +275,8 @@ public class QccImpl implements Qcc {
                 return o;
             case "India":
                 return india.getIndiaEnterprise(enterpriseId, eType);
+            case "Vietnam":
+                return vietnam.getIndiaEnterprise(enterpriseId);
         }
         return null;
     }

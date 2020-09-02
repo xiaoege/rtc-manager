@@ -138,7 +138,7 @@ public class UserController {
      */
     @ApiOperation(value = "修改用户基本信息", notes = "成功后返回该用户的最新信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9b8dc8b599368836ed7deb163e01ded1", paramType = "header"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d",paramType = "header", required = true,example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
             @ApiImplicitParam(name = "user", value = "参数示例：{\n" +
                     "    \"nickname\": \"miaopasi\",\n" +
                     "    \"synopsis\": \"喵\",\n" +
@@ -188,7 +188,7 @@ public class UserController {
      */
     @ApiOperation(value = "根据原始密码修改密码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9b8dc8b599368836ed7deb163e01ded1", paramType = "header"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d",paramType = "header", required = true,example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
             @ApiImplicitParam(name = "user", value = "参数示例：{\n" +
                     "    \"oldPassword\":\"asd\",\n" +
                     "    \"newPassword\":\"asd111\",\n" +
@@ -329,7 +329,7 @@ public class UserController {
      */
     @ApiOperation(value = "更换手机号-通过手机号发送验证码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9b8dc8b599368836ed7deb163e01ded1", paramType = "header"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d",paramType = "header", required = true,example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
             @ApiImplicitParam(name = "user", value = "参数示例：{\n" +
                     "    \"phone\":\"777\",\n" +
                     "    \"countryCode\":\"+86\"\n" +
@@ -359,7 +359,7 @@ public class UserController {
      */
     @ApiOperation(value = "更换手机号,更换成功后删除验证码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9b8dc8b599368836ed7deb163e01ded1", paramType = "header"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d",paramType = "header", required = true,example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
             @ApiImplicitParam(name = "user", value = "参数示例：{\n" +
                     "    \"phone\": \"777\",\n" +
                     "    \"countryCode\": \"asd\",\n" +
@@ -382,7 +382,7 @@ public class UserController {
      */
     @ApiOperation(value = "上传头像,返回头像的URL")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9b8dc8b599368836ed7deb163e01ded1", paramType = "header"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d",paramType = "header", required = true,example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
             @ApiImplicitParam(name = "file", value = "后缀名是jpg,jpeg,png,bmp格式的图片,大小在2MB以内", paramType = "form", dataType = "__file")
     })
     @ApiResponses({
@@ -438,7 +438,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "登出，此文档仅供参考，不可在swagger里调用，调用请使用/logout路径", notes = "参数放在header里")
-    @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9b8dc8b599368836ed7deb163e01ded1", paramType = "header")
+    @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d",paramType = "header", required = true,example = "Bearer 3dd563cf6464cb6878746969b37b582d")
     @ApiResponses(
             @ApiResponse(code = 200, message = "{\n" +
                     "    \"code\": 200,\n" +
@@ -457,7 +457,7 @@ public class UserController {
      * @return
      */
     @ApiOperation(value = "查询用户信息", notes = "参数在header里")
-    @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9b8dc8b599368836ed7deb163e01ded1", paramType = "header")
+    @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d",paramType = "header", required = true,example = "Bearer 3dd563cf6464cb6878746969b37b582d")
     @ApiResponses({
             @ApiResponse(code = 200, message = "{\n" +
                     "    \"message\": \"请求成功\",\n" +
