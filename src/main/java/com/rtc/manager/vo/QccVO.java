@@ -19,6 +19,7 @@ public class QccVO {
     @ApiModelProperty("企业id")
     private String enterpriseId;
     @ApiModelProperty("企业名")
+    @JsonSetter("e_name")
     private String name;
     @ApiModelProperty("注册资本")
     private String registeredCapital;

@@ -12,11 +12,14 @@ public class IndiaLlpinVO {
     private Integer id;
     private String enterpriseId;
     private String llpin;
+    @JsonSetter("e_name")
     private String llpName;
     private String numberOfPartners;
     private String numberOfDesignatedPartners;
     private String rocCode;
+    @JsonSetter("establishmentDate")
     private String dateOfIncorporation;
+    @JsonSetter("address")
     private String registratedAddress;
     private String emailId;
     private String previousFirm;

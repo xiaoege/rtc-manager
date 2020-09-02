@@ -12,6 +12,7 @@ public class IndiaCinVO {
     private Integer id;
     private String enterpriseId;
     private String cin;
+    @JsonSetter("e_name")
     private String companyName;
     private String rocCode;
     private String registrationNumber;
@@ -21,6 +22,7 @@ public class IndiaCinVO {
     private String authorisedCapital;
     private String paidUpCapital;
     private String numberOfMembers;
+    @JsonSetter("establishmentDate")
     private String dateOfIncorporation;
     private String emailId;
     private String whetherListedOrNot;
@@ -29,5 +31,6 @@ public class IndiaCinVO {
     private String dateOfLastAgm;
     private String dateOfBalanceSheet;
     private String companyStatus;
+    @JsonSetter("address")
     private String registeredAddress;
 }

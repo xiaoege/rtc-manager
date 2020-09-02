@@ -11,7 +11,7 @@ public class VietnamEnterpriseVO {
     private Integer id;
 
     private String enterpriseId;
-
+    @JsonSetter("e_name")
     private String enterpriseName;
 
     private String enterpriseNameInForeignLanguage;
@@ -23,11 +23,11 @@ public class VietnamEnterpriseVO {
     private String enterpriseCode;
 
     private String legalType;
-
+    @JsonSetter("establishmentDate")
     private String foundingDate;
 
     private String representativeFirstName;
-
+    @JsonSetter("address")
     private String headOfficeAddress;
 
     private List<VietnamBusinessActivitiesVO> vsciList;
