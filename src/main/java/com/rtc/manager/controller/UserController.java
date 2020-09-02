@@ -140,12 +140,12 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9b8dc8b599368836ed7deb163e01ded1", paramType = "header"),
             @ApiImplicitParam(name = "user", value = "参数示例：{\n" +
-                    "    \"nickname\":\"miaopasi\",\n" +
-                    "    \"synopsis\":\"喵\",\n" +
-                    "    \"country\":\"喵\",\n" +
-                    "    \"enterprise\":\"喵\",\n" +
-                    "    \"address\":\"喵\",\n" +
-                    "    \"portrait\":\"http://192.168.1.125/portrait/temp/2020-09-01-363159222557607733.png\"\n" +
+                    "    \"nickname\": \"miaopasi\",\n" +
+                    "    \"synopsis\": \"喵\",\n" +
+                    "    \"country\": \"喵\",\n" +
+                    "    \"enterprise\": \"喵\",\n" +
+                    "    \"address\": \"喵\",\n" +
+                    "    \"portrait\": \"http://192.168.1.125/portrait/temp/dc410238-c5cc-4ad3-8e2f-96e0b145b239/2020-09-02-9643372645178440190.png\"\n" +
                     "}", paramType = "body")
     })
     @ApiResponses({
@@ -155,15 +155,15 @@ public class UserController {
                     "        \"role\": \"ROLE_USER\",\n" +
                     "        \"user\": {\n" +
                     "            \"nickname\": \"miaopasi\",\n" +
-                    "            \"phone\": \"333\",\n" +
-                    "            \"countryCode\": \"+86\",\n" +
-                    "            \"email\": \"ad\",\n" +
+                    "            \"phone\": \"996\",\n" +
+                    "            \"countryCode\": \"\",\n" +
+                    "            \"email\": null,\n" +
                     "            \"synopsis\": \"喵\",\n" +
                     "            \"country\": \"喵\",\n" +
                     "            \"enterprise\": \"喵\",\n" +
                     "            \"address\": \"喵\",\n" +
-                    "            \"portrait\": \"http://192.168.1.125/portrait/8f2928ea-377e-4141-803b-129d5942acb5/2020-09-01-363159222557607733.png\",\n" +
-                    "            \"pid\": 45\n" +
+                    "            \"portrait\": \"http://192.168.1.125/portrait/dc410238-c5cc-4ad3-8e2f-96e0b145b239/2020-09-02-9643372645178440190.png\",\n" +
+                    "            \"pid\": 35\n" +
                     "        },\n" +
                     "        \"account\": \"miaopasi\"\n" +
                     "    },\n" +
@@ -389,7 +389,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "{\n" +
                     "    \"message\": \"上传头像成功\",\n" +
                     "    \"data\": {\n" +
-                    "        \"portrait\": \"http://192.168.1.125/portrait/temp/2020-09-01-363159222557607733.png\"\n" +
+                    "        \"portrait\": \"http://192.168.1.125/portrait/temp/dc410238-c5cc-4ad3-8e2f-96e0b145b239/2020-09-02-9643372645178440190.png\"\n" +
                     "    },\n" +
                     "    \"code\": 200\n" +
                     "}"),
