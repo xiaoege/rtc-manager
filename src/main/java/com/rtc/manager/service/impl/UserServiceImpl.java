@@ -692,7 +692,7 @@ public class UserServiceImpl implements UserService {
         file.transferTo(portraitFile);
 
         Map map = new HashMap();
-        map.put("portrait", PORTRAIT_URI + "/temp/" + portraitFile.getName());
+        map.put("portrait", PORTRAIT_URI + "/temp/" + uuid + "/" + portraitFile.getName());
 
         return ResultData.SUCCESS(map, 200, "上传头像成功");
     }
