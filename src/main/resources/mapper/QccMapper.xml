@@ -258,7 +258,7 @@
         qcc.id,
         qcc.enterprise_id,
         IF
-	( qbi.english_name = '-', qcc.NAME, qbi.english_name ) name,
+	( qbi.english_name != '-' OR qbi.english_name != NULL, qbi.english_name, qcc.NAME ) NAME,
         qbi.registered_capital,
         qbi.legal_representative,
         qbi.establishment_date,

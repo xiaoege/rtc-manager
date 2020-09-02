@@ -249,23 +249,25 @@ public class QccImpl implements Qcc {
                 if (qccVO != null) {
                     String transferMoney = CommonUtils.transferMoney(qccVO.getRegisteredCapital());
                     qccVO.setRegisteredCapital(transferMoney);
-                    String address = CommonUtils.translate(qccVO.getAddress(), "zh", "en");
-                    String name = CommonUtils.translate(qccVO.getName(), "zh", "en");
+//                    String address = CommonUtils.translate(qccVO.getAddress(), "zh", "en");
+//                    String name = CommonUtils.translate(qccVO.getName(), "zh", "en");
+                    String name = qccVO.getName();
                     name = CommonUtils.nameFormat(name);
-                    String legalRepresentative = CommonUtils.translate(qccVO.getLegalRepresentative(), "zh", "en");
+//                    String legalRepresentative = CommonUtils.translate(qccVO.getLegalRepresentative(), "zh", "en");
+                    String legalRepresentative = qccVO.getLegalRepresentative();
                     legalRepresentative = CommonUtils.nameFormat(legalRepresentative);
-                    String synopsis = CommonUtils.translate(qccVO.getSynopsis(), "zh", "en");
-                    String countryRegion = CommonUtils.translate(qccVO.getCountryRegion(), "zh", "en");
-                    qccVO.setAddress(address);
+//                    String synopsis = CommonUtils.translate(qccVO.getSynopsis(), "zh", "en");
+//                    String countryRegion = CommonUtils.translate(qccVO.getCountryRegion(), "zh", "en");
+//                    qccVO.setAddress(address);
                     qccVO.setName(name);
                     qccVO.setLegalRepresentative(legalRepresentative);
-                    qccVO.setSynopsis(synopsis);
-                    qccVO.setCountryRegion(countryRegion);
+//                    qccVO.setSynopsis(synopsis);
+//                    qccVO.setCountryRegion(countryRegion);
                     List<QccShareholderVO> shareholderVOList = qccVO.getShareholderList();
                     if (!CollectionUtils.isEmpty(shareholderVOList)) {
                         for (int i = 0; i < shareholderVOList.size(); i++) {
                             QccShareholderVO qccShareholderVO = shareholderVOList.get(i);
-                            name = CommonUtils.translate(qccShareholderVO.getName(), "zh", "en");
+//                            name = CommonUtils.translate(qccShareholderVO.getName(), "zh", "en");
                             name = CommonUtils.nameFormat(name);
                             qccShareholderVO.setName(name);
                         }
