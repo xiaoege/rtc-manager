@@ -313,7 +313,7 @@ public class UserServiceImpl implements UserService {
             if (!portrait.equals(rtcUserVO.getPortrait())) {
                 // 删除原来头像文件，把临时头像文件夹里的文件放进头像文件夹，然后删除临时文件夹头像
                 String uuid = rtcUserVO.getUuid();
-                portrait = PORTRAIT + "/temp/" + uuid + "/" + portrait.substring(portrait.indexOf("/temp/") + "/temp/".length());
+                portrait = PORTRAIT + "/temp/" + portrait.substring(portrait.indexOf("/temp/") + "/temp/".length());
                 File tempFile = new File(portrait);
                 portraitPath = PORTRAIT + "/" + uuid + "/" + tempFile.getName();
                 portraitURI = PORTRAIT_URI + "/" + uuid + "/" + tempFile.getName();
