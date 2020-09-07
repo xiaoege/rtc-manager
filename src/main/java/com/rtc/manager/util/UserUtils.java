@@ -34,9 +34,9 @@ public class UserUtils {
     private final static Pattern PATTERN_EMAIL = Pattern.compile("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$");
 
     /**
-     * 验证昵称，可以有字母，数字，下划线，点。5-30个字符之间，不能以Comcheck开头，只能以字母开头
+     * 验证昵称，可以有字母，数字，下划线，点。3-30个字符之间，不能以Comcheck开头，只能以字母开头
      */
-    private final static Pattern PATTERN_NICKNAME = Pattern.compile("^[A-Za-z][A-Za-z0-9_.]{4,29}$");
+    private final static Pattern PATTERN_NICKNAME = Pattern.compile("^[A-Za-z][A-Za-z0-9_.]{2,29}$");
 
     /**
      * 验证密码，可以有字母，数字，5-15个字符之间，只能以字母开头
@@ -178,7 +178,7 @@ public class UserUtils {
     }
 
     /**
-     * 校验昵称格式，可以有字母，数字，下划线，点，5-30个字符之间，不能以Comcheck开头，只能以字母开头
+     * 校验昵称格式，可以有字母，数字，下划线，点，3-30个字符之间，不能以Comcheck开头，只能以字母开头
      *
      * @param nickname
      */

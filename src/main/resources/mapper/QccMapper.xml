@@ -391,10 +391,6 @@
         qcc_annual_report.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
         and `qcc_annual_report`.`enterprise_id` = #{enterpriseId, jdbcType=VARCHAR}
   </select>
-  <select id="listQccAnnualReportShareholderVO" resultType="com.rtc.manager.vo.QccAnnualReportShareholderVO">
-
-  </select>
-
 
   <select id="listQccGeneralTaxpayerVO" resultType="com.rtc.manager.vo.QccGeneralTaxpayerVO">
     select
@@ -738,5 +734,18 @@
         WHERE
             qcc_equity_out_pledge.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
             and qcc_equity_out_pledge.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    </select>
+
+    <select id="checkFavouriteQcc" resultType="java.lang.String">
+        SELECT
+            qcc.enterprise_id
+        FROM
+            qcc
+        WHERE
+            qcc.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+            and qcc.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+            and
+        EXISTS
+        (SELECT enterprise_id from rtc_user_favourite WHERE rtc_user_favourite.enterprise_id = qcc.enterprise_id)
     </select>
 </mapper>

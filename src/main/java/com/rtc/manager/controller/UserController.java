@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -138,7 +139,7 @@ public class UserController {
      */
     @ApiOperation(value = "修改用户基本信息", notes = "成功后返回该用户的最新信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d",paramType = "header", required = true,example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d", paramType = "header", required = true, example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
             @ApiImplicitParam(name = "user", value = "参数示例：{\n" +
                     "    \"nickname\": \"miaopasi\",\n" +
                     "    \"synopsis\": \"喵\",\n" +
@@ -188,7 +189,7 @@ public class UserController {
      */
     @ApiOperation(value = "根据原始密码修改密码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d",paramType = "header", required = true,example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d", paramType = "header", required = true, example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
             @ApiImplicitParam(name = "user", value = "参数示例：{\n" +
                     "    \"oldPassword\":\"asd\",\n" +
                     "    \"newPassword\":\"asd111\",\n" +
@@ -329,7 +330,7 @@ public class UserController {
      */
     @ApiOperation(value = "更换手机号-通过手机号发送验证码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d",paramType = "header", required = true,example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d", paramType = "header", required = true, example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
             @ApiImplicitParam(name = "user", value = "参数示例：{\n" +
                     "    \"phone\":\"777\",\n" +
                     "    \"countryCode\":\"+86\"\n" +
@@ -359,7 +360,7 @@ public class UserController {
      */
     @ApiOperation(value = "更换手机号,更换成功后删除验证码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d",paramType = "header", required = true,example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d", paramType = "header", required = true, example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
             @ApiImplicitParam(name = "user", value = "参数示例：{\n" +
                     "    \"phone\": \"777\",\n" +
                     "    \"countryCode\": \"asd\",\n" +
@@ -382,7 +383,7 @@ public class UserController {
      */
     @ApiOperation(value = "上传头像,返回头像的URL")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d",paramType = "header", required = true,example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d", paramType = "header", required = true, example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
             @ApiImplicitParam(name = "file", value = "后缀名是jpg,jpeg,png,bmp格式的图片,大小在2MB以内", paramType = "form", dataType = "__file")
     })
     @ApiResponses({
@@ -438,7 +439,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "登出，此文档仅供参考，不可在swagger里调用，调用请使用/logout路径", notes = "参数放在header里")
-    @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d",paramType = "header", required = true,example = "Bearer 3dd563cf6464cb6878746969b37b582d")
+    @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d", paramType = "header", required = true, example = "Bearer 3dd563cf6464cb6878746969b37b582d")
     @ApiResponses(
             @ApiResponse(code = 200, message = "{\n" +
                     "    \"code\": 200,\n" +
@@ -457,7 +458,7 @@ public class UserController {
      * @return
      */
     @ApiOperation(value = "查询用户信息", notes = "参数在header里")
-    @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d",paramType = "header", required = true,example = "Bearer 3dd563cf6464cb6878746969b37b582d")
+    @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d", paramType = "header", required = true, example = "Bearer 3dd563cf6464cb6878746969b37b582d")
     @ApiResponses({
             @ApiResponse(code = 200, message = "{\n" +
                     "    \"message\": \"请求成功\",\n" +
@@ -482,5 +483,77 @@ public class UserController {
     @GetMapping("getUserInformation")
     public ResultData getUserInformation(HttpServletRequest request) {
         return userService.getUserInformation(request);
+    }
+
+    /**
+     * 添加到收藏夹/从收藏夹移除
+     *
+     * @param body
+     * @return
+     */
+    @ApiOperation(value = "添加到收藏夹/从收藏夹移除")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d", paramType = "header", required = true, example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
+            @ApiImplicitParam(name = "body", value = "参数示例：{\n" +
+                    "    \"enterpriseId\":\"829f84ee2c0f404eb821f3cfca3f6a30\",\n" +
+                    "    \"nation\":\"India\",\n" +
+                    "    \"e_type\":\"llpin\"\n" +
+                    "}", paramType = "body", dataType = "string")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "{\n" +
+                    "    \"message\": \"移除收藏成功\",\n" +
+                    "    \"data\": 0,\n" +
+                    "    \"code\": 200\n" +
+                    "}或{\n" +
+                    "    \"message\": \"添加收藏成功\",\n" +
+                    "    \"data\": 1,\n" +
+                    "    \"code\": 200\n" +
+                    "}，data返回的是当前企业是否被当前用户所收藏，0未收藏，1收藏")
+    })
+    @PostMapping("modifyFavourite")
+    public ResultData modifyFavourite(@RequestBody String body) {
+        return userService.modifyFavourite(body);
+    }
+
+    /**
+     * 查看收藏夹列表，默认查看20个
+     *
+     * @return
+     */
+    @ApiOperation(value = "查看收藏夹列表，默认查看20个")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d", paramType = "header", required = true, example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
+            @ApiImplicitParam(name = "sort", value ="默认根据添加时间倒序排列，在此基础上可以选择国家排列。参数示例：nation，根据国家排列"),
+            @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false, defaultValue = "1"),
+            @ApiImplicitParam(name = "pageSize", value = "当前页大小", required = false, defaultValue = "20")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "{\n" +
+                    "    \"message\": \"请求成功\",\n" +
+                    "    \"data\": [\n" +
+                    "        {\n" +
+                    "            \"nation\": \"India\",\n" +
+                    "            \"pid\": 360,\n" +
+                    "            \"enterpriseId\": \"96cabb14df324335bc268e1b200082b7\",\n" +
+                    "            \"legalRepresentative\": null,\n" +
+                    "            \"establishmentDate\": \"25/01/2016\",\n" +
+                    "            \"address\": \"C 301, HARI OM SADAN, RATAN NAGAR, FOUR BUNGALOWS, ANDHERI (WEST) MUMBAI Mumbai City MH 400053 IN\",\n" +
+                    "            \"e_type\": \"llpin\",\n" +
+                    "            \"e_name\": \"9TH E FILMS LLP\"\n" +
+                    "        }, \"code\": 200\n" +
+                    "}")
+    })
+    @GetMapping("listFavourite")
+    public ResultData listFavourite(@RequestParam(name = "sort", required = false) String sort,
+                                    @RequestParam(name = "pageNum", required = false, defaultValue = "0") int pageNum,
+                                    @RequestParam(name = "pageSize", required = false, defaultValue = "20") int pageSize) throws IOException {
+        // 此处的pageNum在es里从0开始
+        if (pageNum < 2) {
+            pageNum = 0;
+        } else {
+            pageNum -= 1;
+        }
+        return userService.listFavourite(sort, pageNum, pageSize);
     }
 }

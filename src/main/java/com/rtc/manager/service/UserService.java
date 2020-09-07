@@ -5,6 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * @author ChenHang
@@ -110,4 +111,19 @@ public interface UserService {
      * @return
      */
     ResultData uploadPortrait(MultipartFile file) throws FileNotFoundException, Exception;
+
+    /**
+     * 添加到收藏夹/从收藏夹移除
+     * @param body
+     * @return
+     */
+    ResultData modifyFavourite(String body);
+
+
+    /**
+     * 查看收藏夹列表
+     *
+     * @return
+     */
+    ResultData listFavourite(String sort, int pageNum, int pageSize) throws IOException;
 }

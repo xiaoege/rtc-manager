@@ -272,6 +272,9 @@ public class QccImpl implements Qcc {
                             qccShareholderVO.setName(name);
                         }
                     }
+                    if (qccMapper.checkFavouriteQcc(enterpriseId) != null) {
+                        qccVO.setFavourite(1);
+                    }
                     o = qccVO;
                 }
                 return o;

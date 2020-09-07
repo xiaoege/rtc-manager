@@ -337,4 +337,17 @@
             rtc_user.uuid = #{uuid, jdbcType=VARCHAR}
             AND rtc_user.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
   </select>
+
+    <select id="checkFavourite" resultType="java.lang.Integer">
+        SELECT
+            rtc_user_favourite.id
+        FROM
+            rtc_user_favourite
+        WHERE
+            rtc_user_favourite.user_id = #{uuid, jdbcType=VARCHAR}
+        AND
+            rtc_user_favourite.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+        AND
+            rtc_user_favourite.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    </select>
 </mapper>

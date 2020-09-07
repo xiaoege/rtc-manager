@@ -2,14 +2,28 @@ package com.rtc.manager.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rtc.manager.dao.RtcUserFavouriteMapper;
 import com.rtc.manager.dao.RtcUserMapper;
 import com.rtc.manager.entity.RtcUser;
+import com.rtc.manager.entity.RtcUserFavourite;
 import com.rtc.manager.entity.dto.PhoneRegisterDTO;
 import com.rtc.manager.entity.dto.RtcUserDTO;
 import com.rtc.manager.service.UserService;
 import com.rtc.manager.util.UserUtils;
 import com.rtc.manager.vo.ResultData;
 import com.rtc.manager.vo.RtcUserVO;
+import com.rtc.manager.vo.SearchEnterpriseListVO;
+import org.apache.http.HttpHost;
+import org.apache.lucene.search.TotalHits;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.script.ScriptType;
+import org.elasticsearch.script.mustache.SearchTemplateRequest;
+import org.elasticsearch.script.mustache.SearchTemplateResponse;
+import org.elasticsearch.search.SearchHit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -26,6 +40,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,8 +64,15 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDetailServiceImpl userDetailService;
 
+    @Autowired
+    private RtcUserFavouriteMapper rtcUserFavouriteMapper;
+
     @Value("${rtc.portrait}")
     private String PORTRAIT;
+
+    RestHighLevelClient client = new RestHighLevelClient(
+            RestClient.builder(
+                    new HttpHost("localhost", 9200, "http")));
 
     Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -695,6 +717,109 @@ public class UserServiceImpl implements UserService {
         map.put("portrait", PORTRAIT_URI + "/temp/" + uuid + "/" + portraitFile.getName());
 
         return ResultData.SUCCESS(map, 200, "上传头像成功");
+    }
+
+    /**
+     * 添加到收藏夹/从收藏夹移除
+     *
+     * @param body
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public ResultData modifyFavourite(String body) {
+        logger.info("modifyFavourite(String body):{}", body);
+        // 防止重复提交
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        RtcUserFavourite rtcUserFavourite = new RtcUserFavourite();
+        try {
+            rtcUserFavourite = objectMapper.readValue(body, RtcUserFavourite.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return ResultData.FAIL(null, 400, "数据有误");
+        }
+        String enterpriseId = rtcUserFavourite.getEnterpriseId();
+        if (StringUtils.isEmpty(enterpriseId) || StringUtils.isEmpty(rtcUserFavourite.getNation())
+                || StringUtils.isEmpty(rtcUserFavourite.geteType())) {
+            return ResultData.FAIL(null, 400, "数据有误");
+        }
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(userDetails.getUsername());
+        // 判断添加还是移除
+        Integer favouriteId = rtcUserMapper.checkFavourite(rtcUserDTO.getUuid(), enterpriseId);
+        if (favouriteId != null) {
+            rtcUserFavouriteMapper.deleteByPrimaryKey(favouriteId);
+            return ResultData.SUCCESS(0, "移除收藏成功");
+        }
+
+        rtcUserFavourite.setUserId(rtcUserDTO.getUuid());
+        rtcUserFavouriteMapper.insertSelective(rtcUserFavourite);
+
+        return ResultData.SUCCESS(1, "添加收藏成功");
+    }
+
+    /**
+     * 查看收藏夹列表
+     *
+     * @param sort
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public ResultData listFavourite(String sort, int pageNum, int pageSize) throws IOException {
+        logger.info("listFavourite(String sort, int pageNum, int pageSize):{}, {}, {}", sort, pageNum, pageSize);
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(userDetails.getUsername());
+        String uuid = rtcUserDTO.getUuid();
+        List<Object> enterpriseIdList = rtcUserFavouriteMapper.selectFavourite(uuid, sort);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String enterpriseIdString = objectMapper.writeValueAsString(enterpriseIdList);
+
+        SearchTemplateRequest request = new SearchTemplateRequest();
+        request.setRequest(new SearchRequest("china", "india-cin", "india-llpin", "vietnam"));
+
+        request.setScriptType(ScriptType.INLINE);
+        request.setScript(
+                "{\n" +
+                        "  \"query\": {\n" +
+                        "    \"terms\": {\n" +
+                        "      \"{{field}}\": " + enterpriseIdString +
+                        "    }\n" +
+                        "  },\n" +
+                        "\"from\":{{from}},\n" +
+                        "\"size\":{{size}}\n" +
+                        "}");
+
+        Map<String, Object> scriptParams = new HashMap<>();
+        scriptParams.put("field", "enterprise_id");
+//        scriptParams.put("value", enterpriseIdString);
+        scriptParams.put("from", pageNum * pageSize);
+        scriptParams.put("size", pageSize);
+        request.setScriptParams(scriptParams);
+        SearchTemplateResponse response = client.searchTemplate(request, RequestOptions.DEFAULT);
+        SearchResponse searchResponse = response.getResponse();
+        List resultList = new ArrayList();
+        if (response != null) {
+            TotalHits totalHits = searchResponse.getHits().getTotalHits();
+            SearchHit[] hits = searchResponse.getHits().getHits();
+            if (totalHits.value > 0) {
+                for (int i = 0; i < hits.length; i++) {
+                    // 把从es获得的数据根据mysql的enterpriseId顺序排序
+                    SearchHit hit = hits[i];
+                    SearchEnterpriseListVO vo = objectMapper.readValue(hit.getSourceAsString(), SearchEnterpriseListVO.class);
+                    for (int j = 0; j < enterpriseIdList.size(); j++) {
+                        if (enterpriseIdList.get(j).equals(vo.getEnterpriseId())) {
+                            enterpriseIdList.set(j, vo);
+                        }
+                    }
+                }
+            }
+        }
+
+        return ResultData.SUCCESS(enterpriseIdList);
     }
 
     /**

@@ -91,7 +91,7 @@ public class SearchEnterpriseListVO {
     private String legalRepresentative;
     @JsonAlias({"establishment_date", "date_of_incorporation"})
     private String establishmentDate;
-    @JsonAlias({"registered_address", "address"})
+    @JsonAlias({"registered_address", "registrated_address"})
     private String address;
 //    @JsonAlias("country_region")
 //    private String countryRegion;

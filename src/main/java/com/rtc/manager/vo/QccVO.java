@@ -41,4 +41,5 @@ public class QccVO {
     private String countryRegion;
     @ApiModelProperty("国家")
     private String nation;
+    private int favourite;
 }

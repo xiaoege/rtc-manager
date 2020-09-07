@@ -2,6 +2,7 @@ package com.rtc.manager.vo;
 
 import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.Data;
+import com.rtc.manager.vo.QccAnnualReportShareholderVO;
 
 import java.util.List;
 
