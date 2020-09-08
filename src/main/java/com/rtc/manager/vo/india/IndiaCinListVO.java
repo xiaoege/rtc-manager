@@ -2,13 +2,11 @@ package com.rtc.manager.vo.india;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
 
 /**
  * @author ChenHang
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Data
 public class IndiaCinListVO {
 
     private String e_type;
@@ -54,4 +52,44 @@ public class IndiaCinListVO {
 //    @JsonAlias("registered_address")
 //    private String registeredAddress;
 
+
+    public String getE_type() {
+        return e_type;
+    }
+
+    public void setE_type(String e_type) {
+        this.e_type = e_type;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
+    }
+
+    public String getCin() {
+        return cin;
+    }
+
+    public void setCin(String cin) {
+        this.cin = cin;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getRocCode() {
+        return rocCode;
+    }
+
+    public void setRocCode(String rocCode) {
+        this.rocCode = rocCode;
+    }
 }

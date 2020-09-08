@@ -2,11 +2,9 @@ package com.rtc.manager.entity;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class QccTaxCredit {
     private Integer id;
@@ -30,4 +28,76 @@ public class QccTaxCredit {
 
     @JsonAlias("评价单位")
     private String evaluationCop;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getTaxpayerIdentificationNumber() {
+        return taxpayerIdentificationNumber;
+    }
+
+    public void setTaxpayerIdentificationNumber(String taxpayerIdentificationNumber) {
+        this.taxpayerIdentificationNumber = taxpayerIdentificationNumber;
+    }
+
+    public String getTaxCreditRank() {
+        return taxCreditRank;
+    }
+
+    public void setTaxCreditRank(String taxCreditRank) {
+        this.taxCreditRank = taxCreditRank;
+    }
+
+    public LocalDateTime getGmtCreate() {
+        return gmtCreate;
+    }
+
+    public void setGmtCreate(LocalDateTime gmtCreate) {
+        this.gmtCreate = gmtCreate;
+    }
+
+    public LocalDateTime getGmtModify() {
+        return gmtModify;
+    }
+
+    public void setGmtModify(LocalDateTime gmtModify) {
+        this.gmtModify = gmtModify;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getEvaluationCop() {
+        return evaluationCop;
+    }
+
+    public void setEvaluationCop(String evaluationCop) {
+        this.evaluationCop = evaluationCop;
+    }
 }

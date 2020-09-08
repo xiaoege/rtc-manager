@@ -2,11 +2,9 @@ package com.rtc.manager.entity;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
 
 import java.util.Date;
 
-@Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class QccAnnualReportShareholder {
     private Integer id;
@@ -42,4 +40,107 @@ public class QccAnnualReportShareholder {
 
     private Integer status;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
+    }
+
+    public String getAnnualReportUuid() {
+        return annualReportUuid;
+    }
+
+    public void setAnnualReportUuid(String annualReportUuid) {
+        this.annualReportUuid = annualReportUuid;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSubscribedCapital() {
+        return subscribedCapital;
+    }
+
+    public void setSubscribedCapital(String subscribedCapital) {
+        this.subscribedCapital = subscribedCapital;
+    }
+
+    public String getSubscribedCapitalDate() {
+        return subscribedCapitalDate;
+    }
+
+    public void setSubscribedCapitalDate(String subscribedCapitalDate) {
+        this.subscribedCapitalDate = subscribedCapitalDate;
+    }
+
+    public String getSubscribedCapitalWay() {
+        return subscribedCapitalWay;
+    }
+
+    public void setSubscribedCapitalWay(String subscribedCapitalWay) {
+        this.subscribedCapitalWay = subscribedCapitalWay;
+    }
+
+    public String getPaidCapital() {
+        return paidCapital;
+    }
+
+    public void setPaidCapital(String paidCapital) {
+        this.paidCapital = paidCapital;
+    }
+
+    public String getPaidCapitalDate() {
+        return paidCapitalDate;
+    }
+
+    public void setPaidCapitalDate(String paidCapitalDate) {
+        this.paidCapitalDate = paidCapitalDate;
+    }
+
+    public String getPaidCapitalWay() {
+        return paidCapitalWay;
+    }
+
+    public void setPaidCapitalWay(String paidCapitalWay) {
+        this.paidCapitalWay = paidCapitalWay;
+    }
+
+    public Date getGmtCreate() {
+        return gmtCreate;
+    }
+
+    public void setGmtCreate(Date gmtCreate) {
+        this.gmtCreate = gmtCreate;
+    }
+
+    public Date getGmtModify() {
+        return gmtModify;
+    }
+
+    public void setGmtModify(Date gmtModify) {
+        this.gmtModify = gmtModify;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 }

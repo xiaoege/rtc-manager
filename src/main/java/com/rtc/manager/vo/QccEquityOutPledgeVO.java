@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.Data;
 
-@Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class QccEquityOutPledgeVO {
     @JsonSetter("pid")
@@ -27,4 +26,75 @@ public class QccEquityOutPledgeVO {
     @JsonAlias("状态")
     private String pledgeStatus;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getPledgor() {
+        return pledgor;
+    }
+
+    public void setPledgor(String pledgor) {
+        this.pledgor = pledgor;
+    }
+
+    public String getPledgee() {
+        return pledgee;
+    }
+
+    public void setPledgee(String pledgee) {
+        this.pledgee = pledgee;
+    }
+
+    public String getEnterprise() {
+        return enterprise;
+    }
+
+    public void setEnterprise(String enterprise) {
+        this.enterprise = enterprise;
+    }
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
+    }
+
+    public String getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(String registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
+    public String getPledgeStatus() {
+        return pledgeStatus;
+    }
+
+    public void setPledgeStatus(String pledgeStatus) {
+        this.pledgeStatus = pledgeStatus;
+    }
 }

@@ -524,7 +524,7 @@ public class UserController {
     @ApiOperation(value = "查看收藏夹列表，默认查看20个")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d", paramType = "header", required = true, example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
-            @ApiImplicitParam(name = "sort", value ="默认根据添加时间倒序排列，在此基础上可以选择国家排列。参数示例：nation，根据国家排列"),
+            @ApiImplicitParam(name = "sort", value ="默认根据添加时间倒序排列，在此基础上可以选择国家/字母排列。参数示例：nation：根据国家排列。e_name：根据字母排列"),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false, defaultValue = "1"),
             @ApiImplicitParam(name = "pageSize", value = "当前页大小", required = false, defaultValue = "20")
     })
@@ -555,5 +555,15 @@ public class UserController {
             pageNum -= 1;
         }
         return userService.listFavourite(sort, pageNum, pageSize);
+    }
+
+    /**
+     * 新增评论
+     * @param body
+     * @return
+     */
+    @PostMapping("saveComment")
+    public ResultData saveComment(@RequestBody String body) {
+        return userService.saveComment(body);
     }
 }

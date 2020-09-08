@@ -126,4 +126,11 @@ public interface UserService {
      * @return
      */
     ResultData listFavourite(String sort, int pageNum, int pageSize) throws IOException;
+
+    /**
+     * 新增评论
+     * @param body
+     * @return
+     */
+    ResultData saveComment(String body);
 }

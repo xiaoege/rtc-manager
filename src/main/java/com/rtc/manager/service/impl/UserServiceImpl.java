@@ -2,13 +2,17 @@ package com.rtc.manager.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rtc.manager.dao.RtcUserCommentMapper;
 import com.rtc.manager.dao.RtcUserFavouriteMapper;
 import com.rtc.manager.dao.RtcUserMapper;
 import com.rtc.manager.entity.RtcUser;
+import com.rtc.manager.entity.RtcUserComment;
 import com.rtc.manager.entity.RtcUserFavourite;
 import com.rtc.manager.entity.dto.PhoneRegisterDTO;
 import com.rtc.manager.entity.dto.RtcUserDTO;
+import com.rtc.manager.entity.dto.UserCommentDTO;
 import com.rtc.manager.service.UserService;
+import com.rtc.manager.util.ElasticsearchUtils;
 import com.rtc.manager.util.UserUtils;
 import com.rtc.manager.vo.ResultData;
 import com.rtc.manager.vo.RtcUserVO;
@@ -40,6 +44,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -67,12 +73,16 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private RtcUserFavouriteMapper rtcUserFavouriteMapper;
 
+    @Autowired
+    private RtcUserCommentMapper rtcUserCommentMapper;
+
     @Value("${rtc.portrait}")
     private String PORTRAIT;
 
-    RestHighLevelClient client = new RestHighLevelClient(
-            RestClient.builder(
-                    new HttpHost("localhost", 9200, "http")));
+    @Value(("${rtc.commitLength}"))
+    private Integer COMMITLENGTH;
+
+    private final RestHighLevelClient client = ElasticsearchUtils.getClient();
 
     Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -798,16 +808,24 @@ public class UserServiceImpl implements UserService {
 //        scriptParams.put("value", enterpriseIdString);
         scriptParams.put("from", pageNum * pageSize);
         scriptParams.put("size", pageSize);
+        if ("e_name".equals(sort)) {
+            scriptParams.put("sort", "[\n" +
+                    "    {\n" +
+                    "      \"FIELD\": {\n" +
+                    "        \"order\": \"desc\"\n" +
+                    "      }\n" +
+                    "    }\n" +
+                    "  ]");
+        }
         request.setScriptParams(scriptParams);
         SearchTemplateResponse response = client.searchTemplate(request, RequestOptions.DEFAULT);
         SearchResponse searchResponse = response.getResponse();
-        List resultList = new ArrayList();
         if (response != null) {
             TotalHits totalHits = searchResponse.getHits().getTotalHits();
             SearchHit[] hits = searchResponse.getHits().getHits();
             if (totalHits.value > 0) {
                 for (int i = 0; i < hits.length; i++) {
-                    // 把从es获得的数据根据mysql的enterpriseId顺序排序
+                    // 把从es获得的数据根据mysql的enterpriseId顺序排序赋值
                     SearchHit hit = hits[i];
                     SearchEnterpriseListVO vo = objectMapper.readValue(hit.getSourceAsString(), SearchEnterpriseListVO.class);
                     for (int j = 0; j < enterpriseIdList.size(); j++) {
@@ -818,8 +836,61 @@ public class UserServiceImpl implements UserService {
                 }
             }
         }
+        if ("e_name".equals(sort) && !CollectionUtils.isEmpty(enterpriseIdList)) {
+            List<String> list = new ArrayList<>();
+            for (int i = 0; i < enterpriseIdList.size(); i++) {
+                SearchEnterpriseListVO o = (SearchEnterpriseListVO) enterpriseIdList.get(i);
+                list.add(o.getEName());
+            }
+            Collections.sort(list);
+            List<SearchEnterpriseListVO> resultList = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+                resultList.add(null);
+            }
+            for (int i = 0; i < list.size(); i++) {
+                for (int j = 0; j < enterpriseIdList.size(); j++) {
+                    SearchEnterpriseListVO o = (SearchEnterpriseListVO) enterpriseIdList.get(j);
+                    if (list.get(i).equals(o.getEName())) {
+                        resultList.set(i, o);
+                    }
+                }
+            }
+            return ResultData.SUCCESS(resultList);
+        }
 
         return ResultData.SUCCESS(enterpriseIdList);
+    }
+
+    /**
+     * 新增评论
+     *
+     * @param body
+     * @return
+     */
+    @Override
+    public ResultData saveComment(String body) {
+        logger.info("saveComment(String body):{}", body);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String comment;
+        UserCommentDTO commentDTO;
+        try {
+            commentDTO = objectMapper.readValue(body, UserCommentDTO.class);
+            comment = commentDTO.getComment();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return ResultData.FAIL(null, 400, "数据有误");
+        }
+        if (!ObjectUtils.isEmpty(comment) && comment.length() < COMMITLENGTH) {
+            RtcUserComment rtcUserComment = new RtcUserComment();
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(userDetails.getUsername());
+            rtcUserComment.setUserId(rtcUserDTO.getUuid());
+            BeanUtils.copyProperties(commentDTO, rtcUserComment);
+
+            rtcUserCommentMapper.insertSelective(rtcUserComment);
+            return ResultData.SUCCESS(null, "评论成功");
+        }
+        return ResultData.FAIL(null, 400);
     }
 
     /**

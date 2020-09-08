@@ -1,9 +1,7 @@
 package com.rtc.manager.vo;
 
 import com.fasterxml.jackson.annotation.JsonSetter;
-import lombok.Data;
 
-@Data
 public class QccWeiboVO {
     @JsonSetter("pid")
     private Integer id;
@@ -16,4 +14,43 @@ public class QccWeiboVO {
 
     private String briefIntroduction;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getIndustryCategory() {
+        return industryCategory;
+    }
+
+    public void setIndustryCategory(String industryCategory) {
+        this.industryCategory = industryCategory;
+    }
+
+    public String getBriefIntroduction() {
+        return briefIntroduction;
+    }
+
+    public void setBriefIntroduction(String briefIntroduction) {
+        this.briefIntroduction = briefIntroduction;
+    }
 }

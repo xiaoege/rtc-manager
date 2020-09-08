@@ -1,9 +1,7 @@
 package com.rtc.manager.vo;
 
 import com.fasterxml.jackson.annotation.JsonSetter;
-import lombok.Data;
 
-@Data
 public class QccImportExportCreditVO {
     @JsonSetter("pid")
     private Integer id;
@@ -18,4 +16,51 @@ public class QccImportExportCreditVO {
 
     private String content;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
+    }
+
+    public String getRegisteredCustoms() {
+        return registeredCustoms;
+    }
+
+    public void setRegisteredCustoms(String registeredCustoms) {
+        this.registeredCustoms = registeredCustoms;
+    }
+
+    public String getBusinessCategory() {
+        return businessCategory;
+    }
+
+    public void setBusinessCategory(String businessCategory) {
+        this.businessCategory = businessCategory;
+    }
+
+    public String getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(String registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }

@@ -18,5 +18,6 @@ public class BCryptTest {
 
 
         System.out.println("🐱");
+        Integer integer = 123901;
     }
 }

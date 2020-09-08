@@ -3,13 +3,11 @@ package com.rtc.manager.vo;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
-import lombok.Data;
 
 /**
  * @author ChenHang
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Data
 public class SearchEnterpriseListVO {
 
     @JsonAlias("e_type")
@@ -95,4 +93,69 @@ public class SearchEnterpriseListVO {
     private String address;
 //    @JsonAlias("country_region")
 //    private String countryRegion;
+
+
+    public String geteType() {
+        return eType;
+    }
+
+    public void seteType(String eType) {
+        this.eType = eType;
+    }
+
+    public String geteName() {
+        return eName;
+    }
+
+    public void seteName(String eName) {
+        this.eName = eName;
+    }
+
+    public String getNation() {
+        return nation;
+    }
+
+    public void setNation(String nation) {
+        this.nation = nation;
+    }
+
+    public Integer getPid() {
+        return pid;
+    }
+
+    public void setPid(Integer pid) {
+        this.pid = pid;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
+    }
+
+    public String getLegalRepresentative() {
+        return legalRepresentative;
+    }
+
+    public void setLegalRepresentative(String legalRepresentative) {
+        this.legalRepresentative = legalRepresentative;
+    }
+
+    public String getEstablishmentDate() {
+        return establishmentDate;
+    }
+
+    public void setEstablishmentDate(String establishmentDate) {
+        this.establishmentDate = establishmentDate;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 }

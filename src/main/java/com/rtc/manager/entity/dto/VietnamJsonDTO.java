@@ -3,12 +3,10 @@ package com.rtc.manager.entity.dto;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.rtc.manager.entity.vietnam.VietnamBusinessActivities;
-import lombok.Data;
 
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Data
 public class VietnamJsonDTO {
     private Integer id;
 
@@ -34,4 +32,99 @@ public class VietnamJsonDTO {
     @JsonAlias("business activities")
     private List<VietnamBusinessActivities> vietnamBusinessActivitiesList;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
+    }
+
+    public String getEnterpriseName() {
+        return enterpriseName;
+    }
+
+    public void setEnterpriseName(String enterpriseName) {
+        this.enterpriseName = enterpriseName;
+    }
+
+    public String getEnterpriseNameInForeignLanguage() {
+        return enterpriseNameInForeignLanguage;
+    }
+
+    public void setEnterpriseNameInForeignLanguage(String enterpriseNameInForeignLanguage) {
+        this.enterpriseNameInForeignLanguage = enterpriseNameInForeignLanguage;
+    }
+
+    public String getEnterpriseShortName() {
+        return enterpriseShortName;
+    }
+
+    public void setEnterpriseShortName(String enterpriseShortName) {
+        this.enterpriseShortName = enterpriseShortName;
+    }
+
+    public String getEnterpirseStatus() {
+        return enterpirseStatus;
+    }
+
+    public void setEnterpirseStatus(String enterpirseStatus) {
+        this.enterpirseStatus = enterpirseStatus;
+    }
+
+    public String getEnterpriseCode() {
+        return enterpriseCode;
+    }
+
+    public void setEnterpriseCode(String enterpriseCode) {
+        this.enterpriseCode = enterpriseCode;
+    }
+
+    public String getLegalType() {
+        return legalType;
+    }
+
+    public void setLegalType(String legalType) {
+        this.legalType = legalType;
+    }
+
+    public String getFoundingDate() {
+        return foundingDate;
+    }
+
+    public void setFoundingDate(String foundingDate) {
+        this.foundingDate = foundingDate;
+    }
+
+    public String getRepresentativeFirstName() {
+        return representativeFirstName;
+    }
+
+    public void setRepresentativeFirstName(String representativeFirstName) {
+        this.representativeFirstName = representativeFirstName;
+    }
+
+    public String getHeadOfficeAddress() {
+        return headOfficeAddress;
+    }
+
+    public void setHeadOfficeAddress(String headOfficeAddress) {
+        this.headOfficeAddress = headOfficeAddress;
+    }
+
+    public List<VietnamBusinessActivities> getVietnamBusinessActivitiesList() {
+        return vietnamBusinessActivitiesList;
+    }
+
+    public void setVietnamBusinessActivitiesList(List<VietnamBusinessActivities> vietnamBusinessActivitiesList) {
+        this.vietnamBusinessActivitiesList = vietnamBusinessActivitiesList;
+    }
 }

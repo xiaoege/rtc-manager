@@ -3,11 +3,7 @@ package com.rtc.manager.vo;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
-import lombok.Data;
 
-import java.time.LocalDateTime;
-
-@Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class QccFilingInformationVO {
     @JsonSetter("pid")
@@ -25,5 +21,59 @@ public class QccFilingInformationVO {
     @JsonAlias("立案日期")
     private String filingDate;
 
+    public Integer getId() {
+        return id;
+    }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getProsecutor() {
+        return prosecutor;
+    }
+
+    public void setProsecutor(String prosecutor) {
+        this.prosecutor = prosecutor;
+    }
+
+    public String getDefendant() {
+        return defendant;
+    }
+
+    public void setDefendant(String defendant) {
+        this.defendant = defendant;
+    }
+
+    public String getCourtName() {
+        return courtName;
+    }
+
+    public void setCourtName(String courtName) {
+        this.courtName = courtName;
+    }
+
+    public String getFilingDate() {
+        return filingDate;
+    }
+
+    public void setFilingDate(String filingDate) {
+        this.filingDate = filingDate;
+    }
 }

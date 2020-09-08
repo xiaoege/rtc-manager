@@ -1,11 +1,8 @@
 package com.rtc.manager.vo;
 
-import lombok.Data;
-
 /**
  * @author ChenHang
  */
-@Data
 public class EnterpriseListResultData<T> {
     private String message;
     private T data;
@@ -44,5 +41,53 @@ public class EnterpriseListResultData<T> {
     public static <T> EnterpriseListResultData FAIL(T t, Integer code, String message) {
         EnterpriseListResultData<T> resultData = new EnterpriseListResultData<T>(t, code, message);
         return resultData;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
+    public long getTotal() {
+        return total;
+    }
+
+    public void setTotal(long total) {
+        this.total = total;
+    }
+
+    public int getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(int pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
     }
 }

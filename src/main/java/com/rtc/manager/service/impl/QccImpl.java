@@ -9,6 +9,7 @@ import com.rtc.manager.service.India;
 import com.rtc.manager.service.Qcc;
 import com.rtc.manager.service.Vietnam;
 import com.rtc.manager.util.CommonUtils;
+import com.rtc.manager.util.ElasticsearchUtils;
 import com.rtc.manager.vo.*;
 import com.rtc.manager.vo.india.IndiaCinListVO;
 import com.rtc.manager.vo.india.IndiaLlpinLIstVO;
@@ -44,9 +45,7 @@ public class QccImpl implements Qcc {
 
     Logger logger = LoggerFactory.getLogger(QccImpl.class);
 
-    RestHighLevelClient client = new RestHighLevelClient(
-            RestClient.builder(
-                    new HttpHost("localhost", 9200, "http")));
+    private final RestHighLevelClient client = ElasticsearchUtils.getClient();
 
     @Autowired
     private QccMapper qccMapper;

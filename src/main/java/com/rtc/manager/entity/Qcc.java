@@ -3,12 +3,10 @@ package com.rtc.manager.entity;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
 
 import java.util.Date;
 import java.util.HashMap;
 
-@Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Qcc {
     private Integer id;
@@ -63,4 +61,164 @@ public class Qcc {
     private String synopsis;
 
     private String nation;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
+    }
+
+    public String getRtcEnterpriseUuid() {
+        return rtcEnterpriseUuid;
+    }
+
+    public void setRtcEnterpriseUuid(String rtcEnterpriseUuid) {
+        this.rtcEnterpriseUuid = rtcEnterpriseUuid;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCountryRegion() {
+        return countryRegion;
+    }
+
+    public void setCountryRegion(String countryRegion) {
+        this.countryRegion = countryRegion;
+    }
+
+    public HashMap getBasicInformation() {
+        return basicInformation;
+    }
+
+    public void setBasicInformation(HashMap basicInformation) {
+        this.basicInformation = basicInformation;
+    }
+
+    public HashMap getLegalProceeding() {
+        return legalProceeding;
+    }
+
+    public void setLegalProceeding(HashMap legalProceeding) {
+        this.legalProceeding = legalProceeding;
+    }
+
+    public HashMap getBusinessStatus() {
+        return businessStatus;
+    }
+
+    public void setBusinessStatus(HashMap businessStatus) {
+        this.businessStatus = businessStatus;
+    }
+
+    public HashMap getBusinessRisk() {
+        return businessRisk;
+    }
+
+    public void setBusinessRisk(HashMap businessRisk) {
+        this.businessRisk = businessRisk;
+    }
+
+    public HashMap getEnterpriseDevelopment() {
+        return enterpriseDevelopment;
+    }
+
+    public void setEnterpriseDevelopment(HashMap enterpriseDevelopment) {
+        this.enterpriseDevelopment = enterpriseDevelopment;
+    }
+
+    public HashMap getIntellectualProperty() {
+        return intellectualProperty;
+    }
+
+    public void setIntellectualProperty(HashMap intellectualProperty) {
+        this.intellectualProperty = intellectualProperty;
+    }
+
+    public Date getGmtCreate() {
+        return gmtCreate;
+    }
+
+    public void setGmtCreate(Date gmtCreate) {
+        this.gmtCreate = gmtCreate;
+    }
+
+    public Date getGmtModify() {
+        return gmtModify;
+    }
+
+    public void setGmtModify(Date gmtModify) {
+        this.gmtModify = gmtModify;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getSynopsis() {
+        return synopsis;
+    }
+
+    public void setSynopsis(String synopsis) {
+        this.synopsis = synopsis;
+    }
+
+    public String getNation() {
+        return nation;
+    }
+
+    public void setNation(String nation) {
+        this.nation = nation;
+    }
 }

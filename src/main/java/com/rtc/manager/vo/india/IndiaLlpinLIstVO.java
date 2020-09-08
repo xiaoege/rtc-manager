@@ -8,7 +8,6 @@ import lombok.Data;
  * @author ChenHang
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Data
 public class IndiaLlpinLIstVO {
     private String e_type;
 
@@ -20,4 +19,44 @@ public class IndiaLlpinLIstVO {
     private String companyName;
     @JsonAlias("roc_code")
     private String rocCode;
+
+    public String getE_type() {
+        return e_type;
+    }
+
+    public void setE_type(String e_type) {
+        this.e_type = e_type;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
+    }
+
+    public String getLlpin() {
+        return llpin;
+    }
+
+    public void setLlpin(String llpin) {
+        this.llpin = llpin;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getRocCode() {
+        return rocCode;
+    }
+
+    public void setRocCode(String rocCode) {
+        this.rocCode = rocCode;
+    }
 }

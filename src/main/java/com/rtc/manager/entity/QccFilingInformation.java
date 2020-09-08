@@ -6,7 +6,6 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class QccFilingInformation {
     private Integer id;
@@ -29,4 +28,83 @@ public class QccFilingInformation {
 
     private Integer status;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getProsecutor() {
+        return prosecutor;
+    }
+
+    public void setProsecutor(String prosecutor) {
+        this.prosecutor = prosecutor;
+    }
+
+    public String getDefendant() {
+        return defendant;
+    }
+
+    public void setDefendant(String defendant) {
+        this.defendant = defendant;
+    }
+
+    public String getCourtName() {
+        return courtName;
+    }
+
+    public void setCourtName(String courtName) {
+        this.courtName = courtName;
+    }
+
+    public String getFilingDate() {
+        return filingDate;
+    }
+
+    public void setFilingDate(String filingDate) {
+        this.filingDate = filingDate;
+    }
+
+    public LocalDateTime getGmtCreate() {
+        return gmtCreate;
+    }
+
+    public void setGmtCreate(LocalDateTime gmtCreate) {
+        this.gmtCreate = gmtCreate;
+    }
+
+    public LocalDateTime getGmtModify() {
+        return gmtModify;
+    }
+
+    public void setGmtModify(LocalDateTime gmtModify) {
+        this.gmtModify = gmtModify;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 }

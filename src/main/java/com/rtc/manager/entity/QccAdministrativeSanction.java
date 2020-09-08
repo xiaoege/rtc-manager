@@ -2,11 +2,9 @@ package com.rtc.manager.entity;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class QccAdministrativeSanction {
     private Integer id;
@@ -46,4 +44,115 @@ public class QccAdministrativeSanction {
     @JsonAlias("处罚日期")
     private String punishmentDate;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
+    }
+
+    public String getDetermineDocumentNumber() {
+        return determineDocumentNumber;
+    }
+
+    public void setDetermineDocumentNumber(String determineDocumentNumber) {
+        this.determineDocumentNumber = determineDocumentNumber;
+    }
+
+    public String getViolationsType() {
+        return violationsType;
+    }
+
+    public void setViolationsType(String violationsType) {
+        this.violationsType = violationsType;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getPublicationDate() {
+        return publicationDate;
+    }
+
+    public void setPublicationDate(String publicationDate) {
+        this.publicationDate = publicationDate;
+    }
+
+    public String getDecisionMakingOrgan() {
+        return decisionMakingOrgan;
+    }
+
+    public void setDecisionMakingOrgan(String decisionMakingOrgan) {
+        this.decisionMakingOrgan = decisionMakingOrgan;
+    }
+
+    public String getDecisionDate() {
+        return decisionDate;
+    }
+
+    public void setDecisionDate(String decisionDate) {
+        this.decisionDate = decisionDate;
+    }
+
+    public LocalDateTime getGmtCreate() {
+        return gmtCreate;
+    }
+
+    public void setGmtCreate(LocalDateTime gmtCreate) {
+        this.gmtCreate = gmtCreate;
+    }
+
+    public LocalDateTime getGmtModify() {
+        return gmtModify;
+    }
+
+    public void setGmtModify(LocalDateTime gmtModify) {
+        this.gmtModify = gmtModify;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getPunishmentUnit() {
+        return punishmentUnit;
+    }
+
+    public void setPunishmentUnit(String punishmentUnit) {
+        this.punishmentUnit = punishmentUnit;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public String getPunishmentDate() {
+        return punishmentDate;
+    }
+
+    public void setPunishmentDate(String punishmentDate) {
+        this.punishmentDate = punishmentDate;
+    }
 }

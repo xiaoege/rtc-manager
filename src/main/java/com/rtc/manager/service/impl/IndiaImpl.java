@@ -5,6 +5,7 @@ import com.rtc.manager.dao.IndiaCinMapper;
 import com.rtc.manager.dao.IndiaLlpinMapper;
 import com.rtc.manager.service.India;
 import com.rtc.manager.util.CommonUtils;
+import com.rtc.manager.util.ElasticsearchUtils;
 import com.rtc.manager.vo.india.*;
 import org.apache.http.HttpHost;
 import org.elasticsearch.action.search.MultiSearchRequest;
@@ -33,9 +34,7 @@ public class IndiaImpl implements India {
 
     Logger logger = LoggerFactory.getLogger(ElasticsearchImpl.class);
 
-    RestHighLevelClient client = new RestHighLevelClient(
-            RestClient.builder(
-                    new HttpHost("localhost", 9200, "http")));
+    private final RestHighLevelClient client = ElasticsearchUtils.getClient();
 
     @Autowired
     private IndiaCinMapper indiaCinMapper;
