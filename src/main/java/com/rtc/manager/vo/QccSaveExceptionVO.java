@@ -3,7 +3,6 @@ package com.rtc.manager.vo;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 public class QccSaveExceptionVO {
-    @JsonSetter("pid")
     private Integer id;
 
     private String enterpriseId;
@@ -17,7 +16,7 @@ public class QccSaveExceptionVO {
     public Integer getId() {
         return id;
     }
-
+    @JsonSetter("pid")
     public void setId(Integer id) {
         this.id = id;
     }

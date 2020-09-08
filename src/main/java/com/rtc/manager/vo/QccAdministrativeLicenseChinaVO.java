@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class QccAdministrativeLicenseChinaVO {
-    @JsonSetter("pid")
     private Integer id;
 
     private String enterpriseId;
@@ -20,7 +19,7 @@ public class QccAdministrativeLicenseChinaVO {
     public Integer getId() {
         return id;
     }
-
+    @JsonSetter("pid")
     public void setId(Integer id) {
         this.id = id;
     }

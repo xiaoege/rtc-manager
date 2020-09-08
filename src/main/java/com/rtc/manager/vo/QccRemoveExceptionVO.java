@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.Data;
 
 public class QccRemoveExceptionVO {
-    @JsonSetter("pid")
     private Integer id;
 
     private String enterpriseId;
@@ -20,7 +19,7 @@ public class QccRemoveExceptionVO {
     public Integer getId() {
         return id;
     }
-
+    @JsonSetter("pid")
     public void setId(Integer id) {
         this.id = id;
     }

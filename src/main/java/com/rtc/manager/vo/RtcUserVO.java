@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonSetter;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RtcUserVO {
-    @JsonSetter("pid")
     private Integer id;
     private String nickname;
     private String phone;
@@ -31,7 +30,7 @@ public class RtcUserVO {
     public Integer getId() {
         return id;
     }
-
+    @JsonSetter("pid")
     public void setId(Integer id) {
         this.id = id;
     }

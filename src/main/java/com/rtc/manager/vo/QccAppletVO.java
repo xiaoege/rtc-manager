@@ -3,7 +3,6 @@ package com.rtc.manager.vo;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 public class QccAppletVO {
-    @JsonSetter("pid")
     private Integer id;
 
     private String enterpriseId;
@@ -19,7 +18,7 @@ public class QccAppletVO {
     public Integer getId() {
         return id;
     }
-
+    @JsonSetter("pid")
     public void setId(Integer id) {
         this.id = id;
     }

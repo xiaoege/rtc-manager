@@ -3,7 +3,6 @@ package com.rtc.manager.vo;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 public class QccLandPurchaseInformationVO {
-    @JsonSetter("pid")
     private Integer id;
 
     private String enterpriseId;
@@ -23,7 +22,7 @@ public class QccLandPurchaseInformationVO {
     public Integer getId() {
         return id;
     }
-
+    @JsonSetter("pid")
     public void setId(Integer id) {
         this.id = id;
     }

@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @ApiModel("股东")
 public class QccShareholderVO {
-    @JsonSetter("pid")
+
     private Integer id;
     @ApiModelProperty("企业id")
     private String enterpriseId;
@@ -25,7 +25,7 @@ public class QccShareholderVO {
     public Integer getId() {
         return id;
     }
-
+    @JsonSetter("pid")
     public void setId(Integer id) {
         this.id = id;
     }

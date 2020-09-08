@@ -5,11 +5,9 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import java.util.List;
 
 public class VietnamEnterpriseVO {
-    @JsonSetter("pid")
     private Integer id;
 
     private String enterpriseId;
-    @JsonSetter("e_name")
     private String enterpriseName;
 
     private String enterpriseNameInForeignLanguage;
@@ -21,11 +19,9 @@ public class VietnamEnterpriseVO {
     private String enterpriseCode;
 
     private String legalType;
-    @JsonSetter("establishmentDate")
     private String foundingDate;
 
     private String representativeFirstName;
-    @JsonSetter("address")
     private String headOfficeAddress;
 
     private List<VietnamBusinessActivitiesVO> vsciList;
@@ -34,6 +30,7 @@ public class VietnamEnterpriseVO {
         return id;
     }
 
+    @JsonSetter("pid")
     public void setId(Integer id) {
         this.id = id;
     }
@@ -50,6 +47,7 @@ public class VietnamEnterpriseVO {
         return enterpriseName;
     }
 
+    @JsonSetter("e_name")
     public void setEnterpriseName(String enterpriseName) {
         this.enterpriseName = enterpriseName;
     }
@@ -97,7 +95,7 @@ public class VietnamEnterpriseVO {
     public String getFoundingDate() {
         return foundingDate;
     }
-
+    @JsonSetter("establishmentDate")
     public void setFoundingDate(String foundingDate) {
         this.foundingDate = foundingDate;
     }
@@ -114,6 +112,7 @@ public class VietnamEnterpriseVO {
         return headOfficeAddress;
     }
 
+    @JsonSetter("address")
     public void setHeadOfficeAddress(String headOfficeAddress) {
         this.headOfficeAddress = headOfficeAddress;
     }

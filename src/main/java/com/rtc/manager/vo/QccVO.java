@@ -13,12 +13,11 @@ import java.util.List;
  */
 @ApiModel("企业详情")
 public class QccVO {
-    @JsonSetter("pid")
+
     private Integer id;
     @ApiModelProperty("企业id")
     private String enterpriseId;
     @ApiModelProperty("企业名")
-    @JsonSetter("e_name")
     private String name;
     @ApiModelProperty("注册资本")
     private String registeredCapital;
@@ -42,10 +41,12 @@ public class QccVO {
     private String nation;
     private int favourite;
 
+    private List<RtcUserCommentVO> commentList;
+
     public Integer getId() {
         return id;
     }
-
+    @JsonSetter("pid")
     public void setId(Integer id) {
         this.id = id;
     }
@@ -61,7 +62,7 @@ public class QccVO {
     public String getName() {
         return name;
     }
-
+    @JsonSetter("e_name")
     public void setName(String name) {
         this.name = name;
     }
@@ -152,5 +153,13 @@ public class QccVO {
 
     public void setFavourite(int favourite) {
         this.favourite = favourite;
+    }
+
+    public List<RtcUserCommentVO> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(List<RtcUserCommentVO> commentList) {
+        this.commentList = commentList;
     }
 }

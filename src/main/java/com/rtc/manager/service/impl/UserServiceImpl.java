@@ -15,6 +15,7 @@ import com.rtc.manager.service.UserService;
 import com.rtc.manager.util.ElasticsearchUtils;
 import com.rtc.manager.util.UserUtils;
 import com.rtc.manager.vo.ResultData;
+import com.rtc.manager.vo.RtcUserCommentVO;
 import com.rtc.manager.vo.RtcUserVO;
 import com.rtc.manager.vo.SearchEnterpriseListVO;
 import org.apache.http.HttpHost;
@@ -840,7 +841,7 @@ public class UserServiceImpl implements UserService {
             List<String> list = new ArrayList<>();
             for (int i = 0; i < enterpriseIdList.size(); i++) {
                 SearchEnterpriseListVO o = (SearchEnterpriseListVO) enterpriseIdList.get(i);
-                list.add(o.getEName());
+                list.add(o.geteName());
             }
             Collections.sort(list);
             List<SearchEnterpriseListVO> resultList = new ArrayList<>();
@@ -850,7 +851,7 @@ public class UserServiceImpl implements UserService {
             for (int i = 0; i < list.size(); i++) {
                 for (int j = 0; j < enterpriseIdList.size(); j++) {
                     SearchEnterpriseListVO o = (SearchEnterpriseListVO) enterpriseIdList.get(j);
-                    if (list.get(i).equals(o.getEName())) {
+                    if (list.get(i).equals(o.geteName())) {
                         resultList.set(i, o);
                     }
                 }

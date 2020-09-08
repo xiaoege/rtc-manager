@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonSetter;
  * @author ChenHang
  */
 public class RtcEnterpriseVO {
-    @JsonSetter("pid")
     private Integer id;
 
     private String uuid;
@@ -34,7 +33,7 @@ public class RtcEnterpriseVO {
     public Integer getId() {
         return id;
     }
-
+    @JsonSetter("pid")
     public void setId(Integer id) {
         this.id = id;
     }

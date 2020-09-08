@@ -6,18 +6,14 @@ import com.fasterxml.jackson.annotation.JsonSetter;
  * @author ChenHang
  */
 public class IndiaLlpinVO {
-    @JsonSetter("pid")
     private Integer id;
     private String enterpriseId;
     private String llpin;
-    @JsonSetter("e_name")
     private String llpName;
     private String numberOfPartners;
     private String numberOfDesignatedPartners;
     private String rocCode;
-    @JsonSetter("establishmentDate")
     private String dateOfIncorporation;
-    @JsonSetter("address")
     private String registratedAddress;
     private String emailId;
     private String previousFirm;
@@ -31,7 +27,7 @@ public class IndiaLlpinVO {
     public Integer getId() {
         return id;
     }
-
+    @JsonSetter("pid")
     public void setId(Integer id) {
         this.id = id;
     }
@@ -55,7 +51,7 @@ public class IndiaLlpinVO {
     public String getLlpName() {
         return llpName;
     }
-
+    @JsonSetter("e_name")
     public void setLlpName(String llpName) {
         this.llpName = llpName;
     }
@@ -87,7 +83,7 @@ public class IndiaLlpinVO {
     public String getDateOfIncorporation() {
         return dateOfIncorporation;
     }
-
+    @JsonSetter("establishmentDate")
     public void setDateOfIncorporation(String dateOfIncorporation) {
         this.dateOfIncorporation = dateOfIncorporation;
     }
@@ -95,7 +91,7 @@ public class IndiaLlpinVO {
     public String getRegistratedAddress() {
         return registratedAddress;
     }
-
+    @JsonSetter("address")
     public void setRegistratedAddress(String registratedAddress) {
         this.registratedAddress = registratedAddress;
     }

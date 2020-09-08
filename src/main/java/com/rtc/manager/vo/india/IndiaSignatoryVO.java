@@ -7,7 +7,6 @@ import lombok.Data;
  * @author ChenHang
  */
 public class IndiaSignatoryVO {
-    @JsonSetter("pid")
     private Integer id;
     private String enterpriseId;
     private String dinPan;
@@ -19,7 +18,7 @@ public class IndiaSignatoryVO {
     public Integer getId() {
         return id;
     }
-
+    @JsonSetter("pid")
     public void setId(Integer id) {
         this.id = id;
     }

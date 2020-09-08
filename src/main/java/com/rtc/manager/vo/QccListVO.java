@@ -11,7 +11,6 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel("搜索企业-列表")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class QccListVO {
-    @JsonSetter("pid")
     private Integer id;
     @ApiModelProperty("企业id")
     private String enterpriseId;
@@ -33,7 +32,7 @@ public class QccListVO {
     public Integer getId() {
         return id;
     }
-
+    @JsonSetter("pid")
     public void setId(Integer id) {
         this.id = id;
     }

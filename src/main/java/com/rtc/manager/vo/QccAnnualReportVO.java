@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import java.util.List;
 
 public class QccAnnualReportVO {
-    @JsonSetter("pid")
     private Integer id;
 
     private String uuid;
@@ -65,7 +64,7 @@ public class QccAnnualReportVO {
     public Integer getId() {
         return id;
     }
-
+    @JsonSetter("pid")
     public void setId(Integer id) {
         this.id = id;
     }

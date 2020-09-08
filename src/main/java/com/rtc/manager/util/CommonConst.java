@@ -14,4 +14,18 @@ public class CommonConst {
      */
     public static final Integer STATUS_NOT_USED = 0;
 
+    /**
+     * 评论-未审核
+     */
+    public static final Integer STATUS_COMMENT_NOT_EXAMINED = 0;
+
+    /**
+     * 评论-审核通过
+     */
+    public static final Integer STATUS_COMMENT_EXAMINED = 1;
+
+    /**
+     * 评论-审核不通过
+     */
+    public static final Integer STATUS_COMMENT_DENY = 2;
 }

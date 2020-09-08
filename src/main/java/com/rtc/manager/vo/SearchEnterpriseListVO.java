@@ -11,11 +11,9 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 public class SearchEnterpriseListVO {
 
     @JsonAlias("e_type")
-    @JsonSetter("e_type")
     private String eType;
 
     @JsonAlias("e_name")
-    @JsonSetter("e_name")
     private String eName;
 
     private String nation;
@@ -98,7 +96,7 @@ public class SearchEnterpriseListVO {
     public String geteType() {
         return eType;
     }
-
+    @JsonSetter("e_type")
     public void seteType(String eType) {
         this.eType = eType;
     }
@@ -106,7 +104,7 @@ public class SearchEnterpriseListVO {
     public String geteName() {
         return eName;
     }
-
+    @JsonSetter("e_name")
     public void seteName(String eName) {
         this.eName = eName;
     }

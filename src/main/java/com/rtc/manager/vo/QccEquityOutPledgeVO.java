@@ -7,7 +7,6 @@ import lombok.Data;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class QccEquityOutPledgeVO {
-    @JsonSetter("pid")
     private Integer id;
 
     private String enterpriseId;
@@ -29,7 +28,7 @@ public class QccEquityOutPledgeVO {
     public Integer getId() {
         return id;
     }
-
+    @JsonSetter("pid")
     public void setId(Integer id) {
         this.id = id;
     }

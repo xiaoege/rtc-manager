@@ -1,0 +1,48 @@
+package com.rtc.manager.vo;
+
+import com.fasterxml.jackson.annotation.JsonSetter;
+
+import java.time.LocalDateTime;
+
+/**
+ * @author ChenHang
+ */
+public class RtcUserCommentVO {
+    private Integer id;
+    private String comment;
+    private LocalDateTime gmtCreate;
+    private String nickname;
+
+    public Integer getId() {
+        return id;
+    }
+
+    @JsonSetter("commentId")
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public LocalDateTime getGmtCreate() {
+        return gmtCreate;
+    }
+
+    public void setGmtCreate(LocalDateTime gmtCreate) {
+        this.gmtCreate = gmtCreate;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+}

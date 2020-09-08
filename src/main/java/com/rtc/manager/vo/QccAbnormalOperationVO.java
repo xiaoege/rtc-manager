@@ -8,7 +8,6 @@ import java.util.List;
  * @author ChenHang
  */
 public class QccAbnormalOperationVO {
-    @JsonSetter("pid")
     private Integer id;
 
     private String enterpriseId;
@@ -20,7 +19,7 @@ public class QccAbnormalOperationVO {
     public Integer getId() {
         return id;
     }
-
+    @JsonSetter("pid")
     public void setId(Integer id) {
         this.id = id;
     }

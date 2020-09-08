@@ -3,7 +3,6 @@ package com.rtc.manager.vo.vietnam;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 public class VietnamBusinessActivitiesVO {
-    @JsonSetter("pid")
     private Integer id;
 
     private String enterpriseId;
@@ -15,7 +14,7 @@ public class VietnamBusinessActivitiesVO {
     public Integer getId() {
         return id;
     }
-
+    @JsonSetter("pid")
     public void setId(Integer id) {
         this.id = id;
     }
