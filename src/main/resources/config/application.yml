@@ -54,7 +54,12 @@ rtc:
   #  对外暴露位置
   portraitURI:
     "http://192.168.1.125/portrait"
-
-
+  # 评论长度限制
+  commitLength:
+    1000
+  verificationCodeTTL:
+    15
+#ca: {wa: 1, ca: 2}
+arr: [1, 3, 5]
 
 

@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.rtc.manager.dao.QccMapper;
 import com.rtc.manager.dao.QccSubDetailMapper;
+import com.rtc.manager.dao.RtcUserCommentMapper;
 import com.rtc.manager.service.India;
 import com.rtc.manager.service.Qcc;
 import com.rtc.manager.service.Vietnam;
@@ -58,6 +59,9 @@ public class QccImpl implements Qcc {
 
     @Autowired
     private Vietnam vietnam;
+
+    @Autowired
+    private RtcUserCommentMapper rtcUserCommentMapper;
 
     @Override
     public ResultData listEnterprise(String name, int pageNum, int pageSize) throws Exception {
@@ -245,6 +249,10 @@ public class QccImpl implements Qcc {
         switch (nation) {
             case "China":
                 QccVO qccVO = qccMapper.selectByEnterpriseId(enterpriseId);
+                List<RtcUserCommentVO> commentList = rtcUserCommentMapper.selectCommentByEnterpriseId(enterpriseId);
+                if (!CollectionUtils.isEmpty(commentList)) {
+                    qccVO.setCommentList(commentList);
+                }
                 if (qccVO != null) {
                     String transferMoney = CommonUtils.transferMoney(qccVO.getRegisteredCapital());
                     qccVO.setRegisteredCapital(transferMoney);

@@ -150,4 +150,22 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectCommentByEnterpriseId" resultType="com.rtc.manager.vo.RtcUserCommentVO">
+    SELECT
+        rtc_user_comment.id,
+        rtc_user_comment.comment comment,
+        rtc_user_comment.gmt_create gmtCreate,
+        rtc_user.nickname nickname
+    FROM
+        rtc_user_comment
+        LEFT JOIN rtc_user ON rtc_user_comment.user_id = rtc_user.uuid
+    WHERE
+        rtc_user_comment.enterprise_id = #{enterpriseId,jdbcType=VARCHAR}
+        AND rtc_user_comment.`status` =  ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+	    AND rtc_user_comment.examination = ${@com.rtc.manager.util.CommonConst@STATUS_COMMENT_EXAMINED}
+    ORDER BY
+        rtc_user_comment.gmt_create DESC,
+        rtc_user_comment.id DESC
+  </select>
 </mapper>

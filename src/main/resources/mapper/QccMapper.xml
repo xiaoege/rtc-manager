@@ -251,12 +251,6 @@
       <result property="subscribedCapital" column="qs_subscribed_capital" jdbcType="VARCHAR"/>
       <result property="subscribedCapitalDate" column="qs_subscribed_capital_date" jdbcType="VARCHAR"/>
     </collection>
-      <collection property="commentList" ofType="com.rtc.manager.vo.RtcUserCommentVO">
-          <id property="id" column="ruc_id" jdbcType="INTEGER"/>
-          <result property="comment" column="ruc_comment" jdbcType="VARCHAR"/>
-          <result property="gmtCreate" column="ruc_gmt_create" jdbcType="TIMESTAMP"/>
-          <result property="nickname" column="ruc_nickname" jdbcType="VARCHAR"/>
-      </collection>
   </resultMap>
 
   <select id="selectByEnterpriseId" resultMap="selectByEnterpriseIdMap">
@@ -279,24 +273,14 @@
         qcc_shareholder.`name` qs_name,
         `qcc_shareholder`.`ratio` qs_ratio,
         `qcc_shareholder`.`subscribed_capital` qs_subscribed_capital,
-        `qcc_shareholder`.`subscribed_capital_date` qs_subscribed_capital_date,
-        rtc_user_comment.id ruc_id,
-        rtc_user_comment.comment ruc_comment,
-        rtc_user_comment.gmt_create ruc_gmt_create,
-        rtc_user.nickname ruc_nickname
+        `qcc_shareholder`.`subscribed_capital_date` qs_subscribed_capital_date
     FROM
         qcc
         LEFT JOIN qcc_business_information qbi ON qcc.enterprise_id = qbi.enterprise_id
         LEFT JOIN `qcc_shareholder` ON qcc.enterprise_id = `qcc_shareholder`.`enterprise_id`
-        LEFT JOIN rtc_user_comment ON qcc.enterprise_id = `rtc_user_comment`.`enterprise_id`
-	    LEFT JOIN rtc_user ON rtc_user_comment.user_id = rtc_user.uuid
     WHERE
         qcc.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
         AND qcc.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
-        AND rtc_user_comment.`status` =  ${@com.rtc.manager.util.CommonConst@STATUS_USED}
-	    AND rtc_user_comment.examination = ${@com.rtc.manager.util.CommonConst@STATUS_COMMENT_EXAMINED}
-    ORDER BY
-	    rtc_user_comment.gmt_create DESC
   </select>
 
 

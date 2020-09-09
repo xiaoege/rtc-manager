@@ -1,5 +1,7 @@
 package com.rtc.manager.vo.india;
 
+import com.rtc.manager.vo.RtcUserCommentVO;
+
 import java.util.List;
 
 /**
@@ -13,6 +15,8 @@ public class IndiaLlpinEnterpriseVO {
     private List<IndiaSignatoryVO> signatoryList;
 
     private Integer code;
+
+    private List<RtcUserCommentVO> commentList;
 
     public IndiaLlpinVO getIndiaLlpinVO() {
         return indiaLlpinVO;
@@ -44,5 +48,13 @@ public class IndiaLlpinEnterpriseVO {
 
     public void setCode(Integer code) {
         this.code = code;
+    }
+
+    public List<RtcUserCommentVO> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(List<RtcUserCommentVO> commentList) {
+        this.commentList = commentList;
     }
 }

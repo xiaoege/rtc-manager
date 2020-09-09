@@ -242,8 +242,9 @@
             LEFT JOIN vietnam_business_activities ON vietnam_enterprise.enterprise_id = vietnam_business_activities.enterprise_id
         WHERE
             vietnam_enterprise.enterprise_id = #{enterpriseId}
-            AND vietnam_enterprise.`status` = 1
+            AND vietnam_enterprise.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
         ORDER BY
-            vietnam_enterprise.id,vietnam_business_activities.id
+            vietnam_business_activities.id DESC
   </select>
+
 </mapper>

@@ -1,6 +1,7 @@
 package com.rtc.manager.vo.vietnam;
 
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.rtc.manager.vo.RtcUserCommentVO;
 
 import java.util.List;
 
@@ -8,6 +9,7 @@ public class VietnamEnterpriseVO {
     private Integer id;
 
     private String enterpriseId;
+
     private String enterpriseName;
 
     private String enterpriseNameInForeignLanguage;
@@ -19,12 +21,16 @@ public class VietnamEnterpriseVO {
     private String enterpriseCode;
 
     private String legalType;
+
     private String foundingDate;
 
     private String representativeFirstName;
+
     private String headOfficeAddress;
 
     private List<VietnamBusinessActivitiesVO> vsciList;
+
+    private List<RtcUserCommentVO> commentList;
 
     public Integer getId() {
         return id;
@@ -95,6 +101,7 @@ public class VietnamEnterpriseVO {
     public String getFoundingDate() {
         return foundingDate;
     }
+
     @JsonSetter("establishmentDate")
     public void setFoundingDate(String foundingDate) {
         this.foundingDate = foundingDate;
@@ -123,5 +130,13 @@ public class VietnamEnterpriseVO {
 
     public void setVsciList(List<VietnamBusinessActivitiesVO> vsciList) {
         this.vsciList = vsciList;
+    }
+
+    public List<RtcUserCommentVO> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(List<RtcUserCommentVO> commentList) {
+        this.commentList = commentList;
     }
 }

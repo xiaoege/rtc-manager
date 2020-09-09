@@ -3,9 +3,11 @@ package com.rtc.manager.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rtc.manager.dao.IndiaCinMapper;
 import com.rtc.manager.dao.IndiaLlpinMapper;
+import com.rtc.manager.dao.RtcUserCommentMapper;
 import com.rtc.manager.service.India;
 import com.rtc.manager.util.CommonUtils;
 import com.rtc.manager.util.ElasticsearchUtils;
+import com.rtc.manager.vo.RtcUserCommentVO;
 import com.rtc.manager.vo.india.*;
 import org.apache.http.HttpHost;
 import org.elasticsearch.action.search.MultiSearchRequest;
@@ -21,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
@@ -41,6 +44,9 @@ public class IndiaImpl implements India {
 
     @Autowired
     private IndiaLlpinMapper indiaLlpinMapper;
+
+    @Autowired
+    private RtcUserCommentMapper rtcUserCommentMapper;
 
     @Override
     public List listIndiaEnterprise(String name, int pageNum, int pageSize) throws Exception {
@@ -106,6 +112,10 @@ public class IndiaImpl implements India {
                     indiaChargeVO.setAddress(CommonUtils.formatIndiaChargeAddress(indiaChargeVO.getAddress()));
                 }
             }
+            List<RtcUserCommentVO> commentList = rtcUserCommentMapper.selectCommentByEnterpriseId(enterpriseId);
+            if (!CollectionUtils.isEmpty(commentList)) {
+                indiaCinEnterpriseVO.setCommentList(commentList);
+            }
             o = indiaCinEnterpriseVO;
         } else if ("llpin".equals(eType)) {
             IndiaLlpinEnterpriseVO indiaLlpinEnterpriseVO = indiaLlpinMapper.selectEnterprise(enterpriseId);
@@ -115,6 +125,10 @@ public class IndiaImpl implements India {
                     IndiaChargeVO indiaChargeVO = chargeList.get(i);
                     indiaChargeVO.setAddress(CommonUtils.formatIndiaChargeAddress(indiaChargeVO.getAddress()));
                 }
+            }
+            List<RtcUserCommentVO> commentList = rtcUserCommentMapper.selectCommentByEnterpriseId(enterpriseId);
+            if (!CollectionUtils.isEmpty(commentList)) {
+                indiaLlpinEnterpriseVO.setCommentList(commentList);
             }
             o = indiaLlpinEnterpriseVO;
         }
