@@ -83,6 +83,9 @@ public class UserServiceImpl implements UserService {
     @Value("${rtc.verificationCodeTTL}")
     private static Long verificationCodeTTL;
 
+    @Value("${rtc.loginTokenTTL}")
+    private static Long loginTokenTTL;
+
     private final RestHighLevelClient client = ElasticsearchUtils.getClient();
 
     Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
@@ -300,7 +303,7 @@ public class UserServiceImpl implements UserService {
         }
         RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(uuid);
         String token = UserUtils.getToken(rtcUserDTO.getUuid());
-        stringRedisTemplate.opsForValue().set(token, rtcUserDTO.getUuid(), 30, TimeUnit.DAYS);
+        stringRedisTemplate.opsForValue().set(token, rtcUserDTO.getUuid(), loginTokenTTL, TimeUnit.DAYS);
         Map map = new HashMap();
         map.put("account", phone);
         map.put("Authorization", token);

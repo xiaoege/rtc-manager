@@ -562,6 +562,23 @@ public class UserController {
      * @param body
      * @return
      */
+    @ApiOperation(value = "新增评论")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d", paramType = "header", required = true, example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
+            @ApiImplicitParam(name = "body", value = "参数示例：{\n" +
+                    "    \"comment\":\"评论内容\",\n" +
+                    "    \"enterpriseId\":\"e74d2f1a75fe47e08a9b80649644aa61\",\n" +
+                    "    \"nation\":\"Vietnam\",\n" +
+                    "    \"e_type\":\"Vietnam\"\n" +
+                    "}", paramType = "body")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "{\n" +
+                    "    \"message\": \"评论成功\",\n" +
+                    "    \"data\": null,\n" +
+                    "    \"code\": 200\n" +
+                    "}")
+    })
     @PostMapping("saveComment")
     public ResultData saveComment(@RequestBody String body) {
         return userService.saveComment(body);
