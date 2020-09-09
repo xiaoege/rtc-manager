@@ -11,11 +11,116 @@
  Target Server Version : 80020
  File Encoding         : 65001
 
- Date: 21/07/2020 12:36:50
+ Date: 09/09/2020 16:35:56
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for india_charge
+-- ----------------------------
+DROP TABLE IF EXISTS `india_charge`;
+CREATE TABLE `india_charge` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `enterprise_id` varchar(255) DEFAULT NULL,
+  `srn` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '序列号',
+  `charge_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '诉讼ID',
+  `charge_holder_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '原告名称',
+  `date_of_creation` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建日期 ',
+  `date_of_modification` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '改动日期',
+  `date_of_satisfaction` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '清偿日期',
+  `amount` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '金额',
+  `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '地址',
+  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
+  `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `status` int DEFAULT '1',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx_enterprise_id` (`enterprise_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=58485 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for india_cin
+-- ----------------------------
+DROP TABLE IF EXISTS `india_cin`;
+CREATE TABLE `india_cin` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `enterprise_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `cin` varchar(255) DEFAULT NULL COMMENT 'CIN编号',
+  `company_name` varchar(255) DEFAULT NULL COMMENT '企业名称',
+  `roc_code` varchar(255) DEFAULT NULL COMMENT 'RoC 编号',
+  `registration_number` varchar(255) DEFAULT NULL COMMENT '注册编码',
+  `company_category` varchar(255) DEFAULT NULL COMMENT '企业分类',
+  `company_sub_category` varchar(255) DEFAULT NULL COMMENT '企业子类',
+  `class_of_company` varchar(255) DEFAULT NULL COMMENT '企业类型',
+  `authorised_capital` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '法定资本',
+  `paid_up_capital` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '发行资本',
+  `number_of_members` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '成员数',
+  `date_of_incorporation` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '注册日期',
+  `email_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '电子邮件ID ',
+  `whether_listed_or_not` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '是否上市',
+  `active_compliant` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT 'Active 合规',
+  `suspended_at_stock_exchange` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '是否停牌',
+  `date_of_last_agm` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '上次股东大会日期',
+  `date_of_balance_sheet` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '资产负债表日期',
+  `company_status` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '企业状态',
+  `registered_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '注册地址',
+  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
+  `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `status` int DEFAULT '1',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx_enterprise_id` (`enterprise_id`),
+  KEY `idx_company_name` (`company_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=79561 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for india_llpin
+-- ----------------------------
+DROP TABLE IF EXISTS `india_llpin`;
+CREATE TABLE `india_llpin` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `enterprise_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `llpin` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT 'LLPIN 编号',
+  `llp_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '企业名称',
+  `number_of_partners` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '合伙人数',
+  `number_of_designated_partners` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '指定合伙人数',
+  `roc_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT 'RoC编号',
+  `date_of_incorporation` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '注册日期',
+  `registrated_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '注册地址',
+  `email_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '电子邮件ID',
+  `previous_firm` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '之前公司细节，如果有之',
+  `total_obligation_of_contribution` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `main_division_of_business` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '主要在印度开展业务的业务类别',
+  `description_of_main_division` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '主要业务类别描述',
+  `statement_date` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '递交上一个财年财务报告的日期',
+  `annual_date` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '递交上一个财年年度报表的日期',
+  `llp_status` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '公司状态',
+  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
+  `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `status` int DEFAULT '1',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx_llp_name` (`llp_name`),
+  KEY `idx_enterprise_id` (`enterprise_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3507 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for india_signatory
+-- ----------------------------
+DROP TABLE IF EXISTS `india_signatory`;
+CREATE TABLE `india_signatory` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `enterprise_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `din_pan` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `begin_date` varchar(255) DEFAULT NULL,
+  `end_date` varchar(255) DEFAULT NULL,
+  `surrendered_din` varchar(255) DEFAULT NULL,
+  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
+  `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `status` int DEFAULT '1',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx_ enterprise_id` (`enterprise_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=169092 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc
@@ -27,7 +132,7 @@ CREATE TABLE `qcc` (
   `rtc_enterprise_uuid` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '对应rtc_enterprise表的uuid',
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `telephone` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `url` varchar(10200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `country_region` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '地区',
@@ -38,7 +143,7 @@ CREATE TABLE `qcc` (
   `nation` varchar(255) DEFAULT NULL COMMENT '国家',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_qcc_enterprise_id` (`enterprise_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2473 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7818 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_administrative_license
@@ -59,7 +164,7 @@ CREATE TABLE `qcc_administrative_license` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `idx_qal_enterprise_id` (`enterprise_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1305 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5469 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_administrative_license_china
@@ -76,7 +181,7 @@ CREATE TABLE `qcc_administrative_license_china` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_qtc_enterprise_id` (`enterprise_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3650 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12319 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_administrative_sanction
@@ -99,7 +204,7 @@ CREATE TABLE `qcc_administrative_sanction` (
   `punishment_date` varchar(255) DEFAULT NULL COMMENT '处罚日期',
   PRIMARY KEY (`id`),
   KEY `idx_qas_enterprise_id` (`enterprise_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=301 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2110 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_annual_report
@@ -138,7 +243,7 @@ CREATE TABLE `qcc_annual_report` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_qar_enterprise_id` (`enterprise_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10174 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=34405 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_annual_report_shareholder
@@ -160,7 +265,7 @@ CREATE TABLE `qcc_annual_report_shareholder` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `idx_qars_enterprise_id` (`enterprise_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22124 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=68764 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_app
@@ -178,7 +283,7 @@ CREATE TABLE `qcc_app` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_qapp_enterprise_id` (`enterprise_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=209 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_applet
@@ -196,7 +301,7 @@ CREATE TABLE `qcc_applet` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `idx_qapplet_enterprise_id` (`enterprise_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=131 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1084 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_bidding
@@ -215,7 +320,7 @@ CREATE TABLE `qcc_bidding` (
   `announcement_type` varchar(255) DEFAULT NULL COMMENT '公告类型',
   PRIMARY KEY (`id`),
   KEY `idx_qb_enterprise_id` (`enterprise_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18298 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=36017 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_business_information
@@ -251,7 +356,7 @@ CREATE TABLE `qcc_business_information` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `idx_qbi_enterprise_id` (`enterprise_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2473 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7818 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_change_record
@@ -269,7 +374,7 @@ CREATE TABLE `qcc_change_record` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_qfc_enterprise_id` (`enterprise_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=15226 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=51740 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_client
@@ -289,7 +394,7 @@ CREATE TABLE `qcc_client` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `idx_qc_enterprise_id` (`enterprise_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=335 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_court_notice
@@ -307,7 +412,7 @@ CREATE TABLE `qcc_court_notice` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_qapplet_enterprise_id` (`enterprise_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=4138 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26433 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_environmental_punishment
@@ -326,7 +431,7 @@ CREATE TABLE `qcc_environmental_punishment` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_qk_enterprise_id` (`enterprise_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_equity_change
@@ -345,7 +450,7 @@ CREATE TABLE `qcc_equity_change` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_qfc_enterprise_id` (`enterprise_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=198 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1255 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_equity_out_pledge
@@ -366,7 +471,7 @@ CREATE TABLE `qcc_equity_out_pledge` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_qas_enterprise_id` (`enterprise_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=308 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1489 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_equity_pledge
@@ -385,7 +490,7 @@ CREATE TABLE `qcc_equity_pledge` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_qweibo_enterprise_id` (`enterprise_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=334 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=700 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_filing_information
@@ -395,8 +500,8 @@ CREATE TABLE `qcc_filing_information` (
   `id` int NOT NULL AUTO_INCREMENT,
   `enterprise_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `code` varchar(255) DEFAULT NULL COMMENT '案号',
-  `prosecutor` varchar(255) DEFAULT NULL COMMENT '公诉人/原告/上诉人/申请人',
-  `defendant` varchar(255) DEFAULT NULL COMMENT '被告人/被告/被上诉人/被申请人',
+  `prosecutor` longtext CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '公诉人/原告/上诉人/申请人',
+  `defendant` longtext CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '被告人/被告/被上诉人/被申请人',
   `court_name` varchar(255) DEFAULT NULL COMMENT '法院名称',
   `filing_date` varchar(255) DEFAULT NULL COMMENT '立案日期',
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
@@ -404,7 +509,7 @@ CREATE TABLE `qcc_filing_information` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `idx_qapplet_enterprise_id` (`enterprise_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=125 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5013 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_financing_consultation
@@ -424,7 +529,7 @@ CREATE TABLE `qcc_financing_consultation` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `idx_qfc_enterprise_id` (`enterprise_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=272 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_general_taxpayer
@@ -444,7 +549,7 @@ CREATE TABLE `qcc_general_taxpayer` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `idx_qgt_enterprise_id` (`enterprise_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1290 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4533 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_import_export_credit
@@ -462,7 +567,7 @@ CREATE TABLE `qcc_import_export_credit` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `idx_qiec_enterprise_id` (`enterprise_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1029 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3638 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_judgment_document
@@ -486,7 +591,7 @@ CREATE TABLE `qcc_judgment_document` (
   `judgment_date` varchar(255) DEFAULT NULL COMMENT '裁判日期',
   PRIMARY KEY (`id`),
   KEY `idx_qjd_enterprise_id` (`enterprise_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10166 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=47947 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_judicial_auction
@@ -504,7 +609,7 @@ CREATE TABLE `qcc_judicial_auction` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_qweibo_enterprise_id` (`enterprise_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=291 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1351 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_keyman
@@ -522,7 +627,7 @@ CREATE TABLE `qcc_keyman` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `idx_qk_enterprise_id` (`enterprise_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5526 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17161 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_land_purchase_information
@@ -542,7 +647,7 @@ CREATE TABLE `qcc_land_purchase_information` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `idx_qlp_enterprise_id` (`enterprise_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=283 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=881 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_match_summary
@@ -558,7 +663,7 @@ CREATE TABLE `qcc_match_summary` (
   `status` int DEFAULT '1' COMMENT '是否在用：1是0否',
   PRIMARY KEY (`id`),
   KEY `idx_qms_enterprise_id` (`enterprise_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2492 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7818 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_out_investment
@@ -582,7 +687,7 @@ CREATE TABLE `qcc_out_investment` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_qfc_enterprise_id` (`enterprise_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2159 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6453 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_qualification
@@ -602,7 +707,7 @@ CREATE TABLE `qcc_qualification` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_enterprise_id` (`enterprise_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=178 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_qualification_certificate
@@ -621,7 +726,7 @@ CREATE TABLE `qcc_qualification_certificate` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `idx_qqc_enterprise_id` (`enterprise_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7990 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19092 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_remove_exception
@@ -679,7 +784,7 @@ CREATE TABLE `qcc_shareholder` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `idx_qs_enterprise_id` (`enterprise_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5175 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16062 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_shareholder_investment
@@ -698,7 +803,7 @@ CREATE TABLE `qcc_shareholder_investment` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_qfc_enterprise_id` (`enterprise_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2005 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6300 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_shareholder_three
@@ -715,7 +820,7 @@ CREATE TABLE `qcc_shareholder_three` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `idx_enterprise_id` (`enterprise_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=208 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=818 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_software_copyright
@@ -735,7 +840,7 @@ CREATE TABLE `qcc_software_copyright` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `idx_qsc_enterprise_id` (`enterprise_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2110 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4637 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_spot_check
@@ -747,13 +852,13 @@ CREATE TABLE `qcc_spot_check` (
   `organization` varchar(255) DEFAULT NULL COMMENT '检查实施机关',
   `type` varchar(255) DEFAULT NULL COMMENT '类型',
   `inspection_date` varchar(255) DEFAULT NULL COMMENT '日期',
-  `result` varchar(255) DEFAULT NULL COMMENT '结果',
+  `result` longtext CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '结果',
   `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
   `gmt_modify` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_qapp_enterprise_id` (`enterprise_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=210 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1825 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_supplier
@@ -773,7 +878,7 @@ CREATE TABLE `qcc_supplier` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `idx_qs_enterprise_id` (`enterprise_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=494 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=942 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_tax_arrears_notice
@@ -792,7 +897,7 @@ CREATE TABLE `qcc_tax_arrears_notice` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `idx_qweibo_enterprise_id` (`enterprise_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_tax_credit
@@ -810,7 +915,7 @@ CREATE TABLE `qcc_tax_credit` (
   `evaluation_cop` varchar(255) DEFAULT NULL COMMENT '评价单位',
   PRIMARY KEY (`id`),
   KEY `idx_qtc_enterprise_id` (`enterprise_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1689 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6102 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_tax_violation
@@ -829,7 +934,7 @@ CREATE TABLE `qcc_tax_violation` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_qweibo_enterprise_id` (`enterprise_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_website_information
@@ -848,7 +953,7 @@ CREATE TABLE `qcc_website_information` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `idx_qwi_enterprise_id` (`enterprise_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=673 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3027 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_wechat
@@ -865,7 +970,7 @@ CREATE TABLE `qcc_wechat` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `idx_qwechat_enterprise_id` (`enterprise_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=488 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for qcc_weibo
@@ -882,7 +987,7 @@ CREATE TABLE `qcc_weibo` (
   `status` int DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `idx_qweibo_enterprise_id` (`enterprise_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=216 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1064 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for rtc_enterprise
@@ -906,7 +1011,7 @@ CREATE TABLE `rtc_enterprise` (
   `status` int DEFAULT '1' COMMENT '是否在用：1是0否',
   PRIMARY KEY (`id`),
   KEY `idx_re_uuid` (`uuid`)
-) ENGINE=InnoDB AUTO_INCREMENT=1398 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4578 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for rtc_news
@@ -977,15 +1082,152 @@ CREATE TABLE `rtc_news_detail` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
+-- Table structure for rtc_user
+-- ----------------------------
+DROP TABLE IF EXISTS `rtc_user`;
+CREATE TABLE `rtc_user` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT 'token生成规则',
+  `nickname` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `country_code` varchar(255) DEFAULT NULL COMMENT '手机号国家代码',
+  `email` varchar(255) DEFAULT NULL,
+  `salt` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '盐',
+  `role_id` int DEFAULT '1' COMMENT '角色',
+  `synopsis` varchar(255) DEFAULT NULL COMMENT '简介',
+  `country` varchar(255) DEFAULT NULL COMMENT '国家',
+  `enterprise` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '公司',
+  `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
+  `gmt_modified` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `status` int DEFAULT '1',
+  `portrait` varchar(255) DEFAULT NULL COMMENT '头像',
+  PRIMARY KEY (`id`),
+  KEY `idx_rtc_user_email` (`email`),
+  KEY `idx_rtc_user_nickname` (`nickname`),
+  KEY `idx_rtc_phone` (`phone`),
+  KEY `idx_phone_nickname` (`phone`,`nickname`),
+  KEY `idx_uuid` (`uuid`)
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for rtc_user_authority
+-- ----------------------------
+DROP TABLE IF EXISTS `rtc_user_authority`;
+CREATE TABLE `rtc_user_authority` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `authority_name` varchar(255) DEFAULT NULL,
+  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
+  `gmt_modified` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `status` int DEFAULT '1',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for rtc_user_comment
+-- ----------------------------
+DROP TABLE IF EXISTS `rtc_user_comment`;
+CREATE TABLE `rtc_user_comment` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` varchar(255) DEFAULT NULL,
+  `comment` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `examination` int DEFAULT '1' COMMENT '审核：0未审核，1审核通过，2审核未通过',
+  `enterprise_id` varchar(255) DEFAULT NULL,
+  `nation` varchar(255) DEFAULT NULL,
+  `e_type` varchar(255) DEFAULT NULL,
+  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
+  `gmt_modified` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `status` int DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `idx_user_id` (`user_id`),
+  KEY `idx_enterprise_id` (`enterprise_id`),
+  KEY `idx_gmt_create` (`gmt_create`)
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for rtc_user_favourite
+-- ----------------------------
+DROP TABLE IF EXISTS `rtc_user_favourite`;
+CREATE TABLE `rtc_user_favourite` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` varchar(255) DEFAULT NULL,
+  `enterprise_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `nation` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '国家',
+  `e_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '企业类型',
+  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
+  `gmt_modified` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `status` int DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `idx_ enterprise_id` (`enterprise_id`),
+  KEY `idx_user` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for rtc_user_role
+-- ----------------------------
+DROP TABLE IF EXISTS `rtc_user_role`;
+CREATE TABLE `rtc_user_role` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `role_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `authority_id` int DEFAULT NULL,
+  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
+  `gmt_modified` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `status` int DEFAULT '1',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
 -- Table structure for test
 -- ----------------------------
 DROP TABLE IF EXISTS `test`;
 CREATE TABLE `test` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
+  `name` varchar(666) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `address` varchar(1800) DEFAULT NULL,
   `remark` text,
+  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
+  `enterprise_id` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for vietnam_business_activities
+-- ----------------------------
+DROP TABLE IF EXISTS `vietnam_business_activities`;
+CREATE TABLE `vietnam_business_activities` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `enterprise_id` varchar(255) DEFAULT NULL,
+  `code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '业务代码',
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '业务说明',
+  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
+  `gmt_modified` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `status` int DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `idx_enterprise_id` (`enterprise_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1326607 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for vietnam_enterprise
+-- ----------------------------
+DROP TABLE IF EXISTS `vietnam_enterprise`;
+CREATE TABLE `vietnam_enterprise` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `enterprise_id` varchar(255) DEFAULT NULL,
+  `enterprise_name` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '企业名称',
+  `enterprise_name_in_foreign_language` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '企业对外名称',
+  `enterprise_short_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '企业简称',
+  `enterpirse_status` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '企业状态',
+  `enterprise_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '企业代码',
+  `legal_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '法定类型',
+  `founding_date` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '成立日期',
+  `representative_first_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '代表',
+  `head_office_address` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '总部地址',
+  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP,
+  `gmt_modified` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `status` int DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `idx_enterprise_id` (`enterprise_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=94294 DEFAULT CHARSET=utf8;
 
 SET FOREIGN_KEY_CHECKS = 1;
