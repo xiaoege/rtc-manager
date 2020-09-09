@@ -15,15 +15,12 @@ import com.rtc.manager.service.UserService;
 import com.rtc.manager.util.ElasticsearchUtils;
 import com.rtc.manager.util.UserUtils;
 import com.rtc.manager.vo.ResultData;
-import com.rtc.manager.vo.RtcUserCommentVO;
 import com.rtc.manager.vo.RtcUserVO;
 import com.rtc.manager.vo.SearchEnterpriseListVO;
-import org.apache.http.HttpHost;
 import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.script.ScriptType;
 import org.elasticsearch.script.mustache.SearchTemplateRequest;
@@ -81,7 +78,10 @@ public class UserServiceImpl implements UserService {
     private String PORTRAIT;
 
     @Value(("${rtc.commitLength}"))
-    private Integer COMMITLENGTH;
+    private Integer COMMIT_LENGTH;
+
+    @Value("${rtc.verificationCodeTTL}")
+    private static Long verificationCodeTTL;
 
     private final RestHighLevelClient client = ElasticsearchUtils.getClient();
 
@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
     private static final String EMAIL_CODE_700 = "邮箱格式错误";
     private static final String EMAIL_CODE_701 = "邮箱已注册";
     private static final String EMAIL_CODE_704 = "该邮箱尚未发送验证码";
-    private static final String CODE_702 = "验证码发送次数过多，请15分钟稍后再试";
+    private static final String CODE_702 = "验证码发送次数过多，请"+ verificationCodeTTL +"分钟稍后再试";
     private static final String CODE_703 = "验证码发送失败";
     private static final String CODE_705 = "数据有误";
     private static final String CODE_707 = "验证码错误";
@@ -881,7 +881,7 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
             return ResultData.FAIL(null, 400, "数据有误");
         }
-        if (!ObjectUtils.isEmpty(comment) && comment.length() < COMMITLENGTH) {
+        if (!ObjectUtils.isEmpty(comment) && comment.length() < COMMIT_LENGTH) {
             RtcUserComment rtcUserComment = new RtcUserComment();
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(userDetails.getUsername());
@@ -902,16 +902,16 @@ public class UserServiceImpl implements UserService {
      */
     public boolean checkVerificationCodeRedis(String account, String verificationCode) {
         if (!stringRedisTemplate.hasKey(account)) {
-            stringRedisTemplate.opsForValue().set(account, verificationCode, 15, TimeUnit.MINUTES);
+            stringRedisTemplate.opsForValue().set(account, verificationCode, verificationCodeTTL, TimeUnit.MINUTES);
             stringRedisTemplate.opsForValue().increment(account + "_incr");
-            stringRedisTemplate.expire(account + "_incr", 15, TimeUnit.MINUTES);
+            stringRedisTemplate.expire(account + "_incr", verificationCodeTTL, TimeUnit.MINUTES);
             return true;
         } else if (stringRedisTemplate.hasKey(account)) {
             int i = Integer.parseInt(stringRedisTemplate.opsForValue().get(account + "_incr"));
             if (i < redisEmailLimt) {
-                stringRedisTemplate.opsForValue().set(account, verificationCode, 15, TimeUnit.MINUTES);
+                stringRedisTemplate.opsForValue().set(account, verificationCode, verificationCodeTTL, TimeUnit.MINUTES);
                 stringRedisTemplate.opsForValue().increment(account + "_incr");
-                stringRedisTemplate.expire(account + "_incr", 15, TimeUnit.MINUTES);
+                stringRedisTemplate.expire(account + "_incr", verificationCodeTTL, TimeUnit.MINUTES);
                 return true;
             }
 
