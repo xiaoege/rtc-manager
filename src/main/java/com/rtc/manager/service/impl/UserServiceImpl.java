@@ -801,7 +801,7 @@ public class UserServiceImpl implements UserService {
         SearchRequest searchRequest = new SearchRequest("china", "india-cin", "india-llpin", "vietnam");
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
-        List voList = new ArrayList();
+        List<UserCommentVO> voList = new ArrayList();
 
         if (!ObjectUtils.isEmpty(favouriteList)) {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -816,12 +816,31 @@ public class UserServiceImpl implements UserService {
                     if (!ObjectUtils.isEmpty(hits)) {
                         UserCommentVO userCommentVO = objectMapper.readValue(hits[0].getSourceAsString(), UserCommentVO.class);
                         userCommentVO.setPid(rtcUserFavourite.getId());
+                        userCommentVO.setGmtCreate(rtcUserFavourite.getGmtCreate());
                         voList.add(userCommentVO);
                     }
                 }
             }
         }
-
+        if ("e_name".equals(sort)) {
+            if (!ObjectUtils.isEmpty(voList)) {
+                List<String> eNameList = new ArrayList();
+                List<UserCommentVO> eNameVOList = new ArrayList<>();
+                for (int i = 0; i < voList.size(); i++) {
+                    UserCommentVO vo = voList.get(i);
+                    eNameList.add(vo.geteName());
+                }
+                Collections.sort(eNameList);
+                for (int i = 0; i < eNameList.size(); i++) {
+                    for (int j = 0; j < voList.size(); j++) {
+                        if (eNameList.get(i).equals(voList.get(j).geteName())) {
+                            eNameVOList.add(voList.get(j));
+                        }
+                    }
+                }
+                return ResultData.SUCCESS(eNameVOList);
+            }
+        }
 
 
         return ResultData.SUCCESS(voList);

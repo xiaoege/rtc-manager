@@ -1,7 +1,10 @@
 package com.rtc.manager.vo;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.time.LocalDateTime;
 
 /**
  * @author ChenHang
@@ -29,6 +32,9 @@ public class UserCommentVO {
 
     @JsonAlias({"registered_address", "registrated_address"})
     private String address;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime gmtCreate;
 
     public String geteType() {
         return eType;
@@ -92,5 +98,13 @@ public class UserCommentVO {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public LocalDateTime getGmtCreate() {
+        return gmtCreate;
+    }
+
+    public void setGmtCreate(LocalDateTime gmtCreate) {
+        this.gmtCreate = gmtCreate;
     }
 }
