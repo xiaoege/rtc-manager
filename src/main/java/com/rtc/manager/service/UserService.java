@@ -128,16 +128,16 @@ public interface UserService {
     ResultData listFavourite(String sort, int pageNum, int pageSize) throws IOException;
 
     /**
-     * 新增评论
-     * @param body
-     * @return
-     */
-    ResultData saveComment(String body);
-
-    /**
      * 我的收藏-移除收藏
      * @param body
      * @return
      */
     ResultData removeFavourite(String body);
+
+    /**
+     * 新增评论
+     * @param body
+     * @return
+     */
+    ResultData saveComment(String body);
 }

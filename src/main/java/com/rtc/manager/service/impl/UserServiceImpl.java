@@ -19,15 +19,18 @@ import com.rtc.manager.util.UserUtils;
 import com.rtc.manager.vo.ResultData;
 import com.rtc.manager.vo.RtcUserVO;
 import com.rtc.manager.vo.SearchEnterpriseListVO;
+import com.rtc.manager.vo.UserCommentVO;
 import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.index.query.MatchPhraseQueryBuilder;
 import org.elasticsearch.script.ScriptType;
 import org.elasticsearch.script.mustache.SearchTemplateRequest;
 import org.elasticsearch.script.mustache.SearchTemplateResponse;
 import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -792,82 +795,64 @@ public class UserServiceImpl implements UserService {
         RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(userDetails.getUsername());
         String uuid = rtcUserDTO.getUuid();
         PageHelper.startPage(pageNum, pageSize);
-        List<Object> enterpriseIdList = rtcUserFavouriteMapper.selectFavourite(uuid, sort);
+        List<RtcUserFavourite> favouriteList = rtcUserFavouriteMapper.selectFavourite(uuid, sort);
         PageHelper.clearPage();
+
+        SearchRequest searchRequest = new SearchRequest("china", "india-cin", "india-llpin", "vietnam");
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+
+        List voList = new ArrayList();
+
+        if (!ObjectUtils.isEmpty(favouriteList)) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            for (int i = 0; i < favouriteList.size(); i++) {
+                RtcUserFavourite rtcUserFavourite = favouriteList.get(i);
+                MatchPhraseQueryBuilder matchPhraseQueryBuilder = new MatchPhraseQueryBuilder("enterprise_id", rtcUserFavourite.getEnterpriseId());
+                searchSourceBuilder.query(matchPhraseQueryBuilder);
+                searchRequest.source(searchSourceBuilder);
+                SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
+                if (searchResponse != null) {
+                    SearchHit[] hits = searchResponse.getHits().getHits();
+                    if (!ObjectUtils.isEmpty(hits)) {
+                        UserCommentVO userCommentVO = objectMapper.readValue(hits[0].getSourceAsString(), UserCommentVO.class);
+                        userCommentVO.setPid(rtcUserFavourite.getId());
+                        voList.add(userCommentVO);
+                    }
+                }
+            }
+        }
+
+
+
+        return ResultData.SUCCESS(voList);
+    }
+
+    /**
+     * 我的收藏-移除收藏
+     *
+     * @param body
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public ResultData removeFavourite(String body) {
+        logger.info("removeFavourite(String body):{}", body);
         ObjectMapper objectMapper = new ObjectMapper();
-        String enterpriseIdString = objectMapper.writeValueAsString(enterpriseIdList);
-
-        SearchTemplateRequest request = new SearchTemplateRequest();
-        request.setRequest(new SearchRequest("china", "india-cin", "india-llpin", "vietnam"));
-
-        request.setScriptType(ScriptType.INLINE);
-        request.setScript(
-                "{\n" +
-                        "  \"query\": {\n" +
-                        "    \"terms\": {\n" +
-                        "      \"{{field}}\": " + enterpriseIdString +
-                        "    }\n" +
-                        "  },\n" +
-                        "\"from\":{{from}},\n" +
-                        "\"size\":{{size}}\n" +
-                        "}");
-
-        Map<String, Object> scriptParams = new HashMap<>();
-        scriptParams.put("field", "enterprise_id");
-//        scriptParams.put("value", enterpriseIdString);
-        scriptParams.put("from", pageNum * pageSize);
-        scriptParams.put("size", pageSize);
-        if ("e_name".equals(sort)) {
-            scriptParams.put("sort", "[\n" +
-                    "    {\n" +
-                    "      \"FIELD\": {\n" +
-                    "        \"order\": \"desc\"\n" +
-                    "      }\n" +
-                    "    }\n" +
-                    "  ]");
+        Integer[] pidArray;
+        try {
+            RemoveFavouriteDTO removeFavouriteDTO = objectMapper.readValue(body, RemoveFavouriteDTO.class);
+            pidArray = removeFavouriteDTO.getPidArray();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return ResultData.FAIL(null, 400, "数据有误");
         }
-        request.setScriptParams(scriptParams);
-        SearchTemplateResponse response = client.searchTemplate(request, RequestOptions.DEFAULT);
-        SearchResponse searchResponse = response.getResponse();
-        if (response != null) {
-            TotalHits totalHits = searchResponse.getHits().getTotalHits();
-            SearchHit[] hits = searchResponse.getHits().getHits();
-            if (totalHits.value > 0) {
-                for (int i = 0; i < hits.length; i++) {
-                    // 把从es获得的数据根据mysql的enterpriseId顺序排序赋值
-                    SearchHit hit = hits[i];
-                    SearchEnterpriseListVO vo = objectMapper.readValue(hit.getSourceAsString(), SearchEnterpriseListVO.class);
-                    for (int j = 0; j < enterpriseIdList.size(); j++) {
-                        if (enterpriseIdList.get(j).equals(vo.getEnterpriseId())) {
-                            enterpriseIdList.set(j, vo);
-                        }
-                    }
-                }
+        if (!ObjectUtils.isEmpty(pidArray)) {
+            if (rtcUserFavouriteMapper.deleteFavourites(pidArray) > 0) {
+                return ResultData.SUCCESS(200, "移除收藏成功");
             }
         }
-        if ("e_name".equals(sort) && !CollectionUtils.isEmpty(enterpriseIdList)) {
-            List<String> list = new ArrayList<>();
-            for (int i = 0; i < enterpriseIdList.size(); i++) {
-                SearchEnterpriseListVO o = (SearchEnterpriseListVO) enterpriseIdList.get(i);
-                list.add(o.geteName());
-            }
-            Collections.sort(list);
-            List<SearchEnterpriseListVO> resultList = new ArrayList<>();
-            for (int i = 0; i < list.size(); i++) {
-                resultList.add(null);
-            }
-            for (int i = 0; i < list.size(); i++) {
-                for (int j = 0; j < enterpriseIdList.size(); j++) {
-                    SearchEnterpriseListVO o = (SearchEnterpriseListVO) enterpriseIdList.get(j);
-                    if (list.get(i).equals(o.geteName())) {
-                        resultList.set(i, o);
-                    }
-                }
-            }
-            return ResultData.SUCCESS(resultList);
-        }
 
-        return ResultData.SUCCESS(enterpriseIdList);
+        return ResultData.SUCCESS(500, "移除收藏失败");
     }
 
     /**
@@ -900,34 +885,6 @@ public class UserServiceImpl implements UserService {
             return ResultData.SUCCESS(null, "评论成功");
         }
         return ResultData.FAIL(null, 400);
-    }
-
-    /**
-     * 我的收藏-移除收藏
-     *
-     * @param body
-     * @return
-     */
-    @Transactional(rollbackFor = Exception.class)
-    @Override
-    public ResultData removeFavourite(String body) {
-        logger.info("removeFavourite(String body):{}", body);
-        ObjectMapper objectMapper = new ObjectMapper();
-        Integer[] pidArray;
-        try {
-            RemoveFavouriteDTO removeFavouriteDTO = objectMapper.readValue(body, RemoveFavouriteDTO.class);
-            pidArray = removeFavouriteDTO.getPidArray();
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return ResultData.FAIL(null, 400, "数据有误");
-        }
-        if (!ObjectUtils.isEmpty(pidArray)) {
-            if (rtcUserFavouriteMapper.deleteFavourites(pidArray) > 0) {
-                return ResultData.SUCCESS(200, "移除收藏成功");
-            }
-        }
-
-        return ResultData.SUCCESS(500, "移除收藏失败");
     }
 
     /**

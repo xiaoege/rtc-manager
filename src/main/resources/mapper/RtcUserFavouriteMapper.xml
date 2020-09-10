@@ -126,14 +126,13 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="selectFavourite" resultType="java.lang.String">
+  <select id="selectFavourite" resultMap="BaseResultMap">
     SELECT
-        rtc_user_favourite.enterprise_id enterpriseId
+        <include refid="Base_Column_List"/>
     FROM
         rtc_user_favourite
-        RIGHT JOIN rtc_user ON rtc_user.uuid = rtc_user_favourite.user_id
     WHERE
-        rtc_user.uuid = #{uuid,jdbcType=VARCHAR}
+        rtc_user_favourite.user_id = #{uuid,jdbcType=VARCHAR}
         AND rtc_user_favourite.`status` = 1
     ORDER BY
         <if test="sort != null and sort == 'nation'">
