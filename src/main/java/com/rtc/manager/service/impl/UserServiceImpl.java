@@ -2,6 +2,7 @@ package com.rtc.manager.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.pagehelper.PageHelper;
 import com.rtc.manager.dao.RtcUserCommentMapper;
 import com.rtc.manager.dao.RtcUserFavouriteMapper;
 import com.rtc.manager.dao.RtcUserMapper;
@@ -9,6 +10,7 @@ import com.rtc.manager.entity.RtcUser;
 import com.rtc.manager.entity.RtcUserComment;
 import com.rtc.manager.entity.RtcUserFavourite;
 import com.rtc.manager.entity.dto.PhoneRegisterDTO;
+import com.rtc.manager.entity.dto.RemoveFavouriteDTO;
 import com.rtc.manager.entity.dto.RtcUserDTO;
 import com.rtc.manager.entity.dto.UserCommentDTO;
 import com.rtc.manager.service.UserService;
@@ -49,6 +51,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -94,7 +97,7 @@ public class UserServiceImpl implements UserService {
     private static final String EMAIL_CODE_700 = "邮箱格式错误";
     private static final String EMAIL_CODE_701 = "邮箱已注册";
     private static final String EMAIL_CODE_704 = "该邮箱尚未发送验证码";
-    private static final String CODE_702 = "验证码发送次数过多，请"+ verificationCodeTTL +"分钟稍后再试";
+    private static final String CODE_702 = "验证码发送次数过多，请" + verificationCodeTTL + "分钟稍后再试";
     private static final String CODE_703 = "验证码发送失败";
     private static final String CODE_705 = "数据有误";
     private static final String CODE_707 = "验证码错误";
@@ -788,7 +791,9 @@ public class UserServiceImpl implements UserService {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(userDetails.getUsername());
         String uuid = rtcUserDTO.getUuid();
+        PageHelper.startPage(pageNum, pageSize);
         List<Object> enterpriseIdList = rtcUserFavouriteMapper.selectFavourite(uuid, sort);
+        PageHelper.clearPage();
         ObjectMapper objectMapper = new ObjectMapper();
         String enterpriseIdString = objectMapper.writeValueAsString(enterpriseIdList);
 
@@ -895,6 +900,34 @@ public class UserServiceImpl implements UserService {
             return ResultData.SUCCESS(null, "评论成功");
         }
         return ResultData.FAIL(null, 400);
+    }
+
+    /**
+     * 我的收藏-移除收藏
+     *
+     * @param body
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public ResultData removeFavourite(String body) {
+        logger.info("removeFavourite(String body):{}", body);
+        ObjectMapper objectMapper = new ObjectMapper();
+        Integer[] pidArray;
+        try {
+            RemoveFavouriteDTO removeFavouriteDTO = objectMapper.readValue(body, RemoveFavouriteDTO.class);
+            pidArray = removeFavouriteDTO.getPidArray();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return ResultData.FAIL(null, 400, "数据有误");
+        }
+        if (!ObjectUtils.isEmpty(pidArray)) {
+            if (rtcUserFavouriteMapper.deleteFavourites(pidArray) > 0) {
+                return ResultData.SUCCESS(200, "移除收藏成功");
+            }
+        }
+
+        return ResultData.SUCCESS(500, "移除收藏失败");
     }
 
     /**

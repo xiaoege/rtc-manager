@@ -1,4 +1,4 @@
-package com.rtc.manager.entity;
+package com.rtc.manager.entity.dto;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

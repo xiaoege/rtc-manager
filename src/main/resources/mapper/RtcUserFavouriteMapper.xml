@@ -140,6 +140,17 @@
           nation DESC,
         </if>
         rtc_user_favourite.gmt_create DESC
-
   </select>
+
+  <update id="deleteFavourites" parameterType="java.util.List">
+    UPDATE
+        rtc_user_favourite
+    SET
+        rtc_user_favourite.status = ${@com.rtc.manager.util.CommonConst@STATUS_NOT_USED}
+    WHERE
+        rtc_user_favourite.id IN
+        <foreach collection="array" open="(" close=")" separator="," item="item">
+          #{item}
+        </foreach>
+  </update>
 </mapper>

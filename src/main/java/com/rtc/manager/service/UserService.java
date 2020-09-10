@@ -133,4 +133,11 @@ public interface UserService {
      * @return
      */
     ResultData saveComment(String body);
+
+    /**
+     * 我的收藏-移除收藏
+     * @param body
+     * @return
+     */
+    ResultData removeFavourite(String body);
 }

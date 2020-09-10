@@ -139,7 +139,7 @@ public class UserController {
      */
     @ApiOperation(value = "修改用户基本信息", notes = "成功后返回该用户的最新信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d", paramType = "header", required = true, example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
             @ApiImplicitParam(name = "user", value = "参数示例：{\n" +
                     "    \"nickname\": \"miaopasi\",\n" +
                     "    \"synopsis\": \"喵\",\n" +
@@ -189,7 +189,7 @@ public class UserController {
      */
     @ApiOperation(value = "根据原始密码修改密码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d", paramType = "header", required = true, example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
             @ApiImplicitParam(name = "user", value = "参数示例：{\n" +
                     "    \"oldPassword\":\"asd\",\n" +
                     "    \"newPassword\":\"asd111\",\n" +
@@ -330,7 +330,7 @@ public class UserController {
      */
     @ApiOperation(value = "更换手机号-通过手机号发送验证码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d", paramType = "header", required = true, example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
             @ApiImplicitParam(name = "user", value = "参数示例：{\n" +
                     "    \"phone\":\"777\",\n" +
                     "    \"countryCode\":\"+86\"\n" +
@@ -360,7 +360,7 @@ public class UserController {
      */
     @ApiOperation(value = "更换手机号,更换成功后删除验证码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d", paramType = "header", required = true, example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
             @ApiImplicitParam(name = "user", value = "参数示例：{\n" +
                     "    \"phone\": \"777\",\n" +
                     "    \"countryCode\": \"asd\",\n" +
@@ -383,7 +383,7 @@ public class UserController {
      */
     @ApiOperation(value = "上传头像,返回头像的URL")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d", paramType = "header", required = true, example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
             @ApiImplicitParam(name = "file", value = "后缀名是jpg,jpeg,png,bmp格式的图片,大小在2MB以内", paramType = "form", dataType = "__file")
     })
     @ApiResponses({
@@ -439,7 +439,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "登出，此文档仅供参考，不可在swagger里调用，调用请使用/logout路径", notes = "参数放在header里")
-    @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d", paramType = "header", required = true, example = "Bearer 3dd563cf6464cb6878746969b37b582d")
+    @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719")
     @ApiResponses(
             @ApiResponse(code = 200, message = "{\n" +
                     "    \"code\": 200,\n" +
@@ -458,7 +458,7 @@ public class UserController {
      * @return
      */
     @ApiOperation(value = "查询用户信息", notes = "参数在header里")
-    @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d", paramType = "header", required = true, example = "Bearer 3dd563cf6464cb6878746969b37b582d")
+    @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719")
     @ApiResponses({
             @ApiResponse(code = 200, message = "{\n" +
                     "    \"message\": \"请求成功\",\n" +
@@ -486,14 +486,14 @@ public class UserController {
     }
 
     /**
-     * 添加到收藏夹/从收藏夹移除
+     * 添加到收藏夹/从收藏夹移除(公司页面)
      *
      * @param body
      * @return
      */
-    @ApiOperation(value = "添加到收藏夹/从收藏夹移除")
+    @ApiOperation(value = "添加到收藏夹/从收藏夹移除(公司页面)")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d", paramType = "header", required = true, example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
             @ApiImplicitParam(name = "body", value = "参数示例：{\n" +
                     "    \"enterpriseId\":\"829f84ee2c0f404eb821f3cfca3f6a30\",\n" +
                     "    \"nation\":\"India\",\n" +
@@ -516,6 +516,33 @@ public class UserController {
         return userService.modifyFavourite(body);
     }
 
+
+    /**
+     * 我的收藏-移除收藏
+     * @param body
+     * @return
+     */
+    @ApiOperation(value = "我的收藏-移除收藏")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
+            @ApiImplicitParam(name = "body", value = "参数示例：{\n" +
+                    "    \"pidArray\": [\n" +
+                    "        11,14,15\n" +
+                    "    ]\n" +
+                    "}", paramType = "body")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "{\n" +
+                    "    \"message\": \"移除收藏成功\",\n" +
+                    "    \"data\": 200,\n" +
+                    "    \"code\": 200\n" +
+                    "}")
+    })
+    @PostMapping("removeFavourite")
+    public ResultData removeFavourite(@RequestBody String body) {
+        return userService.removeFavourite(body);
+    }
+
     /**
      * 查看收藏夹列表，默认查看20个
      *
@@ -523,7 +550,7 @@ public class UserController {
      */
     @ApiOperation(value = "查看收藏夹列表，默认查看20个")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d", paramType = "header", required = true, example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
             @ApiImplicitParam(name = "sort", value ="默认根据添加时间倒序排列，在此基础上可以选择国家/字母排列。参数示例：nation：根据国家排列。e_name：根据字母排列"),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false, defaultValue = "1"),
             @ApiImplicitParam(name = "pageSize", value = "当前页大小", required = false, defaultValue = "20")
@@ -564,7 +591,7 @@ public class UserController {
      */
     @ApiOperation(value = "新增评论")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 3dd563cf6464cb6878746969b37b582d", paramType = "header", required = true, example = "Bearer 3dd563cf6464cb6878746969b37b582d"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
             @ApiImplicitParam(name = "body", value = "参数示例：{\n" +
                     "    \"comment\":\"评论内容\",\n" +
                     "    \"enterpriseId\":\"e74d2f1a75fe47e08a9b80649644aa61\",\n" +

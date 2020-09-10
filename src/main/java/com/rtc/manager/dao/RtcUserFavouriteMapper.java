@@ -20,4 +20,6 @@ public interface RtcUserFavouriteMapper {
     int updateByPrimaryKey(RtcUserFavourite record);
 
     List<Object> selectFavourite(@Param("uuid")String uuid, @Param("sort") String sort);
+
+    int deleteFavourites(Integer[] pidArray);
 }
