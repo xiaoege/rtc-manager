@@ -589,7 +589,6 @@ public class UserController {
      * @param body
      * @return
      */
-    @ApiIgnore
     @ApiOperation(value = "新增评论")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
