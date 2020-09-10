@@ -87,10 +87,10 @@ public class UserServiceImpl implements UserService {
     private Integer COMMIT_LENGTH;
 
     @Value("${rtc.verificationCodeTTL}")
-    private static Long verificationCodeTTL;
+    private Long verificationCodeTTL;
 
     @Value("${rtc.loginTokenTTL}")
-    private static Long loginTokenTTL;
+    private Long loginTokenTTL;
 
     private final RestHighLevelClient client = ElasticsearchUtils.getClient();
 
@@ -100,7 +100,7 @@ public class UserServiceImpl implements UserService {
     private static final String EMAIL_CODE_700 = "邮箱格式错误";
     private static final String EMAIL_CODE_701 = "邮箱已注册";
     private static final String EMAIL_CODE_704 = "该邮箱尚未发送验证码";
-    private static final String CODE_702 = "验证码发送次数过多，请" + verificationCodeTTL + "分钟稍后再试";
+    private static final String CODE_702 = "验证码发送次数过多，请稍后再试";
     private static final String CODE_703 = "验证码发送失败";
     private static final String CODE_705 = "数据有误";
     private static final String CODE_707 = "验证码错误";
@@ -914,11 +914,15 @@ public class UserServiceImpl implements UserService {
      */
     public boolean checkVerificationCodeRedis(String account, String verificationCode) {
         if (!stringRedisTemplate.hasKey(account)) {
+            stringRedisTemplate.opsForValue().set("countdown:" + account, verificationCode, 55, TimeUnit.SECONDS);
             stringRedisTemplate.opsForValue().set(account, verificationCode, verificationCodeTTL, TimeUnit.MINUTES);
             stringRedisTemplate.opsForValue().increment(account + "_incr");
             stringRedisTemplate.expire(account + "_incr", verificationCodeTTL, TimeUnit.MINUTES);
             return true;
         } else if (stringRedisTemplate.hasKey(account)) {
+            if (stringRedisTemplate.hasKey("countdown:" + account)) {
+                return false;
+            }
             int i = Integer.parseInt(stringRedisTemplate.opsForValue().get(account + "_incr"));
             if (i < redisEmailLimt) {
                 stringRedisTemplate.opsForValue().set(account, verificationCode, verificationCodeTTL, TimeUnit.MINUTES);
