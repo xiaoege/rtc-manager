@@ -156,7 +156,8 @@
         rtc_user_comment.id,
         rtc_user_comment.comment comment,
         rtc_user_comment.gmt_create gmtCreate,
-        rtc_user.nickname nickname
+        rtc_user.nickname nickname,
+	    rtc_user.portrait
     FROM
         rtc_user_comment
         LEFT JOIN rtc_user ON rtc_user_comment.user_id = rtc_user.uuid

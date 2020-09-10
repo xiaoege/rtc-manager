@@ -15,6 +15,8 @@ public class RtcUserCommentVO {
     private LocalDateTime gmtCreate;
     private String nickname;
 
+    private String portrait;
+
     public Integer getId() {
         return id;
     }
@@ -46,5 +48,13 @@ public class RtcUserCommentVO {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public String getPortrait() {
+        return portrait;
+    }
+
+    public void setPortrait(String portrait) {
+        this.portrait = portrait;
     }
 }
