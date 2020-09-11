@@ -54,6 +54,6 @@ public interface QccMapper {
 
     List<QccEquityOutPledgeVO> listQccEquityOutPledgeVO(String enterpriseId);
 
-    String checkFavouriteQcc(String enterpriseId);
+    String checkFavouriteQcc(@Param("userId") String userId, @Param("enterpriseId") String enterpriseId);
 
 }

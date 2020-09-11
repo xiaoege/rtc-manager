@@ -8,5 +8,5 @@ import java.util.List;
 public interface India {
     List listIndiaEnterprise(String name, int pageNum, int pageSize) throws Exception;
 
-    Object getIndiaEnterprise(String enterpriseId, String eType);
+    Object getIndiaEnterprise(String enterpriseId, String eType, String userId);
 }

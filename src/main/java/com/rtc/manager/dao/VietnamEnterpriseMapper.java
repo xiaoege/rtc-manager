@@ -1,6 +1,8 @@
 package com.rtc.manager.dao;
 
 import com.rtc.manager.entity.vietnam.VietnamEnterprise;
+import com.rtc.manager.vo.vietnam.VietnamEnterpriseVO;
+import org.apache.ibatis.annotations.Param;
 
 public interface VietnamEnterpriseMapper {
     int deleteByPrimaryKey(Integer id);
@@ -15,5 +17,7 @@ public interface VietnamEnterpriseMapper {
 
     int updateByPrimaryKey(VietnamEnterprise record);
 
-    Object selectIndiaEnterprise(String enterpriseId);
+    VietnamEnterpriseVO selectIndiaEnterprise(String enterpriseId);
+
+    String checkFavouriteVietnam(@Param("enterpriseId") String enterpriseId, @Param("userId") String userId);
 }

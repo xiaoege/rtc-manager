@@ -247,4 +247,19 @@
             vietnam_business_activities.id DESC
   </select>
 
+  <select id="checkFavouriteVietnam" resultType="java.lang.String">
+        SELECT
+            vietnam_enterprise.enterprise_id
+        FROM
+            vietnam_enterprise
+        WHERE
+            vietnam_enterprise.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+            AND vietnam_enterprise.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+            AND EXISTS (
+                SELECT enterprise_id
+                FROM rtc_user_favourite
+                WHERE rtc_user_favourite.enterprise_id=vietnam_enterprise.enterprise_id
+                    AND rtc_user_favourite.user_id = #{userId, jdbcType=VARCHAR}
+            )
+    </select>
 </mapper>

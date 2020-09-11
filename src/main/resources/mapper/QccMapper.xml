@@ -743,8 +743,11 @@
         WHERE
             qcc.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
             and qcc.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
-            and
-        EXISTS
-        (SELECT enterprise_id from rtc_user_favourite WHERE rtc_user_favourite.enterprise_id = qcc.enterprise_id)
+            and EXISTS (
+                SELECT enterprise_id
+                FROM rtc_user_favourite
+                WHERE rtc_user_favourite.enterprise_id = qcc.enterprise_id
+                    AND rtc_user_favourite.user_id = #{userId, jdbcType=VARCHAR}
+            )
     </select>
 </mapper>

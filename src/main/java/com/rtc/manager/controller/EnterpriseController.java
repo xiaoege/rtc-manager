@@ -5,13 +5,11 @@ import com.rtc.manager.service.India;
 import com.rtc.manager.service.Qcc;
 import com.rtc.manager.util.CommonUtils;
 import com.rtc.manager.vo.ResultData;
-import com.rtc.manager.vo.RtcUserCommentVO;
 import com.rtc.manager.vo.SearchEnterpriseListVO;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -197,40 +195,6 @@ public class EnterpriseController {
                                                          @RequestParam(name = "e_type", required = false) String eType) {
         Object list = qcc.getEnterpriseSubDetailMuti(name, enterpriseId, id, pageNum, pageSize, nation, eType);
         return ResultData.SUCCESS(list);
-    }
-
-    /**
-     * 印度-企业列表
-     *
-     * @param name
-     * @param pageNum
-     * @param pageSize
-     * @return
-     * @throws Exception
-     */
-    @ApiIgnore
-    @GetMapping("listIndiaEnterprise")
-    public ResultData listIndiaEnterprise(@RequestParam(name = "name", required = true) String name,
-                                          @RequestParam(name = "pageNum", required = false, defaultValue = "0") int pageNum,
-                                          @RequestParam(name = "pageSize", required = false, defaultValue = "10") int pageSize) throws Exception {
-        List list = india.listIndiaEnterprise(name, pageNum, pageSize);
-        return ResultData.SUCCESS(list);
-    }
-
-    /**
-     * 印度-企业详情
-     *
-     * @param enterpriseId
-     * @return
-     * @throws Exception
-     */
-    @ApiIgnore
-    @GetMapping("getIndiaEnterprise")
-    public ResultData getIndiaEnterprise(@RequestParam(name = "enterpriseId", required = true) String enterpriseId,
-                                         @RequestParam(name = "e_type", required = true) String eType,
-                                         @RequestParam(name = "nation", required = true) String nation) throws Exception {
-        Object vo = india.getIndiaEnterprise(enterpriseId, eType);
-        return ResultData.SUCCESS(vo);
     }
 
 }

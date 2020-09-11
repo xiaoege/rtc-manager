@@ -28,6 +28,8 @@ public class IndiaCinVO {
     private String companyStatus;
     private String registeredAddress;
 
+    private int favourite;
+
     public Integer getId() {
         return id;
     }
@@ -194,5 +196,13 @@ public class IndiaCinVO {
     @JsonSetter("address")
     public void setRegisteredAddress(String registeredAddress) {
         this.registeredAddress = registeredAddress;
+    }
+
+    public int getFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(int favourite) {
+        this.favourite = favourite;
     }
 }

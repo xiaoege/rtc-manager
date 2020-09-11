@@ -415,4 +415,20 @@
         india_cin.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
         AND india_cin.enterprise_id = #{enterpriseId}
   </select>
+
+  <select id="checkFavouriteIndiaCin" resultType="java.lang.String">
+        SELECT
+            india_cin.enterprise_id
+        FROM
+            india_cin
+        WHERE
+            india_cin.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+            AND india_cin.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+            AND EXISTS (
+                SELECT enterprise_id
+                FROM rtc_user_favourite
+                WHERE rtc_user_favourite.enterprise_id=india_cin.enterprise_id
+                    AND rtc_user_favourite.user_id = #{userId, jdbcType=VARCHAR}
+            )
+    </select>
 </mapper>

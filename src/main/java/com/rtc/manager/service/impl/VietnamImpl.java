@@ -22,11 +22,15 @@ public class VietnamImpl implements Vietnam {
     private RtcUserCommentMapper rtcUserCommentMapper;
 
     @Override
-    public Object getIndiaEnterprise(String enterpriseId) {
-        Object o = vietnamEnterpriseMapper.selectIndiaEnterprise(enterpriseId);
-        VietnamEnterpriseVO vo = (VietnamEnterpriseVO) o;
-        List<RtcUserCommentVO> commentList = rtcUserCommentMapper.selectCommentByEnterpriseId(enterpriseId);
-        vo.setCommentList(commentList);
+    public Object getIndiaEnterprise(String enterpriseId, String userId) {
+        VietnamEnterpriseVO vo = vietnamEnterpriseMapper.selectIndiaEnterprise(enterpriseId);
+        if (vo != null) {
+            List<RtcUserCommentVO> commentList = rtcUserCommentMapper.selectCommentByEnterpriseId(enterpriseId);
+            vo.setCommentList(commentList);
+            if (vietnamEnterpriseMapper.checkFavouriteVietnam(enterpriseId, userId) != null) {
+                vo.setFavourite(1);
+            }
+        }
         return vo;
     }
 }

@@ -32,6 +32,8 @@ public class VietnamEnterpriseVO {
 
     private List<RtcUserCommentVO> commentList;
 
+    private int favourite;
+
     public Integer getId() {
         return id;
     }
@@ -138,5 +140,13 @@ public class VietnamEnterpriseVO {
 
     public void setCommentList(List<RtcUserCommentVO> commentList) {
         this.commentList = commentList;
+    }
+
+    public int getFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(int favourite) {
+        this.favourite = favourite;
     }
 }

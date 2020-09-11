@@ -9,12 +9,10 @@ import com.rtc.manager.util.CommonUtils;
 import com.rtc.manager.util.ElasticsearchUtils;
 import com.rtc.manager.vo.RtcUserCommentVO;
 import com.rtc.manager.vo.india.*;
-import org.apache.http.HttpHost;
 import org.elasticsearch.action.search.MultiSearchRequest;
 import org.elasticsearch.action.search.MultiSearchResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.MatchPhraseQueryBuilder;
 import org.elasticsearch.search.SearchHit;
@@ -101,36 +99,47 @@ public class IndiaImpl implements India {
     }
 
     @Override
-    public Object getIndiaEnterprise(String enterpriseId, String eType) {
+    public Object getIndiaEnterprise(String enterpriseId, String eType, String userId) {
         Object o = null;
         if ("cin".equals(eType)) {
             IndiaCinEnterpriseVO indiaCinEnterpriseVO = indiaCinMapper.selectEnterprise(enterpriseId);
-            List<IndiaChargeVO> chargeList = indiaCinEnterpriseVO.getChargeList();
-            if (!ObjectUtils.isEmpty(chargeList)) {
-                for (int i = 0; i < chargeList.size(); i++) {
-                    IndiaChargeVO indiaChargeVO = chargeList.get(i);
-                    indiaChargeVO.setAddress(CommonUtils.formatIndiaChargeAddress(indiaChargeVO.getAddress()));
+            if (indiaCinEnterpriseVO != null) {
+                List<IndiaChargeVO> chargeList = indiaCinEnterpriseVO.getChargeList();
+                if (!ObjectUtils.isEmpty(chargeList)) {
+                    for (int i = 0; i < chargeList.size(); i++) {
+                        IndiaChargeVO indiaChargeVO = chargeList.get(i);
+                        indiaChargeVO.setAddress(CommonUtils.formatIndiaChargeAddress(indiaChargeVO.getAddress()));
+                    }
                 }
+                List<RtcUserCommentVO> commentList = rtcUserCommentMapper.selectCommentByEnterpriseId(enterpriseId);
+                if (!CollectionUtils.isEmpty(commentList)) {
+                    indiaCinEnterpriseVO.setCommentList(commentList);
+                }
+                if (indiaCinMapper.checkFavouriteIndiaCin(enterpriseId, userId) != null) {
+                    indiaCinEnterpriseVO.getIndiaCin().setFavourite(1);
+                }
+                o = indiaCinEnterpriseVO;
             }
-            List<RtcUserCommentVO> commentList = rtcUserCommentMapper.selectCommentByEnterpriseId(enterpriseId);
-            if (!CollectionUtils.isEmpty(commentList)) {
-                indiaCinEnterpriseVO.setCommentList(commentList);
-            }
-            o = indiaCinEnterpriseVO;
         } else if ("llpin".equals(eType)) {
             IndiaLlpinEnterpriseVO indiaLlpinEnterpriseVO = indiaLlpinMapper.selectEnterprise(enterpriseId);
-            List<IndiaChargeVO> chargeList = indiaLlpinEnterpriseVO.getChargeList();
-            if (!ObjectUtils.isEmpty(chargeList)) {
-                for (int i = 0; i < chargeList.size(); i++) {
-                    IndiaChargeVO indiaChargeVO = chargeList.get(i);
-                    indiaChargeVO.setAddress(CommonUtils.formatIndiaChargeAddress(indiaChargeVO.getAddress()));
+            if (indiaLlpinEnterpriseVO != null) {
+                List<IndiaChargeVO> chargeList = indiaLlpinEnterpriseVO.getChargeList();
+                if (!ObjectUtils.isEmpty(chargeList)) {
+                    for (int i = 0; i < chargeList.size(); i++) {
+                        IndiaChargeVO indiaChargeVO = chargeList.get(i);
+                        indiaChargeVO.setAddress(CommonUtils.formatIndiaChargeAddress(indiaChargeVO.getAddress()));
+                    }
                 }
+                List<RtcUserCommentVO> commentList = rtcUserCommentMapper.selectCommentByEnterpriseId(enterpriseId);
+                if (!CollectionUtils.isEmpty(commentList)) {
+                    indiaLlpinEnterpriseVO.setCommentList(commentList);
+                }
+                if (indiaLlpinMapper.checkFavouriteIndiaLlpin(enterpriseId, userId) != null) {
+                    indiaLlpinEnterpriseVO.getIndiaLlpinVO().setFavourite(1);
+                }
+                o = indiaLlpinEnterpriseVO;
             }
-            List<RtcUserCommentVO> commentList = rtcUserCommentMapper.selectCommentByEnterpriseId(enterpriseId);
-            if (!CollectionUtils.isEmpty(commentList)) {
-                indiaLlpinEnterpriseVO.setCommentList(commentList);
-            }
-            o = indiaLlpinEnterpriseVO;
+
         }
         return o;
     }

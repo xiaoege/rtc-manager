@@ -2,6 +2,7 @@ package com.rtc.manager.dao;
 
 import com.rtc.manager.entity.india.IndiaCin;
 import com.rtc.manager.vo.india.IndiaCinEnterpriseVO;
+import org.apache.ibatis.annotations.Param;
 
 public interface IndiaCinMapper {
     int deleteByPrimaryKey(Integer id);
@@ -17,4 +18,6 @@ public interface IndiaCinMapper {
     int updateByPrimaryKey(IndiaCin record);
 
     IndiaCinEnterpriseVO selectEnterprise(String enterpriseId);
+
+    String checkFavouriteIndiaCin(@Param("enterpriseId") String enterpriseId, @Param("userId") String userId);
 }

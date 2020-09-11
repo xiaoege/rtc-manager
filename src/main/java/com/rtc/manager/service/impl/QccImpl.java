@@ -6,6 +6,8 @@ import com.github.pagehelper.PageInfo;
 import com.rtc.manager.dao.QccMapper;
 import com.rtc.manager.dao.QccSubDetailMapper;
 import com.rtc.manager.dao.RtcUserCommentMapper;
+import com.rtc.manager.dao.RtcUserMapper;
+import com.rtc.manager.entity.dto.RtcUserDTO;
 import com.rtc.manager.service.India;
 import com.rtc.manager.service.Qcc;
 import com.rtc.manager.service.Vietnam;
@@ -29,6 +31,8 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
@@ -62,6 +66,9 @@ public class QccImpl implements Qcc {
 
     @Autowired
     private RtcUserCommentMapper rtcUserCommentMapper;
+
+    @Autowired
+    private RtcUserMapper rtcUserMapper;
 
     @Override
     public ResultData listEnterprise(String name, int pageNum, int pageSize) throws Exception {
@@ -246,14 +253,17 @@ public class QccImpl implements Qcc {
     @Override
     public Object getEnterprise(String enterpriseId, String nation, String eType) throws Exception {
         Object o = null;
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(userDetails.getUsername());
+        String userId = rtcUserDTO.getUuid();
         switch (nation) {
             case "China":
                 QccVO qccVO = qccMapper.selectByEnterpriseId(enterpriseId);
-                List<RtcUserCommentVO> commentList = rtcUserCommentMapper.selectCommentByEnterpriseId(enterpriseId);
-                if (!CollectionUtils.isEmpty(commentList)) {
-                    qccVO.setCommentList(commentList);
-                }
                 if (qccVO != null) {
+                    List<RtcUserCommentVO> commentList = rtcUserCommentMapper.selectCommentByEnterpriseId(enterpriseId);
+                    if (!CollectionUtils.isEmpty(commentList)) {
+                        qccVO.setCommentList(commentList);
+                    }
                     String transferMoney = CommonUtils.transferMoney(qccVO.getRegisteredCapital());
                     qccVO.setRegisteredCapital(transferMoney);
 //                    String address = CommonUtils.translate(qccVO.getAddress(), "zh", "en");
@@ -279,16 +289,16 @@ public class QccImpl implements Qcc {
                             qccShareholderVO.setName(name);
                         }
                     }
-                    if (qccMapper.checkFavouriteQcc(enterpriseId) != null) {
+                    if (qccMapper.checkFavouriteQcc(userId, enterpriseId) != null) {
                         qccVO.setFavourite(1);
                     }
                     o = qccVO;
                 }
                 return o;
             case "India":
-                return india.getIndiaEnterprise(enterpriseId, eType);
+                return india.getIndiaEnterprise(enterpriseId, eType, userId);
             case "Vietnam":
-                return vietnam.getIndiaEnterprise(enterpriseId);
+                return vietnam.getIndiaEnterprise(enterpriseId, userId);
         }
         return null;
     }

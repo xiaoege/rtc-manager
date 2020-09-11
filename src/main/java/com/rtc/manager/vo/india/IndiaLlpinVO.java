@@ -24,6 +24,8 @@ public class IndiaLlpinVO {
     private String annualDate;
     private String llpStatus;
 
+    private int favourite;
+
     public Integer getId() {
         return id;
     }
@@ -158,5 +160,13 @@ public class IndiaLlpinVO {
 
     public void setLlpStatus(String llpStatus) {
         this.llpStatus = llpStatus;
+    }
+
+    public int getFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(int favourite) {
+        this.favourite = favourite;
     }
 }
