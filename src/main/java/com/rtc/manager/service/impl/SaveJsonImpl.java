@@ -2,6 +2,7 @@ package com.rtc.manager.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rtc.manager.dao.*;
@@ -909,8 +910,15 @@ public class SaveJsonImpl implements SaveJson {
             }
             String sss = sb.toString();
 //            sss = sss.replace("\uFeFF", "");
-            List<VietnamJsonDTO> list = objectMapper.readValue(sss, new TypeReference<List<VietnamJsonDTO>>() {
-            });
+            List<VietnamJsonDTO> list = null;
+            try {
+                list = objectMapper.readValue(sss, new TypeReference<List<VietnamJsonDTO>>() {
+                });
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                logger.info("json序列化出现问题:{}", file.getName());
+                continue;
+            }
             if (!CollectionUtils.isEmpty(list)) {
                 for (int i = 0; i < list.size(); i++) {
                     VietnamJsonDTO vietnamJsonDTO = list.get(i);
