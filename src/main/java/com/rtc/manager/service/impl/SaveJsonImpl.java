@@ -216,8 +216,15 @@ public class SaveJsonImpl implements SaveJson {
             ObjectMapper objectMapper = new ObjectMapper();
             String result = objectMapper.writeValueAsString(sss);
             //总的数据，下面开始分开对每个对象（表）进行操作
-            List<RtcEnterpriseDTO> contentList = objectMapper.readValue(sss, new TypeReference<List<RtcEnterpriseDTO>>() {
-            });
+            List<RtcEnterpriseDTO> contentList = null;
+            try {
+                contentList = objectMapper.readValue(sss, new TypeReference<List<RtcEnterpriseDTO>>() {
+                });
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                logger.info("json序列化出现问题:{}", file.getName());
+                continue;
+            }
 
             for (RtcEnterpriseDTO temp :
                     contentList) {
@@ -822,7 +829,14 @@ public class SaveJsonImpl implements SaveJson {
             String sss = sb.toString();
 //            sss = sss.replace("\uFeFF", "");
             ObjectMapper objectMapper = new ObjectMapper();
-            List<HashMap> list = (List<HashMap>) objectMapper.readValue(sss, Object.class);
+            List<HashMap> list = null;
+            try {
+                list = (List<HashMap>) objectMapper.readValue(sss, Object.class);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                logger.info("json序列化出现问题:{}", file.getName());
+                continue;
+            }
             int cin = 0;
             int llpin = 0;
             if (!CollectionUtils.isEmpty(list)) {
