@@ -48,9 +48,9 @@ rtc:
   mail:
     redisEmailLimt: 1000
   portrait:
-        /Users/chenhang/work/portrait
+    #    /Users/chenhang/work/portrait
     #    实际保存位置
-#    /home/work/portrait
+    /home/work/portrait
   #  对外暴露位置
   portraitURI:
     http://192.168.1.125/portrait
@@ -63,4 +63,6 @@ rtc:
   # 登录token过期时间(day)
   loginTokenTTL:
     30
+  comment-stars:
+    0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5
 

@@ -519,6 +519,7 @@ public class UserController {
 
     /**
      * 我的收藏-移除收藏
+     *
      * @param body
      * @return
      */
@@ -551,7 +552,7 @@ public class UserController {
     @ApiOperation(value = "查看收藏夹列表，默认查看20个")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
-            @ApiImplicitParam(name = "sort", value ="默认根据添加时间倒序排列，在此基础上可以选择国家排列，字母排列不依照时间倒序。参数示例：nation：根据国家排列。e_name：根据字母排列"),
+            @ApiImplicitParam(name = "sort", value = "默认根据添加时间倒序排列，在此基础上可以选择国家排列，字母排列不依照时间倒序。参数示例：nation：根据国家排列。e_name：根据字母排列"),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false, defaultValue = "1"),
             @ApiImplicitParam(name = "pageSize", value = "当前页大小", required = false, defaultValue = "20")
     })
@@ -586,6 +587,7 @@ public class UserController {
 
     /**
      * 新增评论
+     *
      * @param body
      * @return
      */
@@ -597,7 +599,8 @@ public class UserController {
                     "    \"enterpriseId\":\"e74d2f1a75fe47e08a9b80649644aa61\",\n" +
                     "    \"nation\":\"Vietnam\",\n" +
                     "    \"e_type\":\"Vietnam\"\n" +
-                    "}", paramType = "body")
+                    "    \"stars\":\"5\"\n" +
+                    "} , stars数据类型:string, 参数取值:[0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5]", paramType = "body")
     })
     @ApiResponses({
             @ApiResponse(code = 200, message = "{\n" +
@@ -609,5 +612,38 @@ public class UserController {
     @PostMapping("saveComment")
     public ResultData saveComment(@RequestBody String body) {
         return userService.saveComment(body);
+    }
+
+    /**
+     * 翻译评论
+     *
+     * @param commentId
+     * @return
+     * @throws Exception
+     */
+    @ApiOperation(value = "翻译评论")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
+            @ApiImplicitParam(name = "commentId", value = "参数示例：86", paramType = "query")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "{\n" +
+                    "    \"message\": \"请求成功\",\n" +
+                    "    \"data\": {\n" +
+                    "        \"commentId\": 86,\n" +
+                    "        \"comment\": \"Five star high praise\"\n" +
+                    "    },\n" +
+                    "    \"code\": 200\n" +
+                    "}"),
+            @ApiResponse(code = 708, message = "{\n" +
+                    "    \"message\": \"翻译失败\",\n" +
+                    "    \"data\": {\n" +
+                    "        \"commentId\": 86,\n" +
+                    "        \"comment\":\"\"" +
+                    "}")
+    })
+    @GetMapping("translateComment")
+    public ResultData translateComment(@RequestParam(name = "commentId") Integer commentId) throws Exception {
+        return userService.translateComment(commentId);
     }
 }

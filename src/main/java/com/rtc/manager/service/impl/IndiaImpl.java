@@ -99,8 +99,15 @@ public class IndiaImpl implements India {
     }
 
     @Override
-    public Object getIndiaEnterprise(String enterpriseId, String eType, String userId) {
+    public Object getIndiaEnterprise(String enterpriseId, String eType, String userId, String timeZone) {
         Object o = null;
+        List<RtcUserCommentVO> commentList = rtcUserCommentMapper.selectCommentByEnterpriseId(enterpriseId);
+        if (!ObjectUtils.isEmpty(commentList)) {
+            for (int i = 0; i < commentList.size(); i++) {
+                RtcUserCommentVO vo = commentList.get(i);
+                vo.setIntervalTime(CommonUtils.compareTime(timeZone, vo.getGmtCreate()));
+            }
+        }
         if ("cin".equals(eType)) {
             IndiaCinEnterpriseVO indiaCinEnterpriseVO = indiaCinMapper.selectEnterprise(enterpriseId);
             if (indiaCinEnterpriseVO != null) {
@@ -111,10 +118,7 @@ public class IndiaImpl implements India {
                         indiaChargeVO.setAddress(CommonUtils.formatIndiaChargeAddress(indiaChargeVO.getAddress()));
                     }
                 }
-                List<RtcUserCommentVO> commentList = rtcUserCommentMapper.selectCommentByEnterpriseId(enterpriseId);
-                if (!CollectionUtils.isEmpty(commentList)) {
-                    indiaCinEnterpriseVO.setCommentList(commentList);
-                }
+                indiaCinEnterpriseVO.setCommentList(commentList);
                 if (indiaCinMapper.checkFavouriteIndiaCin(enterpriseId, userId) != null) {
                     indiaCinEnterpriseVO.getIndiaCin().setFavourite(1);
                 }
@@ -130,10 +134,7 @@ public class IndiaImpl implements India {
                         indiaChargeVO.setAddress(CommonUtils.formatIndiaChargeAddress(indiaChargeVO.getAddress()));
                     }
                 }
-                List<RtcUserCommentVO> commentList = rtcUserCommentMapper.selectCommentByEnterpriseId(enterpriseId);
-                if (!CollectionUtils.isEmpty(commentList)) {
-                    indiaLlpinEnterpriseVO.setCommentList(commentList);
-                }
+                indiaLlpinEnterpriseVO.setCommentList(commentList);
                 if (indiaLlpinMapper.checkFavouriteIndiaLlpin(enterpriseId, userId) != null) {
                     indiaLlpinEnterpriseVO.getIndiaLlpinVO().setFavourite(1);
                 }

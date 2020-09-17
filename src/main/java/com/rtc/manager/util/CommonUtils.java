@@ -290,29 +290,30 @@ public final class CommonUtils {
 
     public static Map translate2(String query, String from, String to) throws Exception {
         Map map = new HashMap();
-        map.put("code", 0);
+        map.put("code", 500);
         map.put("data", null);
         if (StringUtils.isEmpty(query) || StringUtils.isEmpty(query.strip())) {
+            map.put("code", 706);
             return map;
         }
-        logger.info("开始翻译{}", Instant.now());
         query = query.strip();
+        logger.info("开始翻译:{}, {}", query, Instant.now());
         TransApi transApi = new TransApi(APP_ID, SECURITY_KEY);
         String transResult = transApi.getTransResult(query, from, to);
-        logger.info("翻译返回json：{}", transResult);
+        logger.info("结束翻译:{}, {}", transResult, Instant.now());
+
         ObjectMapper objectMapper = new ObjectMapper();
         BaiduTranslatePOJO baiduTranslatePOJO = objectMapper.readValue(transResult, BaiduTranslatePOJO.class);
-        if (baiduTranslatePOJO != null) {
+        if (baiduTranslatePOJO != null && baiduTranslatePOJO.getError_code() == null) {
             List list = (List) baiduTranslatePOJO.getTrans_result();
             if (!CollectionUtils.isEmpty(list)) {
                 TransResult o = (TransResult) list.get(0);
                 String dst = o.getDst();
                 map.put("data", dst);
-                map.put("code", 1);
+                map.put("code", 200);
                 return map;
             }
         }
-        logger.info("结束翻译{}", Instant.now());
         return map;
     }
 

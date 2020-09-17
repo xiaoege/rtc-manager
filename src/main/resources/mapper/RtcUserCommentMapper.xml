@@ -9,12 +9,13 @@
     <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
     <result column="nation" jdbcType="VARCHAR" property="nation" />
     <result column="e_type" jdbcType="VARCHAR" property="eType" />
+    <result column="stars" jdbcType="VARCHAR" property="stars" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, comment, examination, enterprise_id, nation, e_type, gmt_create, gmt_modified, 
+    id, user_id, comment, examination, enterprise_id, nation, e_type, stars, gmt_create, gmt_modified,
     status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -22,6 +23,8 @@
     <include refid="Base_Column_List" />
     from rtc_user_comment
     where id = #{id,jdbcType=INTEGER}
+    and status = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    and examination = ${@com.rtc.manager.util.CommonConst@STATUS_COMMENT_EXAMINED}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from rtc_user_comment
@@ -30,11 +33,11 @@
   <insert id="insert" parameterType="com.rtc.manager.entity.RtcUserComment">
     insert into rtc_user_comment (id, user_id, comment, 
       examination, enterprise_id, nation, 
-      e_type, gmt_create, gmt_modified, 
+      e_type, stars, gmt_create, gmt_modified,
       status)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{comment,jdbcType=VARCHAR}, 
       #{examination,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{nation,jdbcType=VARCHAR}, 
-      #{eType,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
+      #{eType,jdbcType=VARCHAR}, #{stars,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP},
       #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.rtc.manager.entity.RtcUserComment">
@@ -60,6 +63,9 @@
       </if>
       <if test="eType != null">
         e_type,
+      </if>
+      <if test="stars != null">
+        stars,
       </if>
       <if test="gmtCreate != null">
         gmt_create,
@@ -93,6 +99,9 @@
       <if test="eType != null">
         #{eType,jdbcType=VARCHAR},
       </if>
+      <if test="stars != null">
+        #{stars,jdbcType=VARCHAR},
+      </if>
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
@@ -125,6 +134,9 @@
       <if test="eType != null">
         e_type = #{eType,jdbcType=VARCHAR},
       </if>
+      <if test="stars != null">
+        stars = #{stars,jdbcType=VARCHAR},
+      </if>
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
@@ -145,6 +157,7 @@
       enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
       nation = #{nation,jdbcType=VARCHAR},
       e_type = #{eType,jdbcType=VARCHAR},
+      stars = #{stars,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER}
@@ -154,9 +167,10 @@
   <select id="selectCommentByEnterpriseId" resultType="com.rtc.manager.vo.RtcUserCommentVO">
     SELECT
         rtc_user_comment.id,
-        rtc_user_comment.comment comment,
+        rtc_user_comment.comment,
+        rtc_user_comment.stars,
         rtc_user_comment.gmt_create gmtCreate,
-        rtc_user.nickname nickname,
+        rtc_user.nickname,
 	    rtc_user.portrait
     FROM
         rtc_user_comment

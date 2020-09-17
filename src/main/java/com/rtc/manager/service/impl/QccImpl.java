@@ -16,14 +16,12 @@ import com.rtc.manager.util.ElasticsearchUtils;
 import com.rtc.manager.vo.*;
 import com.rtc.manager.vo.india.IndiaCinListVO;
 import com.rtc.manager.vo.india.IndiaLlpinLIstVO;
-import org.apache.http.HttpHost;
 import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.search.MultiSearchRequest;
 import org.elasticsearch.action.search.MultiSearchResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.MatchPhraseQueryBuilder;
 import org.elasticsearch.search.SearchHit;
@@ -251,7 +249,7 @@ public class QccImpl implements Qcc {
     }*/
 
     @Override
-    public Object getEnterprise(String enterpriseId, String nation, String eType) throws Exception {
+    public Object getEnterprise(String enterpriseId, String nation, String eType, String timeZone) throws Exception {
         Object o = null;
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(userDetails.getUsername());
@@ -262,6 +260,10 @@ public class QccImpl implements Qcc {
                 if (qccVO != null) {
                     List<RtcUserCommentVO> commentList = rtcUserCommentMapper.selectCommentByEnterpriseId(enterpriseId);
                     if (!CollectionUtils.isEmpty(commentList)) {
+                        for (int i = 0; i < commentList.size(); i++) {
+                            RtcUserCommentVO vo = commentList.get(i);
+                            vo.setIntervalTime(CommonUtils.compareTime(timeZone, vo.getGmtCreate()));
+                        }
                         qccVO.setCommentList(commentList);
                     }
                     String transferMoney = CommonUtils.transferMoney(qccVO.getRegisteredCapital());
@@ -296,9 +298,9 @@ public class QccImpl implements Qcc {
                 }
                 return o;
             case "India":
-                return india.getIndiaEnterprise(enterpriseId, eType, userId);
+                return india.getIndiaEnterprise(enterpriseId, eType, userId, timeZone);
             case "Vietnam":
-                return vietnam.getIndiaEnterprise(enterpriseId, userId);
+                return vietnam.getIndiaEnterprise(enterpriseId, userId, timeZone);
         }
         return null;
     }

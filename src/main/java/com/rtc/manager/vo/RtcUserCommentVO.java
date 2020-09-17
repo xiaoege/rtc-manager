@@ -17,6 +17,10 @@ public class RtcUserCommentVO {
 
     private String portrait;
 
+    private String stars;
+
+    private String intervalTime;
+
     public Integer getId() {
         return id;
     }
@@ -56,5 +60,21 @@ public class RtcUserCommentVO {
 
     public void setPortrait(String portrait) {
         this.portrait = portrait;
+    }
+
+    public String getStars() {
+        return stars;
+    }
+
+    public void setStars(String stars) {
+        this.stars = stars;
+    }
+
+    public String getIntervalTime() {
+        return intervalTime;
+    }
+
+    public void setIntervalTime(String intervalTime) {
+        this.intervalTime = intervalTime;
     }
 }

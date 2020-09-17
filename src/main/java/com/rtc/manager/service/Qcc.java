@@ -16,7 +16,7 @@ public interface Qcc {
      */
     ResultData listEnterprise(String name, int pageNum, int pageSize) throws Exception;
 
-    Object getEnterprise(String enterpriseId, String nation, String eType) throws Exception;
+    Object getEnterprise(String enterpriseId, String nation, String eType, String timeZone) throws Exception;
 
     PageInfo<List> getEnterpriseDetail(String name, String enterpriseId, int pageNum, int pageSize, String nation, String eType);
 

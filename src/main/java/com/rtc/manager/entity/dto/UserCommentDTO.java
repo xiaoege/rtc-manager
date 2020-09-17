@@ -3,6 +3,8 @@ package com.rtc.manager.entity.dto;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.math.BigDecimal;
+
 /**
  * @author ChenHang
  */
@@ -16,6 +18,8 @@ public class UserCommentDTO {
 
     @JsonAlias("e_type")
     private String eType;
+
+    private String stars;
 
     public String getComment() {
         return comment;
@@ -47,5 +51,13 @@ public class UserCommentDTO {
 
     public void seteType(String eType) {
         this.eType = eType;
+    }
+
+    public String getStars() {
+        return stars;
+    }
+
+    public void setStars(String stars) {
+        this.stars = stars;
     }
 }

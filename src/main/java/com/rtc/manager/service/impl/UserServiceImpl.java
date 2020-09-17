@@ -14,6 +14,7 @@ import com.rtc.manager.entity.dto.RemoveFavouriteDTO;
 import com.rtc.manager.entity.dto.RtcUserDTO;
 import com.rtc.manager.entity.dto.UserCommentDTO;
 import com.rtc.manager.service.UserService;
+import com.rtc.manager.util.CommonUtils;
 import com.rtc.manager.util.ElasticsearchUtils;
 import com.rtc.manager.util.UserUtils;
 import com.rtc.manager.vo.ResultData;
@@ -55,6 +56,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.lang.reflect.Array;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -115,6 +119,9 @@ public class UserServiceImpl implements UserService {
 
     @Value("${rtc.portraitURI}")
     private String PORTRAIT_URI;
+
+    @Value("${rtc.comment-stars}")
+    private List<String> commentStars;
 
     static {
         JAVA_MAIL_SENDER = new JavaMailSenderImpl();
@@ -889,7 +896,11 @@ public class UserServiceImpl implements UserService {
         try {
             commentDTO = objectMapper.readValue(body, UserCommentDTO.class);
             comment = commentDTO.getComment();
-        } catch (JsonProcessingException e) {
+            String stars = commentDTO.getStars();
+            if (!commentStars.contains(stars)) {
+                return ResultData.FAIL(null, 400, "数据有误");
+            }
+        } catch (Exception e) {
             e.printStackTrace();
             return ResultData.FAIL(null, 400, "数据有误");
         }
@@ -904,6 +915,35 @@ public class UserServiceImpl implements UserService {
             return ResultData.SUCCESS(null, "评论成功");
         }
         return ResultData.FAIL(null, 400);
+    }
+
+    /**
+     * 翻译评论
+     *
+     * @param commentId
+     * @return
+     */
+    @Override
+    public ResultData translateComment(Integer commentId) throws Exception{
+        Map resultMap = new HashMap();
+        resultMap.put("commentId", commentId);
+        resultMap.put("comment", "");
+        String key = "translate-comment:commentId:" + commentId;
+        if (stringRedisTemplate.hasKey(key)) {
+            resultMap.put("comment", stringRedisTemplate.opsForValue().get(key));
+            return ResultData.SUCCESS(resultMap);
+        }
+        RtcUserComment rtcUserComment = rtcUserCommentMapper.selectByPrimaryKey(commentId);
+        String comment = rtcUserComment.getComment();
+        Map map = CommonUtils.translate2(comment, "auto", "en");
+        int code = (int) map.get("code");
+        if (code == 200) {
+            comment = (String) map.get("data");
+            stringRedisTemplate.opsForValue().set(key, comment);
+            resultMap.put("comment", comment);
+            return ResultData.SUCCESS(resultMap);
+        }
+        return ResultData.FAIL(resultMap, 708, "翻译失败");
     }
 
     /**

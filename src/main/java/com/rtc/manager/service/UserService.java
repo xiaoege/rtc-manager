@@ -140,4 +140,11 @@ public interface UserService {
      * @return
      */
     ResultData saveComment(String body);
+
+    /**
+     * 翻译评论
+     * @param commentId
+     * @return
+     */
+    ResultData translateComment(Integer commentId) throws Exception;
 }

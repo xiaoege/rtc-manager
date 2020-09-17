@@ -23,6 +23,8 @@ public class RtcUserComment {
 
     private Integer status;
 
+    private String stars;
+
     public Integer getId() {
         return id;
     }
@@ -101,5 +103,13 @@ public class RtcUserComment {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getStars() {
+        return stars;
+    }
+
+    public void setStars(String stars) {
+        this.stars = stars;
     }
 }
