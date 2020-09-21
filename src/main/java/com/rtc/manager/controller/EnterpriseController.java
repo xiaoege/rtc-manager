@@ -209,6 +209,7 @@ public class EnterpriseController {
      */
     @ApiOperation("查看企业的所有评论")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
             @ApiImplicitParam(name = "enterpriseId", value = "企业id", required = true),
             @ApiImplicitParam(name = "timeZone", value = "时区，参数示例：8或者-8", required = false),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false, defaultValue = "1"),
