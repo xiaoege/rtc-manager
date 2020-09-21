@@ -29,6 +29,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -67,6 +68,9 @@ public class QccImpl implements Qcc {
 
     @Autowired
     private RtcUserMapper rtcUserMapper;
+
+    @Value("${rtc.timezone}")
+    private List<String> timezone;
 
     @Override
     public ResultData listEnterprise(String name, int pageNum, int pageSize) throws Exception {
@@ -622,6 +626,9 @@ public class QccImpl implements Qcc {
         PageHelper.startPage(pageNum, pageSize);
         List<RtcUserCommentVO> commentList = rtcUserCommentMapper.selectCommentByEnterpriseId(enterpriseId);
         PageHelper.clearPage();
+        if (!timezone.contains(timeZone)) {
+            timeZone = "0";
+        }
         if (!timeZone.startsWith("-") && !timeZone.startsWith("+")) {
             timeZone = "+" + timeZone;
         }

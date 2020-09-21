@@ -37,6 +37,9 @@ public class NewsImpl implements News {
     @Value("${rtc.url}")
     private String url;
 
+    @Value("${rtc.timezone}")
+    private List<String> timezone;
+
     @Override
     public PageInfo<RtcNewsVO> listNews(String startDate, String endDate, int pageNum, int pageSize, Integer sequence, String timeZone) throws Exception {
         PageHelper.startPage(pageNum, pageSize);
@@ -62,6 +65,9 @@ public class NewsImpl implements News {
                 }
                 String author = rtcNewsVO.getAuthor();
                 rtcNewsVO.setAuthor(modifyAuthor(author));
+                if (!timezone.contains(timeZone)) {
+                    timeZone = "0";
+                }
                 if (!timeZone.startsWith("-") && !timeZone.startsWith("+")) {
                     timeZone = "+" + timeZone;
                 }
@@ -143,6 +149,9 @@ public class NewsImpl implements News {
             }
             newsDetail.setResultList(resultList);
             newsDetail.setContent(null);
+            if (!timezone.contains(timeZone)) {
+                timeZone = "0";
+            }
             if (!timeZone.startsWith("-") && !timeZone.startsWith("+")) {
                 timeZone = "+" + timeZone;
             }

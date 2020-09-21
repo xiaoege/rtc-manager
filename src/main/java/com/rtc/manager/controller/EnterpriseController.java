@@ -100,7 +100,7 @@ public class EnterpriseController {
             @ApiImplicitParam(name = "enterpriseId", value = "企业id", required = true),
             @ApiImplicitParam(name = "nation", value = "国家：China / India / Vietnam", required = true),
             @ApiImplicitParam(name = "e_type", value = "企业类型，对应国家：China.China / India.[cin, llpin] / Vietnam.Vietnam", required = true),
-            @ApiImplicitParam(name = "timeZone", value = "时区，参数示例：8或者-8", required = false)
+            @ApiImplicitParam(name = "timeZone", value = "时区，参数示例：8或者-8, 范围: -18 to 18 的整数", required = false)
     })
     @GetMapping("getEnterprise")
     public ResultData<Object> getEnterprise(@RequestParam(name = "enterpriseId", required = true) String enterpriseId,
@@ -211,7 +211,7 @@ public class EnterpriseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
             @ApiImplicitParam(name = "enterpriseId", value = "企业id", required = true),
-            @ApiImplicitParam(name = "timeZone", value = "时区，参数示例：8或者-8", required = false),
+            @ApiImplicitParam(name = "timeZone", value = "时区，参数示例：8或者-8, 范围: -18 to 18 的整数", required = false),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false, defaultValue = "1"),
             @ApiImplicitParam(name = "pageSize", value = "当前页大小", required = false, defaultValue = "2")
     })
