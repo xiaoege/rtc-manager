@@ -27,14 +27,6 @@ public class VietnamImpl implements Vietnam {
     public Object getIndiaEnterprise(String enterpriseId, String userId, String timeZone) {
         VietnamEnterpriseVO vo = vietnamEnterpriseMapper.selectIndiaEnterprise(enterpriseId);
         if (vo != null) {
-            List<RtcUserCommentVO> commentList = rtcUserCommentMapper.selectCommentByEnterpriseId(enterpriseId);
-            if (!ObjectUtils.isEmpty(commentList)) {
-                for (int i = 0; i < commentList.size(); i++) {
-                    RtcUserCommentVO commentVO = commentList.get(i);
-                    commentVO.setIntervalTime(CommonUtils.compareTime(timeZone, commentVO.getGmtCreate()));
-                }
-            }
-            vo.setCommentList(commentList);
             if (vietnamEnterpriseMapper.checkFavouriteVietnam(enterpriseId, userId) != null) {
                 vo.setFavourite(1);
             }

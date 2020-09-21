@@ -7,7 +7,6 @@ import com.rtc.manager.dao.RtcUserCommentMapper;
 import com.rtc.manager.service.India;
 import com.rtc.manager.util.CommonUtils;
 import com.rtc.manager.util.ElasticsearchUtils;
-import com.rtc.manager.vo.RtcUserCommentVO;
 import com.rtc.manager.vo.india.*;
 import org.elasticsearch.action.search.MultiSearchRequest;
 import org.elasticsearch.action.search.MultiSearchResponse;
@@ -21,7 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
@@ -101,13 +99,6 @@ public class IndiaImpl implements India {
     @Override
     public Object getIndiaEnterprise(String enterpriseId, String eType, String userId, String timeZone) {
         Object o = null;
-        List<RtcUserCommentVO> commentList = rtcUserCommentMapper.selectCommentByEnterpriseId(enterpriseId);
-        if (!ObjectUtils.isEmpty(commentList)) {
-            for (int i = 0; i < commentList.size(); i++) {
-                RtcUserCommentVO vo = commentList.get(i);
-                vo.setIntervalTime(CommonUtils.compareTime(timeZone, vo.getGmtCreate()));
-            }
-        }
         if ("cin".equals(eType)) {
             IndiaCinEnterpriseVO indiaCinEnterpriseVO = indiaCinMapper.selectEnterprise(enterpriseId);
             if (indiaCinEnterpriseVO != null) {
@@ -118,7 +109,6 @@ public class IndiaImpl implements India {
                         indiaChargeVO.setAddress(CommonUtils.formatIndiaChargeAddress(indiaChargeVO.getAddress()));
                     }
                 }
-                indiaCinEnterpriseVO.setCommentList(commentList);
                 if (indiaCinMapper.checkFavouriteIndiaCin(enterpriseId, userId) != null) {
                     indiaCinEnterpriseVO.getIndiaCin().setFavourite(1);
                 }
@@ -134,7 +124,6 @@ public class IndiaImpl implements India {
                         indiaChargeVO.setAddress(CommonUtils.formatIndiaChargeAddress(indiaChargeVO.getAddress()));
                     }
                 }
-                indiaLlpinEnterpriseVO.setCommentList(commentList);
                 if (indiaLlpinMapper.checkFavouriteIndiaLlpin(enterpriseId, userId) != null) {
                     indiaLlpinEnterpriseVO.getIndiaLlpinVO().setFavourite(1);
                 }

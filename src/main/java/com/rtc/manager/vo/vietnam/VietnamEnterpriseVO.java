@@ -1,7 +1,6 @@
 package com.rtc.manager.vo.vietnam;
 
 import com.fasterxml.jackson.annotation.JsonSetter;
-import com.rtc.manager.vo.RtcUserCommentVO;
 
 import java.util.List;
 
@@ -29,8 +28,6 @@ public class VietnamEnterpriseVO {
     private String headOfficeAddress;
 
     private List<VietnamBusinessActivitiesVO> vsciList;
-
-    private List<RtcUserCommentVO> commentList;
 
     private int favourite;
 
@@ -132,14 +129,6 @@ public class VietnamEnterpriseVO {
 
     public void setVsciList(List<VietnamBusinessActivitiesVO> vsciList) {
         this.vsciList = vsciList;
-    }
-
-    public List<RtcUserCommentVO> getCommentList() {
-        return commentList;
-    }
-
-    public void setCommentList(List<RtcUserCommentVO> commentList) {
-        this.commentList = commentList;
     }
 
     public int getFavourite() {
