@@ -41,8 +41,6 @@ public class QccVO {
     private String nation;
     private int favourite;
 
-    private List<RtcUserCommentVO> commentList;
-
     public Integer getId() {
         return id;
     }
@@ -155,11 +153,4 @@ public class QccVO {
         this.favourite = favourite;
     }
 
-    public List<RtcUserCommentVO> getCommentList() {
-        return commentList;
-    }
-
-    public void setCommentList(List<RtcUserCommentVO> commentList) {
-        this.commentList = commentList;
-    }
 }

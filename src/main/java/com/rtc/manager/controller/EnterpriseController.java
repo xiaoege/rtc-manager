@@ -100,7 +100,7 @@ public class EnterpriseController {
             @ApiImplicitParam(name = "enterpriseId", value = "企业id", required = true),
             @ApiImplicitParam(name = "nation", value = "国家：China / India / Vietnam", required = true),
             @ApiImplicitParam(name = "e_type", value = "企业类型，对应国家：China.China / India.[cin, llpin] / Vietnam.Vietnam", required = true),
-            @ApiImplicitParam(name = "timeZone", value = "参数示例：+0", required = false),
+            @ApiImplicitParam(name = "timeZone", value = "时区，参数示例：8或者-8", required = false)
     })
     @GetMapping("getEnterprise")
     public ResultData<Object> getEnterprise(@RequestParam(name = "enterpriseId", required = true) String enterpriseId,
@@ -197,6 +197,43 @@ public class EnterpriseController {
                                                          @RequestParam(name = "e_type", required = false) String eType) {
         Object list = qcc.getEnterpriseSubDetailMuti(name, enterpriseId, id, pageNum, pageSize, nation, eType);
         return ResultData.SUCCESS(list);
+    }
+
+    /**
+     * 查看企业的所有评论
+     *
+     * @param enterpriseId
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @ApiOperation("查看企业的所有评论")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "enterpriseId", value = "企业id", required = true),
+            @ApiImplicitParam(name = "timeZone", value = "时区，参数示例：8或者-8", required = false),
+            @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false, defaultValue = "1"),
+            @ApiImplicitParam(name = "pageSize", value = "当前页大小", required = false, defaultValue = "2")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "省略一些分页返回的字段，主要的评论list: \"list\": [\n" +
+                    "            {\n" +
+                    "                \"comment\": \"评论内容\",\n" +
+                    "                \"gmtCreate\": \"服务器所在时区的创建时间，不展示，暂时提供以防备用\",\n" +
+                    "                \"nickname\": \"miao\",\n" +
+                    "                \"portrait\": \"http://192.168.1.125/portrait/dc410238-c5cc-4ad3-8e2f-96e0b145b239/2020-09-02-9643372645178440190.png\",\n" +
+                    "                \"stars\": \"3.5\",\n" +
+                    "                \"intervalTime\": \"3 days ago(间隔时间)\",\n" +
+                    "                \"commentId\": 90\n" +
+                    "            }" +
+                    "]")
+    }
+    )
+    @GetMapping("listEnterpriseComment")
+    public ResultData listEnterpriseComment(@RequestParam(name = "enterpriseId", required = true) String enterpriseId,
+                                            @RequestParam(name = "timeZone", required = false, defaultValue = "+0") String timeZone,
+                                            @RequestParam(name = "pageNum", required = false, defaultValue = "1") int pageNum,
+                                            @RequestParam(name = "pageSize", required = false, defaultValue = "2") int pageSize) {
+        return qcc.listEnterpriseComment(enterpriseId, timeZone, pageNum, pageSize);
     }
 
 }

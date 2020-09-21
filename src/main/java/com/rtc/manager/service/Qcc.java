@@ -23,4 +23,14 @@ public interface Qcc {
     Object getEnterpriseSubDetail(String name, Integer id, String nation, String eType);
 
     Object getEnterpriseSubDetailMuti(String name, String enterpriseId, Integer id, int pageNum, int pageSize, String nation, String eType);
+
+    /**
+     * 查看企业的所有评论
+     * @param enterpriseId
+     * @param timeZone
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    ResultData listEnterpriseComment(String enterpriseId, String timeZone, int pageNum, int pageSize);
 }

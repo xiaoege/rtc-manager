@@ -258,14 +258,6 @@ public class QccImpl implements Qcc {
             case "China":
                 QccVO qccVO = qccMapper.selectByEnterpriseId(enterpriseId);
                 if (qccVO != null) {
-                    List<RtcUserCommentVO> commentList = rtcUserCommentMapper.selectCommentByEnterpriseId(enterpriseId);
-                    if (!CollectionUtils.isEmpty(commentList)) {
-                        for (int i = 0; i < commentList.size(); i++) {
-                            RtcUserCommentVO vo = commentList.get(i);
-                            vo.setIntervalTime(CommonUtils.compareTime(timeZone, vo.getGmtCreate()));
-                        }
-                        qccVO.setCommentList(commentList);
-                    }
                     String transferMoney = CommonUtils.transferMoney(qccVO.getRegisteredCapital());
                     qccVO.setRegisteredCapital(transferMoney);
 //                    String address = CommonUtils.translate(qccVO.getAddress(), "zh", "en");
@@ -614,6 +606,33 @@ public class QccImpl implements Qcc {
         }
 //        }
         return o;
+    }
+
+    /**
+     * 查看企业的所有评论
+     *
+     * @param enterpriseId
+     * @param timeZone
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public ResultData listEnterpriseComment(String enterpriseId, String timeZone, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<RtcUserCommentVO> commentList = rtcUserCommentMapper.selectCommentByEnterpriseId(enterpriseId);
+        PageHelper.clearPage();
+        if (!timeZone.startsWith("-") && !timeZone.startsWith("+")) {
+            timeZone = "+" + timeZone;
+        }
+        if (!CollectionUtils.isEmpty(commentList)) {
+            for (int i = 0; i < commentList.size(); i++) {
+                RtcUserCommentVO vo = commentList.get(i);
+                vo.setIntervalTime(CommonUtils.compareTime(timeZone, vo.getGmtCreate()));
+            }
+        }
+
+        return ResultData.SUCCESS(new PageInfo(commentList));
     }
 
 
