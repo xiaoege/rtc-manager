@@ -629,13 +629,10 @@ public class QccImpl implements Qcc {
         if (!timezone.contains(timeZone)) {
             timeZone = "0";
         }
-        if (!timeZone.startsWith("-") && !timeZone.startsWith("+")) {
-            timeZone = "+" + timeZone;
-        }
         if (!CollectionUtils.isEmpty(commentList)) {
             for (int i = 0; i < commentList.size(); i++) {
                 RtcUserCommentVO vo = commentList.get(i);
-                vo.setIntervalTime(CommonUtils.compareTime(timeZone, vo.getGmtCreate()));
+                vo.setCreateTime(CommonUtils.transfer2LocalTime(timeZone, vo.getGmtCreate()));
             }
         }
 

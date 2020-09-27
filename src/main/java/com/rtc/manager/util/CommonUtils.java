@@ -16,10 +16,7 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ThreadFactory;
@@ -108,6 +105,26 @@ public final class CommonUtils {
         }
 
         return String.valueOf(serverTime);
+    }
+
+    /**
+     * 把服务器时间转换成所在时区的时间
+     *
+     * @param timeZone 要转换成的时间的时区
+     * @param time     服务器时间
+     * @return
+     */
+    public static LocalDateTime transfer2LocalTime(String timeZone, LocalDateTime time) {
+        LocalDateTime localDateTime;
+        try {
+            localDateTime = time.plusHours(Long.parseLong(timeZone));
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info(CommonUtils.getExceptionInfo(e));
+            return time;
+        }
+
+        return localDateTime;
     }
 
     /**

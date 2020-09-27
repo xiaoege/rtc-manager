@@ -19,7 +19,8 @@ public class RtcUserCommentVO {
 
     private String stars;
 
-    private String intervalTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createTime;
 
     public Integer getId() {
         return id;
@@ -70,11 +71,11 @@ public class RtcUserCommentVO {
         this.stars = stars;
     }
 
-    public String getIntervalTime() {
-        return intervalTime;
+    public LocalDateTime getCreateTime() {
+        return createTime;
     }
 
-    public void setIntervalTime(String intervalTime) {
-        this.intervalTime = intervalTime;
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
     }
 }

@@ -223,7 +223,7 @@ public class EnterpriseController {
                     "                \"nickname\": \"miao\",\n" +
                     "                \"portrait\": \"http://192.168.1.125/portrait/dc410238-c5cc-4ad3-8e2f-96e0b145b239/2020-09-02-9643372645178440190.png\",\n" +
                     "                \"stars\": \"3.5\",\n" +
-                    "                \"intervalTime\": \"3 days ago(间隔时间)\",\n" +
+                    "                \"createTime\": \"评论创建时间\",\n" +
                     "                \"commentId\": 90\n" +
                     "            }" +
                     "]")
