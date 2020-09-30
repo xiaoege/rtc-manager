@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.america.alabama.AmericaAlabamaIncorporatorMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.america.alabama.AmericaAlabamaIncorporator">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="incorporator_name" jdbcType="VARCHAR" property="incorporatorName" />
+    <result column="incorporator_street_address" jdbcType="VARCHAR" property="incorporatorStreetAddress" />
+    <result column="incorporator_mailing_address" jdbcType="VARCHAR" property="incorporatorMailingAddress" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, incorporator_name, incorporator_street_address, incorporator_mailing_address, 
+    gmt_create, gmt_modified, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from america_alabama_incorporator
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from america_alabama_incorporator
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rtc.manager.entity.america.alabama.AmericaAlabamaIncorporator">
+    insert into america_alabama_incorporator (id, enterprise_id, incorporator_name, 
+      incorporator_street_address, incorporator_mailing_address, 
+      gmt_create, gmt_modified, status
+      )
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{incorporatorName,jdbcType=VARCHAR}, 
+      #{incorporatorStreetAddress,jdbcType=VARCHAR}, #{incorporatorMailingAddress,jdbcType=VARCHAR}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.america.alabama.AmericaAlabamaIncorporator">
+    insert into america_alabama_incorporator
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="incorporatorName != null">
+        incorporator_name,
+      </if>
+      <if test="incorporatorStreetAddress != null">
+        incorporator_street_address,
+      </if>
+      <if test="incorporatorMailingAddress != null">
+        incorporator_mailing_address,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="incorporatorName != null">
+        #{incorporatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="incorporatorStreetAddress != null">
+        #{incorporatorStreetAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="incorporatorMailingAddress != null">
+        #{incorporatorMailingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.america.alabama.AmericaAlabamaIncorporator">
+    update america_alabama_incorporator
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="incorporatorName != null">
+        incorporator_name = #{incorporatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="incorporatorStreetAddress != null">
+        incorporator_street_address = #{incorporatorStreetAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="incorporatorMailingAddress != null">
+        incorporator_mailing_address = #{incorporatorMailingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.america.alabama.AmericaAlabamaIncorporator">
+    update america_alabama_incorporator
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      incorporator_name = #{incorporatorName,jdbcType=VARCHAR},
+      incorporator_street_address = #{incorporatorStreetAddress,jdbcType=VARCHAR},
+      incorporator_mailing_address = #{incorporatorMailingAddress,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

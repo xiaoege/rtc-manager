@@ -6,11 +6,16 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rtc.manager.dao.*;
+import com.rtc.manager.dao.america.alabama.AmericaAlabamaDirectorMapper;
+import com.rtc.manager.dao.america.alabama.AmericaAlabamaIncorporatorMapper;
+import com.rtc.manager.dao.america.alabama.AmericaAlabamaMapper;
+import com.rtc.manager.dao.america.alabama.AmericaAlabamaMemberMapper;
 import com.rtc.manager.entity.*;
-import com.rtc.manager.entity.dto.IndiaCinDTO;
-import com.rtc.manager.entity.dto.IndiaLlpinDTO;
-import com.rtc.manager.entity.dto.RtcEnterpriseDTO;
-import com.rtc.manager.entity.dto.VietnamJsonDTO;
+import com.rtc.manager.entity.america.alabama.AmericaAlabama;
+import com.rtc.manager.entity.america.alabama.AmericaAlabamaDirector;
+import com.rtc.manager.entity.america.alabama.AmericaAlabamaIncorporator;
+import com.rtc.manager.entity.america.alabama.AmericaAlabamaMember;
+import com.rtc.manager.entity.dto.*;
 import com.rtc.manager.entity.india.IndiaCharge;
 import com.rtc.manager.entity.india.IndiaCin;
 import com.rtc.manager.entity.india.IndiaLlpin;
@@ -26,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.io.*;
 import java.util.*;
@@ -189,6 +195,18 @@ public class SaveJsonImpl implements SaveJson {
 
     @Autowired
     private VietnamBusinessActivitiesMapper vietnamBusinessActivitiesMapper;
+
+    @Autowired
+    private AmericaAlabamaMapper americaAlabamaMapper;
+
+    @Autowired
+    private AmericaAlabamaIncorporatorMapper americaAlabamaIncorporatorMapper;
+
+    @Autowired
+    private AmericaAlabamaMemberMapper americaAlabamaMemberMapper;
+
+    @Autowired
+    private AmericaAlabamaDirectorMapper americaAlabamaDirectorMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -950,6 +968,79 @@ public class SaveJsonImpl implements SaveJson {
                         }
                     }
 
+                }
+                logger.info("json文件导入成功，文件是{}", file.getName());
+                reader.close();
+                bis.close();
+            }
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveJsonAmerica4Alabama(File fileDirPath) throws Exception {
+        List<String> fileList = new ArrayList();
+        CommonUtils.readFiles(fileDirPath, fileList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (int z = 0; z < fileList.size(); z++) {
+            File file = new File(fileList.get(z));
+
+            // 忽略mac的隐藏文件
+            if (file.getName().contains(".DS_Store")) {
+                continue;
+            }
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
+
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
+
+            StringBuilder sb = new StringBuilder();
+            while (reader.ready()) {
+                sb.append((char) reader.read());
+            }
+            String sss = sb.toString();
+//            sss = sss.replace("\uFeFF", "");
+            List<AmericaAlabamaDTO> list = null;
+            try {
+                list = objectMapper.readValue(sss, new TypeReference<List<AmericaAlabamaDTO>>() {
+                });
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                logger.info("json序列化出现问题:{}", file.getName());
+                continue;
+            }
+            if (!CollectionUtils.isEmpty(list)) {
+                for (int i = 0; i < list.size(); i++) {
+                    AmericaAlabamaDTO alabamaDTO = list.get(i);
+                    String uuid = getUUID();
+                    AmericaAlabama alabama = new AmericaAlabama();
+                    BeanUtils.copyProperties(alabamaDTO, alabama);
+                    alabama.setEnterpriseId(uuid);
+                    americaAlabamaMapper.insertSelective(alabama);
+                    List<AmericaAlabamaIncorporator> incorporatorList = alabamaDTO.getIncorporatorList();
+                    if (!ObjectUtils.isEmpty(incorporatorList)) {
+                        for (int j = 0; j < incorporatorList.size(); j++) {
+                            AmericaAlabamaIncorporator incorporator = incorporatorList.get(j);
+                            incorporator.setEnterpriseId(uuid);
+                            americaAlabamaIncorporatorMapper.insertSelective(incorporator);
+                        }
+                    }
+                    List<AmericaAlabamaMember> memberList = alabamaDTO.getMemberList();
+                    if (!ObjectUtils.isEmpty(memberList)) {
+                        for (int j = 0; j < memberList.size(); j++) {
+                            AmericaAlabamaMember member = memberList.get(j);
+                            member.setEnterpriseId(uuid);
+                            americaAlabamaMemberMapper.insertSelective(member);
+                        }
+                    }
+                    List<AmericaAlabamaDirector> directorList = alabamaDTO.getDirectorList();
+                    if (!ObjectUtils.isEmpty(directorList)) {
+                        for (int j = 0; j < directorList.size(); j++) {
+                            AmericaAlabamaDirector director = directorList.get(j);
+                            director.setEnterpriseId(uuid);
+                            americaAlabamaDirectorMapper.insertSelective(director);
+                        }
+                    }
                 }
                 logger.info("json文件导入成功，文件是{}", file.getName());
                 reader.close();

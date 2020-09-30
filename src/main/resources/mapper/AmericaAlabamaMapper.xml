@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.america.alabama.AmericaAlabamaMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.america.alabama.AmericaAlabama">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="entity_id_number" jdbcType="VARCHAR" property="entityIdNumber" />
+    <result column="entity_type" jdbcType="VARCHAR" property="entityType" />
+    <result column="principal_address" jdbcType="VARCHAR" property="principalAddress" />
+    <result column="principal_mailing_address" jdbcType="VARCHAR" property="principalMailingAddress" />
+    <result column="enterprise_status" jdbcType="VARCHAR" property="enterpriseStatus" />
+    <result column="place_of_formation" jdbcType="VARCHAR" property="placeOfFormation" />
+    <result column="formation_date" jdbcType="VARCHAR" property="formationDate" />
+    <result column="registered_agent_name" jdbcType="VARCHAR" property="registeredAgentName" />
+    <result column="registered_office_street_address" jdbcType="VARCHAR" property="registeredOfficeStreetAddress" />
+    <result column="registered_office_mailing_address" jdbcType="VARCHAR" property="registeredOfficeMailingAddress" />
+    <result column="nature_of_business" jdbcType="VARCHAR" property="natureOfBusiness" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, name, entity_id_number, entity_type, principal_address, principal_mailing_address, 
+    enterprise_status, place_of_formation, formation_date, registered_agent_name, registered_office_street_address, 
+    registered_office_mailing_address, nature_of_business, gmt_create, gmt_modified, 
+    status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from america_alabama
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from america_alabama
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rtc.manager.entity.america.alabama.AmericaAlabama">
+    insert into america_alabama (id, enterprise_id, name, 
+      entity_id_number, entity_type, principal_address, 
+      principal_mailing_address, enterprise_status, 
+      place_of_formation, formation_date, registered_agent_name, 
+      registered_office_street_address, registered_office_mailing_address, 
+      nature_of_business, gmt_create, gmt_modified, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{entityIdNumber,jdbcType=VARCHAR}, #{entityType,jdbcType=VARCHAR}, #{principalAddress,jdbcType=VARCHAR}, 
+      #{principalMailingAddress,jdbcType=VARCHAR}, #{enterpriseStatus,jdbcType=VARCHAR}, 
+      #{placeOfFormation,jdbcType=VARCHAR}, #{formationDate,jdbcType=VARCHAR}, #{registeredAgentName,jdbcType=VARCHAR}, 
+      #{registeredOfficeStreetAddress,jdbcType=VARCHAR}, #{registeredOfficeMailingAddress,jdbcType=VARCHAR}, 
+      #{natureOfBusiness,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.america.alabama.AmericaAlabama">
+    insert into america_alabama
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="entityIdNumber != null">
+        entity_id_number,
+      </if>
+      <if test="entityType != null">
+        entity_type,
+      </if>
+      <if test="principalAddress != null">
+        principal_address,
+      </if>
+      <if test="principalMailingAddress != null">
+        principal_mailing_address,
+      </if>
+      <if test="enterpriseStatus != null">
+        enterprise_status,
+      </if>
+      <if test="placeOfFormation != null">
+        place_of_formation,
+      </if>
+      <if test="formationDate != null">
+        formation_date,
+      </if>
+      <if test="registeredAgentName != null">
+        registered_agent_name,
+      </if>
+      <if test="registeredOfficeStreetAddress != null">
+        registered_office_street_address,
+      </if>
+      <if test="registeredOfficeMailingAddress != null">
+        registered_office_mailing_address,
+      </if>
+      <if test="natureOfBusiness != null">
+        nature_of_business,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="entityIdNumber != null">
+        #{entityIdNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="entityType != null">
+        #{entityType,jdbcType=VARCHAR},
+      </if>
+      <if test="principalAddress != null">
+        #{principalAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="principalMailingAddress != null">
+        #{principalMailingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseStatus != null">
+        #{enterpriseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="placeOfFormation != null">
+        #{placeOfFormation,jdbcType=VARCHAR},
+      </if>
+      <if test="formationDate != null">
+        #{formationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredAgentName != null">
+        #{registeredAgentName,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredOfficeStreetAddress != null">
+        #{registeredOfficeStreetAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredOfficeMailingAddress != null">
+        #{registeredOfficeMailingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="natureOfBusiness != null">
+        #{natureOfBusiness,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.america.alabama.AmericaAlabama">
+    update america_alabama
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="entityIdNumber != null">
+        entity_id_number = #{entityIdNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="entityType != null">
+        entity_type = #{entityType,jdbcType=VARCHAR},
+      </if>
+      <if test="principalAddress != null">
+        principal_address = #{principalAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="principalMailingAddress != null">
+        principal_mailing_address = #{principalMailingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseStatus != null">
+        enterprise_status = #{enterpriseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="placeOfFormation != null">
+        place_of_formation = #{placeOfFormation,jdbcType=VARCHAR},
+      </if>
+      <if test="formationDate != null">
+        formation_date = #{formationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredAgentName != null">
+        registered_agent_name = #{registeredAgentName,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredOfficeStreetAddress != null">
+        registered_office_street_address = #{registeredOfficeStreetAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredOfficeMailingAddress != null">
+        registered_office_mailing_address = #{registeredOfficeMailingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="natureOfBusiness != null">
+        nature_of_business = #{natureOfBusiness,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.america.alabama.AmericaAlabama">
+    update america_alabama
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      entity_id_number = #{entityIdNumber,jdbcType=VARCHAR},
+      entity_type = #{entityType,jdbcType=VARCHAR},
+      principal_address = #{principalAddress,jdbcType=VARCHAR},
+      principal_mailing_address = #{principalMailingAddress,jdbcType=VARCHAR},
+      enterprise_status = #{enterpriseStatus,jdbcType=VARCHAR},
+      place_of_formation = #{placeOfFormation,jdbcType=VARCHAR},
+      formation_date = #{formationDate,jdbcType=VARCHAR},
+      registered_agent_name = #{registeredAgentName,jdbcType=VARCHAR},
+      registered_office_street_address = #{registeredOfficeStreetAddress,jdbcType=VARCHAR},
+      registered_office_mailing_address = #{registeredOfficeMailingAddress,jdbcType=VARCHAR},
+      nature_of_business = #{natureOfBusiness,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
