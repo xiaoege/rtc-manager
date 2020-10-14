@@ -3,7 +3,6 @@ package com.rtc.manager.util;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
-import com.google.i18n.phonenumbers.geocoding.PhoneNumberOfflineGeocoder;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,7 +15,6 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -132,35 +130,6 @@ public class UserUtils {
     }
 
     /**
-     * 检验手机号格式
-     *
-     * @param phone
-     * @return
-     */
-    public static boolean checkPhoneFormat(String phone) {
-        PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
-        Phonenumber.PhoneNumber phoneNumber = null;
-        try {
-            // 需要传入国家代码，如果不传，phone则必须以+开头
-            phoneNumber = phoneUtil.parse(phone, "");
-            Phonenumber.PhoneNumber.CountryCodeSource countryCodeSource = phoneNumber.getCountryCodeSource();
-            // 验证是否是一个正确的手机号，注意以防运营商对手机号段发生变化
-            boolean validNumber = phoneUtil.isValidNumber(phoneNumber);
-            // 可能是一个正确的手机号（只验证格式）
-            boolean possibleNumber = phoneUtil.isPossibleNumber(phoneNumber);
-            int countryCode = phoneNumber.getCountryCode();
-            String extension = phoneNumber.getExtension();
-            PhoneNumberOfflineGeocoder geocoder = PhoneNumberOfflineGeocoder.getInstance();
-            String descriptionForNumber = geocoder.getDescriptionForNumber(phoneNumber, Locale.CHINA);
-            System.out.println(phoneNumber.getCountryCode());
-        } catch (NumberParseException e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
-
-    /**
      * 验证密码，可以有字母，数字，5-15个字符之间，只能以字母开头
      *
      * @param password 加密前的密码
@@ -193,12 +162,6 @@ public class UserUtils {
         return false;
     }
 
-    public static void main(String[] args) {
-        String passWord = "B123C";
-        System.out.println(checkPasswordFormat(passWord));
-
-    }
-
     /**
      * BCrypt加密密码
      */
@@ -220,4 +183,37 @@ public class UserUtils {
         return "";
     }
 
+
+    public static void main(String[] args) {
+        String str = "189517887331";
+//        str = "12345678901";
+        System.out.println(checkPhoneFormat(str));
+
+    }
+
+    /**
+     * 检验手机号格式
+     *
+     * @param phone
+     * @return
+     */
+    public static boolean checkPhoneFormat(String phone) {
+        boolean flag = false;
+        try {
+            PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+            Phonenumber.PhoneNumber phoneNumber = null;
+            // 需要传入国家代码，如果不传，phone则必须以+开头
+            phoneNumber = phoneUtil.parse(phone, "CN");
+            Phonenumber.PhoneNumber.CountryCodeSource countryCodeSource = phoneNumber.getCountryCodeSource();
+            // 验证是否是一个正确的手机号，注意以防运营商对手机号段发生变化
+            boolean validNumber = phoneUtil.isValidNumber(phoneNumber);
+            // 可能是一个正确的手机号（只验证格式）
+            boolean possibleNumber = phoneUtil.isPossibleNumber(phoneNumber);
+
+            flag = validNumber;
+        } catch (NumberParseException e) {
+            e.printStackTrace();
+        }
+        return flag;
+    }
 }

@@ -37,7 +37,8 @@ public class SwaggerConfig {
                                 "昵称格式：可以有字母，数字，下划线，点。3-30个字符之间，不能以Comcheck开头，只能以字母开头" + "\n" +
                                 "密码格式：可以有字母，数字。5-15个字符之间，只能以字母开头" + "\n" +
                                 "企业详情：favourite: 0:未关注,1:已关注" + "\n" +
-                                "短信验证码内置cd 55s，页面展示为60s倒计时")
+                                "短信验证码内置cd 55s，页面展示为60s倒计时"  + "\n" +
+                                "短信：目前暂时只支持国内短信，countryCode国家代码暂时无需校验")
                         .version("0.2.0")
 //                        .contact(new Contact("啊啊啊啊", "blog.csdn.net", "aaa@gmail.com"))
 //                        .license("The Apache License")
