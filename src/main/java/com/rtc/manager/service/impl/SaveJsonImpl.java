@@ -1115,7 +1115,7 @@ public class SaveJsonImpl implements SaveJson {
                     AmericaNewhampshireDTO americaNewHampshireDTO = list.get(i);
                     String uuid = getUUID();
                     AmericaNewhampshire americaNewhampshire = new AmericaNewhampshire();
-                    BeanUtils.copyProperties(americaNewhampshire, americaNewHampshireDTO);
+                    BeanUtils.copyProperties(americaNewHampshireDTO, americaNewhampshire);
                     americaNewhampshire.setEnterpriseId(uuid);
                     americaNewhampshireMapper.insertSelective(americaNewhampshire);
 
