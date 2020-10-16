@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -39,7 +40,7 @@ public class SwaggerConfig {
                                 "企业详情：favourite: 0:未关注,1:已关注" + "\n" +
                                 "短信验证码内置cd 55s，页面展示为60s倒计时"  + "\n" +
                                 "短信：目前暂时只支持国内短信，countryCode国家代码暂时无需校验")
-                        .version("0.2.0")
+                        .version("0.3.0")
 //                        .contact(new Contact("啊啊啊啊", "blog.csdn.net", "aaa@gmail.com"))
 //                        .license("The Apache License")
 //                        .licenseUrl("http://www.baidu.com")

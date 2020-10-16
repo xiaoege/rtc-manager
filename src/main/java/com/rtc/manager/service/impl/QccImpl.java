@@ -72,9 +72,12 @@ public class QccImpl implements Qcc {
     @Value("${rtc.timezone}")
     private List<String> timezone;
 
+    @Value("${rtc.esIndices}")
+    private String[] esIndices;
+
     @Override
     public ResultData listEnterprise(String name, int pageNum, int pageSize) throws Exception {
-        SearchRequest searchRequest = new SearchRequest("china", "india-cin", "india-llpin", "vietnam");
+        SearchRequest searchRequest = new SearchRequest(esIndices);
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.size(pageSize);
         searchSourceBuilder.from(pageNum * pageSize);
