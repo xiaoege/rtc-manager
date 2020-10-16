@@ -10,11 +10,13 @@ import com.rtc.manager.dao.america.alabama.AmericaAlabamaDirectorMapper;
 import com.rtc.manager.dao.america.alabama.AmericaAlabamaIncorporatorMapper;
 import com.rtc.manager.dao.america.alabama.AmericaAlabamaMapper;
 import com.rtc.manager.dao.america.alabama.AmericaAlabamaMemberMapper;
+import com.rtc.manager.dao.america.newhampshire.*;
 import com.rtc.manager.entity.*;
 import com.rtc.manager.entity.america.alabama.AmericaAlabama;
 import com.rtc.manager.entity.america.alabama.AmericaAlabamaDirector;
 import com.rtc.manager.entity.america.alabama.AmericaAlabamaIncorporator;
 import com.rtc.manager.entity.america.alabama.AmericaAlabamaMember;
+import com.rtc.manager.entity.america.newhampshire.*;
 import com.rtc.manager.entity.dto.*;
 import com.rtc.manager.entity.india.IndiaCharge;
 import com.rtc.manager.entity.india.IndiaCin;
@@ -28,7 +30,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -208,6 +209,27 @@ public class SaveJsonImpl implements SaveJson {
 
     @Autowired
     private AmericaAlabamaDirectorMapper americaAlabamaDirectorMapper;
+
+    @Autowired
+    private AmericaNewhampshireMapper americaNewhampshireMapper;
+
+    @Autowired
+    private AmericaNewhampshirePrincipalInformationMapper americaNewhampshirePrincipalInformationMapper;
+
+    @Autowired
+    private AmericaNewhampshirePrincipalPurposeMapper americaNewhampshirePrincipalPurposeMapper;
+
+    @Autowired
+    private AmericaNewhampshireTrademarkInformationMapper americaNewhampshireTrademarkInformationMapper;
+
+    @Autowired
+    private AmericaNewhampshireTradenameInformationMapper americaNewhampshireTradenameInformationMapper;
+
+    @Autowired
+    private AmericaNewhampshireTradenameOwnedbyMapper americaNewhampshireTradenameOwnedbyMapper;
+
+    @Autowired
+    private AmericaNewhampshireRegisteredAgentInformationMapper americaNewhampshireRegisteredAgentInformationMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -1042,6 +1064,119 @@ public class SaveJsonImpl implements SaveJson {
                             americaAlabamaDirectorMapper.insertSelective(director);
                         }
                     }
+                }
+                logger.info("json文件导入成功，文件是{}", file.getName());
+                reader.close();
+                bis.close();
+            }
+        }
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void saveJsonAmerica4NewHampshire(File fileDirPath) throws Exception {
+        List<String> fileList = new ArrayList();
+        CommonUtils.readFiles(fileDirPath, fileList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (int z = 0; z < fileList.size(); z++) {
+            File file = new File(fileList.get(z));
+
+            // 忽略mac的隐藏文件
+            if (file.getName().contains(".DS_Store")) {
+                continue;
+            }
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
+
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
+
+            StringBuilder sb = new StringBuilder();
+            while (reader.ready()) {
+                sb.append((char) reader.read());
+            }
+            String sss = sb.toString();
+//            sss = sss.replace("\uFeFF", "");
+            List<AmericaNewhampshireDTO> list = null;
+            try {
+                list = objectMapper.readValue(sss, new TypeReference<List<AmericaNewhampshireDTO>>() {
+                });
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                logger.info("json序列化出现问题:{}", file.getName());
+                continue;
+            }
+            if (!CollectionUtils.isEmpty(list)) {
+                for (int i = 0; i < list.size(); i++) {
+                    AmericaNewhampshireDTO americaNewHampshireDTO = list.get(i);
+                    String uuid = getUUID();
+                    AmericaNewhampshire americaNewhampshire = new AmericaNewhampshire();
+                    BeanUtils.copyProperties(americaNewhampshire, americaNewHampshireDTO);
+                    americaNewhampshire.setEnterpriseId(uuid);
+                    americaNewhampshireMapper.insertSelective(americaNewhampshire);
+
+                    List<AmericaNewhampshirePrincipalPurpose> principalPurposeList = americaNewHampshireDTO.getPrincipalPurposeList();
+                    if (!ObjectUtils.isEmpty(principalPurposeList)) {
+                        for (int j = 0; j < principalPurposeList.size(); j++) {
+                            AmericaNewhampshirePrincipalPurpose principalPurpose = principalPurposeList.get(j);
+                            if (principalPurpose != null) {
+                                principalPurpose.setEnterpriseId(uuid);
+                                americaNewhampshirePrincipalPurposeMapper.insertSelective(principalPurpose);
+                            }
+                        }
+                    }
+
+                    AmericaNewhampshireRegisteredAgentInformation registeredAgentInformation = americaNewHampshireDTO.getRegisteredAgentInformation();
+                    if (!ObjectUtils.isEmpty(registeredAgentInformation)) {
+                        if (registeredAgentInformation != null) {
+                            registeredAgentInformation.setEnterpriseId(uuid);
+                            americaNewhampshireRegisteredAgentInformationMapper.insertSelective(registeredAgentInformation);
+                        }
+                    }
+
+                    List<AmericaNewhampshireTradenameInformation> tradenameInformationList = americaNewHampshireDTO.getTradenameInformationList();
+                    if (!ObjectUtils.isEmpty(tradenameInformationList)) {
+                        for (int j = 0; j < tradenameInformationList.size(); j++) {
+                            AmericaNewhampshireTradenameInformation newhampshireTradenameInformation = tradenameInformationList.get(j);
+                            if (newhampshireTradenameInformation != null) {
+                                newhampshireTradenameInformation.setEnterpriseId(uuid);
+                                americaNewhampshireTradenameInformationMapper.insertSelective(newhampshireTradenameInformation);
+                            }
+                        }
+                    }
+
+                    List<AmericaNewhampshireTradenameOwnedby> tradenameOwnedbyList = americaNewHampshireDTO.getTradenameOwnedbyList();
+                    if (!ObjectUtils.isEmpty(tradenameOwnedbyList)) {
+                        for (int j = 0; j < tradenameOwnedbyList.size(); j++) {
+                            AmericaNewhampshireTradenameOwnedby newhampshireTradenameOwnedby = tradenameOwnedbyList.get(j);
+                            if (newhampshireTradenameOwnedby != null) {
+                                newhampshireTradenameOwnedby.setEnterpriseId(uuid);
+                                americaNewhampshireTradenameOwnedbyMapper.insertSelective(newhampshireTradenameOwnedby);
+                            }
+                        }
+                    }
+
+                    List<AmericaNewhampshireTrademarkInformation> trademarkInformationList = americaNewHampshireDTO.getTrademarkInformationList();
+                    if (!ObjectUtils.isEmpty(trademarkInformationList)) {
+                        for (int j = 0; j < trademarkInformationList.size(); j++) {
+                            AmericaNewhampshireTrademarkInformation newhampshireTrademarkInformation = trademarkInformationList.get(j);
+                            if (newhampshireTrademarkInformation != null) {
+                                newhampshireTrademarkInformation.setEnterpriseId(uuid);
+                                americaNewhampshireTrademarkInformationMapper.insertSelective(newhampshireTrademarkInformation);
+                            }
+                        }
+                    }
+
+                    List<AmericaNewhampshirePrincipalInformation> principalInformationList = americaNewHampshireDTO.getPrincipalInformationList();
+                    if (!ObjectUtils.isEmpty(principalInformationList)) {
+                        for (int j = 0; j < principalInformationList.size(); j++) {
+                            AmericaNewhampshirePrincipalInformation newhampshirePrincipalInformation = principalInformationList.get(j);
+                            if (newhampshirePrincipalInformation != null) {
+                                newhampshirePrincipalInformation.setEnterpriseId(uuid);
+                                americaNewhampshirePrincipalInformationMapper.insertSelective(newhampshirePrincipalInformation);
+                            }
+                        }
+                    }
+
                 }
                 logger.info("json文件导入成功，文件是{}", file.getName());
                 reader.close();

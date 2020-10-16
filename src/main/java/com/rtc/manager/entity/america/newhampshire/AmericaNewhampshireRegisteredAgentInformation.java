@@ -1,16 +1,18 @@
 package com.rtc.manager.entity.america.newhampshire;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+
 import java.time.LocalDateTime;
 
 public class AmericaNewhampshireRegisteredAgentInformation {
     private Integer id;
 
     private String enterpriseId;
-
+    @JsonAlias("Name")
     private String name;
-
+    @JsonAlias("Registered Office Address")
     private String registeredOfficeAddress;
-
+    @JsonAlias("Registered Mailing Address")
     private String registeredMailingAddress;
 
     private LocalDateTime gmtCreate;

@@ -1,18 +1,20 @@
 package com.rtc.manager.entity.america.newhampshire;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+
 import java.time.LocalDateTime;
 
 public class AmericaNewhampshireTrademarkInformation {
     private Integer id;
 
     private String enterpriseId;
-
+    @JsonAlias("trademarkNumber")
     private String trademarkNumber;
-
+    @JsonAlias("trademarkName")
     private String trademarkName;
-
+    @JsonAlias("businessAddress")
     private String businessAddress;
-
+    @JsonAlias("mailingAddress")
     private String mailingAddress;
 
     private LocalDateTime gmtCreate;

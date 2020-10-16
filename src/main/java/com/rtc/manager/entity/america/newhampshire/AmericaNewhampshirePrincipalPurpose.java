@@ -1,14 +1,16 @@
 package com.rtc.manager.entity.america.newhampshire;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+
 import java.time.LocalDateTime;
 
 public class AmericaNewhampshirePrincipalPurpose {
     private Integer id;
 
     private String enterpriseId;
-
+    @JsonAlias("NAICS Code")
     private String naicsCode;
-
+    @JsonAlias("NAICS subcode")
     private String naicsSubcode;
 
     private LocalDateTime gmtCreate;
