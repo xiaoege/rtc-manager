@@ -264,6 +264,7 @@ public class SaveJsonImpl implements SaveJson {
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
                 logger.info("json序列化出现问题:{}", file.getName());
+                logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
                 continue;
             }
 
@@ -876,6 +877,7 @@ public class SaveJsonImpl implements SaveJson {
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
                 logger.info("json序列化出现问题:{}", file.getName());
+                logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
                 continue;
             }
             int cin = 0;
@@ -972,6 +974,7 @@ public class SaveJsonImpl implements SaveJson {
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
                 logger.info("json序列化出现问题:{}", file.getName());
+                logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
                 continue;
             }
             if (!CollectionUtils.isEmpty(list)) {
@@ -1030,6 +1033,7 @@ public class SaveJsonImpl implements SaveJson {
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
                 logger.info("json序列化出现问题:{}", file.getName());
+                logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
                 continue;
             }
             if (!CollectionUtils.isEmpty(list)) {
@@ -1103,6 +1107,7 @@ public class SaveJsonImpl implements SaveJson {
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
                 logger.info("json序列化出现问题:{}", file.getName());
+                logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
                 continue;
             }
             if (!CollectionUtils.isEmpty(list)) {
