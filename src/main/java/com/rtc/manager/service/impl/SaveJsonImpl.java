@@ -1108,7 +1108,7 @@ public class SaveJsonImpl implements SaveJson {
                 e.printStackTrace();
                 logger.info("json序列化出现问题:{}", file.getName());
                 logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
-                continue;
+//                continue;
             }
             if (!CollectionUtils.isEmpty(list)) {
                 for (int i = 0; i < list.size(); i++) {
