@@ -1,6 +1,7 @@
 package com.rtc.manager.dao.america.newhampshire;
 
 import com.rtc.manager.entity.america.newhampshire.AmericaNewhampshire;
+import com.rtc.manager.vo.america.newhampshire.AmericaNewhampshireVO;
 
 public interface AmericaNewhampshireMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +15,6 @@ public interface AmericaNewhampshireMapper {
     int updateByPrimaryKeySelective(AmericaNewhampshire record);
 
     int updateByPrimaryKey(AmericaNewhampshire record);
+
+    AmericaNewhampshireVO selectNewhampshireEnterprise(String enterpriseId);
 }

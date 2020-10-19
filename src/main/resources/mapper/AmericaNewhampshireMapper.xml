@@ -295,4 +295,117 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <resultMap id="selectNewhampshireEnterprise" type="com.rtc.manager.vo.america.newhampshire.AmericaNewhampshireVO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="business_name" jdbcType="VARCHAR" property="businessName" />
+    <result column="business_id" jdbcType="VARCHAR" property="businessId" />
+    <result column="business_type" jdbcType="VARCHAR" property="businessType" />
+    <result column="business_status" jdbcType="VARCHAR" property="businessStatus" />
+    <result column="business_creation_date" jdbcType="VARCHAR" property="businessCreationDate" />
+    <result column="name_in_state_of_incorporation" jdbcType="VARCHAR" property="nameInStateOfIncorporation" />
+    <result column="date_of_formation_in_jurisdiction" jdbcType="VARCHAR" property="dateOfFormationInJurisdiction" />
+    <result column="principal_office_address" jdbcType="VARCHAR" property="principalOfficeAddress" />
+    <result column="mailing_address" jdbcType="VARCHAR" property="mailingAddress" />
+    <result column="citizenship_state_of_incorporation" jdbcType="VARCHAR" property="citizenshipStateOfIncorporation" />
+    <result column="last_annual_report_year" jdbcType="VARCHAR" property="lastAnnualReportYear" />
+    <result column="next_report_year" jdbcType="VARCHAR" property="nextReportYear" />
+    <result column="duration" jdbcType="VARCHAR" property="duration" />
+    <result column="business_email" jdbcType="VARCHAR" property="businessEmail" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="notification_email" jdbcType="VARCHAR" property="notificationEmail" />
+    <result column="fiscal_year_end_date" jdbcType="VARCHAR" property="fiscalYearEndDate" />
+    <association property="registeredAgentInformationVO" javaType="com.rtc.manager.vo.america.newhampshire.AmericaNewhampshireRegisteredAgentInformationVO">
+      <id column="rai_id" jdbcType="INTEGER" property="id" />
+      <result column="rai_name" jdbcType="VARCHAR" property="name" />
+      <result column="rai_registered_office_address" jdbcType="VARCHAR" property="registeredOfficeAddress" />
+      <result column="rai_registered_mailing_address" jdbcType="VARCHAR" property="registeredMailingAddress" />
+    </association>
+    <collection property="principalInformationVOList" ofType="com.rtc.manager.vo.america.newhampshire.AmericaNewhampshirePrincipalInformationVO" >
+      <id column="pi_id" jdbcType="INTEGER" property="id" />
+      <result column="pi_name" jdbcType="VARCHAR" property="name" />
+      <result column="pi_business_address" jdbcType="VARCHAR" property="businessAddress" />
+    </collection>
+    <collection property="principalPurposeVOList" ofType="com.rtc.manager.vo.america.newhampshire.AmericaNewhampshirePrincipalPurposeVO" >
+      <id column="pp_id" jdbcType="INTEGER" property="id" />
+      <result column="pp_naics_code" jdbcType="VARCHAR" property="naicsCode" />
+      <result column="pp_naics_subcode" jdbcType="VARCHAR" property="naicsSubcode" />
+    </collection>
+    <collection property="trademarkInformationVOList" ofType="com.rtc.manager.vo.america.newhampshire.AmericaNewhampshireTrademarkInformationVO" >
+      <id column="trademark_id" jdbcType="INTEGER" property="id" />
+      <result column="trademark_trademark_number" jdbcType="VARCHAR" property="trademarkNumber" />
+      <result column="trademark_trademark_name" jdbcType="VARCHAR" property="trademarkName" />
+      <result column="trademark_business_address" jdbcType="VARCHAR" property="businessAddress" />
+      <result column="trademark_mailing_address" jdbcType="VARCHAR" property="mailingAddress" />
+    </collection>
+    <collection property="tradenameInformationVOList" ofType="com.rtc.manager.vo.america.newhampshire.AmericaNewhampshireTradenameInformationVO" >
+      <id column="tradenameInfo_id" jdbcType="INTEGER" property="id" />
+      <result column="tradenameInfo_business_name" jdbcType="VARCHAR" property="businessName" />
+      <result column="tradenameInfo_business_id" jdbcType="VARCHAR" property="businessId" />
+      <result column="tradenameInfo_business_status" jdbcType="VARCHAR" property="businessStatus" />
+    </collection>
+    <collection property="tradenameOwnedbyVOList" ofType="com.rtc.manager.vo.america.newhampshire.AmericaNewhampshireTradenameOwnedbyVO" >
+      <id column="tradenameOwned_id" jdbcType="INTEGER" property="id" />
+      <result column="tradenameOwned_name" jdbcType="VARCHAR" property="name" />
+      <result column="tradenameOwned_title" jdbcType="VARCHAR" property="title" />
+      <result column="tradenameOwned_address" jdbcType="VARCHAR" property="address" />
+    </collection>
+  </resultMap>
+  <select id="selectNewhampshireEnterprise" resultMap="selectNewhampshireEnterprise">
+    SELECT
+        america_newhampshire.id,
+        america_newhampshire.enterprise_id,
+        america_newhampshire.business_name,
+        america_newhampshire.business_id,
+        america_newhampshire.business_type,
+        america_newhampshire.business_status,
+        america_newhampshire.business_creation_date,
+        america_newhampshire.name_in_state_of_incorporation,
+        america_newhampshire.date_of_formation_in_jurisdiction,
+        america_newhampshire.principal_office_address,
+        america_newhampshire.mailing_address,
+        america_newhampshire.citizenship_state_of_incorporation,
+        america_newhampshire.last_annual_report_year,
+        america_newhampshire.next_report_year,
+        america_newhampshire.duration,
+        america_newhampshire.business_email,
+        america_newhampshire.phone,
+        america_newhampshire.notification_email,
+        america_newhampshire.fiscal_year_end_date,
+        america_newhampshire_principal_information.`name` AS pi_name,
+        america_newhampshire_principal_information.id AS pi_id,
+        america_newhampshire_principal_information.business_address AS pi_business_address,
+        america_newhampshire_principal_purpose.id AS pp_id,
+        america_newhampshire_principal_purpose.naics_code AS pp_naics_code,
+        america_newhampshire_principal_purpose.naics_subcode AS pp_naics_subcode,
+        america_newhampshire_registered_agentInformation.id AS rai_id,
+        america_newhampshire_registered_agentInformation.`name` AS rai_name,
+        america_newhampshire_registered_agentInformation.registered_office_address AS rai_registered_office_address,
+        america_newhampshire_registered_agentInformation.registered_mailing_address AS rai_registered_mailing_address,
+        america_newhampshire_trademark_information.id AS trademark_id,
+        america_newhampshire_trademark_information.trademark_number AS trademark_trademark_number,
+        america_newhampshire_trademark_information.trademark_name AS trademark_trademark_name,
+        america_newhampshire_trademark_information.business_address AS trademark_business_address,
+        america_newhampshire_trademark_information.mailing_address AS trademark_mailing_address,
+        america_newhampshire_tradename_information.id AS tradenameInfo_id,
+        america_newhampshire_tradename_information.business_name AS tradenameInfo_business_name,
+        america_newhampshire_tradename_information.business_id AS tradenameInfo_business_id,
+        america_newhampshire_tradename_information.business_status AS tradenameInfo_business_status,
+        america_newhampshire_tradename_ownedby.id AS tradenameOwned_id,
+        america_newhampshire_tradename_ownedby.`name` AS tradenameOwned_name,
+        america_newhampshire_tradename_ownedby.title AS tradenameOwned_title,
+        america_newhampshire_tradename_ownedby.address AS tradenameOwned_address
+    FROM
+        america_newhampshire
+        LEFT JOIN america_newhampshire_principal_information ON america_newhampshire.enterprise_id = america_newhampshire_principal_information.enterprise_id
+        LEFT JOIN america_newhampshire_principal_purpose ON america_newhampshire.enterprise_id = america_newhampshire_principal_purpose.enterprise_id
+        LEFT JOIN america_newhampshire_registered_agentInformation ON america_newhampshire.enterprise_id = america_newhampshire_registered_agentInformation.enterprise_id
+        LEFT JOIN america_newhampshire_trademark_information ON america_newhampshire.enterprise_id = america_newhampshire_trademark_information.enterprise_id
+        LEFT JOIN america_newhampshire_tradename_information ON america_newhampshire.enterprise_id = america_newhampshire_tradename_information.enterprise_id
+        LEFT JOIN america_newhampshire_tradename_ownedby ON america_newhampshire.enterprise_id = america_newhampshire_tradename_ownedby.enterprise_id
+    WHERE
+        america_newhampshire.enterprise_id = #{enterpriseId,jdbcType=VARCHAR}
+        and america_newhampshire.status = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+  </select>
 </mapper>

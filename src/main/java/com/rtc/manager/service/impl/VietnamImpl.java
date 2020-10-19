@@ -24,7 +24,7 @@ public class VietnamImpl implements Vietnam {
     private RtcUserCommentMapper rtcUserCommentMapper;
 
     @Override
-    public Object getIndiaEnterprise(String enterpriseId, String userId, String timeZone) {
+    public Object getVietnamEnterprise(String enterpriseId, String userId, String timeZone) {
         VietnamEnterpriseVO vo = vietnamEnterpriseMapper.selectIndiaEnterprise(enterpriseId);
         if (vo != null) {
             if (vietnamEnterpriseMapper.checkFavouriteVietnam(enterpriseId, userId) != null) {
