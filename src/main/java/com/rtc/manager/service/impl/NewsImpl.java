@@ -48,7 +48,7 @@ public class NewsImpl implements News {
             for (int i = 0; i < list.size(); i++) {
                 RtcNewsVO rtcNewsVO = list.get(i);
                 if (null != rtcNewsVO.getDescription()) {
-                    // 去除html标签
+                    // 去除html标签1
                     rtcNewsVO.setDescription(rtcNewsVO.getDescription().replaceAll("<[^>]*>", ""));
                     String url = rtcNewsVO.getPreview();
                     if (null != url && url.length() > 12) {
