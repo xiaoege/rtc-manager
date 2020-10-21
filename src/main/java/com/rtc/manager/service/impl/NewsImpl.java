@@ -51,9 +51,20 @@ public class NewsImpl implements News {
                     // 去除html标签1
                     rtcNewsVO.setDescription(rtcNewsVO.getDescription().replaceAll("<[^>]*>", ""));
                     String url = rtcNewsVO.getPreview();
-                    if (null != url && url.length() > 12) {
-                        // http://192.168.1.125/chinadaily/2020-07/14/1594717677-8073.jpeg
-                        url = this.url + url.substring(12);
+                    if (url.contains("<p")) {
+                        url = url.substring(url.indexOf("<p>") + 3).replace("\\n", "");
+                        if (null != url && url.length() > 12) {
+                            // http://192.168.1.125/chinadaily/2020-07/14/1594717677-8073.jpeg
+                            url = this.url + url.substring(12);
+                            BufferedImage sourceImg = ImageIO.read(new URL(url).openStream());
+                            // 单位：像素
+                            int width = sourceImg.getWidth();
+                            int height = sourceImg.getHeight();
+                            rtcNewsVO.setWeight(width);
+                            rtcNewsVO.setHeight(height);
+                            rtcNewsVO.setPreview(url);
+                        }
+                    } else if (url.startsWith(this.url)) {
                         BufferedImage sourceImg = ImageIO.read(new URL(url).openStream());
                         // 单位：像素
                         int width = sourceImg.getWidth();
@@ -62,6 +73,7 @@ public class NewsImpl implements News {
                         rtcNewsVO.setHeight(height);
                         rtcNewsVO.setPreview(url);
                     }
+
                 }
                 String author = rtcNewsVO.getAuthor();
                 rtcNewsVO.setAuthor(modifyAuthor(author));
