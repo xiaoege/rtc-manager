@@ -11,12 +11,14 @@ import com.rtc.manager.dao.america.alabama.AmericaAlabamaIncorporatorMapper;
 import com.rtc.manager.dao.america.alabama.AmericaAlabamaMapper;
 import com.rtc.manager.dao.america.alabama.AmericaAlabamaMemberMapper;
 import com.rtc.manager.dao.america.newhampshire.*;
+import com.rtc.manager.dao.america.northcarolina.*;
 import com.rtc.manager.entity.*;
 import com.rtc.manager.entity.america.alabama.AmericaAlabama;
 import com.rtc.manager.entity.america.alabama.AmericaAlabamaDirector;
 import com.rtc.manager.entity.america.alabama.AmericaAlabamaIncorporator;
 import com.rtc.manager.entity.america.alabama.AmericaAlabamaMember;
 import com.rtc.manager.entity.america.newhampshire.*;
+import com.rtc.manager.entity.america.northcarolina.*;
 import com.rtc.manager.entity.dto.*;
 import com.rtc.manager.entity.india.IndiaCharge;
 import com.rtc.manager.entity.india.IndiaCin;
@@ -230,6 +232,21 @@ public class SaveJsonImpl implements SaveJson {
 
     @Autowired
     private AmericaNewhampshireRegisteredAgentInformationMapper americaNewhampshireRegisteredAgentInformationMapper;
+
+    @Autowired
+    private AmericaNorthcarolinaMapper americaNorthcarolinaMapper;
+
+    @Autowired
+    private AmericaNorthcarolinaAddressMapper americaNorthcarolinaAddressMapper;
+
+    @Autowired
+    private AmericaNorthcarolinaOfficerMapper americaNorthcarolinaOfficerMapper;
+
+    @Autowired
+    private AmericaNorthcarolinaStockMapper americaNorthcarolinaStockMapper;
+
+    @Autowired
+    private AmericaNorthcarolinaCompanyOfficialMapper americaNorthcarolinaCompanyOfficialMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -1180,6 +1197,88 @@ public class SaveJsonImpl implements SaveJson {
                                 americaNewhampshirePrincipalInformationMapper.insertSelective(newhampshirePrincipalInformation);
                             }
                         }
+                    }
+
+                }
+                logger.info("json文件导入成功，文件是{}", file.getName());
+                reader.close();
+                bis.close();
+            }
+        }
+
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveJsonAmerica4NorthCarolina(File fileDirPath) throws Exception {
+        List<String> fileList = new ArrayList();
+        CommonUtils.readFiles(fileDirPath, fileList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (int z = 0; z < fileList.size(); z++) {
+            File file = new File(fileList.get(z));
+
+            // 忽略mac的隐藏文件
+            if (file.getName().contains(".DS_Store")) {
+                continue;
+            }
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
+
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
+
+            StringBuilder sb = new StringBuilder();
+            while (reader.ready()) {
+                sb.append((char) reader.read());
+            }
+            String sss = sb.toString();
+//            sss = sss.replace("\uFeFF", "");
+            List<AmericaNorthcarolinaDTO> list = null;
+            try {
+                list = objectMapper.readValue(sss, new TypeReference<List<AmericaNorthcarolinaDTO>>() {
+                });
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                logger.info("json序列化出现问题:{}", file.getName());
+                logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
+//                continue;
+            }
+            if (!CollectionUtils.isEmpty(list)) {
+                for (int i = 0; i < list.size(); i++) {
+                    AmericaNorthcarolinaDTO americaNorthcarolinaDTO = list.get(i);
+                    String uuid = getUUID();
+                    americaNorthcarolinaDTO.setEnterpriseId(uuid);
+                    AmericaNorthcarolina americaNorthcarolina = new AmericaNorthcarolina();
+                    BeanUtils.copyProperties(americaNorthcarolinaDTO, americaNorthcarolina);
+                    americaNorthcarolinaMapper.insertSelective(americaNorthcarolina);
+
+                    AmericaNorthcarolinaAddress northcarolinaAddress = americaNorthcarolinaDTO.getNorthcarolinaAddress();
+                    if (northcarolinaAddress != null) {
+                        northcarolinaAddress.setEnterpriseId(uuid);
+                        americaNorthcarolinaAddressMapper.insertSelective(northcarolinaAddress);
+                    }
+
+                    List<AmericaNorthcarolinaCompanyOfficial> northcarolinaCompanyOfficialList = americaNorthcarolinaDTO.getNorthcarolinaCompanyOfficialList();
+                    if (!ObjectUtils.isEmpty(northcarolinaCompanyOfficialList)) {
+                        for (int j = 0; j < northcarolinaCompanyOfficialList.size(); j++) {
+                            AmericaNorthcarolinaCompanyOfficial americaNorthcarolinaCompanyOfficial = northcarolinaCompanyOfficialList.get(j);
+                            americaNorthcarolinaCompanyOfficial.setEnterpriseId(uuid);
+                            americaNorthcarolinaCompanyOfficialMapper.insertSelective(americaNorthcarolinaCompanyOfficial);
+                        }
+                    }
+
+                    List<AmericaNorthcarolinaOfficer> northcarolinaOfficerList = americaNorthcarolinaDTO.getNorthcarolinaOfficerList();
+                    if (!ObjectUtils.isEmpty(northcarolinaOfficerList)) {
+                        for (int j = 0; j < northcarolinaOfficerList.size(); j++) {
+                            AmericaNorthcarolinaOfficer americaNorthcarolinaOfficer = northcarolinaOfficerList.get(j);
+                            americaNorthcarolinaOfficer.setEnterpriseId(uuid);
+                            americaNorthcarolinaOfficerMapper.insertSelective(americaNorthcarolinaOfficer);
+                        }
+                    }
+
+                    AmericaNorthcarolinaStock northcarolinaStock = americaNorthcarolinaDTO.getNorthcarolinaStock();
+                    if (northcarolinaStock != null) {
+                        northcarolinaStock.setEnterpriseId(uuid);
+                        americaNorthcarolinaStockMapper.insertSelective(northcarolinaStock);
                     }
 
                 }

@@ -30,7 +30,7 @@
 
         <!-- targetPackage：生成的实体类所在的包 -->
         <!-- targetProject：生成的实体类所在的硬盘位置 -->
-        <javaModelGenerator targetPackage="com.rtc.manager.entity.america.newhampshire"
+        <javaModelGenerator targetPackage="com.rtc.manager.entity.america.northcarolina"
                             targetProject="src/main/java">
             <!-- 是否允许子包 -->
             <property name="enableSubPackages" value="false"/>
@@ -49,7 +49,7 @@
         </sqlMapGenerator>
         <!-- targetPackage 和 targetProject：生成的 interface 文件的包和位置 -->
         <javaClientGenerator type="XMLMAPPER"
-                             targetPackage="com.rtc.manager.dao.america.newhampshire" targetProject="src/main/java">
+                             targetPackage="com.rtc.manager.dao.america.northcarolina" targetProject="src/main/java">
             <!-- 针对 oracle 数据库的一个配置，是否把 schema 作为字包名 -->
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
@@ -381,49 +381,84 @@
 <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
 <!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
 <!--        </table>-->
-        <table tableName="america_newhampshire" domainObjectName="AmericaNewhampshire"
+<!--        <table tableName="america_newhampshire" domainObjectName="AmericaNewhampshire"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+<!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
+<!--        </table>-->
+<!--        <table tableName="america_newhampshire_principal_information" domainObjectName="AmericaNewhampshirePrincipalInformation"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+<!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
+<!--        </table>-->
+<!--        <table tableName="america_newhampshire_principal_purpose" domainObjectName="AmericaNewhampshirePrincipalPurpose"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+<!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
+<!--        </table>-->
+<!--        <table tableName="america_newhampshire_registered_agentInformation" domainObjectName="AmericaNewhampshireRegisteredAgentInformation"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+<!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
+<!--        </table>-->
+<!--        <table tableName="america_newhampshire_trademark_information" domainObjectName="AmericaNewhampshireTrademarkInformation"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+<!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
+<!--        </table>-->
+<!--        <table tableName="america_newhampshire_tradename_information" domainObjectName="AmericaNewhampshireTradenameInformation"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+<!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
+<!--        </table>-->
+<!--        <table tableName="america_newhampshire_tradename_ownedby" domainObjectName="AmericaNewhampshireTradenameOwnedby"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+<!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
+<!--        </table>-->
+        <table tableName="america_northcarolina" domainObjectName="AmericaNorthcarolina"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
             <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>
             <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>
         </table>
-        <table tableName="america_newhampshire_principal_information" domainObjectName="AmericaNewhampshirePrincipalInformation"
+        <table tableName="america_northcarolina_address" domainObjectName="AmericaNorthcarolinaAddress"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
             <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>
             <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>
         </table>
-        <table tableName="america_newhampshire_principal_purpose" domainObjectName="AmericaNewhampshirePrincipalPurpose"
+        <table tableName="america_northcarolina_company_official" domainObjectName="AmericaNorthcarolinaCompanyOfficial"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
             <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>
             <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>
         </table>
-        <table tableName="america_newhampshire_registered_agentInformation" domainObjectName="AmericaNewhampshireRegisteredAgentInformation"
+        <table tableName="america_northcarolina_officer" domainObjectName="AmericaNorthcarolinaOfficer"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
             <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>
             <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>
         </table>
-        <table tableName="america_newhampshire_trademark_information" domainObjectName="AmericaNewhampshireTrademarkInformation"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>
-            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>
-        </table>
-        <table tableName="america_newhampshire_tradename_information" domainObjectName="AmericaNewhampshireTradenameInformation"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>
-            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>
-        </table>
-        <table tableName="america_newhampshire_tradename_ownedby" domainObjectName="AmericaNewhampshireTradenameOwnedby"
+        <table tableName="america_northcarolina_stock" domainObjectName="AmericaNorthcarolinaStock"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
