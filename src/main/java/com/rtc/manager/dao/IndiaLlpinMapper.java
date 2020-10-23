@@ -2,6 +2,7 @@ package com.rtc.manager.dao;
 
 import com.rtc.manager.entity.india.IndiaLlpin;
 import com.rtc.manager.vo.india.IndiaLlpinEnterpriseVO;
+import org.apache.ibatis.annotations.Param;
 
 public interface IndiaLlpinMapper {
     int deleteByPrimaryKey(Integer id);
@@ -18,5 +19,5 @@ public interface IndiaLlpinMapper {
 
     IndiaLlpinEnterpriseVO selectEnterprise(String enterpriseId);
 
-    String checkFavouriteIndiaLlpin(String enterpriseId, String userId);
+    String checkFavouriteIndiaLlpin(@Param("enterpriseId") String enterpriseId, @Param("userId") String userId);
 }

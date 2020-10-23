@@ -23,7 +23,7 @@
     status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from america_northcarolina
     where id = #{id,jdbcType=INTEGER}
@@ -197,4 +197,110 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <resultMap id="selectNorthcarolinaEnterprise" type="com.rtc.manager.vo.america.northcarolina.AmericaNorthcarolinaVO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="sos_id" jdbcType="VARCHAR" property="sosId" />
+    <result column="enterprise_status" jdbcType="VARCHAR" property="enterpriseStatus" />
+    <result column="date_formed" jdbcType="VARCHAR" property="dateFormed" />
+    <result column="citizenship" jdbcType="VARCHAR" property="citizenship" />
+    <result column="incorporation_state" jdbcType="VARCHAR" property="incorporationState" />
+    <result column="annual_report_due_date" jdbcType="VARCHAR" property="annualReportDueDate" />
+    <result column="registered_agent" jdbcType="VARCHAR" property="registeredAgent" />
+    <association property="northcarolinaAddress" javaType="com.rtc.manager.vo.america.northcarolina.AmericaNorthcarolinaAddressVO">
+      <id column="na_id" jdbcType="INTEGER" property="id" />
+      <result column="na_enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+      <result column="na_mailing" jdbcType="VARCHAR" property="mailing" />
+      <result column="na_principal_office" jdbcType="VARCHAR" property="principalOffice" />
+      <result column="na_reg_office" jdbcType="VARCHAR" property="regOffice" />
+      <result column="na_reg_mailing" jdbcType="VARCHAR" property="regMailing" />
+    </association>
+      <association property="northcarolinaStock" javaType="com.rtc.manager.vo.america.northcarolina.AmericaNorthcarolinaStockVO">
+        <id column="ns_id" jdbcType="INTEGER" property="id" />
+        <result column="ns_enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+        <result column="ns_stock_class" jdbcType="VARCHAR" property="stockClass" />
+        <result column="ns_share" jdbcType="VARCHAR" property="share" />
+        <result column="ns_par_value" jdbcType="VARCHAR" property="parValue" />
+        <result column="ns_no_par_value" jdbcType="VARCHAR" property="noParValue" />
+      </association>
+    <collection property="northcarolinaCompanyOfficialList" ofType="com.rtc.manager.vo.america.northcarolina.AmericaNorthcarolinaCompanyOfficialVO">
+      <id column="nco_id" jdbcType="INTEGER" property="id" />
+      <result column="nco_enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+      <result column="nco_title" jdbcType="VARCHAR" property="title" />
+      <result column="nco_name" jdbcType="VARCHAR" property="name" />
+      <result column="nco_address" jdbcType="VARCHAR" property="address" />
+    </collection>
+    <collection property="northcarolinaOfficerList" ofType="com.rtc.manager.vo.america.northcarolina.AmericaNorthcarolinaOfficerVO">
+      <id column="no_id" jdbcType="INTEGER" property="id" />
+      <result column="no_enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+      <result column="no_title" jdbcType="VARCHAR" property="title" />
+      <result column="no_name" jdbcType="VARCHAR" property="name" />
+      <result column="no_address" jdbcType="VARCHAR" property="address" />
+    </collection>
+  </resultMap>
+
+  <select id="selectNorthcarolinaEnterprise" resultMap="selectNorthcarolinaEnterprise">
+    SELECT
+        america_northcarolina.id,
+        america_northcarolina.enterprise_id,
+        america_northcarolina.`name`,
+        america_northcarolina.type,
+        america_northcarolina.sos_id,
+        america_northcarolina.enterprise_status,
+        america_northcarolina.date_formed,
+        america_northcarolina.citizenship,
+        america_northcarolina.incorporation_state,
+        america_northcarolina.annual_report_due_date,
+        america_northcarolina.registered_agent,
+        america_northcarolina_address.id AS na_id,
+        america_northcarolina_address.enterprise_id AS na_enterprise_id,
+        america_northcarolina_address.mailing AS na_mailing,
+        america_northcarolina_address.principal_office AS na_principal_office,
+        america_northcarolina_address.reg_office AS na_reg_office,
+        america_northcarolina_address.reg_mailing AS na_reg_mailing,
+        america_northcarolina_company_official.id AS nco_id,
+        america_northcarolina_company_official.enterprise_id AS nco_enterprise_id,
+        america_northcarolina_company_official.title AS nco_title,
+        america_northcarolina_company_official.`name` AS nco_name,
+        america_northcarolina_company_official.address AS nco_address,
+        america_northcarolina_officer.id AS no_id,
+        america_northcarolina_officer.enterprise_id AS no_enterprise_id,
+        america_northcarolina_officer.title AS no_title,
+        america_northcarolina_officer.`name` AS no_name,
+        america_northcarolina_officer.address AS no_address,
+        america_northcarolina_stock.id AS ns_id,
+        america_northcarolina_stock.enterprise_id AS ns_enterprise_id,
+        america_northcarolina_stock.stock_class AS ns_stock_class,
+        america_northcarolina_stock.`share` AS ns_share,
+        america_northcarolina_stock.par_value AS ns_par_value,
+        america_northcarolina_stock.no_par_value AS ns_no_par_value
+    FROM
+        america_northcarolina
+        LEFT JOIN america_northcarolina_address ON america_northcarolina.enterprise_id = america_northcarolina_address.enterprise_id
+        LEFT JOIN america_northcarolina_company_official ON america_northcarolina.enterprise_id = america_northcarolina_company_official.enterprise_id
+        LEFT JOIN america_northcarolina_officer ON america_northcarolina.enterprise_id = america_northcarolina_officer.enterprise_id
+        LEFT JOIN america_northcarolina_stock ON america_northcarolina.enterprise_id = america_northcarolina_stock.enterprise_id
+    WHERE
+        america_northcarolina.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+        AND america_northcarolina.enterprise_id = #{enterpriseId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="checkFavouriteNorthcarolina" resultType="java.lang.String">
+        SELECT
+            america_northcarolina.enterprise_id
+        FROM
+            america_northcarolina
+        WHERE
+            america_northcarolina.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+            AND america_northcarolina.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+            AND EXISTS (
+                SELECT enterprise_id
+                FROM rtc_user_favourite
+                WHERE rtc_user_favourite.enterprise_id=america_northcarolina.enterprise_id
+                    AND rtc_user_favourite.user_id = #{userId, jdbcType=VARCHAR}
+            )
+    </select>
 </mapper>

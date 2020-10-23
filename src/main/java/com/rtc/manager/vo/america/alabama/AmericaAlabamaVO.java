@@ -24,6 +24,7 @@ public class AmericaAlabamaVO {
     private String registeredOfficeStreetAddress;
     private String registeredOfficeMailingAddress;
     private String natureOfBusiness;
+    private int favourite;
 
     List<AmericaAlabamaIncorporatorVO> incorporatorList;
 
@@ -34,6 +35,7 @@ public class AmericaAlabamaVO {
     public Integer getId() {
         return id;
     }
+
     @JsonSetter("pid")
     public void setId(Integer id) {
         this.id = id;
@@ -165,5 +167,13 @@ public class AmericaAlabamaVO {
 
     public void setDirectorList(List<AmericaAlabamaDirectorVO> directorList) {
         this.directorList = directorList;
+    }
+
+    public int getFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(int favourite) {
+        this.favourite = favourite;
     }
 }

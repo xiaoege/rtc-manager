@@ -2,6 +2,7 @@ package com.rtc.manager.dao.america.alabama;
 
 import com.rtc.manager.entity.america.alabama.AmericaAlabama;
 import com.rtc.manager.vo.america.alabama.AmericaAlabamaVO;
+import org.apache.ibatis.annotations.Param;
 
 public interface AmericaAlabamaMapper {
     int deleteByPrimaryKey(Integer id);
@@ -17,4 +18,6 @@ public interface AmericaAlabamaMapper {
     int updateByPrimaryKey(AmericaAlabama record);
 
     AmericaAlabamaVO selectAlabamaEnterprise(String enterpriseId);
+
+    String checkFavouriteAmericaAlabama(@Param("enterpriseId") String enterpriseId, @Param("userId") String userId);
 }

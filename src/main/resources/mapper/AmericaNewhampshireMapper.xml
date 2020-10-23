@@ -408,4 +408,20 @@
         america_newhampshire.enterprise_id = #{enterpriseId,jdbcType=VARCHAR}
         and america_newhampshire.status = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
   </select>
+
+  <select id="checkFavouriteNewhampshire" resultType="java.lang.String">
+        SELECT
+            america_newhampshire.enterprise_id
+        FROM
+            america_newhampshire
+        WHERE
+            america_newhampshire.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+            AND america_newhampshire.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+            AND EXISTS (
+                SELECT enterprise_id
+                FROM rtc_user_favourite
+                WHERE rtc_user_favourite.enterprise_id=america_newhampshire.enterprise_id
+                    AND rtc_user_favourite.user_id = #{userId, jdbcType=VARCHAR}
+            )
+    </select>
 </mapper>

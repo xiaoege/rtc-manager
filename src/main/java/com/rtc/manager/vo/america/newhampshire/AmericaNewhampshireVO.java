@@ -46,6 +46,8 @@ public class AmericaNewhampshireVO {
 
     private String fiscalYearEndDate;
 
+    private int favourite;
+
     AmericaNewhampshireRegisteredAgentInformationVO registeredAgentInformationVO;
 
     List<AmericaNewhampshirePrincipalInformationVO> principalInformationVOList;
@@ -256,5 +258,13 @@ public class AmericaNewhampshireVO {
 
     public void setTradenameOwnedbyVOList(List<AmericaNewhampshireTradenameOwnedbyVO> tradenameOwnedbyVOList) {
         this.tradenameOwnedbyVOList = tradenameOwnedbyVOList;
+    }
+
+    public int getFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(int favourite) {
+        this.favourite = favourite;
     }
 }
