@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.america.alaska.AmericaAlaskaMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.america.alaska.AmericaAlaska">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="entity_type" jdbcType="VARCHAR" property="entityType" />
+    <result column="entity_number" jdbcType="VARCHAR" property="entityNumber" />
+    <result column="enterprise_status" jdbcType="VARCHAR" property="enterpriseStatus" />
+    <result column="ak_form_data" jdbcType="VARCHAR" property="akFormData" />
+    <result column="duration" jdbcType="VARCHAR" property="duration" />
+    <result column="home_state" jdbcType="VARCHAR" property="homeState" />
+    <result column="entity_mailing_address" jdbcType="VARCHAR" property="entityMailingAddress" />
+    <result column="entity_physical_address" jdbcType="VARCHAR" property="entityPhysicalAddress" />
+    <result column="agent_name" jdbcType="VARCHAR" property="agentName" />
+    <result column="registered_mailing_address" jdbcType="VARCHAR" property="registeredMailingAddress" />
+    <result column="registered_physical_address" jdbcType="VARCHAR" property="registeredPhysicalAddress" />
+    <result column="next_biennial_report_due" jdbcType="VARCHAR" property="nextBiennialReportDue" />
+    <result column="official_entity" jdbcType="VARCHAR" property="officialEntity" />
+    <result column="official_name" jdbcType="VARCHAR" property="officialName" />
+    <result column="official_tite" jdbcType="VARCHAR" property="officialTite" />
+    <result column="official_owned" jdbcType="VARCHAR" property="officialOwned" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, name, type, entity_type, entity_number, enterprise_status, ak_form_data, 
+    duration, home_state, entity_mailing_address, entity_physical_address, agent_name, 
+    registered_mailing_address, registered_physical_address, next_biennial_report_due, 
+    official_entity, official_name, official_tite, official_owned, gmt_create, gmt_modified, 
+    status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from america_alaska
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from america_alaska
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rtc.manager.entity.america.alaska.AmericaAlaska">
+    insert into america_alaska (id, enterprise_id, name, 
+      type, entity_type, entity_number, 
+      enterprise_status, ak_form_data, duration, 
+      home_state, entity_mailing_address, entity_physical_address, 
+      agent_name, registered_mailing_address, registered_physical_address, 
+      next_biennial_report_due, official_entity, 
+      official_name, official_tite, official_owned, 
+      gmt_create, gmt_modified, status
+      )
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{entityType,jdbcType=VARCHAR}, #{entityNumber,jdbcType=VARCHAR}, 
+      #{enterpriseStatus,jdbcType=VARCHAR}, #{akFormData,jdbcType=VARCHAR}, #{duration,jdbcType=VARCHAR}, 
+      #{homeState,jdbcType=VARCHAR}, #{entityMailingAddress,jdbcType=VARCHAR}, #{entityPhysicalAddress,jdbcType=VARCHAR}, 
+      #{agentName,jdbcType=VARCHAR}, #{registeredMailingAddress,jdbcType=VARCHAR}, #{registeredPhysicalAddress,jdbcType=VARCHAR}, 
+      #{nextBiennialReportDue,jdbcType=VARCHAR}, #{officialEntity,jdbcType=VARCHAR}, 
+      #{officialName,jdbcType=VARCHAR}, #{officialTite,jdbcType=VARCHAR}, #{officialOwned,jdbcType=VARCHAR}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.america.alaska.AmericaAlaska">
+    insert into america_alaska
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="entityType != null">
+        entity_type,
+      </if>
+      <if test="entityNumber != null">
+        entity_number,
+      </if>
+      <if test="enterpriseStatus != null">
+        enterprise_status,
+      </if>
+      <if test="akFormData != null">
+        ak_form_data,
+      </if>
+      <if test="duration != null">
+        duration,
+      </if>
+      <if test="homeState != null">
+        home_state,
+      </if>
+      <if test="entityMailingAddress != null">
+        entity_mailing_address,
+      </if>
+      <if test="entityPhysicalAddress != null">
+        entity_physical_address,
+      </if>
+      <if test="agentName != null">
+        agent_name,
+      </if>
+      <if test="registeredMailingAddress != null">
+        registered_mailing_address,
+      </if>
+      <if test="registeredPhysicalAddress != null">
+        registered_physical_address,
+      </if>
+      <if test="nextBiennialReportDue != null">
+        next_biennial_report_due,
+      </if>
+      <if test="officialEntity != null">
+        official_entity,
+      </if>
+      <if test="officialName != null">
+        official_name,
+      </if>
+      <if test="officialTite != null">
+        official_tite,
+      </if>
+      <if test="officialOwned != null">
+        official_owned,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="entityType != null">
+        #{entityType,jdbcType=VARCHAR},
+      </if>
+      <if test="entityNumber != null">
+        #{entityNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseStatus != null">
+        #{enterpriseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="akFormData != null">
+        #{akFormData,jdbcType=VARCHAR},
+      </if>
+      <if test="duration != null">
+        #{duration,jdbcType=VARCHAR},
+      </if>
+      <if test="homeState != null">
+        #{homeState,jdbcType=VARCHAR},
+      </if>
+      <if test="entityMailingAddress != null">
+        #{entityMailingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="entityPhysicalAddress != null">
+        #{entityPhysicalAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="agentName != null">
+        #{agentName,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredMailingAddress != null">
+        #{registeredMailingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredPhysicalAddress != null">
+        #{registeredPhysicalAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="nextBiennialReportDue != null">
+        #{nextBiennialReportDue,jdbcType=VARCHAR},
+      </if>
+      <if test="officialEntity != null">
+        #{officialEntity,jdbcType=VARCHAR},
+      </if>
+      <if test="officialName != null">
+        #{officialName,jdbcType=VARCHAR},
+      </if>
+      <if test="officialTite != null">
+        #{officialTite,jdbcType=VARCHAR},
+      </if>
+      <if test="officialOwned != null">
+        #{officialOwned,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.america.alaska.AmericaAlaska">
+    update america_alaska
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="entityType != null">
+        entity_type = #{entityType,jdbcType=VARCHAR},
+      </if>
+      <if test="entityNumber != null">
+        entity_number = #{entityNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseStatus != null">
+        enterprise_status = #{enterpriseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="akFormData != null">
+        ak_form_data = #{akFormData,jdbcType=VARCHAR},
+      </if>
+      <if test="duration != null">
+        duration = #{duration,jdbcType=VARCHAR},
+      </if>
+      <if test="homeState != null">
+        home_state = #{homeState,jdbcType=VARCHAR},
+      </if>
+      <if test="entityMailingAddress != null">
+        entity_mailing_address = #{entityMailingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="entityPhysicalAddress != null">
+        entity_physical_address = #{entityPhysicalAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="agentName != null">
+        agent_name = #{agentName,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredMailingAddress != null">
+        registered_mailing_address = #{registeredMailingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredPhysicalAddress != null">
+        registered_physical_address = #{registeredPhysicalAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="nextBiennialReportDue != null">
+        next_biennial_report_due = #{nextBiennialReportDue,jdbcType=VARCHAR},
+      </if>
+      <if test="officialEntity != null">
+        official_entity = #{officialEntity,jdbcType=VARCHAR},
+      </if>
+      <if test="officialName != null">
+        official_name = #{officialName,jdbcType=VARCHAR},
+      </if>
+      <if test="officialTite != null">
+        official_tite = #{officialTite,jdbcType=VARCHAR},
+      </if>
+      <if test="officialOwned != null">
+        official_owned = #{officialOwned,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.america.alaska.AmericaAlaska">
+    update america_alaska
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      entity_type = #{entityType,jdbcType=VARCHAR},
+      entity_number = #{entityNumber,jdbcType=VARCHAR},
+      enterprise_status = #{enterpriseStatus,jdbcType=VARCHAR},
+      ak_form_data = #{akFormData,jdbcType=VARCHAR},
+      duration = #{duration,jdbcType=VARCHAR},
+      home_state = #{homeState,jdbcType=VARCHAR},
+      entity_mailing_address = #{entityMailingAddress,jdbcType=VARCHAR},
+      entity_physical_address = #{entityPhysicalAddress,jdbcType=VARCHAR},
+      agent_name = #{agentName,jdbcType=VARCHAR},
+      registered_mailing_address = #{registeredMailingAddress,jdbcType=VARCHAR},
+      registered_physical_address = #{registeredPhysicalAddress,jdbcType=VARCHAR},
+      next_biennial_report_due = #{nextBiennialReportDue,jdbcType=VARCHAR},
+      official_entity = #{officialEntity,jdbcType=VARCHAR},
+      official_name = #{officialName,jdbcType=VARCHAR},
+      official_tite = #{officialTite,jdbcType=VARCHAR},
+      official_owned = #{officialOwned,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

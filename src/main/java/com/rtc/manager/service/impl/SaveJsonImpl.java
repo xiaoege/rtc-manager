@@ -10,6 +10,7 @@ import com.rtc.manager.dao.america.alabama.AmericaAlabamaDirectorMapper;
 import com.rtc.manager.dao.america.alabama.AmericaAlabamaIncorporatorMapper;
 import com.rtc.manager.dao.america.alabama.AmericaAlabamaMapper;
 import com.rtc.manager.dao.america.alabama.AmericaAlabamaMemberMapper;
+import com.rtc.manager.dao.america.alaska.AmericaAlaskaMapper;
 import com.rtc.manager.dao.america.newhampshire.*;
 import com.rtc.manager.dao.america.northcarolina.*;
 import com.rtc.manager.entity.*;
@@ -17,6 +18,7 @@ import com.rtc.manager.entity.america.alabama.AmericaAlabama;
 import com.rtc.manager.entity.america.alabama.AmericaAlabamaDirector;
 import com.rtc.manager.entity.america.alabama.AmericaAlabamaIncorporator;
 import com.rtc.manager.entity.america.alabama.AmericaAlabamaMember;
+import com.rtc.manager.entity.america.alaska.AmericaAlaska;
 import com.rtc.manager.entity.america.newhampshire.*;
 import com.rtc.manager.entity.america.northcarolina.*;
 import com.rtc.manager.entity.dto.*;
@@ -247,6 +249,9 @@ public class SaveJsonImpl implements SaveJson {
 
     @Autowired
     private AmericaNorthcarolinaCompanyOfficialMapper americaNorthcarolinaCompanyOfficialMapper;
+
+    @Autowired
+    private AmericaAlaskaMapper americaAlaskaMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -1281,6 +1286,106 @@ public class SaveJsonImpl implements SaveJson {
                         americaNorthcarolinaStockMapper.insertSelective(northcarolinaStock);
                     }
 
+                }
+                logger.info("json文件导入成功，文件是{}", file.getName());
+                reader.close();
+                bis.close();
+            }
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveJsonAmerica4Alaska(File fileDirPath) throws Exception {
+        List<String> fileList = new ArrayList();
+        CommonUtils.readFiles(fileDirPath, fileList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (int z = 0; z < fileList.size(); z++) {
+            File file = new File(fileList.get(z));
+
+            // 忽略mac的隐藏文件
+            if (file.getName().contains(".DS_Store")) {
+                continue;
+            }
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
+
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
+
+            StringBuilder sb = new StringBuilder();
+            while (reader.ready()) {
+                sb.append((char) reader.read());
+            }
+            String sss = sb.toString();
+//            sss = sss.replace("\uFeFF", "");
+            List<AmericaAlaskaDTO> list = null;
+            try {
+                list = objectMapper.readValue(sss, new TypeReference<List<AmericaAlaskaDTO>>() {
+                });
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                logger.info("json序列化出现问题:{}", file.getName());
+                logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
+//                continue;
+            }
+            if (!CollectionUtils.isEmpty(list)) {
+                for (int i = 0; i < list.size(); i++) {
+                    AmericaAlaskaDTO americaAlaskaDTO = list.get(i);
+                    americaAlaskaDTO.setEnterpriseId(getUUID());
+                    AmericaAlaska alaska = new AmericaAlaska();
+                    BeanUtils.copyProperties(americaAlaskaDTO, alaska);
+
+                    List<String> nextBiennialReportDue = americaAlaskaDTO.getNextBiennialReportDue();
+                    StringBuilder nextBiennialReportDueSb = new StringBuilder();
+                    if (!ObjectUtils.isEmpty(nextBiennialReportDue)) {
+                        for (int j = 0; j < nextBiennialReportDue.size(); j++) {
+                            String strip = nextBiennialReportDue.get(j).replace("\n", "").replace(" ", "").strip();
+                            if (!strip.isBlank()) {
+                                nextBiennialReportDueSb.append(strip + "#rtc#");
+                            }
+                        }
+                        alaska.setNextBiennialReportDue(nextBiennialReportDueSb.toString());
+                    }
+
+
+                    List<String> officialEntity = americaAlaskaDTO.getOfficialEntity();
+                    StringBuilder officialEntitySb = new StringBuilder();
+                    if (!ObjectUtils.isEmpty(officialEntity)) {
+                        for (int j = 0; j < officialEntity.size(); j++) {
+                            officialEntitySb.append(officialEntity.get(j) + "#rtc#");
+                        }
+                        alaska.setOfficialEntity(officialEntitySb.toString());
+                    }
+
+
+                    List<String> officialName = americaAlaskaDTO.getOfficialName();
+                    StringBuilder officialNameSb = new StringBuilder();
+                    if (!ObjectUtils.isEmpty(officialName)) {
+                        for (int j = 0; j < officialName.size(); j++) {
+                            officialNameSb.append(officialName.get(j) + "#rtc#");
+                        }
+                        alaska.setOfficialName(officialNameSb.toString());
+                    }
+
+
+                    List<String> officialOwned = americaAlaskaDTO.getOfficialOwned();
+                    StringBuilder officialOwnedSb = new StringBuilder();
+                    if (!ObjectUtils.isEmpty(officialOwned)) {
+                        for (int j = 0; j < officialOwned.size(); j++) {
+                            officialOwnedSb.append(officialOwned.get(j) + "#rtc#");
+                        }
+                        alaska.setOfficialOwned(officialOwnedSb.toString());
+                    }
+
+                    List<String> officialTite = americaAlaskaDTO.getOfficialTite();
+                    StringBuilder officialTiteSb = new StringBuilder();
+                    if (!ObjectUtils.isEmpty(officialTite)) {
+                        for (int j = 0; j < officialTite.size(); j++) {
+                            officialTiteSb.append(officialTite.get(j) + "#rtc#");
+                        }
+                        alaska.setOfficialTite(officialTiteSb.toString());
+                    }
+                    americaAlaskaMapper.insertSelective(alaska);
                 }
                 logger.info("json文件导入成功，文件是{}", file.getName());
                 reader.close();
