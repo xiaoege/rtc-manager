@@ -1433,7 +1433,7 @@ public class SaveJsonImpl implements SaveJson {
                     StringBuilder sb = new StringBuilder();
                     sb.append("[");
                     String[] title = dataList.get(0);
-                    for (int i = 1; i < 200; i++) {
+                    for (int i = 1; i < dataList.size(); i++) {
                         String[] rows = dataList.get(i);
                         if (title.length == rows.length) {
                             sb.append("{");
