@@ -49,6 +49,52 @@ public class AmericaAlaska {
 
     private Integer status;
 
+    private String assumedName;
+
+    private String homeCountry;
+
+    private String nextBrdueDate;
+
+    private String entityMailingAddress2;
+
+    private String entityMailingCity;
+
+    private String entityMailingStateProvince;
+
+    private String entityMailingZip;
+
+    private String entityMailingCountry;
+
+    private String entityPhysAddress2;
+
+    private String entityPhysCity;
+
+    private String entityPhysStateProvince;
+
+    private String entityPhysZip;
+
+    private String entityPhysCountry;
+
+    private String registeredMailAddress2;
+
+    private String registeredMailCity;
+
+    private String registeredMailStateProvince;
+
+    private String registeredMailZip;
+
+    private String registeredMailCountry;
+
+    private String registeredPhysAddress2;
+
+    private String registeredPhysCity;
+
+    private String registeredPhysStateProvince;
+
+    private String registeredPhysZip;
+
+    private String registeredPhysCountry;
+
     public Integer getId() {
         return id;
     }
@@ -231,5 +277,189 @@ public class AmericaAlaska {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getAssumedName() {
+        return assumedName;
+    }
+
+    public void setAssumedName(String assumedName) {
+        this.assumedName = assumedName == null ? null : assumedName.trim();
+    }
+
+    public String getHomeCountry() {
+        return homeCountry;
+    }
+
+    public void setHomeCountry(String homeCountry) {
+        this.homeCountry = homeCountry == null ? null : homeCountry.trim();
+    }
+
+    public String getNextBrdueDate() {
+        return nextBrdueDate;
+    }
+
+    public void setNextBrdueDate(String nextBrdueDate) {
+        this.nextBrdueDate = nextBrdueDate == null ? null : nextBrdueDate.trim();
+    }
+
+    public String getEntityMailingAddress2() {
+        return entityMailingAddress2;
+    }
+
+    public void setEntityMailingAddress2(String entityMailingAddress2) {
+        this.entityMailingAddress2 = entityMailingAddress2 == null ? null : entityMailingAddress2.trim();
+    }
+
+    public String getEntityMailingCity() {
+        return entityMailingCity;
+    }
+
+    public void setEntityMailingCity(String entityMailingCity) {
+        this.entityMailingCity = entityMailingCity == null ? null : entityMailingCity.trim();
+    }
+
+    public String getEntityMailingStateProvince() {
+        return entityMailingStateProvince;
+    }
+
+    public void setEntityMailingStateProvince(String entityMailingStateProvince) {
+        this.entityMailingStateProvince = entityMailingStateProvince == null ? null : entityMailingStateProvince.trim();
+    }
+
+    public String getEntityMailingZip() {
+        return entityMailingZip;
+    }
+
+    public void setEntityMailingZip(String entityMailingZip) {
+        this.entityMailingZip = entityMailingZip == null ? null : entityMailingZip.trim();
+    }
+
+    public String getEntityMailingCountry() {
+        return entityMailingCountry;
+    }
+
+    public void setEntityMailingCountry(String entityMailingCountry) {
+        this.entityMailingCountry = entityMailingCountry == null ? null : entityMailingCountry.trim();
+    }
+
+    public String getEntityPhysAddress2() {
+        return entityPhysAddress2;
+    }
+
+    public void setEntityPhysAddress2(String entityPhysAddress2) {
+        this.entityPhysAddress2 = entityPhysAddress2 == null ? null : entityPhysAddress2.trim();
+    }
+
+    public String getEntityPhysCity() {
+        return entityPhysCity;
+    }
+
+    public void setEntityPhysCity(String entityPhysCity) {
+        this.entityPhysCity = entityPhysCity == null ? null : entityPhysCity.trim();
+    }
+
+    public String getEntityPhysStateProvince() {
+        return entityPhysStateProvince;
+    }
+
+    public void setEntityPhysStateProvince(String entityPhysStateProvince) {
+        this.entityPhysStateProvince = entityPhysStateProvince == null ? null : entityPhysStateProvince.trim();
+    }
+
+    public String getEntityPhysZip() {
+        return entityPhysZip;
+    }
+
+    public void setEntityPhysZip(String entityPhysZip) {
+        this.entityPhysZip = entityPhysZip == null ? null : entityPhysZip.trim();
+    }
+
+    public String getEntityPhysCountry() {
+        return entityPhysCountry;
+    }
+
+    public void setEntityPhysCountry(String entityPhysCountry) {
+        this.entityPhysCountry = entityPhysCountry == null ? null : entityPhysCountry.trim();
+    }
+
+    public String getRegisteredMailAddress2() {
+        return registeredMailAddress2;
+    }
+
+    public void setRegisteredMailAddress2(String registeredMailAddress2) {
+        this.registeredMailAddress2 = registeredMailAddress2 == null ? null : registeredMailAddress2.trim();
+    }
+
+    public String getRegisteredMailCity() {
+        return registeredMailCity;
+    }
+
+    public void setRegisteredMailCity(String registeredMailCity) {
+        this.registeredMailCity = registeredMailCity == null ? null : registeredMailCity.trim();
+    }
+
+    public String getRegisteredMailStateProvince() {
+        return registeredMailStateProvince;
+    }
+
+    public void setRegisteredMailStateProvince(String registeredMailStateProvince) {
+        this.registeredMailStateProvince = registeredMailStateProvince == null ? null : registeredMailStateProvince.trim();
+    }
+
+    public String getRegisteredMailZip() {
+        return registeredMailZip;
+    }
+
+    public void setRegisteredMailZip(String registeredMailZip) {
+        this.registeredMailZip = registeredMailZip == null ? null : registeredMailZip.trim();
+    }
+
+    public String getRegisteredMailCountry() {
+        return registeredMailCountry;
+    }
+
+    public void setRegisteredMailCountry(String registeredMailCountry) {
+        this.registeredMailCountry = registeredMailCountry == null ? null : registeredMailCountry.trim();
+    }
+
+    public String getRegisteredPhysAddress2() {
+        return registeredPhysAddress2;
+    }
+
+    public void setRegisteredPhysAddress2(String registeredPhysAddress2) {
+        this.registeredPhysAddress2 = registeredPhysAddress2 == null ? null : registeredPhysAddress2.trim();
+    }
+
+    public String getRegisteredPhysCity() {
+        return registeredPhysCity;
+    }
+
+    public void setRegisteredPhysCity(String registeredPhysCity) {
+        this.registeredPhysCity = registeredPhysCity == null ? null : registeredPhysCity.trim();
+    }
+
+    public String getRegisteredPhysStateProvince() {
+        return registeredPhysStateProvince;
+    }
+
+    public void setRegisteredPhysStateProvince(String registeredPhysStateProvince) {
+        this.registeredPhysStateProvince = registeredPhysStateProvince == null ? null : registeredPhysStateProvince.trim();
+    }
+
+    public String getRegisteredPhysZip() {
+        return registeredPhysZip;
+    }
+
+    public void setRegisteredPhysZip(String registeredPhysZip) {
+        this.registeredPhysZip = registeredPhysZip == null ? null : registeredPhysZip.trim();
+    }
+
+    public String getRegisteredPhysCountry() {
+        return registeredPhysCountry;
+    }
+
+    public void setRegisteredPhysCountry(String registeredPhysCountry) {
+        this.registeredPhysCountry = registeredPhysCountry == null ? null : registeredPhysCountry.trim();
     }
 }

@@ -6,6 +6,7 @@
     <!-- context 是逆向工程的主要配置信息 -->
     <!-- id：起个名字 -->
     <!-- targetRuntime：设置生成的文件适用于那个 mybatis 版本 -->
+    <!-- 必须指定本地的mysql驱动   -->
     <classPathEntry
             location="/Users/chenhang/.m2/repository/mysql/mysql-connector-java/8.0.20/mysql-connector-java-8.0.20.jar"/>
     <context id="default" targetRuntime="MyBatis3">
@@ -15,7 +16,7 @@
             <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
             <property name="suppressAllComments" value="true"/>
         </commentGenerator>
-        <!--jdbc的数据库连接 wg_insert 为数据库名字-->
+        <!--jdbc的数据库连接 -->
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
                         connectionURL="jdbc:mysql://localhost:3306/rtc?useUnicode=true;useSSL=false;AllowPublicKeyRetrieval=True;characterEncoding=utf-8;"
                         userId="root"
@@ -471,6 +472,11 @@
                selectByExampleQueryId="false">
             <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>
             <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>
+            <columnOverride column="next_biennial_report_due" property="nextBiennialReportDue" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="official_entity" property="officialEntity" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="official_name" property="officialName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="official_tite" property="officialTite" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="official_owned" property="officialOwned" javaType="java.lang.String" jdbcType="VARCHAR"/>
         </table>
     </context>
 </generatorConfiguration>

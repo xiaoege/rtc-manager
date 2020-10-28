@@ -1,6 +1,9 @@
 package com.rtc.manager.dao.america.alaska;
 
 import com.rtc.manager.entity.america.alaska.AmericaAlaska;
+import com.rtc.manager.entity.dto.AmericaAlaskaDTO;
+
+import java.util.List;
 
 public interface AmericaAlaskaMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +17,6 @@ public interface AmericaAlaskaMapper {
     int updateByPrimaryKeySelective(AmericaAlaska record);
 
     int updateByPrimaryKey(AmericaAlaska record);
+
+    void insertAlaskaExcel(List<AmericaAlaskaDTO> alaskaDTOList);
 }

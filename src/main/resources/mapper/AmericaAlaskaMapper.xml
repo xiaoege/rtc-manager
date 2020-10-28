@@ -25,13 +25,41 @@
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="assumed_name" jdbcType="VARCHAR" property="assumedName" />
+    <result column="home_country" jdbcType="VARCHAR" property="homeCountry" />
+    <result column="next_brdue_date" jdbcType="VARCHAR" property="nextBrdueDate" />
+    <result column="entity_mailing_address2" jdbcType="VARCHAR" property="entityMailingAddress2" />
+    <result column="entity_mailing_city" jdbcType="VARCHAR" property="entityMailingCity" />
+    <result column="entity_mailing_state_province" jdbcType="VARCHAR" property="entityMailingStateProvince" />
+    <result column="entity_mailing_zip" jdbcType="VARCHAR" property="entityMailingZip" />
+    <result column="entity_mailing_country" jdbcType="VARCHAR" property="entityMailingCountry" />
+    <result column="entity_phys_address2" jdbcType="VARCHAR" property="entityPhysAddress2" />
+    <result column="entity_phys_city" jdbcType="VARCHAR" property="entityPhysCity" />
+    <result column="entity_phys_state_province" jdbcType="VARCHAR" property="entityPhysStateProvince" />
+    <result column="entity_phys_zip" jdbcType="VARCHAR" property="entityPhysZip" />
+    <result column="entity_phys_country" jdbcType="VARCHAR" property="entityPhysCountry" />
+    <result column="registered_mail_address2" jdbcType="VARCHAR" property="registeredMailAddress2" />
+    <result column="registered_mail_city" jdbcType="VARCHAR" property="registeredMailCity" />
+    <result column="registered_mail_state_province" jdbcType="VARCHAR" property="registeredMailStateProvince" />
+    <result column="registered_mail_zip" jdbcType="VARCHAR" property="registeredMailZip" />
+    <result column="registered_mail_country" jdbcType="VARCHAR" property="registeredMailCountry" />
+    <result column="registered_phys_address2" jdbcType="VARCHAR" property="registeredPhysAddress2" />
+    <result column="registered_phys_city" jdbcType="VARCHAR" property="registeredPhysCity" />
+    <result column="registered_phys_state_province" jdbcType="VARCHAR" property="registeredPhysStateProvince" />
+    <result column="registered_phys_zip" jdbcType="VARCHAR" property="registeredPhysZip" />
+    <result column="registered_phys_country" jdbcType="VARCHAR" property="registeredPhysCountry" />
   </resultMap>
   <sql id="Base_Column_List">
     id, enterprise_id, name, type, entity_type, entity_number, enterprise_status, ak_form_data, 
     duration, home_state, entity_mailing_address, entity_physical_address, agent_name, 
     registered_mailing_address, registered_physical_address, next_biennial_report_due, 
     official_entity, official_name, official_tite, official_owned, gmt_create, gmt_modified, 
-    status
+    status, assumed_name, home_country, next_brdue_date, entity_mailing_address2, entity_mailing_city, 
+    entity_mailing_state_province, entity_mailing_zip, entity_mailing_country, entity_phys_address2, 
+    entity_phys_city, entity_phys_state_province, entity_phys_zip, entity_phys_country, 
+    registered_mail_address2, registered_mail_city, registered_mail_state_province, registered_mail_zip, 
+    registered_mail_country, registered_phys_address2, registered_phys_city, registered_phys_state_province, 
+    registered_phys_zip, registered_phys_country
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -51,8 +79,18 @@
       agent_name, registered_mailing_address, registered_physical_address, 
       next_biennial_report_due, official_entity, 
       official_name, official_tite, official_owned, 
-      gmt_create, gmt_modified, status
-      )
+      gmt_create, gmt_modified, status, 
+      assumed_name, home_country, next_brdue_date, 
+      entity_mailing_address2, entity_mailing_city, 
+      entity_mailing_state_province, entity_mailing_zip, 
+      entity_mailing_country, entity_phys_address2, 
+      entity_phys_city, entity_phys_state_province, 
+      entity_phys_zip, entity_phys_country, registered_mail_address2, 
+      registered_mail_city, registered_mail_state_province, 
+      registered_mail_zip, registered_mail_country, 
+      registered_phys_address2, registered_phys_city, 
+      registered_phys_state_province, registered_phys_zip, 
+      registered_phys_country)
     values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{type,jdbcType=VARCHAR}, #{entityType,jdbcType=VARCHAR}, #{entityNumber,jdbcType=VARCHAR}, 
       #{enterpriseStatus,jdbcType=VARCHAR}, #{akFormData,jdbcType=VARCHAR}, #{duration,jdbcType=VARCHAR}, 
@@ -60,8 +98,18 @@
       #{agentName,jdbcType=VARCHAR}, #{registeredMailingAddress,jdbcType=VARCHAR}, #{registeredPhysicalAddress,jdbcType=VARCHAR}, 
       #{nextBiennialReportDue,jdbcType=VARCHAR}, #{officialEntity,jdbcType=VARCHAR}, 
       #{officialName,jdbcType=VARCHAR}, #{officialTite,jdbcType=VARCHAR}, #{officialOwned,jdbcType=VARCHAR}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
-      )
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
+      #{assumedName,jdbcType=VARCHAR}, #{homeCountry,jdbcType=VARCHAR}, #{nextBrdueDate,jdbcType=VARCHAR}, 
+      #{entityMailingAddress2,jdbcType=VARCHAR}, #{entityMailingCity,jdbcType=VARCHAR}, 
+      #{entityMailingStateProvince,jdbcType=VARCHAR}, #{entityMailingZip,jdbcType=VARCHAR}, 
+      #{entityMailingCountry,jdbcType=VARCHAR}, #{entityPhysAddress2,jdbcType=VARCHAR}, 
+      #{entityPhysCity,jdbcType=VARCHAR}, #{entityPhysStateProvince,jdbcType=VARCHAR}, 
+      #{entityPhysZip,jdbcType=VARCHAR}, #{entityPhysCountry,jdbcType=VARCHAR}, #{registeredMailAddress2,jdbcType=VARCHAR}, 
+      #{registeredMailCity,jdbcType=VARCHAR}, #{registeredMailStateProvince,jdbcType=VARCHAR}, 
+      #{registeredMailZip,jdbcType=VARCHAR}, #{registeredMailCountry,jdbcType=VARCHAR}, 
+      #{registeredPhysAddress2,jdbcType=VARCHAR}, #{registeredPhysCity,jdbcType=VARCHAR}, 
+      #{registeredPhysStateProvince,jdbcType=VARCHAR}, #{registeredPhysZip,jdbcType=VARCHAR}, 
+      #{registeredPhysCountry,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.rtc.manager.entity.america.alaska.AmericaAlaska">
     insert into america_alaska
@@ -135,6 +183,75 @@
       <if test="status != null">
         status,
       </if>
+      <if test="assumedName != null">
+        assumed_name,
+      </if>
+      <if test="homeCountry != null">
+        home_country,
+      </if>
+      <if test="nextBrdueDate != null">
+        next_brdue_date,
+      </if>
+      <if test="entityMailingAddress2 != null">
+        entity_mailing_address2,
+      </if>
+      <if test="entityMailingCity != null">
+        entity_mailing_city,
+      </if>
+      <if test="entityMailingStateProvince != null">
+        entity_mailing_state_province,
+      </if>
+      <if test="entityMailingZip != null">
+        entity_mailing_zip,
+      </if>
+      <if test="entityMailingCountry != null">
+        entity_mailing_country,
+      </if>
+      <if test="entityPhysAddress2 != null">
+        entity_phys_address2,
+      </if>
+      <if test="entityPhysCity != null">
+        entity_phys_city,
+      </if>
+      <if test="entityPhysStateProvince != null">
+        entity_phys_state_province,
+      </if>
+      <if test="entityPhysZip != null">
+        entity_phys_zip,
+      </if>
+      <if test="entityPhysCountry != null">
+        entity_phys_country,
+      </if>
+      <if test="registeredMailAddress2 != null">
+        registered_mail_address2,
+      </if>
+      <if test="registeredMailCity != null">
+        registered_mail_city,
+      </if>
+      <if test="registeredMailStateProvince != null">
+        registered_mail_state_province,
+      </if>
+      <if test="registeredMailZip != null">
+        registered_mail_zip,
+      </if>
+      <if test="registeredMailCountry != null">
+        registered_mail_country,
+      </if>
+      <if test="registeredPhysAddress2 != null">
+        registered_phys_address2,
+      </if>
+      <if test="registeredPhysCity != null">
+        registered_phys_city,
+      </if>
+      <if test="registeredPhysStateProvince != null">
+        registered_phys_state_province,
+      </if>
+      <if test="registeredPhysZip != null">
+        registered_phys_zip,
+      </if>
+      <if test="registeredPhysCountry != null">
+        registered_phys_country,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -205,6 +322,75 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
+      </if>
+      <if test="assumedName != null">
+        #{assumedName,jdbcType=VARCHAR},
+      </if>
+      <if test="homeCountry != null">
+        #{homeCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="nextBrdueDate != null">
+        #{nextBrdueDate,jdbcType=VARCHAR},
+      </if>
+      <if test="entityMailingAddress2 != null">
+        #{entityMailingAddress2,jdbcType=VARCHAR},
+      </if>
+      <if test="entityMailingCity != null">
+        #{entityMailingCity,jdbcType=VARCHAR},
+      </if>
+      <if test="entityMailingStateProvince != null">
+        #{entityMailingStateProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="entityMailingZip != null">
+        #{entityMailingZip,jdbcType=VARCHAR},
+      </if>
+      <if test="entityMailingCountry != null">
+        #{entityMailingCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="entityPhysAddress2 != null">
+        #{entityPhysAddress2,jdbcType=VARCHAR},
+      </if>
+      <if test="entityPhysCity != null">
+        #{entityPhysCity,jdbcType=VARCHAR},
+      </if>
+      <if test="entityPhysStateProvince != null">
+        #{entityPhysStateProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="entityPhysZip != null">
+        #{entityPhysZip,jdbcType=VARCHAR},
+      </if>
+      <if test="entityPhysCountry != null">
+        #{entityPhysCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredMailAddress2 != null">
+        #{registeredMailAddress2,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredMailCity != null">
+        #{registeredMailCity,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredMailStateProvince != null">
+        #{registeredMailStateProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredMailZip != null">
+        #{registeredMailZip,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredMailCountry != null">
+        #{registeredMailCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredPhysAddress2 != null">
+        #{registeredPhysAddress2,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredPhysCity != null">
+        #{registeredPhysCity,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredPhysStateProvince != null">
+        #{registeredPhysStateProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredPhysZip != null">
+        #{registeredPhysZip,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredPhysCountry != null">
+        #{registeredPhysCountry,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -277,6 +463,75 @@
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
       </if>
+      <if test="assumedName != null">
+        assumed_name = #{assumedName,jdbcType=VARCHAR},
+      </if>
+      <if test="homeCountry != null">
+        home_country = #{homeCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="nextBrdueDate != null">
+        next_brdue_date = #{nextBrdueDate,jdbcType=VARCHAR},
+      </if>
+      <if test="entityMailingAddress2 != null">
+        entity_mailing_address2 = #{entityMailingAddress2,jdbcType=VARCHAR},
+      </if>
+      <if test="entityMailingCity != null">
+        entity_mailing_city = #{entityMailingCity,jdbcType=VARCHAR},
+      </if>
+      <if test="entityMailingStateProvince != null">
+        entity_mailing_state_province = #{entityMailingStateProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="entityMailingZip != null">
+        entity_mailing_zip = #{entityMailingZip,jdbcType=VARCHAR},
+      </if>
+      <if test="entityMailingCountry != null">
+        entity_mailing_country = #{entityMailingCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="entityPhysAddress2 != null">
+        entity_phys_address2 = #{entityPhysAddress2,jdbcType=VARCHAR},
+      </if>
+      <if test="entityPhysCity != null">
+        entity_phys_city = #{entityPhysCity,jdbcType=VARCHAR},
+      </if>
+      <if test="entityPhysStateProvince != null">
+        entity_phys_state_province = #{entityPhysStateProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="entityPhysZip != null">
+        entity_phys_zip = #{entityPhysZip,jdbcType=VARCHAR},
+      </if>
+      <if test="entityPhysCountry != null">
+        entity_phys_country = #{entityPhysCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredMailAddress2 != null">
+        registered_mail_address2 = #{registeredMailAddress2,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredMailCity != null">
+        registered_mail_city = #{registeredMailCity,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredMailStateProvince != null">
+        registered_mail_state_province = #{registeredMailStateProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredMailZip != null">
+        registered_mail_zip = #{registeredMailZip,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredMailCountry != null">
+        registered_mail_country = #{registeredMailCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredPhysAddress2 != null">
+        registered_phys_address2 = #{registeredPhysAddress2,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredPhysCity != null">
+        registered_phys_city = #{registeredPhysCity,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredPhysStateProvince != null">
+        registered_phys_state_province = #{registeredPhysStateProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredPhysZip != null">
+        registered_phys_zip = #{registeredPhysZip,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredPhysCountry != null">
+        registered_phys_country = #{registeredPhysCountry,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -303,7 +558,71 @@
       official_owned = #{officialOwned,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER}
+      status = #{status,jdbcType=INTEGER},
+      assumed_name = #{assumedName,jdbcType=VARCHAR},
+      home_country = #{homeCountry,jdbcType=VARCHAR},
+      next_brdue_date = #{nextBrdueDate,jdbcType=VARCHAR},
+      entity_mailing_address2 = #{entityMailingAddress2,jdbcType=VARCHAR},
+      entity_mailing_city = #{entityMailingCity,jdbcType=VARCHAR},
+      entity_mailing_state_province = #{entityMailingStateProvince,jdbcType=VARCHAR},
+      entity_mailing_zip = #{entityMailingZip,jdbcType=VARCHAR},
+      entity_mailing_country = #{entityMailingCountry,jdbcType=VARCHAR},
+      entity_phys_address2 = #{entityPhysAddress2,jdbcType=VARCHAR},
+      entity_phys_city = #{entityPhysCity,jdbcType=VARCHAR},
+      entity_phys_state_province = #{entityPhysStateProvince,jdbcType=VARCHAR},
+      entity_phys_zip = #{entityPhysZip,jdbcType=VARCHAR},
+      entity_phys_country = #{entityPhysCountry,jdbcType=VARCHAR},
+      registered_mail_address2 = #{registeredMailAddress2,jdbcType=VARCHAR},
+      registered_mail_city = #{registeredMailCity,jdbcType=VARCHAR},
+      registered_mail_state_province = #{registeredMailStateProvince,jdbcType=VARCHAR},
+      registered_mail_zip = #{registeredMailZip,jdbcType=VARCHAR},
+      registered_mail_country = #{registeredMailCountry,jdbcType=VARCHAR},
+      registered_phys_address2 = #{registeredPhysAddress2,jdbcType=VARCHAR},
+      registered_phys_city = #{registeredPhysCity,jdbcType=VARCHAR},
+      registered_phys_state_province = #{registeredPhysStateProvince,jdbcType=VARCHAR},
+      registered_phys_zip = #{registeredPhysZip,jdbcType=VARCHAR},
+      registered_phys_country = #{registeredPhysCountry,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <insert id="insertAlaskaExcel" parameterType="com.rtc.manager.entity.dto.AmericaAlaskaDTO">
+    insert into america_alaska (enterprise_id, name,
+    type, entity_type, entity_number,
+    enterprise_status, ak_form_data, duration,
+    home_state, entity_mailing_address, entity_physical_address,
+    agent_name, registered_mailing_address, registered_physical_address,
+    assumed_name, home_country, next_brdue_date,
+    entity_mailing_address2, entity_mailing_city,
+    entity_mailing_state_province, entity_mailing_zip,
+    entity_mailing_country, entity_phys_address2,
+    entity_phys_city, entity_phys_state_province,
+    entity_phys_zip, entity_phys_country, registered_mail_address2,
+    registered_mail_city, registered_mail_state_province,
+    registered_mail_zip, registered_mail_country,
+    registered_phys_address2, registered_phys_city,
+    registered_phys_state_province, registered_phys_zip,
+    registered_phys_country)
+    values
+    <foreach collection="list" item="data"  separator=",">
+        (#{data.enterpriseId,jdbcType=VARCHAR}, #{data.name,jdbcType=VARCHAR},
+        #{data.type,jdbcType=VARCHAR}, #{data.entityType,jdbcType=VARCHAR}, #{data.entityNumber,jdbcType=VARCHAR},
+        #{data.enterpriseStatus,jdbcType=VARCHAR}, #{data.akFormData,jdbcType=VARCHAR}, #{data.duration,jdbcType=VARCHAR},
+        #{data.homeState,jdbcType=VARCHAR}, #{data.entityMailingAddress,jdbcType=VARCHAR}, #{data.entityPhysicalAddress,jdbcType=VARCHAR},
+        #{data.agentName,jdbcType=VARCHAR}, #{data.registeredMailingAddress,jdbcType=VARCHAR},
+        #{data.registeredPhysicalAddress,jdbcType=VARCHAR},
+        #{data.assumedName,jdbcType=VARCHAR}, #{data.homeCountry,jdbcType=VARCHAR}, #{data.nextBrdueDate,jdbcType=VARCHAR},
+        #{data.entityMailingAddress2,jdbcType=VARCHAR}, #{data.entityMailingCity,jdbcType=VARCHAR},
+        #{data.entityMailingStateProvince,jdbcType=VARCHAR}, #{data.entityMailingZip,jdbcType=VARCHAR},
+        #{data.entityMailingCountry,jdbcType=VARCHAR}, #{data.entityPhysAddress2,jdbcType=VARCHAR},
+        #{data.entityPhysCity,jdbcType=VARCHAR}, #{data.entityPhysStateProvince,jdbcType=VARCHAR},
+        #{data.entityPhysZip,jdbcType=VARCHAR}, #{data.entityPhysCountry,jdbcType=VARCHAR},
+        #{data.registeredMailAddress2,jdbcType=VARCHAR},
+        #{data.registeredMailCity,jdbcType=VARCHAR}, #{data.registeredMailStateProvince,jdbcType=VARCHAR},
+        #{data.registeredMailZip,jdbcType=VARCHAR}, #{data.registeredMailCountry,jdbcType=VARCHAR},
+        #{data.registeredPhysAddress2,jdbcType=VARCHAR}, #{data.registeredPhysCity,jdbcType=VARCHAR},
+        #{data.registeredPhysStateProvince,jdbcType=VARCHAR}, #{data.registeredPhysZip,jdbcType=VARCHAR},
+        #{data.registeredPhysCountry,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  
 </mapper>

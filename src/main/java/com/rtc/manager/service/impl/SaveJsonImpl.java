@@ -257,7 +257,7 @@ public class SaveJsonImpl implements SaveJson {
     @Transactional(rollbackFor = Exception.class)
     public void readJson(File filePath) throws Exception {
         List<String> fileList = new ArrayList();
-        CommonUtils.readFiles(filePath, fileList);
+        CommonUtils.readJsonFiles(filePath, fileList);
         for (int z = 0; z < fileList.size(); z++) {
             File file = new File(fileList.get(z));
 
@@ -874,7 +874,7 @@ public class SaveJsonImpl implements SaveJson {
     @Override
     public void readJsonIndia(File filePath) throws Exception {
         List<String> fileList = new ArrayList();
-        CommonUtils.readFiles(filePath, fileList);
+        CommonUtils.readJsonFiles(filePath, fileList);
         for (int z = 0; z < fileList.size(); z++) {
             File file = new File(fileList.get(z));
 
@@ -971,7 +971,7 @@ public class SaveJsonImpl implements SaveJson {
     @Override
     public void readJsonVietnam(File fileDirPath) throws Exception {
         List<String> fileList = new ArrayList();
-        CommonUtils.readFiles(fileDirPath, fileList);
+        CommonUtils.readJsonFiles(fileDirPath, fileList);
         ObjectMapper objectMapper = new ObjectMapper();
         for (int z = 0; z < fileList.size(); z++) {
             File file = new File(fileList.get(z));
@@ -1031,7 +1031,7 @@ public class SaveJsonImpl implements SaveJson {
     @Transactional(rollbackFor = Exception.class)
     public void saveJsonAmerica4Alabama(File fileDirPath) throws Exception {
         List<String> fileList = new ArrayList();
-        CommonUtils.readFiles(fileDirPath, fileList);
+        CommonUtils.readJsonFiles(fileDirPath, fileList);
         ObjectMapper objectMapper = new ObjectMapper();
         for (int z = 0; z < fileList.size(); z++) {
             File file = new File(fileList.get(z));
@@ -1106,7 +1106,7 @@ public class SaveJsonImpl implements SaveJson {
     @Override
     public void saveJsonAmerica4NewHampshire(File fileDirPath) throws Exception {
         List<String> fileList = new ArrayList();
-        CommonUtils.readFiles(fileDirPath, fileList);
+        CommonUtils.readJsonFiles(fileDirPath, fileList);
         ObjectMapper objectMapper = new ObjectMapper();
         for (int z = 0; z < fileList.size(); z++) {
             File file = new File(fileList.get(z));
@@ -1222,7 +1222,7 @@ public class SaveJsonImpl implements SaveJson {
     @Transactional(rollbackFor = Exception.class)
     public void saveJsonAmerica4NorthCarolina(File fileDirPath) throws Exception {
         List<String> fileList = new ArrayList();
-        CommonUtils.readFiles(fileDirPath, fileList);
+        CommonUtils.readJsonFiles(fileDirPath, fileList);
         ObjectMapper objectMapper = new ObjectMapper();
         for (int z = 0; z < fileList.size(); z++) {
             File file = new File(fileList.get(z));
@@ -1304,7 +1304,7 @@ public class SaveJsonImpl implements SaveJson {
     @Transactional(rollbackFor = Exception.class)
     public void saveJsonAmerica4Alaska(File fileDirPath) throws Exception {
         List<String> fileList = new ArrayList();
-        CommonUtils.readFiles(fileDirPath, fileList);
+        CommonUtils.readJsonFiles(fileDirPath, fileList);
         ObjectMapper objectMapper = new ObjectMapper();
         for (int z = 0; z < fileList.size(); z++) {
             File file = new File(fileList.get(z));
@@ -1398,6 +1398,68 @@ public class SaveJsonImpl implements SaveJson {
                 reader.close();
                 bis.close();
             }
+        }
+    }
+
+    @Override
+    public void saveJsonAmerica4AlaskaCSV(File fileDirPath) throws Exception {
+        List<String> fileList = new ArrayList();
+        CommonUtils.readFiles(fileDirPath, fileList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (int z = 0; z < fileList.size(); z++) {
+            File file = new File(fileList.get(z));
+
+            // 忽略mac的隐藏文件
+            if (file.getName().contains(".DS_Store")) {
+                continue;
+            }
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
+
+            try {
+                //(文件完整路径),编码格式
+                BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+//                BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
+                String line = null;
+
+                List<String[]> dataList = new ArrayList();
+                String csvSplitBy = ",(?=([^\"]*\"[^\"]*\")*[^\"]*$)";
+
+                while ((line = reader.readLine()) != null) {
+                    String[] item = line.split(csvSplitBy, 35);
+                    dataList.add(item);
+                }
+                if (dataList.size() > 1) {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("[");
+                    String[] title = dataList.get(0);
+                    for (int i = 1; i < 200; i++) {
+                        String[] rows = dataList.get(i);
+                        if (title.length == rows.length) {
+                            sb.append("{");
+                            for (int j = 0; j < rows.length; j++) {
+                                String row = "\"\"";
+                                String replace = rows[j].replace("\"", "'").replace("\t", "");
+                                if (replace.length() > 1) {
+                                    row = "\"" + replace.substring(1, replace.length() - 1) + "\"";
+                                }
+                                sb.append("\"enterprise_id\":\"" + getUUID() + "\",").append(title[j] + ":" + row).append(",");
+                            }
+                            sb.delete(sb.length() - 1, sb.length());
+                            sb.append("}").append(",");
+                        }
+                    }
+                    sb.delete(sb.length() - 1, sb.length()).append("]");
+                    String data = sb.toString();
+                    List<AmericaAlaskaDTO> alaskaDTOList = objectMapper.readValue(data, new TypeReference<List<AmericaAlaskaDTO>>() {
+                    });
+
+                    americaAlaskaMapper.insertAlaskaExcel(alaskaDTOList);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
     }
 

@@ -143,11 +143,36 @@ public final class CommonUtils {
                     continue;
                 }
                 if (file.isFile()) {
+                    fileList.add(file.getPath());
+                } else if (file.isDirectory()) {
+                    readFiles(file, fileList);
+                }
+            }
+        }
+
+    }
+
+    /**
+     * 获得该路径文件夹下所有文件
+     *
+     * @param fileDirPath 路径
+     * @param fileList    所有文件的list
+     */
+    public static void readJsonFiles(File fileDirPath, List fileList) {
+        if (fileDirPath.exists() && fileList != null) {
+            File[] files = fileDirPath.listFiles();
+            for (File file :
+                    files) {
+                // 忽略mac的隐藏文件
+                if (file.getName().contains(".DS_Store")) {
+                    continue;
+                }
+                if (file.isFile()) {
                     if ("json".equals(file.getName().substring(file.getName().lastIndexOf(".") + 1))) {
                         fileList.add(file.getPath());
                     }
                 } else if (file.isDirectory()) {
-                    readFiles(file, fileList);
+                    readJsonFiles(file, fileList);
                 }
             }
         }
