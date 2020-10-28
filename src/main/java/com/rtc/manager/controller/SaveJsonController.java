@@ -100,14 +100,12 @@ public class SaveJsonController {
      * 解析json文件导入到数据库
      * 美国企业
      *
-     * @param sizeMarker 10的n次方
      * @param dirPath json文件上一级文件夹路径，里面只能有json文件
      * @return
      */
     @PostMapping("saveJsonAmerica")
     public String saveJsonAmerica(@RequestParam(name = "dirPath") String dirPath,
-                                  @RequestParam(name = "type") String type,
-                                  @RequestParam(name = "sizeMarker", required = false) long sizeMarker) {
+                                  @RequestParam(name = "type") String type) {
         try {
             File fileDirPath = new File(dirPath);
             if (fileDirPath.exists()) {
@@ -124,7 +122,7 @@ public class SaveJsonController {
                     saveJson.saveJsonAmerica4Alaska(fileDirPath);
                 }
                 if ("AlaskaCSV".equals(type)) {
-                    saveJson.saveJsonAmerica4AlaskaCSV(fileDirPath, sizeMarker);
+                    saveJson.saveJsonAmerica4AlaskaCSV(fileDirPath);
                 }
             } else {
                 return "路径错误";
