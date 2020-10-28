@@ -1403,7 +1403,7 @@ public class SaveJsonImpl implements SaveJson {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void saveJsonAmerica4AlaskaCSV(File fileDirPath) throws Exception {
+    public void saveJsonAmerica4AlaskaCSV(File fileDirPath, long marker) throws Exception {
         List<String> fileList = new ArrayList();
         CommonUtils.readFiles(fileDirPath, fileList);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -1433,7 +1433,7 @@ public class SaveJsonImpl implements SaveJson {
                     StringBuilder sb = new StringBuilder();
                     sb.append("[");
                     String[] title = dataList.get(0);
-                    for (int i = 1; i < dataList.size(); i++) {
+                    for (int i = 1; i < (marker <= dataList.size() ? marker : dataList.size()); i++) {
                         String[] rows = dataList.get(i);
                         if (title.length == rows.length) {
                             sb.append("{");

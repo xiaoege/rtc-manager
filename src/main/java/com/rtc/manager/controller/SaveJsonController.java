@@ -105,7 +105,8 @@ public class SaveJsonController {
      */
     @PostMapping("saveJsonAmerica")
     public String saveJsonAmerica(@RequestParam(name = "dirPath") String dirPath,
-                                  @RequestParam(name = "type") String type) {
+                                  @RequestParam(name = "type") String type,
+                                  @RequestParam(name = "marker") long marker) {
         try {
             File fileDirPath = new File(dirPath);
             if (fileDirPath.exists()) {
@@ -122,7 +123,7 @@ public class SaveJsonController {
                     saveJson.saveJsonAmerica4Alaska(fileDirPath);
                 }
                 if ("AlaskaCSV".equals(type)) {
-                    saveJson.saveJsonAmerica4AlaskaCSV(fileDirPath);
+                    saveJson.saveJsonAmerica4AlaskaCSV(fileDirPath, marker);
                 }
             } else {
                 return "路径错误";
