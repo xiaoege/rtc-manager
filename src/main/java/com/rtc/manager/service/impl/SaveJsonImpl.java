@@ -1430,7 +1430,7 @@ public class SaveJsonImpl implements SaveJson {
                     dataList.add(item);
                 }
                 if (dataList.size() > 1) {
-//                    StringBuilder sb = new StringBuilder();
+                    StringBuilder sb = new StringBuilder();
 //                    sb.append("[");
                     String[] title = dataList.get(0);
 
@@ -1439,66 +1439,69 @@ public class SaveJsonImpl implements SaveJson {
                     // sizeMarker为10的n次方
                     long remainder = dataList.size() % sizeMarker;
 
-                    for (int q = 1; q < multiple; q++) {
-                        int i = 1;
-                        long start = q * sizeMarker;
-                        StringBuilder sb = new StringBuilder();
-                        sb.append("[");
-                        for (; i < (q == multiple ? start : dataList.size()); i++) {
-                            String[] rows = dataList.get(i);
-                            if (title.length == rows.length) {
-                                sb.append("{");
-                                for (int j = 0; j < rows.length; j++) {
-                                    String row = "\"\"";
-                                    String replace = rows[j].replace("\"", "'").replace("\t", "");
-                                    if (replace.length() > 1) {
-                                        row = "\"" + replace.substring(1, replace.length() - 1) + "\"";
-                                    }
-                                    sb.append("\"enterprise_id\":\"" + getUUID() + "\",").append(title[j] + ":" + row).append(",");
-                                }
-                                sb.delete(sb.length() - 1, sb.length());
-                                sb.append("}").append(",");
-                            }
-                        }
-                        sb.delete(sb.length() - 1, sb.length()).append("]");
-                        String data = sb.toString();
-                        List<AmericaAlaskaDTO> alaskaDTOList = objectMapper.readValue(data, new TypeReference<List<AmericaAlaskaDTO>>() {
-                        });
-
-                        americaAlaskaMapper.insertAlaskaExcel(alaskaDTOList);
-                        i = (int) (start);
-                        sb = new StringBuilder();
-                    }
-
-
-//                    for (int i = 1; i < dataList.size(); i++) {
-////                    for (int i = 1; i < (sizeMarker <= dataList.size() ? sizeMarker : dataList.size()); i++) {
-//                        String[] rows = dataList.get(i);
-//                        if (title.length == rows.length) {
-//                            sb.append("{");
-//                            for (int j = 0; j < rows.length; j++) {
-//                                String row = "\"\"";
-//                                String replace = rows[j].replace("\"", "'").replace("\t", "");
-//                                if (replace.length() > 1) {
-//                                    row = "\"" + replace.substring(1, replace.length() - 1) + "\"";
+//                    for (int q = 1; q < multiple; q++) {
+//                        int i = 1;
+//                        long start = q * sizeMarker;
+//                        StringBuilder sb = new StringBuilder();
+//                        sb.append("[");
+//                        for (; i < (q == multiple ? start : dataList.size()); i++) {
+//                            String[] rows = dataList.get(i);
+//                            if (title.length == rows.length) {
+//                                sb.append("{");
+//                                for (int j = 0; j < rows.length; j++) {
+//                                    String row = "\"\"";
+//                                    String replace = rows[j].replace("\"", "'").replace("\t", "");
+//                                    if (replace.length() > 1) {
+//                                        row = "\"" + replace.substring(1, replace.length() - 1) + "\"";
+//                                    }
+//                                    sb.append("\"enterprise_id\":\"" + getUUID() + "\",").append(title[j] + ":" + row).append(",");
 //                                }
-//                                sb.append("\"enterprise_id\":\"" + getUUID() + "\",").append(title[j] + ":" + row).append(",");
+//                                sb.delete(sb.length() - 1, sb.length());
+//                                sb.append("}").append(",");
 //                            }
-//                            sb.delete(sb.length() - 1, sb.length());
-//                            sb.append("}").append(",");
 //                        }
+//                        sb.delete(sb.length() - 1, sb.length()).append("]");
+//                        String data = sb.toString();
+//                        List<AmericaAlaskaDTO> alaskaDTOList = objectMapper.readValue(data, new TypeReference<List<AmericaAlaskaDTO>>() {
+//                        });
+//
+//                        americaAlaskaMapper.insertAlaskaExcel(alaskaDTOList);
+//                        i = (int) (start);
+//                        sb = new StringBuilder();
 //                    }
+                    List<AmericaAlaskaDTO> alaskaDTOList = new ArrayList<>();
+                    for (int i = 1; i < dataList.size(); i++) {
+//                    for (int i = 1; i < (sizeMarker <= dataList.size() ? sizeMarker : dataList.size()); i++) {
+                        String[] rows = dataList.get(i);
+                        if (title.length == rows.length) {
+                            sb.append("{");
+                            for (int j = 0; j < rows.length; j++) {
+                                String row = "\"\"";
+                                String replace = rows[j].replace("\"", "'").replace("\t", "");
+                                if (replace.length() > 1) {
+                                    row = "\"" + replace.substring(1, replace.length() - 1) + "\"";
+                                }
+                                sb.append("\"enterprise_id\":\"" + getUUID() + "\",").append(title[j] + ":" + row).append(",");
+                            }
+                            sb.delete(sb.length() - 1, sb.length());
+                            sb.append("}");
+                            AmericaAlaskaDTO alaskaDTO = objectMapper.readValue(sb.toString(), AmericaAlaskaDTO.class);
+                            alaskaDTOList.add(alaskaDTO);
+                            sb.setLength(0);
+                        }
+                    }
 //                    sb.delete(sb.length() - 1, sb.length()).append("]");
 //                    String data = sb.toString();
 //                    List<AmericaAlaskaDTO> alaskaDTOList = objectMapper.readValue(data, new TypeReference<List<AmericaAlaskaDTO>>() {
 //                    });
-//
-//                    americaAlaskaMapper.insertAlaskaExcel(alaskaDTOList);
+                    System.out.println("ready to insert");
+                    americaAlaskaMapper.insertAlaskaExcel(alaskaDTOList);
                 }
 
             } catch (Exception e) {
                 e.printStackTrace();
                 logger.info("errordata:{}", cat);
+                throw new Exception();
             }
 
         }
