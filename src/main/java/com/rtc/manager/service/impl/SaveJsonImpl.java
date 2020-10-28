@@ -1403,7 +1403,7 @@ public class SaveJsonImpl implements SaveJson {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void saveJsonAmerica4AlaskaCSV(File fileDirPath, long marker) throws Exception {
+    public void saveJsonAmerica4AlaskaCSV(File fileDirPath, long sizeMarker) throws Exception {
         List<String> fileList = new ArrayList();
         CommonUtils.readFiles(fileDirPath, fileList);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -1430,31 +1430,66 @@ public class SaveJsonImpl implements SaveJson {
                     dataList.add(item);
                 }
                 if (dataList.size() > 1) {
-                    StringBuilder sb = new StringBuilder();
-                    sb.append("[");
+//                    StringBuilder sb = new StringBuilder();
+//                    sb.append("[");
                     String[] title = dataList.get(0);
-                    for (int i = 1; i < (marker <= dataList.size() ? marker : dataList.size()); i++) {
-                        String[] rows = dataList.get(i);
-                        if (title.length == rows.length) {
-                            sb.append("{");
-                            for (int j = 0; j < rows.length; j++) {
-                                String row = "\"\"";
-                                String replace = rows[j].replace("\"", "'").replace("\t", "");
-                                if (replace.length() > 1) {
-                                    row = "\"" + replace.substring(1, replace.length() - 1) + "\"";
+
+                    // multiple为dataList的10的次方的power
+                    long multiple = Math.floorDiv(dataList.size(), sizeMarker);
+                    // sizeMarker为10的n次方
+                    long remainder = dataList.size() % sizeMarker;
+
+                    for (int q = 1; q < multiple; q++) {
+                        for (int i = 1; i < q * sizeMarker; i++) {
+                            StringBuilder sb = new StringBuilder();
+                            sb.append("[");
+                            String[] rows = dataList.get(i);
+                            if (title.length == rows.length) {
+                                sb.append("{");
+                                for (int j = 0; j < rows.length; j++) {
+                                    String row = "\"\"";
+                                    String replace = rows[j].replace("\"", "'").replace("\t", "");
+                                    if (replace.length() > 1) {
+                                        row = "\"" + replace.substring(1, replace.length() - 1) + "\"";
+                                    }
+                                    sb.append("\"enterprise_id\":\"" + getUUID() + "\",").append(title[j] + ":" + row).append(",");
                                 }
-                                sb.append("\"enterprise_id\":\"" + getUUID() + "\",").append(title[j] + ":" + row).append(",");
+                                sb.delete(sb.length() - 1, sb.length());
+                                sb.append("}").append(",");
                             }
-                            sb.delete(sb.length() - 1, sb.length());
-                            sb.append("}").append(",");
+                            sb.delete(sb.length() - 1, sb.length()).append("]");
+                            String data = sb.toString();
+                            List<AmericaAlaskaDTO> alaskaDTOList = objectMapper.readValue(data, new TypeReference<List<AmericaAlaskaDTO>>() {
+                            });
+
+                            americaAlaskaMapper.insertAlaskaExcel(alaskaDTOList);
                         }
                     }
-                    sb.delete(sb.length() - 1, sb.length()).append("]");
-                    String data = sb.toString();
-                    List<AmericaAlaskaDTO> alaskaDTOList = objectMapper.readValue(data, new TypeReference<List<AmericaAlaskaDTO>>() {
-                    });
 
-                    americaAlaskaMapper.insertAlaskaExcel(alaskaDTOList);
+
+//                    for (int i = 1; i < dataList.size(); i++) {
+////                    for (int i = 1; i < (sizeMarker <= dataList.size() ? sizeMarker : dataList.size()); i++) {
+//                        String[] rows = dataList.get(i);
+//                        if (title.length == rows.length) {
+//                            sb.append("{");
+//                            for (int j = 0; j < rows.length; j++) {
+//                                String row = "\"\"";
+//                                String replace = rows[j].replace("\"", "'").replace("\t", "");
+//                                if (replace.length() > 1) {
+//                                    row = "\"" + replace.substring(1, replace.length() - 1) + "\"";
+//                                }
+//                                sb.append("\"enterprise_id\":\"" + getUUID() + "\",").append(title[j] + ":" + row).append(",");
+//                            }
+//                            sb.delete(sb.length() - 1, sb.length());
+//                            sb.append("}").append(",");
+//                        }
+//                    }
+//                    sb.delete(sb.length() - 1, sb.length()).append("]");
+//                    String data = sb.toString();
+//                    List<AmericaAlaskaDTO> alaskaDTOList = objectMapper.readValue(data, new TypeReference<List<AmericaAlaskaDTO>>() {
+//                    });
+//
+//                    americaAlaskaMapper.insertAlaskaExcel(alaskaDTOList);
                 }
 
             } catch (Exception e) {
