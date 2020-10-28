@@ -1440,7 +1440,9 @@ public class SaveJsonImpl implements SaveJson {
                     long remainder = dataList.size() % sizeMarker;
 
                     for (int q = 1; q < multiple; q++) {
-                        for (int i = 1; i < q * sizeMarker; i++) {
+                        int i = 1;
+                        long start = q * sizeMarker;
+                        for (; i < (q == multiple ? start : dataList.size()); i++) {
                             StringBuilder sb = new StringBuilder();
                             sb.append("[");
                             String[] rows = dataList.get(i);
@@ -1464,6 +1466,7 @@ public class SaveJsonImpl implements SaveJson {
 
                             americaAlaskaMapper.insertAlaskaExcel(alaskaDTOList);
                         }
+                        i = (int) (start);
                     }
 
 
