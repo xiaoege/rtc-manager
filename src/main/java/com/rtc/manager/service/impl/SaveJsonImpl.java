@@ -1415,7 +1415,7 @@ public class SaveJsonImpl implements SaveJson {
                 continue;
             }
             logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
-
+            String cat = "";
             try {
                 //(文件完整路径),编码格式
                 BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
@@ -1442,9 +1442,9 @@ public class SaveJsonImpl implements SaveJson {
                     for (int q = 1; q < multiple; q++) {
                         int i = 1;
                         long start = q * sizeMarker;
+                        StringBuilder sb = new StringBuilder();
+                        sb.append("[");
                         for (; i < (q == multiple ? start : dataList.size()); i++) {
-                            StringBuilder sb = new StringBuilder();
-                            sb.append("[");
                             String[] rows = dataList.get(i);
                             if (title.length == rows.length) {
                                 sb.append("{");
@@ -1459,14 +1459,15 @@ public class SaveJsonImpl implements SaveJson {
                                 sb.delete(sb.length() - 1, sb.length());
                                 sb.append("}").append(",");
                             }
-                            sb.delete(sb.length() - 1, sb.length()).append("]");
-                            String data = sb.toString();
-                            List<AmericaAlaskaDTO> alaskaDTOList = objectMapper.readValue(data, new TypeReference<List<AmericaAlaskaDTO>>() {
-                            });
-
-                            americaAlaskaMapper.insertAlaskaExcel(alaskaDTOList);
                         }
+                        sb.delete(sb.length() - 1, sb.length()).append("]");
+                        String data = sb.toString();
+                        List<AmericaAlaskaDTO> alaskaDTOList = objectMapper.readValue(data, new TypeReference<List<AmericaAlaskaDTO>>() {
+                        });
+
+                        americaAlaskaMapper.insertAlaskaExcel(alaskaDTOList);
                         i = (int) (start);
+                        sb = new StringBuilder();
                     }
 
 
@@ -1497,6 +1498,7 @@ public class SaveJsonImpl implements SaveJson {
 
             } catch (Exception e) {
                 e.printStackTrace();
+                logger.info("errordata:{}", cat);
             }
 
         }
