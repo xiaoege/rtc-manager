@@ -1510,7 +1510,7 @@ public class SaveJsonImpl implements SaveJson {
                                 rowStr = "\"" + rowStr.substring(1, rowStr.length()).replace("\"", "")
                                         .replace("\t", "").replace("\\", "")
                                         .replace("\r", "").replace("\n", "")
-                                        .replace("\'", "") + "\"";
+                                        .replace("\'", "").replace("'", "") + "\"";
                             }
                             if (j < title.length) {
                                 sb.append(title[j] + ":" + rowStr + ",");
