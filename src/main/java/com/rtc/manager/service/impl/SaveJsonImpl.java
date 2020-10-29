@@ -1504,8 +1504,7 @@ public class SaveJsonImpl implements SaveJson {
 //                String csvSplitBy = "\\|";
 
                 while ((line = reader.readLine()) != null) {
-                    String[] item = line.replace("\t", "").replace("\\", "")
-                            .replace("\r", "").replace("\n", "").split(csvSplitBy, 100);
+                    String[] item = line.split(csvSplitBy, 100);
                     dataList.add(item);
                 }
                 if (!ObjectUtils.isEmpty(dataList)) {
@@ -1519,14 +1518,11 @@ public class SaveJsonImpl implements SaveJson {
                         String[] row = dataList.get(i);
                         sb.append("{");
                         for (int j = 0; j < row.length; j++) {
-                            if ("party".equals(pojoType) && j == 9) {
-                                continue;
-                            }
                             String rowStr = row[j];
                             if (rowStr.length() > 2) {
-                                rowStr = "\"" + rowStr.substring(1, rowStr.length()).replace("\"", "") + "\"";
-//                                        .replace("\t", "").replace("\\", "")
-//                                        .replace("\r", "").replace("\n", "") + "\"";
+                                rowStr = "\"" + rowStr.substring(1, rowStr.length()).replace("\"", "")
+                                        .replace("\t", "").replace("\\", "")
+                                        .replace("\r", "").replace("\n", "") + "\"";
                             }
                             if (j < title.length) {
                                 sb.append(title[j] + ":" + rowStr + ",");
@@ -1541,12 +1537,11 @@ public class SaveJsonImpl implements SaveJson {
                             wyomingDTO.setEnterpriseId(enterpriseId);
                             wyomingList.add(wyomingDTO);
                         }
-                        logger.info(sb.toString());
-                        if ("party".equals(pojoType) && sb.toString().length() > 150) {
-                            AmericaWyomingPartyDTO wyomingPartyDTO = objectMapper.readValue(sb.toString(), AmericaWyomingPartyDTO.class);
-                            wyomingPartyDTO.setEnterpriseId(enterpriseId);
-                            wyomingList.add(wyomingPartyDTO);
-                        }
+//                        if ("party".equals(pojoType) && sb.toString().length() > 150) {
+//                            AmericaWyomingPartyDTO wyomingPartyDTO = objectMapper.readValue(sb.toString(), AmericaWyomingPartyDTO.class);
+//                            wyomingPartyDTO.setEnterpriseId(enterpriseId);
+//                            wyomingList.add(wyomingPartyDTO);
+//                        }
                         if ("annual_report".equals(pojoType) && sb.toString().length() > 150) {
                             AmericaWyomingFilingAnnualReportDTO wyomingFilingAnnualReportDTO = objectMapper.readValue(sb.toString(), AmericaWyomingFilingAnnualReportDTO.class);
                             wyomingFilingAnnualReportDTO.setEnterpriseId(enterpriseId);
