@@ -1493,7 +1493,6 @@ public class SaveJsonImpl implements SaveJson {
                 continue;
             }
             logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
-            String error = "";
             try {
                 //(文件完整路径),编码格式
                 BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
@@ -1513,8 +1512,8 @@ public class SaveJsonImpl implements SaveJson {
                     for (int i = 0; i < title.length; i++) {
                         title[i] = "\"" + title[i] + "\"";
                     }
+                    StringBuilder sb = new StringBuilder();
                     for (int i = 1; i < dataList.size(); i++) {
-                        StringBuilder sb = new StringBuilder();
                         String[] row = dataList.get(i);
                         sb.append("{");
                         for (int j = 0; j < row.length; j++) {
@@ -1532,7 +1531,6 @@ public class SaveJsonImpl implements SaveJson {
                         String enterpriseId = getUUID();
 //                        objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
 //                        objectMapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
-                        error = sb.toString();
                         if ("filing".equals(pojoType) && sb.toString().length() > 150) {
                             AmericaWyomingDTO wyomingDTO = objectMapper.readValue(sb.toString(), AmericaWyomingDTO.class);
                             wyomingDTO.setEnterpriseId(enterpriseId);
@@ -1548,7 +1546,7 @@ public class SaveJsonImpl implements SaveJson {
                             wyomingFilingAnnualReportDTO.setEnterpriseId(enterpriseId);
                             wyomingList.add(wyomingFilingAnnualReportDTO);
                         }
-
+                        sb.setLength(0);
                     }
                     logger.info("cat:{}", wyomingList.size());
                     if ("filing".equals(pojoType)) {
