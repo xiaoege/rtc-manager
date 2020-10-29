@@ -9,7 +9,7 @@ public class AmericaWyomingFilingAnnualReportDTO {
     private String enterpriseId;
     @JsonAlias("FILING_ANNUAL_REPORT_ID")
     private String filingAnnualReportId;
-    @JsonAlias("PARTY_ID")
+    @JsonAlias("FILING_ID")
     private String filingId;
     @JsonAlias("STATUS")
     private String enterpriseStatus;
