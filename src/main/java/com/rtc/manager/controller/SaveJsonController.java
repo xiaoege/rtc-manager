@@ -105,7 +105,8 @@ public class SaveJsonController {
      */
     @PostMapping("saveJsonAmerica")
     public String saveJsonAmerica(@RequestParam(name = "dirPath") String dirPath,
-                                  @RequestParam(name = "type") String type) {
+                                  @RequestParam(name = "type") String type,
+                                  @RequestParam(name = "pojoType", required = false) String pojoType) {
         try {
             File fileDirPath = new File(dirPath);
             if (fileDirPath.exists()) {
@@ -125,7 +126,7 @@ public class SaveJsonController {
                     saveJson.saveJsonAmerica4AlaskaCSV(fileDirPath);
                 }
                 if ("WyomingCSV".equals(type)) {
-                    saveJson.saveJsonAmerica4WyomingCSV(fileDirPath);
+                    saveJson.saveJsonAmerica4WyomingCSV(fileDirPath, pojoType);
                 }
             } else {
                 return "路径错误";

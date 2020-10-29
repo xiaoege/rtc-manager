@@ -21,6 +21,8 @@ import com.rtc.manager.entity.america.alabama.AmericaAlabamaMember;
 import com.rtc.manager.entity.america.alaska.AmericaAlaska;
 import com.rtc.manager.entity.america.newhampshire.*;
 import com.rtc.manager.entity.america.northcarolina.*;
+import com.rtc.manager.entity.america.wyoming.AmericaWyomingFilingAnnualReport;
+import com.rtc.manager.entity.america.wyoming.AmericaWyomingParty;
 import com.rtc.manager.entity.dto.*;
 import com.rtc.manager.entity.india.IndiaCharge;
 import com.rtc.manager.entity.india.IndiaCin;
@@ -1465,7 +1467,7 @@ public class SaveJsonImpl implements SaveJson {
     }
 
     @Override
-    public void saveJsonAmerica4WyomingCSV(File fileDirPath) throws Exception {
+    public void saveJsonAmerica4WyomingCSV(File fileDirPath, String pojoType) throws Exception {
         List<String> fileList = new ArrayList();
         CommonUtils.readFiles(fileDirPath, fileList);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -1512,13 +1514,23 @@ public class SaveJsonImpl implements SaveJson {
                         }
                         sb.delete(sb.length() - 1, sb.length()).append("}");
 //                        logger.info(sb.toString());
-                        AmericaWyomingDTO wyomingDTO = objectMapper.readValue(sb.toString(), AmericaWyomingDTO.class);
-                        wyomingList.add(wyomingDTO);
+                        if ("filing".equals(pojoType)) {
+                            AmericaWyomingDTO wyomingDTO = objectMapper.readValue(sb.toString(), AmericaWyomingDTO.class);
+                            wyomingList.add(wyomingDTO);
+                        }
+                        if ("party".equals(pojoType)) {
+                            AmericaWyomingParty wyomingParty = objectMapper.readValue(sb.toString(), AmericaWyomingParty.class);
+                            wyomingList.add(wyomingParty);
+                        }
+                        if ("annual_report".equals(pojoType)) {
+                            AmericaWyomingFilingAnnualReport wyomingFilingAnnualReport = objectMapper.readValue(sb.toString(), AmericaWyomingFilingAnnualReport.class);
+                            wyomingList.add(wyomingFilingAnnualReport);
+                        }
+
 
                     }
-                    logger.info("cat:{}", wyomingList);
+                    logger.info("cat:{}", wyomingList.size());
                 }
-                System.out.println(1);
             } catch (Exception e) {
                 e.printStackTrace();
                 throw e;
