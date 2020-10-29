@@ -1537,7 +1537,7 @@ public class SaveJsonImpl implements SaveJson {
                         }
 
                     }
-//                    logger.info("cat:{}", wyomingList.size());
+                    logger.info("cat:{}", wyomingList.size());
                     if ("filing".equals(pojoType)) {
 
                     }
