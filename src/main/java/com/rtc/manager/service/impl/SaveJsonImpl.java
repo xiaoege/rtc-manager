@@ -2,6 +2,7 @@ package com.rtc.manager.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -1517,6 +1518,7 @@ public class SaveJsonImpl implements SaveJson {
                         logger.info("{}", sb.toString());
                         logger.info("大小:{}", sb.toString().length());
                         String enterpriseId = getUUID();
+                        objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
                         if ("filing".equals(pojoType) && sb.toString().length() > 150) {
                             AmericaWyomingDTO wyomingDTO = objectMapper.readValue(sb.toString(), AmericaWyomingDTO.class);
                             wyomingDTO.setEnterpriseId(enterpriseId);
