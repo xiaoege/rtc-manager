@@ -1516,17 +1516,17 @@ public class SaveJsonImpl implements SaveJson {
                         logger.info("{}", sb.toString());
                         logger.info("大小:{}", sb.toString().length());
                         String enterpriseId = getUUID();
-                        if ("filing".equals(pojoType) && sb.toString().length() > 30) {
+                        if ("filing".equals(pojoType) && sb.toString().length() > 150) {
                             AmericaWyomingDTO wyomingDTO = objectMapper.readValue(sb.toString(), AmericaWyomingDTO.class);
                             wyomingDTO.setEnterpriseId(enterpriseId);
                             wyomingList.add(wyomingDTO);
                         }
-                        if ("party".equals(pojoType) && sb.toString().length() > 30) {
+                        if ("party".equals(pojoType) && sb.toString().length() > 150) {
                             AmericaWyomingPartyDTO wyomingPartyDTO = objectMapper.readValue(sb.toString(), AmericaWyomingPartyDTO.class);
                             wyomingPartyDTO.setEnterpriseId(enterpriseId);
                             wyomingList.add(wyomingPartyDTO);
                         }
-                        if ("annual_report".equals(pojoType) && sb.toString().length() > 30) {
+                        if ("annual_report".equals(pojoType) && sb.toString().length() > 150) {
                             AmericaWyomingFilingAnnualReportDTO wyomingFilingAnnualReportDTO = objectMapper.readValue(sb.toString(), AmericaWyomingFilingAnnualReportDTO.class);
                             wyomingFilingAnnualReportDTO.setEnterpriseId(enterpriseId);
                             wyomingList.add(wyomingFilingAnnualReportDTO);
