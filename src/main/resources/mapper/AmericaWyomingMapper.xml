@@ -839,4 +839,56 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <insert id="insertList" parameterType="com.rtc.manager.entity.dto.AmericaWyomingDTO">
+    insert into america_wyoming (enterprise_id, filing_id, 
+      filing_type, filing_subtype, word_design, 
+      duration, enterprise_status, sub_status, 
+      standing_tax, standing_ra, standing_other, 
+      purpose, applicant_type, filing_num, 
+      filing_name, old_name, fictitious_name, 
+      domestic_yn, filing_date, delayed_effective_date, 
+      expiration_date, inactive_date, ra_resign_cert_letter_date, 
+      converted_yn, converted_from, converted_from_name, 
+      converted_date, issue_on_record_yn, transferred_to, 
+      transferred_date, formation_locale, continued_from_locale, 
+      domesticated_from_locale, form_home_juris_date, 
+      common_shares, common_par_value, preferred_shares, 
+      preferred_par_value, addition_stock_yn, principle_addr1, 
+      principle_addr2, principle_addr3, principle_city, 
+      principle_state, principle_postal_code, principle_country, 
+      mail_addr1, mail_addr2, mail_addr3, 
+      mail_city, mail_state, mail_postal_code, 
+      mail_country, state_of_org, org_date, 
+      reg_us_office_yn, reg_us_date, reg_us_serial_num, 
+      reg_us_status, reg_us_app_refused_yn, first_used_anywhere_date, 
+      first_used_wyo_date, ar_exempt_yn, trademark_keywords
+      )
+    values 
+    <foreach collection="list" item="item" separator=",">
+    (#{item.enterpriseId,jdbcType=VARCHAR}, #{item.filingId,jdbcType=VARCHAR}, 
+      #{item.filingType,jdbcType=VARCHAR}, #{item.filingSubtype,jdbcType=VARCHAR}, #{item.wordDesign,jdbcType=VARCHAR}, 
+      #{item.duration,jdbcType=VARCHAR}, #{item.enterpriseStatus,jdbcType=VARCHAR}, #{item.subStatus,jdbcType=VARCHAR}, 
+      #{item.standingTax,jdbcType=VARCHAR}, #{item.standingRa,jdbcType=VARCHAR}, #{item.standingOther,jdbcType=VARCHAR}, 
+      #{item.purpose,jdbcType=VARCHAR}, #{item.applicantType,jdbcType=VARCHAR}, #{item.filingNum,jdbcType=VARCHAR}, 
+      #{item.filingName,jdbcType=VARCHAR}, #{item.oldName,jdbcType=VARCHAR}, #{item.fictitiousName,jdbcType=VARCHAR}, 
+      #{item.domesticYn,jdbcType=VARCHAR}, #{item.filingDate,jdbcType=VARCHAR}, #{item.delayedEffectiveDate,jdbcType=VARCHAR}, 
+      #{item.expirationDate,jdbcType=VARCHAR}, #{item.inactiveDate,jdbcType=VARCHAR}, #{item.raResignCertLetterDate,jdbcType=VARCHAR}, 
+      #{item.convertedYn,jdbcType=VARCHAR}, #{item.convertedFrom,jdbcType=VARCHAR}, #{item.convertedFromName,jdbcType=VARCHAR}, 
+      #{item.convertedDate,jdbcType=VARCHAR}, #{item.issueOnRecordYn,jdbcType=VARCHAR}, #{item.transferredTo,jdbcType=VARCHAR}, 
+      #{item.transferredDate,jdbcType=VARCHAR}, #{item.formationLocale,jdbcType=VARCHAR}, #{item.continuedFromLocale,jdbcType=VARCHAR}, 
+      #{item.domesticatedFromLocale,jdbcType=VARCHAR}, #{item.formHomeJurisDate,jdbcType=VARCHAR}, 
+      #{item.commonShares,jdbcType=VARCHAR}, #{item.commonParValue,jdbcType=VARCHAR}, #{item.preferredShares,jdbcType=VARCHAR}, 
+      #{item.preferredParValue,jdbcType=VARCHAR}, #{item.additionStockYn,jdbcType=VARCHAR}, #{item.principleAddr1,jdbcType=VARCHAR}, 
+      #{item.principleAddr2,jdbcType=VARCHAR}, #{item.principleAddr3,jdbcType=VARCHAR}, #{item.principleCity,jdbcType=VARCHAR}, 
+      #{item.principleState,jdbcType=VARCHAR}, #{item.principlePostalCode,jdbcType=VARCHAR}, #{item.principleCountry,jdbcType=VARCHAR}, 
+      #{item.mailAddr1,jdbcType=VARCHAR}, #{item.mailAddr2,jdbcType=VARCHAR}, #{item.mailAddr3,jdbcType=VARCHAR}, 
+      #{item.mailCity,jdbcType=VARCHAR}, #{item.mailState,jdbcType=VARCHAR}, #{item.mailPostalCode,jdbcType=VARCHAR}, 
+      #{item.mailCountry,jdbcType=VARCHAR}, #{item.stateOfOrg,jdbcType=VARCHAR}, #{item.orgDate,jdbcType=VARCHAR}, 
+      #{item.regUsOfficeYn,jdbcType=VARCHAR}, #{item.regUsDate,jdbcType=VARCHAR}, #{item.regUsSerialNum,jdbcType=VARCHAR}, 
+      #{item.regUsStatus,jdbcType=VARCHAR}, #{item.regUsAppRefusedYn,jdbcType=VARCHAR}, #{item.firstUsedAnywhereDate,jdbcType=VARCHAR}, 
+      #{item.firstUsedWyoDate,jdbcType=VARCHAR}, #{item.arExemptYn,jdbcType=VARCHAR}, #{item.trademarkKeywords,jdbcType=VARCHAR}
+      )
+    </foreach>
+  </insert>
 </mapper>

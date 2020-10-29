@@ -174,4 +174,19 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <insert id="insertList" parameterType="com.rtc.manager.entity.dto.AmericaWyomingFilingAnnualReportDTO">
+    insert into america_wyoming_filing_annual_report;
+    (enterprise_id, filing_annual_report_id, 
+      filing_id, enterprise_status, annual_report_num, 
+      filing_year, filing_date, license_tax_amt
+      )
+    values
+    <foreach collection="list" separator="," item="item">
+      (#{item.enterpriseId,jdbcType=VARCHAR}, #{item.filingAnnualReportId,jdbcType=VARCHAR},
+      #{item.filingId,jdbcType=VARCHAR}, #{item.enterpriseStatus,jdbcType=VARCHAR}, #{item.annualReportNum,jdbcType=VARCHAR},
+      #{item.filingYear,jdbcType=VARCHAR}, #{item.filingDate,jdbcType=VARCHAR}, #{item.licenseTaxAmt,jdbcType=VARCHAR}
+      )
+    </foreach>
+  </insert>
 </mapper>

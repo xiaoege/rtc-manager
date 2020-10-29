@@ -2,6 +2,8 @@ package com.rtc.manager.dao.america.wyoming;
 
 import com.rtc.manager.entity.america.wyoming.AmericaWyomingFilingAnnualReport;
 
+import java.util.List;
+
 public interface AmericaWyomingFilingAnnualReportMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface AmericaWyomingFilingAnnualReportMapper {
     int updateByPrimaryKeySelective(AmericaWyomingFilingAnnualReport record);
 
     int updateByPrimaryKey(AmericaWyomingFilingAnnualReport record);
+
+    void insertList(List wyomingList);
 }

@@ -14,6 +14,9 @@ import com.rtc.manager.dao.america.alabama.AmericaAlabamaMemberMapper;
 import com.rtc.manager.dao.america.alaska.AmericaAlaskaMapper;
 import com.rtc.manager.dao.america.newhampshire.*;
 import com.rtc.manager.dao.america.northcarolina.*;
+import com.rtc.manager.dao.america.wyoming.AmericaWyomingFilingAnnualReportMapper;
+import com.rtc.manager.dao.america.wyoming.AmericaWyomingMapper;
+import com.rtc.manager.dao.america.wyoming.AmericaWyomingPartyMapper;
 import com.rtc.manager.entity.*;
 import com.rtc.manager.entity.america.alabama.AmericaAlabama;
 import com.rtc.manager.entity.america.alabama.AmericaAlabamaDirector;
@@ -255,6 +258,15 @@ public class SaveJsonImpl implements SaveJson {
 
     @Autowired
     private AmericaAlaskaMapper americaAlaskaMapper;
+
+    @Autowired
+    private AmericaWyomingMapper americaWyomingMapper;
+
+    @Autowired
+    private AmericaWyomingPartyMapper americaWyomingPartyMapper;
+
+    @Autowired
+    private AmericaWyomingFilingAnnualReportMapper americaWyomingFilingAnnualReportMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -1468,6 +1480,7 @@ public class SaveJsonImpl implements SaveJson {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void saveJsonAmerica4WyomingCSV(File fileDirPath, String pojoType) throws Exception {
         List<String> fileList = new ArrayList();
         CommonUtils.readFiles(fileDirPath, fileList);
@@ -1509,8 +1522,7 @@ public class SaveJsonImpl implements SaveJson {
                             if (rowStr.length() > 2) {
                                 rowStr = "\"" + rowStr.substring(1, rowStr.length()).replace("\"", "")
                                         .replace("\t", "").replace("\\", "")
-                                        .replace("\r", "").replace("\n", "")
-                                        .replace("\'", "").replace("'", "") + "\"";
+                                        .replace("\r", "").replace("\n", "") + "\"";
                             }
                             if (j < title.length) {
                                 sb.append(title[j] + ":" + rowStr + ",");
@@ -1526,11 +1538,11 @@ public class SaveJsonImpl implements SaveJson {
                             wyomingDTO.setEnterpriseId(enterpriseId);
                             wyomingList.add(wyomingDTO);
                         }
-                        if ("party".equals(pojoType) && sb.toString().length() > 150) {
-                            AmericaWyomingPartyDTO wyomingPartyDTO = objectMapper.readValue(sb.toString(), AmericaWyomingPartyDTO.class);
-                            wyomingPartyDTO.setEnterpriseId(enterpriseId);
-                            wyomingList.add(wyomingPartyDTO);
-                        }
+//                        if ("party".equals(pojoType) && sb.toString().length() > 150) {
+//                            AmericaWyomingPartyDTO wyomingPartyDTO = objectMapper.readValue(sb.toString(), AmericaWyomingPartyDTO.class);
+//                            wyomingPartyDTO.setEnterpriseId(enterpriseId);
+//                            wyomingList.add(wyomingPartyDTO);
+//                        }
                         if ("annual_report".equals(pojoType) && sb.toString().length() > 150) {
                             AmericaWyomingFilingAnnualReportDTO wyomingFilingAnnualReportDTO = objectMapper.readValue(sb.toString(), AmericaWyomingFilingAnnualReportDTO.class);
                             wyomingFilingAnnualReportDTO.setEnterpriseId(enterpriseId);
@@ -1540,11 +1552,12 @@ public class SaveJsonImpl implements SaveJson {
                     }
                     logger.info("cat:{}", wyomingList.size());
                     if ("filing".equals(pojoType)) {
-
+                        americaWyomingMapper.insertList(wyomingList);
                     }
                     if ("party".equals(pojoType)) {
                     }
                     if ("annual_report".equals(pojoType)) {
+                        americaWyomingFilingAnnualReportMapper.insertList(wyomingList);
                     }
                 }
             } catch (Exception e) {
