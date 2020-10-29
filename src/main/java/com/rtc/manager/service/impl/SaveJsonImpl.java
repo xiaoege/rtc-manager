@@ -1468,7 +1468,7 @@ public class SaveJsonImpl implements SaveJson {
     }
 
     @Override
-    public void saveJsonAmerica4WyomingCSV(File fileDirPath, String pojoType){
+    public void saveJsonAmerica4WyomingCSV(File fileDirPath, String pojoType) throws Exception{
         List<String> fileList = new ArrayList();
         CommonUtils.readFiles(fileDirPath, fileList);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -1491,7 +1491,7 @@ public class SaveJsonImpl implements SaveJson {
 //                String csvSplitBy = "\\|";
 
                 while ((line = reader.readLine()) != null) {
-                    String[] item = line.replace("^", "").split(csvSplitBy, 100);
+                    String[] item = line.split(csvSplitBy, 100);
                     dataList.add(item);
                 }
                 if (!ObjectUtils.isEmpty(dataList)) {
@@ -1507,7 +1507,7 @@ public class SaveJsonImpl implements SaveJson {
                         for (int j = 0; j < row.length; j++) {
                             String rowStr = row[j];
                             if (rowStr.length() > 2) {
-                                rowStr = "\"" + rowStr.substring(1, rowStr.length()).replace("\"", "'")
+                                rowStr = "\"" + rowStr.substring(1, rowStr.length()).replace("\"", "")
                                         .replace("\t", "").replace("\\", "")
                                         .replace("\r", "").replace("\n", "") + "\"";
                             }
@@ -1516,8 +1516,6 @@ public class SaveJsonImpl implements SaveJson {
                             }
                         }
                         sb.delete(sb.length() - 1, sb.length()).append("}");
-//                        logger.info("{}", sb.toString());
-//                        logger.info("大小:{}", sb.toString().length());
                         String enterpriseId = getUUID();
 //                        objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
 //                        objectMapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
@@ -1527,11 +1525,11 @@ public class SaveJsonImpl implements SaveJson {
                             wyomingDTO.setEnterpriseId(enterpriseId);
                             wyomingList.add(wyomingDTO);
                         }
-                        if ("party".equals(pojoType) && sb.toString().length() > 150) {
-                            AmericaWyomingPartyDTO wyomingPartyDTO = objectMapper.readValue(sb.toString(), AmericaWyomingPartyDTO.class);
-                            wyomingPartyDTO.setEnterpriseId(enterpriseId);
-                            wyomingList.add(wyomingPartyDTO);
-                        }
+//                        if ("party".equals(pojoType) && sb.toString().length() > 150) {
+//                            AmericaWyomingPartyDTO wyomingPartyDTO = objectMapper.readValue(sb.toString(), AmericaWyomingPartyDTO.class);
+//                            wyomingPartyDTO.setEnterpriseId(enterpriseId);
+//                            wyomingList.add(wyomingPartyDTO);
+//                        }
                         if ("annual_report".equals(pojoType) && sb.toString().length() > 150) {
                             AmericaWyomingFilingAnnualReportDTO wyomingFilingAnnualReportDTO = objectMapper.readValue(sb.toString(), AmericaWyomingFilingAnnualReportDTO.class);
                             wyomingFilingAnnualReportDTO.setEnterpriseId(enterpriseId);
@@ -1550,8 +1548,7 @@ public class SaveJsonImpl implements SaveJson {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                logger.info("error:{}", error);
-//                throw e;
+                throw e;
             }
         }
 
