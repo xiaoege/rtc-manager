@@ -31,7 +31,7 @@
 
         <!-- targetPackage：生成的实体类所在的包 -->
         <!-- targetProject：生成的实体类所在的硬盘位置 -->
-        <javaModelGenerator targetPackage="com.rtc.manager.entity.america.alaska"
+        <javaModelGenerator targetPackage="com.rtc.manager.entity.america.wyoming"
                             targetProject="src/main/java">
             <!-- 是否允许子包 -->
             <property name="enableSubPackages" value="false"/>
@@ -50,7 +50,7 @@
         </sqlMapGenerator>
         <!-- targetPackage 和 targetProject：生成的 interface 文件的包和位置 -->
         <javaClientGenerator type="XMLMAPPER"
-                             targetPackage="com.rtc.manager.dao.america.alaska" targetProject="src/main/java">
+                             targetPackage="com.rtc.manager.dao.america.wyoming" targetProject="src/main/java">
             <!-- 针对 oracle 数据库的一个配置，是否把 schema 作为字包名 -->
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
@@ -466,17 +466,38 @@
 <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
 <!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
 <!--        </table>-->
-        <table tableName="america_alaska" domainObjectName="AmericaAlaska"
+<!--        <table tableName="america_alaska" domainObjectName="AmericaAlaska"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+<!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
+<!--            <columnOverride column="next_biennial_report_due" property="nextBiennialReportDue" javaType="java.lang.String" jdbcType="VARCHAR"/>-->
+<!--            <columnOverride column="official_entity" property="officialEntity" javaType="java.lang.String" jdbcType="VARCHAR"/>-->
+<!--            <columnOverride column="official_name" property="officialName" javaType="java.lang.String" jdbcType="VARCHAR"/>-->
+<!--            <columnOverride column="official_tite" property="officialTite" javaType="java.lang.String" jdbcType="VARCHAR"/>-->
+<!--            <columnOverride column="official_owned" property="officialOwned" javaType="java.lang.String" jdbcType="VARCHAR"/>-->
+<!--        </table>-->
+        <table tableName="america_wyoming" domainObjectName="AmericaWyoming"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
             <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>
             <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>
-            <columnOverride column="next_biennial_report_due" property="nextBiennialReportDue" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <columnOverride column="official_entity" property="officialEntity" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <columnOverride column="official_name" property="officialName" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <columnOverride column="official_tite" property="officialTite" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <columnOverride column="official_owned" property="officialOwned" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </table>
+        <table tableName="america_wyoming_party" domainObjectName="AmericaWyomingParty"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>
+            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>
+        </table>
+        <table tableName="america_wyoming_filing_annual_report" domainObjectName="AmericaWyomingFilingAnnualReport"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>
+            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>
         </table>
     </context>
 </generatorConfiguration>

@@ -1415,7 +1415,6 @@ public class SaveJsonImpl implements SaveJson {
                 continue;
             }
             logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
-            String cat = "";
             try {
                 //(文件完整路径),编码格式
                 BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
@@ -1463,6 +1462,69 @@ public class SaveJsonImpl implements SaveJson {
             }
 
         }
+    }
+
+    @Override
+    public void saveJsonAmerica4WyomingCSV(File fileDirPath) throws Exception {
+        List<String> fileList = new ArrayList();
+        CommonUtils.readFiles(fileDirPath, fileList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (int z = 0; z < fileList.size(); z++) {
+            File file = new File(fileList.get(z));
+
+            // 忽略mac的隐藏文件
+            if (file.getName().contains(".DS_Store")) {
+                continue;
+            }
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
+            try {
+                //(文件完整路径),编码格式
+                BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+                String line = null;
+
+                List<String[]> dataList = new ArrayList();
+                String csvSplitBy = "\\|(?=([^\"]*\"[^\"]*\")*[^\"]*$)";
+//                String csvSplitBy = "\\|";
+
+                while ((line = reader.readLine()) != null) {
+                    String[] item = line.split(csvSplitBy, 100);
+                    dataList.add(item);
+                }
+                if (!ObjectUtils.isEmpty(dataList)) {
+                    List wyomingList = new ArrayList();
+                    String[] title = dataList.get(0);
+                    for (int i = 0; i < title.length; i++) {
+                        title[i] = "\"" + title[i] + "\"";
+                    }
+                    for (int i = 1; i < dataList.size(); i++) {
+                        StringBuilder sb = new StringBuilder();
+                        String[] row = dataList.get(i);
+                        sb.append("{");
+                        for (int j = 0; j < row.length; j++) {
+                            String rowStr = row[j];
+                            if (rowStr.length() > 2) {
+                                rowStr = "\"" + rowStr.substring(1, rowStr.length()).replace("\"", "'")
+                                        .replace("\t", "").replace("\\", "") + "\"";
+                            }
+                            if (j < title.length) {
+                                sb.append(title[j] + ":" + rowStr + ",");
+                            }
+                        }
+                        sb.delete(sb.length() - 1, sb.length()).append("}");
+//                        logger.info(sb.toString());
+                        AmericaWyomingDTO wyomingDTO = objectMapper.readValue(sb.toString(), AmericaWyomingDTO.class);
+                        wyomingList.add(wyomingDTO);
+
+                    }
+                    logger.info("cat:{}", wyomingList);
+                }
+                System.out.println(1);
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw e;
+            }
+        }
+
     }
 
     public String getUUID() {

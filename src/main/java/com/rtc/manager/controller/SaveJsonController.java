@@ -124,6 +124,9 @@ public class SaveJsonController {
                 if ("AlaskaCSV".equals(type)) {
                     saveJson.saveJsonAmerica4AlaskaCSV(fileDirPath);
                 }
+                if ("WyomingCSV".equals(type)) {
+                    saveJson.saveJsonAmerica4WyomingCSV(fileDirPath);
+                }
             } else {
                 return "路径错误";
             }
