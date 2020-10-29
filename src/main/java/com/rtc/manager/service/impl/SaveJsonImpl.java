@@ -1540,6 +1540,7 @@ public class SaveJsonImpl implements SaveJson {
                             wyomingDTO.setEnterpriseId(enterpriseId);
                             wyomingList.add(wyomingDTO);
                         }
+                        logger.info(sb.toString());
                         if ("party".equals(pojoType) && sb.toString().length() > 150) {
                             AmericaWyomingPartyDTO wyomingPartyDTO = objectMapper.readValue(sb.toString(), AmericaWyomingPartyDTO.class);
                             wyomingPartyDTO.setEnterpriseId(enterpriseId);
