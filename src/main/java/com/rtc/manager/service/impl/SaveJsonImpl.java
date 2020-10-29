@@ -1508,7 +1508,8 @@ public class SaveJsonImpl implements SaveJson {
                             if (rowStr.length() > 2) {
                                 rowStr = "\"" + rowStr.substring(1, rowStr.length()).replace("\"", "'")
                                         .replace("\t", "").replace("\\", "")
-                                        .replace("\r", "").replace("\n", "") + "\"";
+                                        .replace("\r", "").replace("\n", "")
+                                        .replace("^", "")+ "\"";
                             }
                             if (j < title.length) {
                                 sb.append(title[j] + ":" + rowStr + ",");
@@ -1518,8 +1519,8 @@ public class SaveJsonImpl implements SaveJson {
                         logger.info("{}", sb.toString());
                         logger.info("大小:{}", sb.toString().length());
                         String enterpriseId = getUUID();
-                        objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
-                        objectMapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
+//                        objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+//                        objectMapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
                         if ("filing".equals(pojoType) && sb.toString().length() > 150) {
                             AmericaWyomingDTO wyomingDTO = objectMapper.readValue(sb.toString(), AmericaWyomingDTO.class);
                             wyomingDTO.setEnterpriseId(enterpriseId);
