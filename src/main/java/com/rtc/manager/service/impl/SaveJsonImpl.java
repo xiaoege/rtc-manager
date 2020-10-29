@@ -1468,7 +1468,7 @@ public class SaveJsonImpl implements SaveJson {
     }
 
     @Override
-    public void saveJsonAmerica4WyomingCSV(File fileDirPath, String pojoType) throws Exception {
+    public void saveJsonAmerica4WyomingCSV(File fileDirPath, String pojoType){
         List<String> fileList = new ArrayList();
         CommonUtils.readFiles(fileDirPath, fileList);
         ObjectMapper objectMapper = new ObjectMapper();
