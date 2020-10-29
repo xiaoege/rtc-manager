@@ -1518,6 +1518,9 @@ public class SaveJsonImpl implements SaveJson {
                         String[] row = dataList.get(i);
                         sb.append("{");
                         for (int j = 0; j < row.length; j++) {
+                            if ("annual_report".equals(pojoType) && j == 9) {
+                                continue;
+                            }
                             String rowStr = row[j];
                             if (rowStr.length() > 2) {
                                 rowStr = "\"" + rowStr.substring(1, rowStr.length()).replace("\"", "")
