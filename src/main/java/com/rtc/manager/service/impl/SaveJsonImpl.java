@@ -1513,6 +1513,7 @@ public class SaveJsonImpl implements SaveJson {
                             }
                         }
                         sb.delete(sb.length() - 1, sb.length()).append("}");
+                        logger.info(sb.toString());
                         String enterpriseId = getUUID();
                         if ("filing".equals(pojoType)) {
                             AmericaWyomingDTO wyomingDTO = objectMapper.readValue(sb.toString(), AmericaWyomingDTO.class);
