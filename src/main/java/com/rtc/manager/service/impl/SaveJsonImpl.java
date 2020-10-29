@@ -1480,6 +1480,7 @@ public class SaveJsonImpl implements SaveJson {
                 continue;
             }
             logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
+            String error = "";
             try {
                 //(文件完整路径),编码格式
                 BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
@@ -1520,6 +1521,7 @@ public class SaveJsonImpl implements SaveJson {
                         String enterpriseId = getUUID();
 //                        objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
 //                        objectMapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
+                        error = sb.toString();
                         if ("filing".equals(pojoType) && sb.toString().length() > 150) {
                             AmericaWyomingDTO wyomingDTO = objectMapper.readValue(sb.toString(), AmericaWyomingDTO.class);
                             wyomingDTO.setEnterpriseId(enterpriseId);
@@ -1537,7 +1539,7 @@ public class SaveJsonImpl implements SaveJson {
                         }
 
                     }
-                    logger.info("cat:{}", wyomingList.size());
+//                    logger.info("cat:{}", wyomingList.size());
                     if ("filing".equals(pojoType)) {
 
                     }
@@ -1548,7 +1550,8 @@ public class SaveJsonImpl implements SaveJson {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                throw e;
+                logger.info("error:{}", error);
+//                throw e;
             }
         }
 
