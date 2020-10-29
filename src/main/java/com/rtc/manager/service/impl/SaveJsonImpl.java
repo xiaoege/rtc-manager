@@ -1518,7 +1518,7 @@ public class SaveJsonImpl implements SaveJson {
                         String[] row = dataList.get(i);
                         sb.append("{");
                         for (int j = 0; j < row.length; j++) {
-                            if ("annual_report".equals(pojoType) && j == 9) {
+                            if ("party".equals(pojoType) && j == 9) {
                                 continue;
                             }
                             String rowStr = row[j];
