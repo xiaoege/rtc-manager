@@ -1468,7 +1468,7 @@ public class SaveJsonImpl implements SaveJson {
     }
 
     @Override
-    public void saveJsonAmerica4WyomingCSV(File fileDirPath, String pojoType) throws Exception{
+    public void saveJsonAmerica4WyomingCSV(File fileDirPath, String pojoType) throws Exception {
         List<String> fileList = new ArrayList();
         CommonUtils.readFiles(fileDirPath, fileList);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -1509,7 +1509,8 @@ public class SaveJsonImpl implements SaveJson {
                             if (rowStr.length() > 2) {
                                 rowStr = "\"" + rowStr.substring(1, rowStr.length()).replace("\"", "")
                                         .replace("\t", "").replace("\\", "")
-                                        .replace("\r", "").replace("\n", "") + "\"";
+                                        .replace("\r", "").replace("\n", "")
+                                        .replace("\'", "") + "\"";
                             }
                             if (j < title.length) {
                                 sb.append(title[j] + ":" + rowStr + ",");
