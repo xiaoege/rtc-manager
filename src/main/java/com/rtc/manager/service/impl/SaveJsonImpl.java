@@ -25,6 +25,7 @@ import com.rtc.manager.entity.america.alabama.AmericaAlabamaMember;
 import com.rtc.manager.entity.america.alaska.AmericaAlaska;
 import com.rtc.manager.entity.america.newhampshire.*;
 import com.rtc.manager.entity.america.northcarolina.*;
+import com.rtc.manager.entity.america.wyoming.AmericaWyoming;
 import com.rtc.manager.entity.america.wyoming.AmericaWyomingFilingAnnualReport;
 import com.rtc.manager.entity.america.wyoming.AmericaWyomingParty;
 import com.rtc.manager.entity.dto.*;
@@ -1550,12 +1551,18 @@ public class SaveJsonImpl implements SaveJson {
                     }
                     logger.info("cat:{}", wyomingList.size());
                     if ("filing".equals(pojoType)) {
-                        americaWyomingMapper.insertList(wyomingList);
+                        for (int i = 0; i < wyomingList.size(); i++) {
+                            AmericaWyomingDTO americaWyomingDTO = (AmericaWyomingDTO) wyomingList.get(i);
+                            AmericaWyoming americaWyoming = new AmericaWyoming();
+                            BeanUtils.copyProperties(americaWyomingDTO, americaWyoming);
+                            americaWyomingMapper.insertSelective(americaWyoming);
+                        }
+//                        americaWyomingMapper.insertList(wyomingList);
                     }
                     if ("party".equals(pojoType)) {
                     }
                     if ("annual_report".equals(pojoType)) {
-                        americaWyomingFilingAnnualReportMapper.insertList(wyomingList);
+//                        americaWyomingFilingAnnualReportMapper.insertList(wyomingList);
                     }
                 }
             } catch (Exception e) {
