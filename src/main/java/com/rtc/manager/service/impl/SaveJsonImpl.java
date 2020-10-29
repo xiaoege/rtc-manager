@@ -1562,6 +1562,12 @@ public class SaveJsonImpl implements SaveJson {
                     if ("party".equals(pojoType)) {
                     }
                     if ("annual_report".equals(pojoType)) {
+                        for (int i = 0; i < wyomingList.size(); i++) {
+                            AmericaWyomingFilingAnnualReportDTO annualReportDTO = (AmericaWyomingFilingAnnualReportDTO) wyomingList.get(i);
+                            AmericaWyomingFilingAnnualReport annualReport = new AmericaWyomingFilingAnnualReport();
+                            BeanUtils.copyProperties(annualReportDTO, annualReport);
+                            americaWyomingFilingAnnualReportMapper.insertSelective(annualReport);
+                        }
 //                        americaWyomingFilingAnnualReportMapper.insertList(wyomingList);
                     }
                 }
