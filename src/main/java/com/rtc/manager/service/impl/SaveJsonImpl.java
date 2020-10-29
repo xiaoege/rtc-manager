@@ -1490,7 +1490,7 @@ public class SaveJsonImpl implements SaveJson {
 //                String csvSplitBy = "\\|";
 
                 while ((line = reader.readLine()) != null) {
-                    String[] item = line.split(csvSplitBy, 100);
+                    String[] item = line.replace("^", "").split(csvSplitBy, 100);
                     dataList.add(item);
                 }
                 if (!ObjectUtils.isEmpty(dataList)) {
@@ -1508,8 +1508,7 @@ public class SaveJsonImpl implements SaveJson {
                             if (rowStr.length() > 2) {
                                 rowStr = "\"" + rowStr.substring(1, rowStr.length()).replace("\"", "'")
                                         .replace("\t", "").replace("\\", "")
-                                        .replace("\r", "").replace("\n", "")
-                                        .replace("^", "")+ "\"";
+                                        .replace("\r", "").replace("\n", "") + "\"";
                             }
                             if (j < title.length) {
                                 sb.append(title[j] + ":" + rowStr + ",");
