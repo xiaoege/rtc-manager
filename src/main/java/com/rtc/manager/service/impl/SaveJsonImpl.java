@@ -1516,8 +1516,8 @@ public class SaveJsonImpl implements SaveJson {
                             }
                         }
                         sb.delete(sb.length() - 1, sb.length()).append("}");
-                        logger.info("{}", sb.toString());
-                        logger.info("大小:{}", sb.toString().length());
+//                        logger.info("{}", sb.toString());
+//                        logger.info("大小:{}", sb.toString().length());
                         String enterpriseId = getUUID();
 //                        objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
 //                        objectMapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
