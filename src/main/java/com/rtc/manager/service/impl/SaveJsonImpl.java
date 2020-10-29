@@ -1506,7 +1506,8 @@ public class SaveJsonImpl implements SaveJson {
                             String rowStr = row[j];
                             if (rowStr.length() > 2) {
                                 rowStr = "\"" + rowStr.substring(1, rowStr.length()).replace("\"", "'")
-                                        .replace("\t", "").replace("\\", "") + "\"";
+                                        .replace("\t", "").replace("\\", "")
+                                        .replace("\r", "").replace("\n", "") + "\"";
                             }
                             if (j < title.length) {
                                 sb.append(title[j] + ":" + rowStr + ",");
