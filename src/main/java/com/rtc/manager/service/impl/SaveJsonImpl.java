@@ -1016,7 +1016,7 @@ public class SaveJsonImpl implements SaveJson {
                 logger.info("json序列化出现问题:{}", file.getName());
                 logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
 //                continue;
-                break;
+                throw e;
             }
             if (!CollectionUtils.isEmpty(list)) {
                 for (int i = 0; i < list.size(); i++) {
@@ -1151,7 +1151,7 @@ public class SaveJsonImpl implements SaveJson {
                 logger.info("json序列化出现问题:{}", file.getName());
                 logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
 //                continue;
-                break;
+                throw e;
             }
             if (!CollectionUtils.isEmpty(list)) {
                 for (int i = 0; i < list.size(); i++) {
