@@ -23,4 +23,6 @@ public interface SaveJson {
     void saveJsonAmerica4AlaskaCSV(File fileDirPath) throws Exception;
 
     void saveJsonAmerica4WyomingCSV(File fileDirPath, String pojoType) throws Exception;
+
+    void readJsonCanada(File fileDirPath) throws Exception;
 }
