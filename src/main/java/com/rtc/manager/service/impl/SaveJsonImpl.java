@@ -1597,6 +1597,7 @@ public class SaveJsonImpl implements SaveJson {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void readJsonCanada(File fileDirPath) throws Exception {
         List<String> fileList = new ArrayList();
         CommonUtils.readJsonFiles(fileDirPath, fileList);
