@@ -19,11 +19,9 @@ spring:
           slow-sql-millis: 3000 #超过指定毫秒的SQL会在SQL监控里变红
           merge-sql: true # 合并SQL，在SQL监控里使用?代替不同参数的同一SQL
         wall:
-          enabled: true # 开启后可以防御指定SQL～加入到黑名单 sql injection violation, dbType mysql, druid-version 1.2.1, select not allow : SQL
+          enabled: false # 开启后可以防御指定SQL～加入到黑名单 sql injection violation, dbType mysql, druid-version 1.2.1, select not allow : SQL
           config:
             multi-statement-allow: true # 是否允许批量SQL
-          log-violation: true
-          throw-exception: false
       filters: stat # 配置后哪些可以看到,stat:SQL监控页面,wall:防火墙
 #            time-between-log-stats-millis: 3000 #配置每xx毫秒输出一次统计日志,并清除druid页面的SQL监控数据
 
