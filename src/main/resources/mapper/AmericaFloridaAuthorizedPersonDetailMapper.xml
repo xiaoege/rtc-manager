@@ -143,8 +143,8 @@
   <insert id="insertList" parameterType="com.rtc.manager.entity.america.florida.AmericaFloridaAuthorizedPersonDetail">
     insert into america_florida_authorized_person_detail
      (
-        enterprise_id, title,
-        `name`, detail_address, street_address
+        `enterprise_id`, `title`,
+        `name`, `detail_address`, `street_address`
       )values
     <foreach collection="list" item="item" separator=",">
       (
