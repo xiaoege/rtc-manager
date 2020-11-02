@@ -103,4 +103,19 @@ public class AmericaFloridaAuthorizedPersonDetail {
     public void setStatus(Integer status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "AmericaFloridaAuthorizedPersonDetail{" +
+                "id=" + id +
+                ", enterpriseId='" + enterpriseId + '\'' +
+                ", title='" + title + '\'' +
+                ", name='" + name + '\'' +
+                ", detailAddress='" + detailAddress + '\'' +
+                ", streetAddress='" + streetAddress + '\'' +
+                ", gmtCreate=" + gmtCreate +
+                ", gmtModified=" + gmtModified +
+                ", status=" + status +
+                '}';
+    }
 }
