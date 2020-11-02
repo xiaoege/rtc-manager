@@ -18,5 +18,4 @@ public interface AmericaFloridaAnnualReportFieldMapper {
 
     int updateByPrimaryKey(AmericaFloridaAnnualReportField record);
 
-    void insertList(@Param("dtoList") List dtoList, @Param("enterpriseId") String enterpriseId);
 }

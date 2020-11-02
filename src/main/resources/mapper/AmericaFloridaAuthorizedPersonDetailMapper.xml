@@ -140,20 +140,4 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <insert id="insertList" parameterType="com.rtc.manager.entity.america.florida.AmericaFloridaAuthorizedPersonDetail">
-    insert into america_florida_authorized_person_detail
-     (
-        `enterprise_id`, `title`,
-        `name`, `detail_address`, `street_address`
-      ) values
-    <foreach collection="list" item="item" separator=",">
-      (
-        #{item.enterpriseId,jdbcType=VARCHAR},
-        #{item.title,jdbcType=VARCHAR},
-        #{item.name,jdbcType=VARCHAR},
-        #{item.detailAddress,jdbcType=VARCHAR},
-        #{item.streetAddress,jdbcType=VARCHAR}
-      )
-    </foreach>
-  </insert>
 </mapper>

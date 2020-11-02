@@ -104,17 +104,4 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <insert id="insertList">
-    insert into america_florida_annual_report_year
-     (
-        enterprise_id, report_year
-      )
-    values
-    <foreach collection="dtoList" item="item" separator=",">
-      (
-        #{enterpriseId,jdbcType=VARCHAR},
-        #{item,jdbcType=VARCHAR}
-      )
-    </foreach>
-  </insert>
 </mapper>

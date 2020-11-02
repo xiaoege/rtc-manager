@@ -17,5 +17,4 @@ public interface AmericaFloridaAuthorizedPersonDetailMapper {
 
     int updateByPrimaryKey(AmericaFloridaAuthorizedPersonDetail record);
 
-    void insertList(List dtoList);
 }

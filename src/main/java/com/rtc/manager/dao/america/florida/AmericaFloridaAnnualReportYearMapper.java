@@ -18,5 +18,4 @@ public interface AmericaFloridaAnnualReportYearMapper {
 
     int updateByPrimaryKey(AmericaFloridaAnnualReportYear record);
 
-    void insertList(@Param("dtoList") List dtoList , @Param("enterpriseId") String enterpriseId);
 }
