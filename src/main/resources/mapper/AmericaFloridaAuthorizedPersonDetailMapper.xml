@@ -144,7 +144,7 @@
     insert into america_florida_authorized_person_detail
      (
         enterprise_id, title,
-        name, detail_address, street_address
+        `name`, detail_address, street_address
       )
     values 
     <foreach collection="list" item="item" separator=",">
