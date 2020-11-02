@@ -1756,6 +1756,7 @@ public class SaveJsonImpl implements SaveJson {
                             dtoList.add(new AmericaFloridaAuthorizedPersonDetail(enterpriseId, title, name, detailAddress, streetAddress));
 //                            americaFloridaAuthorizedPersonDetailMapper.insertSelective(new AmericaFloridaAuthorizedPersonDetail(enterpriseId, title, name, detailAddress, streetAddress));
                         }
+                        logger.info("{}",dtoList);
                         americaFloridaAuthorizedPersonDetailMapper.insertList(dtoList);
                     }
                     List<String> annualReportYearList = americaFloridaDTO.getAnnualReportYearList();
