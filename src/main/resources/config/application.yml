@@ -4,26 +4,27 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    druid:
-#      stat-view-servlet:
-#        enabled: true # StatViewServlet配置,开启后可以看到druid默认监控html
-#      #        login-username: rtc
-#      #        login-password: 111
-#      web-stat-filter:
-#        enabled: false # WebStatFilter配置
-#      filter:
-#        stat:
-#          enabled: true
-#          log-slow-sql: true #开启后记录超过slow-sql-millis指定时间的SQL到日志中 slow sql xx millis. SQL
-#          slow-sql-millis: 3000 #超过指定毫秒的SQL会在SQL监控里变红
-#          merge-sql: true # 合并SQL，在SQL监控里使用?代替不同参数的同一SQL
-#        wall:
-#          enabled: false # 开启后可以防御指定SQL～加入到黑名单 sql injection violation, dbType mysql, druid-version 1.2.1, select not allow : SQL
-#          config:
-#            selelct-allow: false
-#            delete-allow: false
-#      filters: stat,wall # 配置后哪些可以看到,stat:SQL监控页面,wall:防火墙
-#      #      time-between-log-stats-millis: 3000 #配置每xx毫秒输出一次统计日志,并清除druid页面的SQL监控数据
+    druid:
+      stat-view-servlet:
+        enabled: true # StatViewServlet配置,开启后可以看到druid默认监控html
+      #        login-username: rtc
+      #        login-password: 111
+      web-stat-filter:
+        enabled: false # WebStatFilter配置
+      filter:
+        stat:
+          enabled: true
+          log-slow-sql: true #开启后记录超过slow-sql-millis指定时间的SQL到日志中 slow sql xx millis. SQL
+          slow-sql-millis: 3000 #超过指定毫秒的SQL会在SQL监控里变红
+          merge-sql: true # 合并SQL，在SQL监控里使用?代替不同参数的同一SQL
+        wall:
+          enabled: false # 开启后可以防御指定SQL～加入到黑名单 sql injection violation, dbType mysql, druid-version 1.2.1, select not allow : SQL
+          config:
+            selelct-allow: false
+            delete-allow: false
+            multi-statement-allow: true # 是否允许批量SQL
+      filters: stat,wall # 配置后哪些可以看到,stat:SQL监控页面,wall:防火墙
+      #      time-between-log-stats-millis: 3000 #配置每xx毫秒输出一次统计日志,并清除druid页面的SQL监控数据
 
   redis:
     host: localhost
