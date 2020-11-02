@@ -15,11 +15,12 @@ public class SmsUtils {
     private static Logger logger = LoggerFactory.getLogger(SmsUtils.class);
 
     public static void main(String[] args) {
-
+        System.out.println(1);
     }
 
     public static void sendSms(String verificationCode) {
-        DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", "LTAI4FzJXLjJQ8RUR4vQis7L", "py5GGA2a3QdV1LGwHrcHvf5weKCWu0");
+        String accessKey = "", secret = "";
+        DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", accessKey, secret);
         IAcsClient client = new DefaultAcsClient(profile);
 
         CommonRequest request = new CommonRequest();
