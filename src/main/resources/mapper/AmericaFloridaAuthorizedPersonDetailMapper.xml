@@ -145,8 +145,7 @@
      (
         enterprise_id, title,
         `name`, detail_address, street_address
-      )
-    values 
+      )values
     <foreach collection="list" item="item" separator=",">
       (
         #{item.enterpriseId,jdbcType=VARCHAR},
