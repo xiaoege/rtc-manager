@@ -1753,37 +1753,37 @@ public class SaveJsonImpl implements SaveJson {
                             String name = authorizedPersonDetailList.get(j + 1);
                             String detailAddress = authorizedPersonDetailList.get(j + 2);
                             String streetAddress = authorizedPersonDetailList.get(j + 3);
-//                            dtoList.add(new AmericaFloridaAuthorizedPersonDetail(enterpriseId, title, name, detailAddress, streetAddress));
-                            americaFloridaAuthorizedPersonDetailMapper.insertSelective(new AmericaFloridaAuthorizedPersonDetail(enterpriseId, title, name, detailAddress, streetAddress));
+                            dtoList.add(new AmericaFloridaAuthorizedPersonDetail(enterpriseId, title, name, detailAddress, streetAddress));
+//                            americaFloridaAuthorizedPersonDetailMapper.insertSelective(new AmericaFloridaAuthorizedPersonDetail(enterpriseId, title, name, detailAddress, streetAddress));
                         }
-//                        americaFloridaAuthorizedPersonDetailMapper.insertList(dtoList);
+                        americaFloridaAuthorizedPersonDetailMapper.insertList(dtoList);
                     }
                     List<String> annualReportYearList = americaFloridaDTO.getAnnualReportYearList();
                     if (annualReportYearList != null && annualReportYearList.size() > 1) {
                         List dtoList = new ArrayList();
                         for (int j = 1; j < annualReportYearList.size(); j++) {
                             String year = annualReportYearList.get(j);
-//                            dtoList.add(year);
-                            AmericaFloridaAnnualReportYear annualReportYear = new AmericaFloridaAnnualReportYear();
-                            annualReportYear.setEnterpriseId(enterpriseId);
-                            annualReportYear.setReportYear(year);
-                            americaFloridaAnnualReportYearMapper.insertSelective(annualReportYear);
+                            dtoList.add(year);
+//                            AmericaFloridaAnnualReportYear annualReportYear = new AmericaFloridaAnnualReportYear();
+//                            annualReportYear.setEnterpriseId(enterpriseId);
+//                            annualReportYear.setReportYear(year);
+//                            americaFloridaAnnualReportYearMapper.insertSelective(annualReportYear);
                         }
-//                        americaFloridaAnnualReportYearMapper.insertList(dtoList, enterpriseId);
+                        americaFloridaAnnualReportYearMapper.insertList(dtoList, enterpriseId);
                     }
 
                     List<String> annualReportFieldList = americaFloridaDTO.getAnnualReportFieldList();
                     if (annualReportFieldList != null && annualReportFieldList.size() > 1) {
                         List dtoList = new ArrayList();
-                        for (int j = 0; j < annualReportFieldList.size(); j++) {
+                        for (int j = 1; j < annualReportFieldList.size(); j++) {
                             String field = annualReportFieldList.get(j);
-//                            dtoList.add(field);
-                            AmericaFloridaAnnualReportField annualReportField = new AmericaFloridaAnnualReportField();
-                            annualReportField.setEnterpriseId(enterpriseId);
-                            annualReportField.setFiledDate(field);
-                            americaFloridaAnnualReportFieldMapper.insertSelective(annualReportField);
+                            dtoList.add(field);
+//                            AmericaFloridaAnnualReportField annualReportField = new AmericaFloridaAnnualReportField();
+//                            annualReportField.setEnterpriseId(enterpriseId);
+//                            annualReportField.setFiledDate(field);
+//                            americaFloridaAnnualReportFieldMapper.insertSelective(annualReportField);
                         }
-//                        americaFloridaAnnualReportFieldMapper.insertList(dtoList, enterpriseId);
+                        americaFloridaAnnualReportFieldMapper.insertList(dtoList, enterpriseId);
                     }
                 }
             }
