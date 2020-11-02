@@ -24,7 +24,7 @@ spring:
             multi-statement-allow: true # 是否允许批量SQL
           log-violation: true
           throw-exception: false
-      filters: stat,wall # 配置后哪些可以看到,stat:SQL监控页面,wall:防火墙
+      filters: stat # 配置后哪些可以看到,stat:SQL监控页面,wall:防火墙
 #            time-between-log-stats-millis: 3000 #配置每xx毫秒输出一次统计日志,并清除druid页面的SQL监控数据
 
   redis:
