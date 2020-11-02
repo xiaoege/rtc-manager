@@ -12,6 +12,10 @@ import com.rtc.manager.dao.america.alabama.AmericaAlabamaIncorporatorMapper;
 import com.rtc.manager.dao.america.alabama.AmericaAlabamaMapper;
 import com.rtc.manager.dao.america.alabama.AmericaAlabamaMemberMapper;
 import com.rtc.manager.dao.america.alaska.AmericaAlaskaMapper;
+import com.rtc.manager.dao.america.florida.AmericaFloridaAnnualReportFieldMapper;
+import com.rtc.manager.dao.america.florida.AmericaFloridaAnnualReportYearMapper;
+import com.rtc.manager.dao.america.florida.AmericaFloridaAuthorizedPersonDetailMapper;
+import com.rtc.manager.dao.america.florida.AmericaFloridaMapper;
 import com.rtc.manager.dao.america.newhampshire.*;
 import com.rtc.manager.dao.america.northcarolina.*;
 import com.rtc.manager.dao.america.wyoming.AmericaWyomingFilingAnnualReportMapper;
@@ -24,6 +28,8 @@ import com.rtc.manager.entity.america.alabama.AmericaAlabamaDirector;
 import com.rtc.manager.entity.america.alabama.AmericaAlabamaIncorporator;
 import com.rtc.manager.entity.america.alabama.AmericaAlabamaMember;
 import com.rtc.manager.entity.america.alaska.AmericaAlaska;
+import com.rtc.manager.entity.america.florida.AmericaFlorida;
+import com.rtc.manager.entity.america.florida.AmericaFloridaAuthorizedPersonDetail;
 import com.rtc.manager.entity.america.newhampshire.*;
 import com.rtc.manager.entity.america.northcarolina.*;
 import com.rtc.manager.entity.america.wyoming.AmericaWyoming;
@@ -43,10 +49,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
 import java.io.*;
 import java.util.*;
@@ -285,6 +293,18 @@ public class SaveJsonImpl implements SaveJson {
 
     @Autowired
     private CanadaRegisteredOfficeAddressMapper canadaRegisteredOfficeAddressMapper;
+
+    @Autowired
+    private AmericaFloridaMapper americaFloridaMapper;
+
+    @Autowired
+    private AmericaFloridaAuthorizedPersonDetailMapper americaFloridaAuthorizedPersonDetailMapper;
+
+    @Autowired
+    private AmericaFloridaAnnualReportYearMapper americaFloridaAnnualReportYearMapper;
+
+    @Autowired
+    private AmericaFloridaAnnualReportFieldMapper americaFloridaAnnualReportFieldMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -1675,6 +1695,92 @@ public class SaveJsonImpl implements SaveJson {
             reader.close();
             bis.close();
         }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveJsonAmerica4Florida(File fileDirPath) throws Exception {
+        List<String> fileList = new ArrayList();
+        CommonUtils.readJsonFiles(fileDirPath, fileList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (int z = 0; z < fileList.size(); z++) {
+            File file = new File(fileList.get(z));
+
+            // 忽略mac的隐藏文件
+            if (file.getName().contains(".DS_Store")) {
+                continue;
+            }
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
+
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
+
+            StringBuilder sb = new StringBuilder();
+            while (reader.ready()) {
+                sb.append((char) reader.read());
+            }
+            String sss = sb.toString();
+//            sss = sss.replace("\uFeFF", "");
+            List<AmericaFloridaDTO> list = null;
+            try {
+                list = objectMapper.readValue(sss, new TypeReference<List<AmericaFloridaDTO>>() {
+                });
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                logger.info("json序列化出现问题:{}", file.getName());
+                logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
+//                continue;
+                throw e;
+            }
+            if (!ObjectUtils.isEmpty(list)) {
+                String splitBy = ",(?=([^\"]*\"[^\"]*\")*[^\"]*$)";
+                for (int i = 0; i < list.size(); i++) {
+                    AmericaFloridaDTO americaFloridaDTO = list.get(i);
+                    String enterpriseId = getUUID();
+                    americaFloridaDTO.setEnterpriseId(enterpriseId);
+                    AmericaFlorida americaFlorida = new AmericaFlorida();
+                    BeanUtils.copyProperties(americaFloridaDTO, americaFlorida);
+                    americaFlorida.setEnterpriseId(enterpriseId);
+                    americaFloridaMapper.insertSelective(americaFlorida);
+
+                    List<String> authorizedPersonDetailList = americaFloridaDTO.getAuthorizedPersonDetailList();
+                    if (authorizedPersonDetailList != null && authorizedPersonDetailList.size() > 2) {
+                        List dtoList = new ArrayList();
+                        for (int j = 2; j < authorizedPersonDetailList.size() - 3; j += 4) {
+                            String title = authorizedPersonDetailList.get(j);
+                            String name = authorizedPersonDetailList.get(j + 1);
+                            String detailAddress = authorizedPersonDetailList.get(j + 2);
+                            String streetAddress = authorizedPersonDetailList.get(j + 3);
+                            dtoList.add(new AmericaFloridaAuthorizedPersonDetail(enterpriseId, title, name, detailAddress, streetAddress));
+                        }
+                        americaFloridaAuthorizedPersonDetailMapper.insertList(dtoList);
+                    }
+                    List<String> annualReportYearList = americaFloridaDTO.getAnnualReportYearList();
+                    if (annualReportYearList != null && annualReportYearList.size() > 1) {
+                        List dtoList = new ArrayList();
+                        for (int j = 1; j < annualReportYearList.size(); j++) {
+                            String year = annualReportYearList.get(j);
+                            dtoList.add(year);
+                        }
+                        americaFloridaAnnualReportYearMapper.insertList(dtoList, enterpriseId);
+                    }
+
+                    List<String> annualReportFieldList = americaFloridaDTO.getAnnualReportFieldList();
+                    if (annualReportFieldList != null && annualReportFieldList.size() > 1) {
+                        List dtoList = new ArrayList();
+                        for (int j = 0; j < annualReportFieldList.size(); j++) {
+                            String field = annualReportFieldList.get(j);
+                            dtoList.add(field);
+                        }
+                        americaFloridaAnnualReportFieldMapper.insertList(dtoList, enterpriseId);
+                    }
+                }
+            }
+            logger.info("json文件导入成功，文件是{}", file.getName());
+            reader.close();
+            bis.close();
+        }
+
     }
 
     public String getUUID() {

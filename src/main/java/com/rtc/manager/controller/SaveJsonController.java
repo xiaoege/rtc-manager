@@ -128,6 +128,9 @@ public class SaveJsonController {
                 if ("WyomingCSV".equals(type)) {
                     saveJson.saveJsonAmerica4WyomingCSV(fileDirPath, pojoType);
                 }
+                if ("Florida".equals(type)) {
+                    saveJson.saveJsonAmerica4Florida(fileDirPath);
+                }
             } else {
                 return "路径错误";
             }
