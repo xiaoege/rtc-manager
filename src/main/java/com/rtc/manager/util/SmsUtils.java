@@ -8,18 +8,34 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
+import com.rtc.manager.service.UtilsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import java.util.HashMap;
+
+@Component
 public class SmsUtils {
     private static Logger logger = LoggerFactory.getLogger(SmsUtils.class);
 
-    public static void main(String[] args) {
-        System.out.println(1);
+    private static UtilsService utilsService;
+
+    @Autowired
+    private UtilsService utilsServiceInit;
+
+    @PostConstruct
+    public void beforeInit() {
+        utilsService = utilsServiceInit;
     }
 
     public static void sendSms(String verificationCode) {
-        String accessKey = "", secret = "";
+        HashMap<String, String> accessKeyMap = utilsService.getAccessKey("");
+        String accessKey = accessKeyMap.get("accessKey");
+        String secret = accessKeyMap.get("secret");
+
         DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", accessKey, secret);
         IAcsClient client = new DefaultAcsClient(profile);
 
