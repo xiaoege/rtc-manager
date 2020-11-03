@@ -18,6 +18,7 @@ import com.rtc.manager.dao.america.florida.AmericaFloridaAuthorizedPersonDetailM
 import com.rtc.manager.dao.america.florida.AmericaFloridaMapper;
 import com.rtc.manager.dao.america.newhampshire.*;
 import com.rtc.manager.dao.america.northcarolina.*;
+import com.rtc.manager.dao.america.ohio.AmericaOhioMapper;
 import com.rtc.manager.dao.america.wyoming.AmericaWyomingFilingAnnualReportMapper;
 import com.rtc.manager.dao.america.wyoming.AmericaWyomingMapper;
 import com.rtc.manager.dao.america.wyoming.AmericaWyomingPartyMapper;
@@ -34,6 +35,7 @@ import com.rtc.manager.entity.america.florida.AmericaFloridaAnnualReportYear;
 import com.rtc.manager.entity.america.florida.AmericaFloridaAuthorizedPersonDetail;
 import com.rtc.manager.entity.america.newhampshire.*;
 import com.rtc.manager.entity.america.northcarolina.*;
+import com.rtc.manager.entity.america.ohio.AmericaOhio;
 import com.rtc.manager.entity.america.wyoming.AmericaWyoming;
 import com.rtc.manager.entity.america.wyoming.AmericaWyomingFilingAnnualReport;
 import com.rtc.manager.entity.america.wyoming.AmericaWyomingParty;
@@ -307,6 +309,9 @@ public class SaveJsonImpl implements SaveJson {
 
     @Autowired
     private AmericaFloridaAnnualReportFieldMapper americaFloridaAnnualReportFieldMapper;
+
+    @Autowired
+    private AmericaOhioMapper americaOhioMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -1789,6 +1794,58 @@ public class SaveJsonImpl implements SaveJson {
             bis.close();
         }
 
+    }
+
+    @Override
+    public void saveJsonAmerica4Ohio(File fileDirPath) throws Exception {
+        List<String> fileList = new ArrayList();
+        CommonUtils.readJsonFiles(fileDirPath, fileList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (int z = 0; z < fileList.size(); z++) {
+            File file = new File(fileList.get(z));
+
+            // 忽略mac的隐藏文件
+            if (file.getName().contains(".DS_Store")) {
+                continue;
+            }
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
+
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
+
+            StringBuilder sb = new StringBuilder();
+            while (reader.ready()) {
+                sb.append((char) reader.read());
+            }
+            String sss = sb.toString();
+//            sss = sss.replace("\uFeFF", "");
+            List<AmericaOhioDTO> list = null;
+            try {
+                list = objectMapper.readValue(sss, new TypeReference<List<AmericaOhioDTO>>() {
+                });
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                logger.info("json序列化出现问题:{}", file.getName());
+                logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
+//                continue;
+                throw e;
+            }
+            if (!ObjectUtils.isEmpty(list)) {
+                List<AmericaOhio> dataList = new ArrayList();
+                for (int i = 0; i < list.size(); i++) {
+                    AmericaOhioDTO americaOhioDTO = list.get(i);
+                    AmericaOhio americaOhio = new AmericaOhio();
+                    BeanUtils.copyProperties(americaOhioDTO, americaOhio);
+                    americaOhio.setEnterpriseId(getUUID());
+                    dataList.add(americaOhio);
+//                    americaOhioMapper.insertSelective(americaOhio);
+                }
+                americaOhioMapper.insertList(dataList);
+            }
+            logger.info("json文件导入成功，文件是{}", file.getName());
+            reader.close();
+            bis.close();
+        }
     }
 
     public String getUUID() {
