@@ -2,7 +2,6 @@ package com.rtc.manager.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +18,8 @@ import com.rtc.manager.dao.america.florida.AmericaFloridaMapper;
 import com.rtc.manager.dao.america.newhampshire.*;
 import com.rtc.manager.dao.america.northcarolina.*;
 import com.rtc.manager.dao.america.ohio.AmericaOhioMapper;
+import com.rtc.manager.dao.america.oklahoma.AmericaOklahomaMapper;
+import com.rtc.manager.dao.america.oklahoma.AmericaOklahomaRegisteredAgentMapper;
 import com.rtc.manager.dao.america.wyoming.AmericaWyomingFilingAnnualReportMapper;
 import com.rtc.manager.dao.america.wyoming.AmericaWyomingMapper;
 import com.rtc.manager.dao.america.wyoming.AmericaWyomingPartyMapper;
@@ -36,9 +37,9 @@ import com.rtc.manager.entity.america.florida.AmericaFloridaAuthorizedPersonDeta
 import com.rtc.manager.entity.america.newhampshire.*;
 import com.rtc.manager.entity.america.northcarolina.*;
 import com.rtc.manager.entity.america.ohio.AmericaOhio;
+import com.rtc.manager.entity.america.oklahoma.AmericaOklahomaRegisteredAgent;
 import com.rtc.manager.entity.america.wyoming.AmericaWyoming;
 import com.rtc.manager.entity.america.wyoming.AmericaWyomingFilingAnnualReport;
-import com.rtc.manager.entity.america.wyoming.AmericaWyomingParty;
 import com.rtc.manager.entity.canada.*;
 import com.rtc.manager.entity.dto.*;
 import com.rtc.manager.entity.india.IndiaCharge;
@@ -53,12 +54,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 import java.io.*;
 import java.util.*;
@@ -312,6 +311,12 @@ public class SaveJsonImpl implements SaveJson {
 
     @Autowired
     private AmericaOhioMapper americaOhioMapper;
+
+    @Autowired
+    private AmericaOklahomaMapper americaOklahomaMapper;
+
+    @Autowired
+    private AmericaOklahomaRegisteredAgentMapper americaOklahomaRegisteredAgentMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -1841,6 +1846,59 @@ public class SaveJsonImpl implements SaveJson {
 //                    americaOhioMapper.insertSelective(americaOhio);
                 }
                 americaOhioMapper.insertList(dataList);
+            }
+            logger.info("json文件导入成功，文件是{}", file.getName());
+            reader.close();
+            bis.close();
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveJsonAmerica4Oklahoma(File fileDirPath) throws Exception {
+        List<String> fileList = new ArrayList();
+        CommonUtils.readJsonFiles(fileDirPath, fileList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (int z = 0; z < fileList.size(); z++) {
+            File file = new File(fileList.get(z));
+
+            // 忽略mac的隐藏文件
+            if (file.getName().contains(".DS_Store")) {
+                continue;
+            }
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
+
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
+
+            StringBuilder sb = new StringBuilder();
+            while (reader.ready()) {
+                sb.append((char) reader.read());
+            }
+            String sss = sb.toString();
+//            sss = sss.replace("\uFeFF", "");
+            List<AmericaOklahomaDTO> list = null;
+            try {
+                list = objectMapper.readValue(sss, new TypeReference<List<AmericaOklahomaDTO>>() {
+                });
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                logger.info("json序列化出现问题:{}", file.getName());
+                logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
+//                continue;
+                throw e;
+            }
+            if (!ObjectUtils.isEmpty(list)) {
+                List<AmericaOhio> dataList = new ArrayList();
+                for (int i = 0; i < list.size(); i++) {
+                    AmericaOklahomaDTO oklahomaDTO = list.get(i);
+                    String enterpriseId = getUUID();
+                    oklahomaDTO.setEnterpriseId(enterpriseId);
+                    AmericaOklahomaRegisteredAgent registeredAgent = oklahomaDTO.getRegisteredAgent();
+                    registeredAgent.setEnterpriseId(enterpriseId);
+                    americaOklahomaRegisteredAgentMapper.insert(registeredAgent);
+                }
+                americaOklahomaMapper.insertList(list);
             }
             logger.info("json文件导入成功，文件是{}", file.getName());
             reader.close();
