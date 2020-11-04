@@ -1896,7 +1896,7 @@ public class SaveJsonImpl implements SaveJson {
                     oklahomaDTO.setEnterpriseId(enterpriseId);
                     AmericaOklahomaRegisteredAgent registeredAgent = oklahomaDTO.getRegisteredAgent();
                     registeredAgent.setEnterpriseId(enterpriseId);
-                    americaOklahomaRegisteredAgentMapper.insert(registeredAgent);
+                    americaOklahomaRegisteredAgentMapper.insertSelective(registeredAgent);
                 }
                 americaOklahomaMapper.insertList(list);
             }
