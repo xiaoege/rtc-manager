@@ -8,10 +8,7 @@ import com.rtc.manager.dao.QccSubDetailMapper;
 import com.rtc.manager.dao.RtcUserCommentMapper;
 import com.rtc.manager.dao.RtcUserMapper;
 import com.rtc.manager.entity.dto.RtcUserDTO;
-import com.rtc.manager.service.America;
-import com.rtc.manager.service.India;
-import com.rtc.manager.service.Qcc;
-import com.rtc.manager.service.Vietnam;
+import com.rtc.manager.service.*;
 import com.rtc.manager.util.CommonUtils;
 import com.rtc.manager.util.ElasticsearchUtils;
 import com.rtc.manager.vo.*;
@@ -66,6 +63,9 @@ public class QccImpl implements Qcc {
 
     @Autowired
     private America america;
+
+    @Autowired
+    private Canada canada;
 
     @Autowired
     private RtcUserCommentMapper rtcUserCommentMapper;
@@ -306,6 +306,8 @@ public class QccImpl implements Qcc {
                 return vietnam.getVietnamEnterprise(enterpriseId, userId, timeZone);
             case "America":
                 return america.getAmericaEnterprise(enterpriseId, eType, userId, timeZone);
+            case "Canada":
+                return canada.getCanadaEnterprise(enterpriseId, userId, timeZone);
         }
         return null;
     }

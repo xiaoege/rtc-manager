@@ -98,8 +98,8 @@ public class EnterpriseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
             @ApiImplicitParam(name = "enterpriseId", value = "企业id", required = true),
-            @ApiImplicitParam(name = "nation", value = "国家：China / India / Vietnam / America", required = true),
-            @ApiImplicitParam(name = "e_type", value = "企业类型，对应国家：China.China / India.[cin, llpin] / Vietnam.Vietnam /America.[Alabama, NewHampshire]", required = true),
+            @ApiImplicitParam(name = "nation", value = "国家：China / India / Vietnam / America / Canada", required = true),
+            @ApiImplicitParam(name = "e_type", value = "企业类型，对应国家：China.China / India.[cin, llpin] / Vietnam.Vietnam /America.[Alabama, NewHampshire] / Canada.Canada", required = true),
             @ApiImplicitParam(name = "timeZone", value = "时区，参数示例：8或者-8, 范围: -18 to 18 的整数", required = false)
     })
     @GetMapping("getEnterprise")

@@ -150,4 +150,69 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <resultMap id="selectCanadaEnterprise" type="com.rtc.manager.vo.canada.CanadaVO">
+    <id column="canada_id" jdbcType="INTEGER" property="id" />
+    <result column="canada_corporation_number" jdbcType="VARCHAR" property="corporationNumber" />
+    <result column="canada_business_number" jdbcType="VARCHAR" property="businessNumber" />
+    <result column="canada_name" jdbcType="VARCHAR" property="name" />
+    <result column="canada_enterprise_status" jdbcType="VARCHAR" property="enterpriseStatus" />
+    <result column="canada_governing_legislation" jdbcType="VARCHAR" property="governingLegislation" />
+    <association property="registeredOfficeAddressVO" javaType="com.rtc.manager.vo.canada.CanadaRegisteredOfficeAddressVO">
+      <id column="croa_id" jdbcType="INTEGER" property="id" />
+      <result column="croa_care_of" jdbcType="VARCHAR" property="careOf" />
+      <result column="croa_address" jdbcType="VARCHAR" property="address" />
+    </association>
+    <collection property="directorListVO" ofType="com.rtc.manager.vo.canada.CanadaDirectorVO">
+      <id column="cd_id" jdbcType="INTEGER" property="id" />
+      <result column="cd_name" jdbcType="VARCHAR" property="name" />
+      <result column="cd_address" jdbcType="VARCHAR" property="address" />
+    </collection>
+    <collection property="annualFilingListVO" ofType="com.rtc.manager.vo.canada.CanadaAnnualFilingVO">
+      <id column="caf_id" jdbcType="INTEGER" property="id" />
+      <result column="caf_anniversary_date" jdbcType="VARCHAR" property="anniversaryDate" />
+      <result column="caf_last_annual_meeting_date" jdbcType="VARCHAR" property="lastAnnualMeetingDate" />
+      <result column="caf_annual_filing_period" jdbcType="VARCHAR" property="annualFilingPeriod" />
+      <result column="caf_corporation_type" jdbcType="VARCHAR" property="corporationType" />
+      <result column="caf_annual_filings_status" jdbcType="VARCHAR" property="annualFilingsStatus" />
+    </collection>
+    <collection property="corporateHistoryListVO" ofType="com.rtc.manager.vo.canada.CanadaCorporateHistoryVO">
+      <id column="cch_id" jdbcType="INTEGER" property="id" />
+      <result column="cch_date" jdbcType="VARCHAR" property="date" />
+      <result column="cch_event" jdbcType="VARCHAR" property="event" />
+    </collection>
+  </resultMap>
+  <select id="selectCanadaEnterprise" resultMap="selectCanadaEnterprise">
+    SELECT
+        canada.id canada_id,
+        canada.corporation_number canada_corporation_number,
+        canada.business_number canada_business_number,
+        canada.`name` canada_name,
+        canada.enterprise_status canada_enterprise_status,
+        canada.governing_legislation canada_governing_legislation,
+        canada_registered_office_address.id croa_id,
+        canada_registered_office_address.care_of croa_care_of,
+        canada_registered_office_address.address croa_address,
+        canada_annual_filing.id caf_id,
+        canada_annual_filing.anniversary_date caf_anniversary_date,
+        canada_annual_filing.last_annual_meeting_date caf_last_annual_meeting_date,
+        canada_annual_filing.annual_filing_period caf_annual_filing_period,
+        canada_annual_filing.corporation_type caf_corporation_type,
+        canada_annual_filing.annual_filings_status caf_annual_filings_status,
+        canada_corporate_history.id cch_id,
+        canada_corporate_history.date cch_date,
+        canada_corporate_history.`event` cch_event,
+        canada_director.id cd_id,
+        canada_director.`name` cd_name,
+        canada_director.address cd_address
+    FROM
+        canada
+        LEFT JOIN canada_registered_office_address ON canada.enterprise_id = canada_registered_office_address.enterprise_id
+        LEFT JOIN canada_annual_filing ON canada.enterprise_id = canada_annual_filing.enterprise_id
+        LEFT JOIN canada_corporate_history ON canada.enterprise_id = canada_corporate_history.enterprise_id
+        LEFT JOIN canada_director ON canada.enterprise_id = canada_director.enterprise_id
+    WHERE
+        canada.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+        AND canada.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+  </select>
 </mapper>

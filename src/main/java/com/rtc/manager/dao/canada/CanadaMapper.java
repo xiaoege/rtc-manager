@@ -14,4 +14,6 @@ public interface CanadaMapper {
     int updateByPrimaryKeySelective(Canada record);
 
     int updateByPrimaryKey(Canada record);
+
+    Object selectCanadaEnterprise(String enterpriseId);
 }
