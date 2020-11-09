@@ -31,4 +31,6 @@ public interface SaveJson {
     void saveJsonAmerica4Ohio(File fileDirPath) throws Exception;
 
     void saveJsonAmerica4Oklahoma(File fileDirPath) throws Exception;
+
+    void saveJsonAmerica4Delaware(File fileDirPath) throws Exception;
 }

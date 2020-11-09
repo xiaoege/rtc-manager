@@ -2,15 +2,20 @@ package com.rtc.manager.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationConfig;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationConfig;
 import com.rtc.manager.dao.*;
 import com.rtc.manager.dao.america.alabama.AmericaAlabamaDirectorMapper;
 import com.rtc.manager.dao.america.alabama.AmericaAlabamaIncorporatorMapper;
 import com.rtc.manager.dao.america.alabama.AmericaAlabamaMapper;
 import com.rtc.manager.dao.america.alabama.AmericaAlabamaMemberMapper;
 import com.rtc.manager.dao.america.alaska.AmericaAlaskaMapper;
+import com.rtc.manager.dao.america.delaware.AmericaDelawareMapper;
 import com.rtc.manager.dao.america.florida.AmericaFloridaAnnualReportFieldMapper;
 import com.rtc.manager.dao.america.florida.AmericaFloridaAnnualReportYearMapper;
 import com.rtc.manager.dao.america.florida.AmericaFloridaAuthorizedPersonDetailMapper;
@@ -30,6 +35,7 @@ import com.rtc.manager.entity.america.alabama.AmericaAlabamaDirector;
 import com.rtc.manager.entity.america.alabama.AmericaAlabamaIncorporator;
 import com.rtc.manager.entity.america.alabama.AmericaAlabamaMember;
 import com.rtc.manager.entity.america.alaska.AmericaAlaska;
+import com.rtc.manager.entity.america.delaware.AmericaDelaware;
 import com.rtc.manager.entity.america.florida.AmericaFlorida;
 import com.rtc.manager.entity.america.florida.AmericaFloridaAnnualReportField;
 import com.rtc.manager.entity.america.florida.AmericaFloridaAnnualReportYear;
@@ -317,6 +323,9 @@ public class SaveJsonImpl implements SaveJson {
 
     @Autowired
     private AmericaOklahomaRegisteredAgentMapper americaOklahomaRegisteredAgentMapper;
+
+    @Autowired
+    private AmericaDelawareMapper americaDelawareMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -1899,6 +1908,60 @@ public class SaveJsonImpl implements SaveJson {
                     americaOklahomaRegisteredAgentMapper.insertSelective(registeredAgent);
                 }
                 americaOklahomaMapper.insertList(list);
+            }
+            logger.info("json文件导入成功，文件是{}", file.getName());
+            reader.close();
+            bis.close();
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveJsonAmerica4Delaware(File fileDirPath) throws Exception {
+        List<String> fileList = new ArrayList();
+        CommonUtils.readJsonFiles(fileDirPath, fileList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (int z = 0; z < fileList.size(); z++) {
+            File file = new File(fileList.get(z));
+
+            // 忽略mac的隐藏文件
+            if (file.getName().contains(".DS_Store")) {
+                continue;
+            }
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
+
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
+
+            StringBuilder sb = new StringBuilder();
+            while (reader.ready()) {
+                sb.append((char) reader.read());
+            }
+            String sss = sb.toString();
+//            sss = sss.replace("\uFeFF", "");
+            sss = sss.replace("\\", "");
+            List<AmericaDelawareDTO> list = null;
+            try {
+//                objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true);
+                list = Optional.ofNullable(objectMapper.readValue(sss, new TypeReference<List<AmericaDelawareDTO>>() {
+                })).orElseGet(() -> new ArrayList<>());
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                logger.info("json序列化出现问题:{}", file.getName());
+                logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
+//                continue;
+                throw e;
+            }
+            List<AmericaDelaware> americaDelawareList = new ArrayList();
+            for (int i = 0; i < list.size(); i++) {
+                AmericaDelawareDTO americaDelawareDTO = list.get(i);
+                AmericaDelaware americaDelaware = new AmericaDelaware();
+                BeanUtils.copyProperties(americaDelawareDTO, americaDelaware);
+                americaDelaware.setEnterpriseId(getUUID());
+                americaDelawareList.add(americaDelaware);
+            }
+            if (americaDelawareList.size() > 0) {
+                americaDelawareMapper.insertList(americaDelawareList);
             }
             logger.info("json文件导入成功，文件是{}", file.getName());
             reader.close();
