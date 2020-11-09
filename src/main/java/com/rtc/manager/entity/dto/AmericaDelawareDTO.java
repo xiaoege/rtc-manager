@@ -14,7 +14,7 @@ public class AmericaDelawareDTO {
     private String entityKind;
     @JsonAlias("Residency")
     private String residency;
-    @JsonAlias("Incorporation Date / Formation Date")
+    @JsonAlias({"Incorporation Date / Formation Date", "Incorporation Date_Formation Date"})
     private String incorporationFormationDate;
     @JsonAlias("Entity Type")
     private String entityType;
