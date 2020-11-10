@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.america.delaware.AmericaDelawareMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.america.delaware.AmericaDelaware">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="file_number" jdbcType="VARCHAR" property="fileNumber" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="entity_kind" jdbcType="VARCHAR" property="entityKind" />
+    <result column="residency" jdbcType="VARCHAR" property="residency" />
+    <result column="incorporation_formation_date" jdbcType="VARCHAR" property="incorporationFormationDate" />
+    <result column="entity_type" jdbcType="VARCHAR" property="entityType" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="agent_name" jdbcType="VARCHAR" property="agentName" />
+    <result column="agent_address" jdbcType="VARCHAR" property="agentAddress" />
+    <result column="agent_city" jdbcType="VARCHAR" property="agentCity" />
+    <result column="agent_county" jdbcType="VARCHAR" property="agentCounty" />
+    <result column="agent_state" jdbcType="VARCHAR" property="agentState" />
+    <result column="agent_postal_code" jdbcType="VARCHAR" property="agentPostalCode" />
+    <result column="agent_phone" jdbcType="VARCHAR" property="agentPhone" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, file_number, name, entity_kind, residency, incorporation_formation_date, 
+    entity_type, state, agent_name, agent_address, agent_city, agent_county, agent_state, 
+    agent_postal_code, agent_phone, gmt_create, gmt_modified, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from america_delaware
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from america_delaware
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rtc.manager.entity.america.delaware.AmericaDelaware">
+    insert into america_delaware (id, enterprise_id, file_number, 
+      name, entity_kind, residency, 
+      incorporation_formation_date, entity_type, 
+      state, agent_name, agent_address, 
+      agent_city, agent_county, agent_state, 
+      agent_postal_code, agent_phone, gmt_create, 
+      gmt_modified, status)
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{fileNumber,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{entityKind,jdbcType=VARCHAR}, #{residency,jdbcType=VARCHAR}, 
+      #{incorporationFormationDate,jdbcType=VARCHAR}, #{entityType,jdbcType=VARCHAR}, 
+      #{state,jdbcType=VARCHAR}, #{agentName,jdbcType=VARCHAR}, #{agentAddress,jdbcType=VARCHAR}, 
+      #{agentCity,jdbcType=VARCHAR}, #{agentCounty,jdbcType=VARCHAR}, #{agentState,jdbcType=VARCHAR}, 
+      #{agentPostalCode,jdbcType=VARCHAR}, #{agentPhone,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.america.delaware.AmericaDelaware">
+    insert into america_delaware
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="fileNumber != null">
+        file_number,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="entityKind != null">
+        entity_kind,
+      </if>
+      <if test="residency != null">
+        residency,
+      </if>
+      <if test="incorporationFormationDate != null">
+        incorporation_formation_date,
+      </if>
+      <if test="entityType != null">
+        entity_type,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="agentName != null">
+        agent_name,
+      </if>
+      <if test="agentAddress != null">
+        agent_address,
+      </if>
+      <if test="agentCity != null">
+        agent_city,
+      </if>
+      <if test="agentCounty != null">
+        agent_county,
+      </if>
+      <if test="agentState != null">
+        agent_state,
+      </if>
+      <if test="agentPostalCode != null">
+        agent_postal_code,
+      </if>
+      <if test="agentPhone != null">
+        agent_phone,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="fileNumber != null">
+        #{fileNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="entityKind != null">
+        #{entityKind,jdbcType=VARCHAR},
+      </if>
+      <if test="residency != null">
+        #{residency,jdbcType=VARCHAR},
+      </if>
+      <if test="incorporationFormationDate != null">
+        #{incorporationFormationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="entityType != null">
+        #{entityType,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="agentName != null">
+        #{agentName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentAddress != null">
+        #{agentAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="agentCity != null">
+        #{agentCity,jdbcType=VARCHAR},
+      </if>
+      <if test="agentCounty != null">
+        #{agentCounty,jdbcType=VARCHAR},
+      </if>
+      <if test="agentState != null">
+        #{agentState,jdbcType=VARCHAR},
+      </if>
+      <if test="agentPostalCode != null">
+        #{agentPostalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="agentPhone != null">
+        #{agentPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.america.delaware.AmericaDelaware">
+    update america_delaware
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="fileNumber != null">
+        file_number = #{fileNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="entityKind != null">
+        entity_kind = #{entityKind,jdbcType=VARCHAR},
+      </if>
+      <if test="residency != null">
+        residency = #{residency,jdbcType=VARCHAR},
+      </if>
+      <if test="incorporationFormationDate != null">
+        incorporation_formation_date = #{incorporationFormationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="entityType != null">
+        entity_type = #{entityType,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="agentName != null">
+        agent_name = #{agentName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentAddress != null">
+        agent_address = #{agentAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="agentCity != null">
+        agent_city = #{agentCity,jdbcType=VARCHAR},
+      </if>
+      <if test="agentCounty != null">
+        agent_county = #{agentCounty,jdbcType=VARCHAR},
+      </if>
+      <if test="agentState != null">
+        agent_state = #{agentState,jdbcType=VARCHAR},
+      </if>
+      <if test="agentPostalCode != null">
+        agent_postal_code = #{agentPostalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="agentPhone != null">
+        agent_phone = #{agentPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.america.delaware.AmericaDelaware">
+    update america_delaware
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      file_number = #{fileNumber,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      entity_kind = #{entityKind,jdbcType=VARCHAR},
+      residency = #{residency,jdbcType=VARCHAR},
+      incorporation_formation_date = #{incorporationFormationDate,jdbcType=VARCHAR},
+      entity_type = #{entityType,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR},
+      agent_name = #{agentName,jdbcType=VARCHAR},
+      agent_address = #{agentAddress,jdbcType=VARCHAR},
+      agent_city = #{agentCity,jdbcType=VARCHAR},
+      agent_county = #{agentCounty,jdbcType=VARCHAR},
+      agent_state = #{agentState,jdbcType=VARCHAR},
+      agent_postal_code = #{agentPostalCode,jdbcType=VARCHAR},
+      agent_phone = #{agentPhone,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <insert id="insertList" parameterType="com.rtc.manager.entity.america.delaware.AmericaDelaware">
+    insert into america_delaware
+    (enterprise_id, file_number, 
+      name, entity_kind, residency, 
+      incorporation_formation_date, entity_type, 
+      state, agent_name, agent_address, 
+      agent_city, agent_county, agent_state, 
+      agent_postal_code, agent_phone)
+      values 
+      <foreach collection="list" item="item" separator=",">
+        (#{item.enterpriseId,jdbcType=VARCHAR}, #{item.fileNumber,jdbcType=VARCHAR},
+        #{item.name,jdbcType=VARCHAR}, #{item.entityKind,jdbcType=VARCHAR}, #{item.residency,jdbcType=VARCHAR},
+        #{item.incorporationFormationDate,jdbcType=VARCHAR}, #{item.entityType,jdbcType=VARCHAR},
+        #{item.state,jdbcType=VARCHAR}, #{item.agentName,jdbcType=VARCHAR}, #{item.agentAddress,jdbcType=VARCHAR},
+        #{item.agentCity,jdbcType=VARCHAR}, #{item.agentCounty,jdbcType=VARCHAR}, #{item.agentState,jdbcType=VARCHAR},
+        #{item.agentPostalCode,jdbcType=VARCHAR}, #{item.agentPhone,jdbcType=VARCHAR})
+      </foreach>
+  </insert>
+</mapper>

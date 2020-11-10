@@ -1,0 +1,894 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.america.wyoming.AmericaWyomingMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.america.wyoming.AmericaWyoming">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="filing_id" jdbcType="VARCHAR" property="filingId" />
+    <result column="filing_type" jdbcType="VARCHAR" property="filingType" />
+    <result column="filing_subtype" jdbcType="VARCHAR" property="filingSubtype" />
+    <result column="word_design" jdbcType="VARCHAR" property="wordDesign" />
+    <result column="duration" jdbcType="VARCHAR" property="duration" />
+    <result column="enterprise_status" jdbcType="VARCHAR" property="enterpriseStatus" />
+    <result column="sub_status" jdbcType="VARCHAR" property="subStatus" />
+    <result column="standing_tax" jdbcType="VARCHAR" property="standingTax" />
+    <result column="standing_ra" jdbcType="VARCHAR" property="standingRa" />
+    <result column="standing_other" jdbcType="VARCHAR" property="standingOther" />
+    <result column="purpose" jdbcType="VARCHAR" property="purpose" />
+    <result column="applicant_type" jdbcType="VARCHAR" property="applicantType" />
+    <result column="filing_num" jdbcType="VARCHAR" property="filingNum" />
+    <result column="filing_name" jdbcType="VARCHAR" property="filingName" />
+    <result column="old_name" jdbcType="VARCHAR" property="oldName" />
+    <result column="fictitious_name" jdbcType="VARCHAR" property="fictitiousName" />
+    <result column="domestic_yn" jdbcType="VARCHAR" property="domesticYn" />
+    <result column="filing_date" jdbcType="VARCHAR" property="filingDate" />
+    <result column="delayed_effective_date" jdbcType="VARCHAR" property="delayedEffectiveDate" />
+    <result column="expiration_date" jdbcType="VARCHAR" property="expirationDate" />
+    <result column="inactive_date" jdbcType="VARCHAR" property="inactiveDate" />
+    <result column="ra_resign_cert_letter_date" jdbcType="VARCHAR" property="raResignCertLetterDate" />
+    <result column="converted_yn" jdbcType="VARCHAR" property="convertedYn" />
+    <result column="converted_from" jdbcType="VARCHAR" property="convertedFrom" />
+    <result column="converted_from_name" jdbcType="VARCHAR" property="convertedFromName" />
+    <result column="converted_date" jdbcType="VARCHAR" property="convertedDate" />
+    <result column="issue_on_record_yn" jdbcType="VARCHAR" property="issueOnRecordYn" />
+    <result column="transferred_to" jdbcType="VARCHAR" property="transferredTo" />
+    <result column="transferred_date" jdbcType="VARCHAR" property="transferredDate" />
+    <result column="formation_locale" jdbcType="VARCHAR" property="formationLocale" />
+    <result column="continued_from_locale" jdbcType="VARCHAR" property="continuedFromLocale" />
+    <result column="domesticated_from_locale" jdbcType="VARCHAR" property="domesticatedFromLocale" />
+    <result column="form_home_juris_date" jdbcType="VARCHAR" property="formHomeJurisDate" />
+    <result column="common_shares" jdbcType="VARCHAR" property="commonShares" />
+    <result column="common_par_value" jdbcType="VARCHAR" property="commonParValue" />
+    <result column="preferred_shares" jdbcType="VARCHAR" property="preferredShares" />
+    <result column="preferred_par_value" jdbcType="VARCHAR" property="preferredParValue" />
+    <result column="addition_stock_yn" jdbcType="VARCHAR" property="additionStockYn" />
+    <result column="principle_addr1" jdbcType="VARCHAR" property="principleAddr1" />
+    <result column="principle_addr2" jdbcType="VARCHAR" property="principleAddr2" />
+    <result column="principle_addr3" jdbcType="VARCHAR" property="principleAddr3" />
+    <result column="principle_city" jdbcType="VARCHAR" property="principleCity" />
+    <result column="principle_state" jdbcType="VARCHAR" property="principleState" />
+    <result column="principle_postal_code" jdbcType="VARCHAR" property="principlePostalCode" />
+    <result column="principle_country" jdbcType="VARCHAR" property="principleCountry" />
+    <result column="mail_addr1" jdbcType="VARCHAR" property="mailAddr1" />
+    <result column="mail_addr2" jdbcType="VARCHAR" property="mailAddr2" />
+    <result column="mail_addr3" jdbcType="VARCHAR" property="mailAddr3" />
+    <result column="mail_city" jdbcType="VARCHAR" property="mailCity" />
+    <result column="mail_state" jdbcType="VARCHAR" property="mailState" />
+    <result column="mail_postal_code" jdbcType="VARCHAR" property="mailPostalCode" />
+    <result column="mail_country" jdbcType="VARCHAR" property="mailCountry" />
+    <result column="state_of_org" jdbcType="VARCHAR" property="stateOfOrg" />
+    <result column="org_date" jdbcType="VARCHAR" property="orgDate" />
+    <result column="reg_us_office_yn" jdbcType="VARCHAR" property="regUsOfficeYn" />
+    <result column="reg_us_date" jdbcType="VARCHAR" property="regUsDate" />
+    <result column="reg_us_serial_num" jdbcType="VARCHAR" property="regUsSerialNum" />
+    <result column="reg_us_status" jdbcType="VARCHAR" property="regUsStatus" />
+    <result column="reg_us_app_refused_yn" jdbcType="VARCHAR" property="regUsAppRefusedYn" />
+    <result column="first_used_anywhere_date" jdbcType="VARCHAR" property="firstUsedAnywhereDate" />
+    <result column="first_used_wyo_date" jdbcType="VARCHAR" property="firstUsedWyoDate" />
+    <result column="ar_exempt_yn" jdbcType="VARCHAR" property="arExemptYn" />
+    <result column="trademark_keywords" jdbcType="VARCHAR" property="trademarkKeywords" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, filing_id, filing_type, filing_subtype, word_design, duration, 
+    enterprise_status, sub_status, standing_tax, standing_ra, standing_other, purpose, 
+    applicant_type, filing_num, filing_name, old_name, fictitious_name, domestic_yn, 
+    filing_date, delayed_effective_date, expiration_date, inactive_date, ra_resign_cert_letter_date, 
+    converted_yn, converted_from, converted_from_name, converted_date, issue_on_record_yn, 
+    transferred_to, transferred_date, formation_locale, continued_from_locale, domesticated_from_locale, 
+    form_home_juris_date, common_shares, common_par_value, preferred_shares, preferred_par_value, 
+    addition_stock_yn, principle_addr1, principle_addr2, principle_addr3, principle_city, 
+    principle_state, principle_postal_code, principle_country, mail_addr1, mail_addr2, 
+    mail_addr3, mail_city, mail_state, mail_postal_code, mail_country, state_of_org, 
+    org_date, reg_us_office_yn, reg_us_date, reg_us_serial_num, reg_us_status, reg_us_app_refused_yn, 
+    first_used_anywhere_date, first_used_wyo_date, ar_exempt_yn, trademark_keywords, 
+    gmt_create, gmt_modified, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from america_wyoming
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from america_wyoming
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rtc.manager.entity.america.wyoming.AmericaWyoming">
+    insert into america_wyoming (id, enterprise_id, filing_id, 
+      filing_type, filing_subtype, word_design, 
+      duration, enterprise_status, sub_status, 
+      standing_tax, standing_ra, standing_other, 
+      purpose, applicant_type, filing_num, 
+      filing_name, old_name, fictitious_name, 
+      domestic_yn, filing_date, delayed_effective_date, 
+      expiration_date, inactive_date, ra_resign_cert_letter_date, 
+      converted_yn, converted_from, converted_from_name, 
+      converted_date, issue_on_record_yn, transferred_to, 
+      transferred_date, formation_locale, continued_from_locale, 
+      domesticated_from_locale, form_home_juris_date, 
+      common_shares, common_par_value, preferred_shares, 
+      preferred_par_value, addition_stock_yn, principle_addr1, 
+      principle_addr2, principle_addr3, principle_city, 
+      principle_state, principle_postal_code, principle_country, 
+      mail_addr1, mail_addr2, mail_addr3, 
+      mail_city, mail_state, mail_postal_code, 
+      mail_country, state_of_org, org_date, 
+      reg_us_office_yn, reg_us_date, reg_us_serial_num, 
+      reg_us_status, reg_us_app_refused_yn, first_used_anywhere_date, 
+      first_used_wyo_date, ar_exempt_yn, trademark_keywords, 
+      gmt_create, gmt_modified, status
+      )
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{filingId,jdbcType=VARCHAR}, 
+      #{filingType,jdbcType=VARCHAR}, #{filingSubtype,jdbcType=VARCHAR}, #{wordDesign,jdbcType=VARCHAR}, 
+      #{duration,jdbcType=VARCHAR}, #{enterpriseStatus,jdbcType=VARCHAR}, #{subStatus,jdbcType=VARCHAR}, 
+      #{standingTax,jdbcType=VARCHAR}, #{standingRa,jdbcType=VARCHAR}, #{standingOther,jdbcType=VARCHAR}, 
+      #{purpose,jdbcType=VARCHAR}, #{applicantType,jdbcType=VARCHAR}, #{filingNum,jdbcType=VARCHAR}, 
+      #{filingName,jdbcType=VARCHAR}, #{oldName,jdbcType=VARCHAR}, #{fictitiousName,jdbcType=VARCHAR}, 
+      #{domesticYn,jdbcType=VARCHAR}, #{filingDate,jdbcType=VARCHAR}, #{delayedEffectiveDate,jdbcType=VARCHAR}, 
+      #{expirationDate,jdbcType=VARCHAR}, #{inactiveDate,jdbcType=VARCHAR}, #{raResignCertLetterDate,jdbcType=VARCHAR}, 
+      #{convertedYn,jdbcType=VARCHAR}, #{convertedFrom,jdbcType=VARCHAR}, #{convertedFromName,jdbcType=VARCHAR}, 
+      #{convertedDate,jdbcType=VARCHAR}, #{issueOnRecordYn,jdbcType=VARCHAR}, #{transferredTo,jdbcType=VARCHAR}, 
+      #{transferredDate,jdbcType=VARCHAR}, #{formationLocale,jdbcType=VARCHAR}, #{continuedFromLocale,jdbcType=VARCHAR}, 
+      #{domesticatedFromLocale,jdbcType=VARCHAR}, #{formHomeJurisDate,jdbcType=VARCHAR}, 
+      #{commonShares,jdbcType=VARCHAR}, #{commonParValue,jdbcType=VARCHAR}, #{preferredShares,jdbcType=VARCHAR}, 
+      #{preferredParValue,jdbcType=VARCHAR}, #{additionStockYn,jdbcType=VARCHAR}, #{principleAddr1,jdbcType=VARCHAR}, 
+      #{principleAddr2,jdbcType=VARCHAR}, #{principleAddr3,jdbcType=VARCHAR}, #{principleCity,jdbcType=VARCHAR}, 
+      #{principleState,jdbcType=VARCHAR}, #{principlePostalCode,jdbcType=VARCHAR}, #{principleCountry,jdbcType=VARCHAR}, 
+      #{mailAddr1,jdbcType=VARCHAR}, #{mailAddr2,jdbcType=VARCHAR}, #{mailAddr3,jdbcType=VARCHAR}, 
+      #{mailCity,jdbcType=VARCHAR}, #{mailState,jdbcType=VARCHAR}, #{mailPostalCode,jdbcType=VARCHAR}, 
+      #{mailCountry,jdbcType=VARCHAR}, #{stateOfOrg,jdbcType=VARCHAR}, #{orgDate,jdbcType=VARCHAR}, 
+      #{regUsOfficeYn,jdbcType=VARCHAR}, #{regUsDate,jdbcType=VARCHAR}, #{regUsSerialNum,jdbcType=VARCHAR}, 
+      #{regUsStatus,jdbcType=VARCHAR}, #{regUsAppRefusedYn,jdbcType=VARCHAR}, #{firstUsedAnywhereDate,jdbcType=VARCHAR}, 
+      #{firstUsedWyoDate,jdbcType=VARCHAR}, #{arExemptYn,jdbcType=VARCHAR}, #{trademarkKeywords,jdbcType=VARCHAR}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.america.wyoming.AmericaWyoming">
+    insert into america_wyoming
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="filingId != null">
+        filing_id,
+      </if>
+      <if test="filingType != null">
+        filing_type,
+      </if>
+      <if test="filingSubtype != null">
+        filing_subtype,
+      </if>
+      <if test="wordDesign != null">
+        word_design,
+      </if>
+      <if test="duration != null">
+        duration,
+      </if>
+      <if test="enterpriseStatus != null">
+        enterprise_status,
+      </if>
+      <if test="subStatus != null">
+        sub_status,
+      </if>
+      <if test="standingTax != null">
+        standing_tax,
+      </if>
+      <if test="standingRa != null">
+        standing_ra,
+      </if>
+      <if test="standingOther != null">
+        standing_other,
+      </if>
+      <if test="purpose != null">
+        purpose,
+      </if>
+      <if test="applicantType != null">
+        applicant_type,
+      </if>
+      <if test="filingNum != null">
+        filing_num,
+      </if>
+      <if test="filingName != null">
+        filing_name,
+      </if>
+      <if test="oldName != null">
+        old_name,
+      </if>
+      <if test="fictitiousName != null">
+        fictitious_name,
+      </if>
+      <if test="domesticYn != null">
+        domestic_yn,
+      </if>
+      <if test="filingDate != null">
+        filing_date,
+      </if>
+      <if test="delayedEffectiveDate != null">
+        delayed_effective_date,
+      </if>
+      <if test="expirationDate != null">
+        expiration_date,
+      </if>
+      <if test="inactiveDate != null">
+        inactive_date,
+      </if>
+      <if test="raResignCertLetterDate != null">
+        ra_resign_cert_letter_date,
+      </if>
+      <if test="convertedYn != null">
+        converted_yn,
+      </if>
+      <if test="convertedFrom != null">
+        converted_from,
+      </if>
+      <if test="convertedFromName != null">
+        converted_from_name,
+      </if>
+      <if test="convertedDate != null">
+        converted_date,
+      </if>
+      <if test="issueOnRecordYn != null">
+        issue_on_record_yn,
+      </if>
+      <if test="transferredTo != null">
+        transferred_to,
+      </if>
+      <if test="transferredDate != null">
+        transferred_date,
+      </if>
+      <if test="formationLocale != null">
+        formation_locale,
+      </if>
+      <if test="continuedFromLocale != null">
+        continued_from_locale,
+      </if>
+      <if test="domesticatedFromLocale != null">
+        domesticated_from_locale,
+      </if>
+      <if test="formHomeJurisDate != null">
+        form_home_juris_date,
+      </if>
+      <if test="commonShares != null">
+        common_shares,
+      </if>
+      <if test="commonParValue != null">
+        common_par_value,
+      </if>
+      <if test="preferredShares != null">
+        preferred_shares,
+      </if>
+      <if test="preferredParValue != null">
+        preferred_par_value,
+      </if>
+      <if test="additionStockYn != null">
+        addition_stock_yn,
+      </if>
+      <if test="principleAddr1 != null">
+        principle_addr1,
+      </if>
+      <if test="principleAddr2 != null">
+        principle_addr2,
+      </if>
+      <if test="principleAddr3 != null">
+        principle_addr3,
+      </if>
+      <if test="principleCity != null">
+        principle_city,
+      </if>
+      <if test="principleState != null">
+        principle_state,
+      </if>
+      <if test="principlePostalCode != null">
+        principle_postal_code,
+      </if>
+      <if test="principleCountry != null">
+        principle_country,
+      </if>
+      <if test="mailAddr1 != null">
+        mail_addr1,
+      </if>
+      <if test="mailAddr2 != null">
+        mail_addr2,
+      </if>
+      <if test="mailAddr3 != null">
+        mail_addr3,
+      </if>
+      <if test="mailCity != null">
+        mail_city,
+      </if>
+      <if test="mailState != null">
+        mail_state,
+      </if>
+      <if test="mailPostalCode != null">
+        mail_postal_code,
+      </if>
+      <if test="mailCountry != null">
+        mail_country,
+      </if>
+      <if test="stateOfOrg != null">
+        state_of_org,
+      </if>
+      <if test="orgDate != null">
+        org_date,
+      </if>
+      <if test="regUsOfficeYn != null">
+        reg_us_office_yn,
+      </if>
+      <if test="regUsDate != null">
+        reg_us_date,
+      </if>
+      <if test="regUsSerialNum != null">
+        reg_us_serial_num,
+      </if>
+      <if test="regUsStatus != null">
+        reg_us_status,
+      </if>
+      <if test="regUsAppRefusedYn != null">
+        reg_us_app_refused_yn,
+      </if>
+      <if test="firstUsedAnywhereDate != null">
+        first_used_anywhere_date,
+      </if>
+      <if test="firstUsedWyoDate != null">
+        first_used_wyo_date,
+      </if>
+      <if test="arExemptYn != null">
+        ar_exempt_yn,
+      </if>
+      <if test="trademarkKeywords != null">
+        trademark_keywords,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="filingId != null">
+        #{filingId,jdbcType=VARCHAR},
+      </if>
+      <if test="filingType != null">
+        #{filingType,jdbcType=VARCHAR},
+      </if>
+      <if test="filingSubtype != null">
+        #{filingSubtype,jdbcType=VARCHAR},
+      </if>
+      <if test="wordDesign != null">
+        #{wordDesign,jdbcType=VARCHAR},
+      </if>
+      <if test="duration != null">
+        #{duration,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseStatus != null">
+        #{enterpriseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="subStatus != null">
+        #{subStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="standingTax != null">
+        #{standingTax,jdbcType=VARCHAR},
+      </if>
+      <if test="standingRa != null">
+        #{standingRa,jdbcType=VARCHAR},
+      </if>
+      <if test="standingOther != null">
+        #{standingOther,jdbcType=VARCHAR},
+      </if>
+      <if test="purpose != null">
+        #{purpose,jdbcType=VARCHAR},
+      </if>
+      <if test="applicantType != null">
+        #{applicantType,jdbcType=VARCHAR},
+      </if>
+      <if test="filingNum != null">
+        #{filingNum,jdbcType=VARCHAR},
+      </if>
+      <if test="filingName != null">
+        #{filingName,jdbcType=VARCHAR},
+      </if>
+      <if test="oldName != null">
+        #{oldName,jdbcType=VARCHAR},
+      </if>
+      <if test="fictitiousName != null">
+        #{fictitiousName,jdbcType=VARCHAR},
+      </if>
+      <if test="domesticYn != null">
+        #{domesticYn,jdbcType=VARCHAR},
+      </if>
+      <if test="filingDate != null">
+        #{filingDate,jdbcType=VARCHAR},
+      </if>
+      <if test="delayedEffectiveDate != null">
+        #{delayedEffectiveDate,jdbcType=VARCHAR},
+      </if>
+      <if test="expirationDate != null">
+        #{expirationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="inactiveDate != null">
+        #{inactiveDate,jdbcType=VARCHAR},
+      </if>
+      <if test="raResignCertLetterDate != null">
+        #{raResignCertLetterDate,jdbcType=VARCHAR},
+      </if>
+      <if test="convertedYn != null">
+        #{convertedYn,jdbcType=VARCHAR},
+      </if>
+      <if test="convertedFrom != null">
+        #{convertedFrom,jdbcType=VARCHAR},
+      </if>
+      <if test="convertedFromName != null">
+        #{convertedFromName,jdbcType=VARCHAR},
+      </if>
+      <if test="convertedDate != null">
+        #{convertedDate,jdbcType=VARCHAR},
+      </if>
+      <if test="issueOnRecordYn != null">
+        #{issueOnRecordYn,jdbcType=VARCHAR},
+      </if>
+      <if test="transferredTo != null">
+        #{transferredTo,jdbcType=VARCHAR},
+      </if>
+      <if test="transferredDate != null">
+        #{transferredDate,jdbcType=VARCHAR},
+      </if>
+      <if test="formationLocale != null">
+        #{formationLocale,jdbcType=VARCHAR},
+      </if>
+      <if test="continuedFromLocale != null">
+        #{continuedFromLocale,jdbcType=VARCHAR},
+      </if>
+      <if test="domesticatedFromLocale != null">
+        #{domesticatedFromLocale,jdbcType=VARCHAR},
+      </if>
+      <if test="formHomeJurisDate != null">
+        #{formHomeJurisDate,jdbcType=VARCHAR},
+      </if>
+      <if test="commonShares != null">
+        #{commonShares,jdbcType=VARCHAR},
+      </if>
+      <if test="commonParValue != null">
+        #{commonParValue,jdbcType=VARCHAR},
+      </if>
+      <if test="preferredShares != null">
+        #{preferredShares,jdbcType=VARCHAR},
+      </if>
+      <if test="preferredParValue != null">
+        #{preferredParValue,jdbcType=VARCHAR},
+      </if>
+      <if test="additionStockYn != null">
+        #{additionStockYn,jdbcType=VARCHAR},
+      </if>
+      <if test="principleAddr1 != null">
+        #{principleAddr1,jdbcType=VARCHAR},
+      </if>
+      <if test="principleAddr2 != null">
+        #{principleAddr2,jdbcType=VARCHAR},
+      </if>
+      <if test="principleAddr3 != null">
+        #{principleAddr3,jdbcType=VARCHAR},
+      </if>
+      <if test="principleCity != null">
+        #{principleCity,jdbcType=VARCHAR},
+      </if>
+      <if test="principleState != null">
+        #{principleState,jdbcType=VARCHAR},
+      </if>
+      <if test="principlePostalCode != null">
+        #{principlePostalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="principleCountry != null">
+        #{principleCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="mailAddr1 != null">
+        #{mailAddr1,jdbcType=VARCHAR},
+      </if>
+      <if test="mailAddr2 != null">
+        #{mailAddr2,jdbcType=VARCHAR},
+      </if>
+      <if test="mailAddr3 != null">
+        #{mailAddr3,jdbcType=VARCHAR},
+      </if>
+      <if test="mailCity != null">
+        #{mailCity,jdbcType=VARCHAR},
+      </if>
+      <if test="mailState != null">
+        #{mailState,jdbcType=VARCHAR},
+      </if>
+      <if test="mailPostalCode != null">
+        #{mailPostalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="mailCountry != null">
+        #{mailCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="stateOfOrg != null">
+        #{stateOfOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="orgDate != null">
+        #{orgDate,jdbcType=VARCHAR},
+      </if>
+      <if test="regUsOfficeYn != null">
+        #{regUsOfficeYn,jdbcType=VARCHAR},
+      </if>
+      <if test="regUsDate != null">
+        #{regUsDate,jdbcType=VARCHAR},
+      </if>
+      <if test="regUsSerialNum != null">
+        #{regUsSerialNum,jdbcType=VARCHAR},
+      </if>
+      <if test="regUsStatus != null">
+        #{regUsStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="regUsAppRefusedYn != null">
+        #{regUsAppRefusedYn,jdbcType=VARCHAR},
+      </if>
+      <if test="firstUsedAnywhereDate != null">
+        #{firstUsedAnywhereDate,jdbcType=VARCHAR},
+      </if>
+      <if test="firstUsedWyoDate != null">
+        #{firstUsedWyoDate,jdbcType=VARCHAR},
+      </if>
+      <if test="arExemptYn != null">
+        #{arExemptYn,jdbcType=VARCHAR},
+      </if>
+      <if test="trademarkKeywords != null">
+        #{trademarkKeywords,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.america.wyoming.AmericaWyoming">
+    update america_wyoming
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="filingId != null">
+        filing_id = #{filingId,jdbcType=VARCHAR},
+      </if>
+      <if test="filingType != null">
+        filing_type = #{filingType,jdbcType=VARCHAR},
+      </if>
+      <if test="filingSubtype != null">
+        filing_subtype = #{filingSubtype,jdbcType=VARCHAR},
+      </if>
+      <if test="wordDesign != null">
+        word_design = #{wordDesign,jdbcType=VARCHAR},
+      </if>
+      <if test="duration != null">
+        duration = #{duration,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseStatus != null">
+        enterprise_status = #{enterpriseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="subStatus != null">
+        sub_status = #{subStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="standingTax != null">
+        standing_tax = #{standingTax,jdbcType=VARCHAR},
+      </if>
+      <if test="standingRa != null">
+        standing_ra = #{standingRa,jdbcType=VARCHAR},
+      </if>
+      <if test="standingOther != null">
+        standing_other = #{standingOther,jdbcType=VARCHAR},
+      </if>
+      <if test="purpose != null">
+        purpose = #{purpose,jdbcType=VARCHAR},
+      </if>
+      <if test="applicantType != null">
+        applicant_type = #{applicantType,jdbcType=VARCHAR},
+      </if>
+      <if test="filingNum != null">
+        filing_num = #{filingNum,jdbcType=VARCHAR},
+      </if>
+      <if test="filingName != null">
+        filing_name = #{filingName,jdbcType=VARCHAR},
+      </if>
+      <if test="oldName != null">
+        old_name = #{oldName,jdbcType=VARCHAR},
+      </if>
+      <if test="fictitiousName != null">
+        fictitious_name = #{fictitiousName,jdbcType=VARCHAR},
+      </if>
+      <if test="domesticYn != null">
+        domestic_yn = #{domesticYn,jdbcType=VARCHAR},
+      </if>
+      <if test="filingDate != null">
+        filing_date = #{filingDate,jdbcType=VARCHAR},
+      </if>
+      <if test="delayedEffectiveDate != null">
+        delayed_effective_date = #{delayedEffectiveDate,jdbcType=VARCHAR},
+      </if>
+      <if test="expirationDate != null">
+        expiration_date = #{expirationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="inactiveDate != null">
+        inactive_date = #{inactiveDate,jdbcType=VARCHAR},
+      </if>
+      <if test="raResignCertLetterDate != null">
+        ra_resign_cert_letter_date = #{raResignCertLetterDate,jdbcType=VARCHAR},
+      </if>
+      <if test="convertedYn != null">
+        converted_yn = #{convertedYn,jdbcType=VARCHAR},
+      </if>
+      <if test="convertedFrom != null">
+        converted_from = #{convertedFrom,jdbcType=VARCHAR},
+      </if>
+      <if test="convertedFromName != null">
+        converted_from_name = #{convertedFromName,jdbcType=VARCHAR},
+      </if>
+      <if test="convertedDate != null">
+        converted_date = #{convertedDate,jdbcType=VARCHAR},
+      </if>
+      <if test="issueOnRecordYn != null">
+        issue_on_record_yn = #{issueOnRecordYn,jdbcType=VARCHAR},
+      </if>
+      <if test="transferredTo != null">
+        transferred_to = #{transferredTo,jdbcType=VARCHAR},
+      </if>
+      <if test="transferredDate != null">
+        transferred_date = #{transferredDate,jdbcType=VARCHAR},
+      </if>
+      <if test="formationLocale != null">
+        formation_locale = #{formationLocale,jdbcType=VARCHAR},
+      </if>
+      <if test="continuedFromLocale != null">
+        continued_from_locale = #{continuedFromLocale,jdbcType=VARCHAR},
+      </if>
+      <if test="domesticatedFromLocale != null">
+        domesticated_from_locale = #{domesticatedFromLocale,jdbcType=VARCHAR},
+      </if>
+      <if test="formHomeJurisDate != null">
+        form_home_juris_date = #{formHomeJurisDate,jdbcType=VARCHAR},
+      </if>
+      <if test="commonShares != null">
+        common_shares = #{commonShares,jdbcType=VARCHAR},
+      </if>
+      <if test="commonParValue != null">
+        common_par_value = #{commonParValue,jdbcType=VARCHAR},
+      </if>
+      <if test="preferredShares != null">
+        preferred_shares = #{preferredShares,jdbcType=VARCHAR},
+      </if>
+      <if test="preferredParValue != null">
+        preferred_par_value = #{preferredParValue,jdbcType=VARCHAR},
+      </if>
+      <if test="additionStockYn != null">
+        addition_stock_yn = #{additionStockYn,jdbcType=VARCHAR},
+      </if>
+      <if test="principleAddr1 != null">
+        principle_addr1 = #{principleAddr1,jdbcType=VARCHAR},
+      </if>
+      <if test="principleAddr2 != null">
+        principle_addr2 = #{principleAddr2,jdbcType=VARCHAR},
+      </if>
+      <if test="principleAddr3 != null">
+        principle_addr3 = #{principleAddr3,jdbcType=VARCHAR},
+      </if>
+      <if test="principleCity != null">
+        principle_city = #{principleCity,jdbcType=VARCHAR},
+      </if>
+      <if test="principleState != null">
+        principle_state = #{principleState,jdbcType=VARCHAR},
+      </if>
+      <if test="principlePostalCode != null">
+        principle_postal_code = #{principlePostalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="principleCountry != null">
+        principle_country = #{principleCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="mailAddr1 != null">
+        mail_addr1 = #{mailAddr1,jdbcType=VARCHAR},
+      </if>
+      <if test="mailAddr2 != null">
+        mail_addr2 = #{mailAddr2,jdbcType=VARCHAR},
+      </if>
+      <if test="mailAddr3 != null">
+        mail_addr3 = #{mailAddr3,jdbcType=VARCHAR},
+      </if>
+      <if test="mailCity != null">
+        mail_city = #{mailCity,jdbcType=VARCHAR},
+      </if>
+      <if test="mailState != null">
+        mail_state = #{mailState,jdbcType=VARCHAR},
+      </if>
+      <if test="mailPostalCode != null">
+        mail_postal_code = #{mailPostalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="mailCountry != null">
+        mail_country = #{mailCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="stateOfOrg != null">
+        state_of_org = #{stateOfOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="orgDate != null">
+        org_date = #{orgDate,jdbcType=VARCHAR},
+      </if>
+      <if test="regUsOfficeYn != null">
+        reg_us_office_yn = #{regUsOfficeYn,jdbcType=VARCHAR},
+      </if>
+      <if test="regUsDate != null">
+        reg_us_date = #{regUsDate,jdbcType=VARCHAR},
+      </if>
+      <if test="regUsSerialNum != null">
+        reg_us_serial_num = #{regUsSerialNum,jdbcType=VARCHAR},
+      </if>
+      <if test="regUsStatus != null">
+        reg_us_status = #{regUsStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="regUsAppRefusedYn != null">
+        reg_us_app_refused_yn = #{regUsAppRefusedYn,jdbcType=VARCHAR},
+      </if>
+      <if test="firstUsedAnywhereDate != null">
+        first_used_anywhere_date = #{firstUsedAnywhereDate,jdbcType=VARCHAR},
+      </if>
+      <if test="firstUsedWyoDate != null">
+        first_used_wyo_date = #{firstUsedWyoDate,jdbcType=VARCHAR},
+      </if>
+      <if test="arExemptYn != null">
+        ar_exempt_yn = #{arExemptYn,jdbcType=VARCHAR},
+      </if>
+      <if test="trademarkKeywords != null">
+        trademark_keywords = #{trademarkKeywords,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.america.wyoming.AmericaWyoming">
+    update america_wyoming
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      filing_id = #{filingId,jdbcType=VARCHAR},
+      filing_type = #{filingType,jdbcType=VARCHAR},
+      filing_subtype = #{filingSubtype,jdbcType=VARCHAR},
+      word_design = #{wordDesign,jdbcType=VARCHAR},
+      duration = #{duration,jdbcType=VARCHAR},
+      enterprise_status = #{enterpriseStatus,jdbcType=VARCHAR},
+      sub_status = #{subStatus,jdbcType=VARCHAR},
+      standing_tax = #{standingTax,jdbcType=VARCHAR},
+      standing_ra = #{standingRa,jdbcType=VARCHAR},
+      standing_other = #{standingOther,jdbcType=VARCHAR},
+      purpose = #{purpose,jdbcType=VARCHAR},
+      applicant_type = #{applicantType,jdbcType=VARCHAR},
+      filing_num = #{filingNum,jdbcType=VARCHAR},
+      filing_name = #{filingName,jdbcType=VARCHAR},
+      old_name = #{oldName,jdbcType=VARCHAR},
+      fictitious_name = #{fictitiousName,jdbcType=VARCHAR},
+      domestic_yn = #{domesticYn,jdbcType=VARCHAR},
+      filing_date = #{filingDate,jdbcType=VARCHAR},
+      delayed_effective_date = #{delayedEffectiveDate,jdbcType=VARCHAR},
+      expiration_date = #{expirationDate,jdbcType=VARCHAR},
+      inactive_date = #{inactiveDate,jdbcType=VARCHAR},
+      ra_resign_cert_letter_date = #{raResignCertLetterDate,jdbcType=VARCHAR},
+      converted_yn = #{convertedYn,jdbcType=VARCHAR},
+      converted_from = #{convertedFrom,jdbcType=VARCHAR},
+      converted_from_name = #{convertedFromName,jdbcType=VARCHAR},
+      converted_date = #{convertedDate,jdbcType=VARCHAR},
+      issue_on_record_yn = #{issueOnRecordYn,jdbcType=VARCHAR},
+      transferred_to = #{transferredTo,jdbcType=VARCHAR},
+      transferred_date = #{transferredDate,jdbcType=VARCHAR},
+      formation_locale = #{formationLocale,jdbcType=VARCHAR},
+      continued_from_locale = #{continuedFromLocale,jdbcType=VARCHAR},
+      domesticated_from_locale = #{domesticatedFromLocale,jdbcType=VARCHAR},
+      form_home_juris_date = #{formHomeJurisDate,jdbcType=VARCHAR},
+      common_shares = #{commonShares,jdbcType=VARCHAR},
+      common_par_value = #{commonParValue,jdbcType=VARCHAR},
+      preferred_shares = #{preferredShares,jdbcType=VARCHAR},
+      preferred_par_value = #{preferredParValue,jdbcType=VARCHAR},
+      addition_stock_yn = #{additionStockYn,jdbcType=VARCHAR},
+      principle_addr1 = #{principleAddr1,jdbcType=VARCHAR},
+      principle_addr2 = #{principleAddr2,jdbcType=VARCHAR},
+      principle_addr3 = #{principleAddr3,jdbcType=VARCHAR},
+      principle_city = #{principleCity,jdbcType=VARCHAR},
+      principle_state = #{principleState,jdbcType=VARCHAR},
+      principle_postal_code = #{principlePostalCode,jdbcType=VARCHAR},
+      principle_country = #{principleCountry,jdbcType=VARCHAR},
+      mail_addr1 = #{mailAddr1,jdbcType=VARCHAR},
+      mail_addr2 = #{mailAddr2,jdbcType=VARCHAR},
+      mail_addr3 = #{mailAddr3,jdbcType=VARCHAR},
+      mail_city = #{mailCity,jdbcType=VARCHAR},
+      mail_state = #{mailState,jdbcType=VARCHAR},
+      mail_postal_code = #{mailPostalCode,jdbcType=VARCHAR},
+      mail_country = #{mailCountry,jdbcType=VARCHAR},
+      state_of_org = #{stateOfOrg,jdbcType=VARCHAR},
+      org_date = #{orgDate,jdbcType=VARCHAR},
+      reg_us_office_yn = #{regUsOfficeYn,jdbcType=VARCHAR},
+      reg_us_date = #{regUsDate,jdbcType=VARCHAR},
+      reg_us_serial_num = #{regUsSerialNum,jdbcType=VARCHAR},
+      reg_us_status = #{regUsStatus,jdbcType=VARCHAR},
+      reg_us_app_refused_yn = #{regUsAppRefusedYn,jdbcType=VARCHAR},
+      first_used_anywhere_date = #{firstUsedAnywhereDate,jdbcType=VARCHAR},
+      first_used_wyo_date = #{firstUsedWyoDate,jdbcType=VARCHAR},
+      ar_exempt_yn = #{arExemptYn,jdbcType=VARCHAR},
+      trademark_keywords = #{trademarkKeywords,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <insert id="insertList" parameterType="com.rtc.manager.entity.dto.AmericaWyomingDTO">
+    insert into america_wyoming (enterprise_id, filing_id, 
+      filing_type, filing_subtype, word_design, 
+      duration, enterprise_status, sub_status, 
+      standing_tax, standing_ra, standing_other, 
+      purpose, applicant_type, filing_num, 
+      filing_name, old_name, fictitious_name, 
+      domestic_yn, filing_date, delayed_effective_date, 
+      expiration_date, inactive_date, ra_resign_cert_letter_date, 
+      converted_yn, converted_from, converted_from_name, 
+      converted_date, issue_on_record_yn, transferred_to, 
+      transferred_date, formation_locale, continued_from_locale, 
+      domesticated_from_locale, form_home_juris_date, 
+      common_shares, common_par_value, preferred_shares, 
+      preferred_par_value, addition_stock_yn, principle_addr1, 
+      principle_addr2, principle_addr3, principle_city, 
+      principle_state, principle_postal_code, principle_country, 
+      mail_addr1, mail_addr2, mail_addr3, 
+      mail_city, mail_state, mail_postal_code, 
+      mail_country, state_of_org, org_date, 
+      reg_us_office_yn, reg_us_date, reg_us_serial_num, 
+      reg_us_status, reg_us_app_refused_yn, first_used_anywhere_date, 
+      first_used_wyo_date, ar_exempt_yn, trademark_keywords
+      )
+    values 
+    <foreach collection="list" item="item" separator=",">
+    (#{item.enterpriseId,jdbcType=VARCHAR}, #{item.filingId,jdbcType=VARCHAR}, 
+      #{item.filingType,jdbcType=VARCHAR}, #{item.filingSubtype,jdbcType=VARCHAR}, #{item.wordDesign,jdbcType=VARCHAR}, 
+      #{item.duration,jdbcType=VARCHAR}, #{item.enterpriseStatus,jdbcType=VARCHAR}, #{item.subStatus,jdbcType=VARCHAR}, 
+      #{item.standingTax,jdbcType=VARCHAR}, #{item.standingRa,jdbcType=VARCHAR}, #{item.standingOther,jdbcType=VARCHAR}, 
+      #{item.purpose,jdbcType=VARCHAR}, #{item.applicantType,jdbcType=VARCHAR}, #{item.filingNum,jdbcType=VARCHAR}, 
+      #{item.filingName,jdbcType=VARCHAR}, #{item.oldName,jdbcType=VARCHAR}, #{item.fictitiousName,jdbcType=VARCHAR}, 
+      #{item.domesticYn,jdbcType=VARCHAR}, #{item.filingDate,jdbcType=VARCHAR}, #{item.delayedEffectiveDate,jdbcType=VARCHAR}, 
+      #{item.expirationDate,jdbcType=VARCHAR}, #{item.inactiveDate,jdbcType=VARCHAR}, #{item.raResignCertLetterDate,jdbcType=VARCHAR}, 
+      #{item.convertedYn,jdbcType=VARCHAR}, #{item.convertedFrom,jdbcType=VARCHAR}, #{item.convertedFromName,jdbcType=VARCHAR}, 
+      #{item.convertedDate,jdbcType=VARCHAR}, #{item.issueOnRecordYn,jdbcType=VARCHAR}, #{item.transferredTo,jdbcType=VARCHAR}, 
+      #{item.transferredDate,jdbcType=VARCHAR}, #{item.formationLocale,jdbcType=VARCHAR}, #{item.continuedFromLocale,jdbcType=VARCHAR}, 
+      #{item.domesticatedFromLocale,jdbcType=VARCHAR}, #{item.formHomeJurisDate,jdbcType=VARCHAR}, 
+      #{item.commonShares,jdbcType=VARCHAR}, #{item.commonParValue,jdbcType=VARCHAR}, #{item.preferredShares,jdbcType=VARCHAR}, 
+      #{item.preferredParValue,jdbcType=VARCHAR}, #{item.additionStockYn,jdbcType=VARCHAR}, #{item.principleAddr1,jdbcType=VARCHAR}, 
+      #{item.principleAddr2,jdbcType=VARCHAR}, #{item.principleAddr3,jdbcType=VARCHAR}, #{item.principleCity,jdbcType=VARCHAR}, 
+      #{item.principleState,jdbcType=VARCHAR}, #{item.principlePostalCode,jdbcType=VARCHAR}, #{item.principleCountry,jdbcType=VARCHAR}, 
+      #{item.mailAddr1,jdbcType=VARCHAR}, #{item.mailAddr2,jdbcType=VARCHAR}, #{item.mailAddr3,jdbcType=VARCHAR}, 
+      #{item.mailCity,jdbcType=VARCHAR}, #{item.mailState,jdbcType=VARCHAR}, #{item.mailPostalCode,jdbcType=VARCHAR}, 
+      #{item.mailCountry,jdbcType=VARCHAR}, #{item.stateOfOrg,jdbcType=VARCHAR}, #{item.orgDate,jdbcType=VARCHAR}, 
+      #{item.regUsOfficeYn,jdbcType=VARCHAR}, #{item.regUsDate,jdbcType=VARCHAR}, #{item.regUsSerialNum,jdbcType=VARCHAR}, 
+      #{item.regUsStatus,jdbcType=VARCHAR}, #{item.regUsAppRefusedYn,jdbcType=VARCHAR}, #{item.firstUsedAnywhereDate,jdbcType=VARCHAR}, 
+      #{item.firstUsedWyoDate,jdbcType=VARCHAR}, #{item.arExemptYn,jdbcType=VARCHAR}, #{item.trademarkKeywords,jdbcType=VARCHAR}
+      )
+    </foreach>
+  </insert>
+</mapper>

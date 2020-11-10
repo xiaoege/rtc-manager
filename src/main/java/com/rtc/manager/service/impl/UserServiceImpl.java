@@ -16,6 +16,7 @@ import com.rtc.manager.entity.dto.UserCommentDTO;
 import com.rtc.manager.service.UserService;
 import com.rtc.manager.util.CommonUtils;
 import com.rtc.manager.util.ElasticsearchUtils;
+import com.rtc.manager.util.SmsUtils;
 import com.rtc.manager.util.UserUtils;
 import com.rtc.manager.vo.ResultData;
 import com.rtc.manager.vo.RtcUserVO;
@@ -220,6 +221,9 @@ public class UserServiceImpl implements UserService {
         if (phone == null || countryCode == null) {
             return ResultData.FAIL(phone, 800, PHONE_CODE_800);
         }
+        if (!UserUtils.checkPhoneFormat(phone)) {
+            return ResultData.FAIL(phone, 800, PHONE_CODE_800);
+        }
 
         // 手机号已注册
         if (rtcUserMapper.checkPhoneRegistered(phone) != null) {
@@ -233,7 +237,7 @@ public class UserServiceImpl implements UserService {
         }
 
         // todo 发送验证码
-
+        SmsUtils.sendSms(verificationCode);
 
         return ResultData.SUCCESS(phone, "验证码发送成功");
     }
@@ -268,6 +272,9 @@ public class UserServiceImpl implements UserService {
 
         // todo 手机号格式验证
         if (phone == null || countryCode == null) {
+            return ResultData.FAIL(phone, 800, PHONE_CODE_800);
+        }
+        if (!UserUtils.checkPhoneFormat(phone)) {
             return ResultData.FAIL(phone, 800, PHONE_CODE_800);
         }
 
@@ -486,7 +493,7 @@ public class UserServiceImpl implements UserService {
         }
 
         // todo 发送验证码
-
+        SmsUtils.sendSms(verificationCode);
 
         return ResultData.SUCCESS(null, "发送验证码成功");
     }
@@ -691,6 +698,7 @@ public class UserServiceImpl implements UserService {
             return ResultData.FAIL(phone, 702, CODE_702);
         }
         // todo 发送验证码
+        SmsUtils.sendSms(verificationCode);
 
         return ResultData.FAIL(null, 200, "发送验证码成功");
     }

@@ -235,4 +235,92 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <resultMap id="selectAlabamaEnterprise" type="com.rtc.manager.vo.america.alabama.AmericaAlabamaVO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="entity_id_number" jdbcType="VARCHAR" property="entityIdNumber" />
+    <result column="entity_type" jdbcType="VARCHAR" property="entityType" />
+    <result column="principal_address" jdbcType="VARCHAR" property="principalAddress" />
+    <result column="principal_mailing_address" jdbcType="VARCHAR" property="principalMailingAddress" />
+    <result column="enterprise_status" jdbcType="VARCHAR" property="enterpriseStatus" />
+    <result column="place_of_formation" jdbcType="VARCHAR" property="placeOfFormation" />
+    <result column="formation_date" jdbcType="VARCHAR" property="formationDate" />
+    <result column="registered_agent_name" jdbcType="VARCHAR" property="registeredAgentName" />
+    <result column="registered_office_street_address" jdbcType="VARCHAR" property="registeredOfficeStreetAddress" />
+    <result column="registered_office_mailing_address" jdbcType="VARCHAR" property="registeredOfficeMailingAddress" />
+    <result column="nature_of_business" jdbcType="VARCHAR" property="natureOfBusiness" />
+    <collection property="incorporatorList" ofType="com.rtc.manager.vo.america.alabama.AmericaAlabamaIncorporatorVO">
+      <id column="incorporator_id" javaType="INTEGER" property="id"/>
+      <result column="incorporator_name" jdbcType="VARCHAR" property="incorporatorName" />
+      <result column="incorporator_street_address" jdbcType="VARCHAR" property="incorporatorStreetAddress" />
+      <result column="incorporator_mailing_address" jdbcType="VARCHAR" property="incorporatorMailingAddress" />
+    </collection>
+    <collection property="memberList" ofType="com.rtc.manager.vo.america.alabama.AmericaAlabamaMemberVO">
+      <id column="member_id" javaType="INTEGER" property="id"/>
+      <result column="member_name" jdbcType="VARCHAR" property="memberName" />
+      <result column="member_street_address" jdbcType="VARCHAR" property="memberStreetAddress" />
+      <result column="member_mailing_address" jdbcType="VARCHAR" property="memberMailingAddress" />
+    </collection>
+    <collection property="directorList" ofType="com.rtc.manager.vo.america.alabama.AmericaAlabamaDirectorVO">
+      <id column="director_id" javaType="INTEGER" property="id"/>
+      <result column="director_name" jdbcType="VARCHAR" property="directorName" />
+      <result column="director_street_address" jdbcType="VARCHAR" property="directorStreetAddress" />
+      <result column="director_mailing_address" jdbcType="VARCHAR" property="directorMailingAddress" />
+    </collection>
+  </resultMap>
+  <select id="selectAlabamaEnterprise" resultMap="selectAlabamaEnterprise">
+    SELECT
+        america_alabama.id,
+        america_alabama.enterprise_id,
+        america_alabama.`name`,
+        america_alabama.entity_id_number,
+        america_alabama.entity_type,
+        america_alabama.principal_address,
+        america_alabama.principal_mailing_address,
+        america_alabama.enterprise_status,
+        america_alabama.place_of_formation,
+        america_alabama.formation_date,
+        america_alabama.registered_agent_name,
+        america_alabama.registered_office_street_address,
+        america_alabama.registered_office_mailing_address,
+        america_alabama.nature_of_business,
+        america_alabama_director.id AS director_id,
+        america_alabama_director.director_name,
+        america_alabama_director.director_street_address,
+        america_alabama_director.director_mailing_address,
+        america_alabama_incorporator.id AS incorporator_id,
+        america_alabama_incorporator.incorporator_name,
+        america_alabama_incorporator.incorporator_street_address,
+        america_alabama_incorporator.incorporator_mailing_address,
+        america_alabama_member.id AS member_id,
+        america_alabama_member.member_name,
+        america_alabama_member.member_street_address,
+        america_alabama_member.member_mailing_address
+    FROM
+        america_alabama
+        LEFT JOIN america_alabama_director ON america_alabama.enterprise_id = america_alabama_director.enterprise_id
+        LEFT JOIN america_alabama_incorporator ON america_alabama.enterprise_id = america_alabama_incorporator.enterprise_id
+        LEFT JOIN america_alabama_member ON america_alabama.enterprise_id = america_alabama_member.enterprise_id
+    WHERE
+        america_alabama.enterprise_id = #{enterpriseId,jdbcType=VARCHAR}
+        AND america_alabama.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+  </select>
+
+  <select id="checkFavouriteAmericaAlabama" resultType="java.lang.String">
+        SELECT
+            america_alabama.enterprise_id
+        FROM
+            america_alabama
+        WHERE
+            america_alabama.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+            AND america_alabama.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+            AND EXISTS (
+                SELECT enterprise_id
+                FROM rtc_user_favourite
+                WHERE rtc_user_favourite.enterprise_id=america_alabama.enterprise_id
+                    AND rtc_user_favourite.user_id = #{userId, jdbcType=VARCHAR}
+            )
+    </select>
 </mapper>

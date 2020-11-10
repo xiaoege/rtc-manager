@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.america.northcarolina.AmericaNorthcarolinaMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.america.northcarolina.AmericaNorthcarolina">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="sos_id" jdbcType="VARCHAR" property="sosId" />
+    <result column="enterprise_status" jdbcType="VARCHAR" property="enterpriseStatus" />
+    <result column="date_formed" jdbcType="VARCHAR" property="dateFormed" />
+    <result column="citizenship" jdbcType="VARCHAR" property="citizenship" />
+    <result column="incorporation_state" jdbcType="VARCHAR" property="incorporationState" />
+    <result column="annual_report_due_date" jdbcType="VARCHAR" property="annualReportDueDate" />
+    <result column="registered_agent" jdbcType="VARCHAR" property="registeredAgent" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, name, type, sos_id, enterprise_status, date_formed, citizenship, 
+    incorporation_state, annual_report_due_date, registered_agent, gmt_create, gmt_modified, 
+    status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from america_northcarolina
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from america_northcarolina
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rtc.manager.entity.america.northcarolina.AmericaNorthcarolina">
+    insert into america_northcarolina (id, enterprise_id, name, 
+      type, sos_id, enterprise_status, 
+      date_formed, citizenship, incorporation_state, 
+      annual_report_due_date, registered_agent, gmt_create, 
+      gmt_modified, status)
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{sosId,jdbcType=VARCHAR}, #{enterpriseStatus,jdbcType=VARCHAR},
+      #{dateFormed,jdbcType=VARCHAR}, #{citizenship,jdbcType=VARCHAR}, #{incorporationState,jdbcType=VARCHAR}, 
+      #{annualReportDueDate,jdbcType=VARCHAR}, #{registeredAgent,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.america.northcarolina.AmericaNorthcarolina">
+    insert into america_northcarolina
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="sosId != null">
+        sos_id,
+      </if>
+      <if test="enterpriseStatus != null">
+        enterprise_status,
+      </if>
+      <if test="dateFormed != null">
+        date_formed,
+      </if>
+      <if test="citizenship != null">
+        citizenship,
+      </if>
+      <if test="incorporationState != null">
+        incorporation_state,
+      </if>
+      <if test="annualReportDueDate != null">
+        annual_report_due_date,
+      </if>
+      <if test="registeredAgent != null">
+        registered_agent,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="sosId != null">
+        #{sosId,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseStatus != null">
+        #{enterpriseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="dateFormed != null">
+        #{dateFormed,jdbcType=VARCHAR},
+      </if>
+      <if test="citizenship != null">
+        #{citizenship,jdbcType=VARCHAR},
+      </if>
+      <if test="incorporationState != null">
+        #{incorporationState,jdbcType=VARCHAR},
+      </if>
+      <if test="annualReportDueDate != null">
+        #{annualReportDueDate,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredAgent != null">
+        #{registeredAgent,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.america.northcarolina.AmericaNorthcarolina">
+    update america_northcarolina
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="sosId != null">
+        sos_id = #{sosId,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseStatus != null">
+        enterprise_status = #{enterpriseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="dateFormed != null">
+        date_formed = #{dateFormed,jdbcType=VARCHAR},
+      </if>
+      <if test="citizenship != null">
+        citizenship = #{citizenship,jdbcType=VARCHAR},
+      </if>
+      <if test="incorporationState != null">
+        incorporation_state = #{incorporationState,jdbcType=VARCHAR},
+      </if>
+      <if test="annualReportDueDate != null">
+        annual_report_due_date = #{annualReportDueDate,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredAgent != null">
+        registered_agent = #{registeredAgent,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.america.northcarolina.AmericaNorthcarolina">
+    update america_northcarolina
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      sos_id = #{sosId,jdbcType=VARCHAR},
+      enterprise_status = #{enterpriseStatus,jdbcType=VARCHAR},
+      date_formed = #{dateFormed,jdbcType=VARCHAR},
+      citizenship = #{citizenship,jdbcType=VARCHAR},
+      incorporation_state = #{incorporationState,jdbcType=VARCHAR},
+      annual_report_due_date = #{annualReportDueDate,jdbcType=VARCHAR},
+      registered_agent = #{registeredAgent,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <resultMap id="selectNorthcarolinaEnterprise" type="com.rtc.manager.vo.america.northcarolina.AmericaNorthcarolinaVO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="sos_id" jdbcType="VARCHAR" property="sosId" />
+    <result column="enterprise_status" jdbcType="VARCHAR" property="enterpriseStatus" />
+    <result column="date_formed" jdbcType="VARCHAR" property="dateFormed" />
+    <result column="citizenship" jdbcType="VARCHAR" property="citizenship" />
+    <result column="incorporation_state" jdbcType="VARCHAR" property="incorporationState" />
+    <result column="annual_report_due_date" jdbcType="VARCHAR" property="annualReportDueDate" />
+    <result column="registered_agent" jdbcType="VARCHAR" property="registeredAgent" />
+    <association property="northcarolinaAddress" javaType="com.rtc.manager.vo.america.northcarolina.AmericaNorthcarolinaAddressVO">
+      <id column="na_id" jdbcType="INTEGER" property="id" />
+      <result column="na_enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+      <result column="na_mailing" jdbcType="VARCHAR" property="mailing" />
+      <result column="na_principal_office" jdbcType="VARCHAR" property="principalOffice" />
+      <result column="na_reg_office" jdbcType="VARCHAR" property="regOffice" />
+      <result column="na_reg_mailing" jdbcType="VARCHAR" property="regMailing" />
+    </association>
+      <association property="northcarolinaStock" javaType="com.rtc.manager.vo.america.northcarolina.AmericaNorthcarolinaStockVO">
+        <id column="ns_id" jdbcType="INTEGER" property="id" />
+        <result column="ns_enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+        <result column="ns_stock_class" jdbcType="VARCHAR" property="stockClass" />
+        <result column="ns_share" jdbcType="VARCHAR" property="share" />
+        <result column="ns_par_value" jdbcType="VARCHAR" property="parValue" />
+        <result column="ns_no_par_value" jdbcType="VARCHAR" property="noParValue" />
+      </association>
+    <collection property="northcarolinaCompanyOfficialList" ofType="com.rtc.manager.vo.america.northcarolina.AmericaNorthcarolinaCompanyOfficialVO">
+      <id column="nco_id" jdbcType="INTEGER" property="id" />
+      <result column="nco_enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+      <result column="nco_title" jdbcType="VARCHAR" property="title" />
+      <result column="nco_name" jdbcType="VARCHAR" property="name" />
+      <result column="nco_address" jdbcType="VARCHAR" property="address" />
+    </collection>
+    <collection property="northcarolinaOfficerList" ofType="com.rtc.manager.vo.america.northcarolina.AmericaNorthcarolinaOfficerVO">
+      <id column="no_id" jdbcType="INTEGER" property="id" />
+      <result column="no_enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+      <result column="no_title" jdbcType="VARCHAR" property="title" />
+      <result column="no_name" jdbcType="VARCHAR" property="name" />
+      <result column="no_address" jdbcType="VARCHAR" property="address" />
+    </collection>
+  </resultMap>
+
+  <select id="selectNorthcarolinaEnterprise" resultMap="selectNorthcarolinaEnterprise">
+    SELECT
+        america_northcarolina.id,
+        america_northcarolina.enterprise_id,
+        america_northcarolina.`name`,
+        america_northcarolina.type,
+        america_northcarolina.sos_id,
+        america_northcarolina.enterprise_status,
+        america_northcarolina.date_formed,
+        america_northcarolina.citizenship,
+        america_northcarolina.incorporation_state,
+        america_northcarolina.annual_report_due_date,
+        america_northcarolina.registered_agent,
+        america_northcarolina_address.id AS na_id,
+        america_northcarolina_address.enterprise_id AS na_enterprise_id,
+        america_northcarolina_address.mailing AS na_mailing,
+        america_northcarolina_address.principal_office AS na_principal_office,
+        america_northcarolina_address.reg_office AS na_reg_office,
+        america_northcarolina_address.reg_mailing AS na_reg_mailing,
+        america_northcarolina_company_official.id AS nco_id,
+        america_northcarolina_company_official.enterprise_id AS nco_enterprise_id,
+        america_northcarolina_company_official.title AS nco_title,
+        america_northcarolina_company_official.`name` AS nco_name,
+        america_northcarolina_company_official.address AS nco_address,
+        america_northcarolina_officer.id AS no_id,
+        america_northcarolina_officer.enterprise_id AS no_enterprise_id,
+        america_northcarolina_officer.title AS no_title,
+        america_northcarolina_officer.`name` AS no_name,
+        america_northcarolina_officer.address AS no_address,
+        america_northcarolina_stock.id AS ns_id,
+        america_northcarolina_stock.enterprise_id AS ns_enterprise_id,
+        america_northcarolina_stock.stock_class AS ns_stock_class,
+        america_northcarolina_stock.`share` AS ns_share,
+        america_northcarolina_stock.par_value AS ns_par_value,
+        america_northcarolina_stock.no_par_value AS ns_no_par_value
+    FROM
+        america_northcarolina
+        LEFT JOIN america_northcarolina_address ON america_northcarolina.enterprise_id = america_northcarolina_address.enterprise_id
+        LEFT JOIN america_northcarolina_company_official ON america_northcarolina.enterprise_id = america_northcarolina_company_official.enterprise_id
+        LEFT JOIN america_northcarolina_officer ON america_northcarolina.enterprise_id = america_northcarolina_officer.enterprise_id
+        LEFT JOIN america_northcarolina_stock ON america_northcarolina.enterprise_id = america_northcarolina_stock.enterprise_id
+    WHERE
+        america_northcarolina.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+        AND america_northcarolina.enterprise_id = #{enterpriseId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="checkFavouriteNorthcarolina" resultType="java.lang.String">
+        SELECT
+            america_northcarolina.enterprise_id
+        FROM
+            america_northcarolina
+        WHERE
+            america_northcarolina.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+            AND america_northcarolina.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+            AND EXISTS (
+                SELECT enterprise_id
+                FROM rtc_user_favourite
+                WHERE rtc_user_favourite.enterprise_id=america_northcarolina.enterprise_id
+                    AND rtc_user_favourite.user_id = #{userId, jdbcType=VARCHAR}
+            )
+    </select>
+</mapper>

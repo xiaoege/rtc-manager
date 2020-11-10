@@ -165,6 +165,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 忘记密码-修改密码
                 .antMatchers("/user/forgetPassword").permitAll()
                 .antMatchers("/savejson/**").permitAll()
+                // druid
+                .antMatchers("/druid/**").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin()//使用 spring security 默认登录页面
                 .successHandler((request, response, authentication) -> {

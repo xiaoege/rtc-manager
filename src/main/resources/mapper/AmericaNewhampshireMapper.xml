@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.america.newhampshire.AmericaNewhampshireMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.america.newhampshire.AmericaNewhampshire">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="business_name" jdbcType="VARCHAR" property="businessName" />
+    <result column="business_id" jdbcType="VARCHAR" property="businessId" />
+    <result column="business_type" jdbcType="VARCHAR" property="businessType" />
+    <result column="business_status" jdbcType="VARCHAR" property="businessStatus" />
+    <result column="business_creation_date" jdbcType="VARCHAR" property="businessCreationDate" />
+    <result column="name_in_state_of_incorporation" jdbcType="VARCHAR" property="nameInStateOfIncorporation" />
+    <result column="date_of_formation_in_jurisdiction" jdbcType="VARCHAR" property="dateOfFormationInJurisdiction" />
+    <result column="principal_office_address" jdbcType="VARCHAR" property="principalOfficeAddress" />
+    <result column="mailing_address" jdbcType="VARCHAR" property="mailingAddress" />
+    <result column="citizenship_state_of_incorporation" jdbcType="VARCHAR" property="citizenshipStateOfIncorporation" />
+    <result column="last_annual_report_year" jdbcType="VARCHAR" property="lastAnnualReportYear" />
+    <result column="next_report_year" jdbcType="VARCHAR" property="nextReportYear" />
+    <result column="duration" jdbcType="VARCHAR" property="duration" />
+    <result column="business_email" jdbcType="VARCHAR" property="businessEmail" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="notification_email" jdbcType="VARCHAR" property="notificationEmail" />
+    <result column="fiscal_year_end_date" jdbcType="VARCHAR" property="fiscalYearEndDate" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, business_name, business_id, business_type, business_status, business_creation_date, 
+    name_in_state_of_incorporation, date_of_formation_in_jurisdiction, principal_office_address, 
+    mailing_address, citizenship_state_of_incorporation, last_annual_report_year, next_report_year, 
+    duration, business_email, phone, notification_email, fiscal_year_end_date, gmt_create, 
+    gmt_modified, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from america_newhampshire
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from america_newhampshire
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rtc.manager.entity.america.newhampshire.AmericaNewhampshire">
+    insert into america_newhampshire (id, enterprise_id, business_name, 
+      business_id, business_type, business_status, 
+      business_creation_date, name_in_state_of_incorporation, 
+      date_of_formation_in_jurisdiction, principal_office_address, 
+      mailing_address, citizenship_state_of_incorporation, 
+      last_annual_report_year, next_report_year, duration, 
+      business_email, phone, notification_email, 
+      fiscal_year_end_date, gmt_create, gmt_modified, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{businessName,jdbcType=VARCHAR}, 
+      #{businessId,jdbcType=VARCHAR}, #{businessType,jdbcType=VARCHAR}, #{businessStatus,jdbcType=VARCHAR}, 
+      #{businessCreationDate,jdbcType=VARCHAR}, #{nameInStateOfIncorporation,jdbcType=VARCHAR}, 
+      #{dateOfFormationInJurisdiction,jdbcType=VARCHAR}, #{principalOfficeAddress,jdbcType=VARCHAR}, 
+      #{mailingAddress,jdbcType=VARCHAR}, #{citizenshipStateOfIncorporation,jdbcType=VARCHAR}, 
+      #{lastAnnualReportYear,jdbcType=VARCHAR}, #{nextReportYear,jdbcType=VARCHAR}, #{duration,jdbcType=VARCHAR}, 
+      #{businessEmail,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{notificationEmail,jdbcType=VARCHAR}, 
+      #{fiscalYearEndDate,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.america.newhampshire.AmericaNewhampshire">
+    insert into america_newhampshire
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="businessName != null">
+        business_name,
+      </if>
+      <if test="businessId != null">
+        business_id,
+      </if>
+      <if test="businessType != null">
+        business_type,
+      </if>
+      <if test="businessStatus != null">
+        business_status,
+      </if>
+      <if test="businessCreationDate != null">
+        business_creation_date,
+      </if>
+      <if test="nameInStateOfIncorporation != null">
+        name_in_state_of_incorporation,
+      </if>
+      <if test="dateOfFormationInJurisdiction != null">
+        date_of_formation_in_jurisdiction,
+      </if>
+      <if test="principalOfficeAddress != null">
+        principal_office_address,
+      </if>
+      <if test="mailingAddress != null">
+        mailing_address,
+      </if>
+      <if test="citizenshipStateOfIncorporation != null">
+        citizenship_state_of_incorporation,
+      </if>
+      <if test="lastAnnualReportYear != null">
+        last_annual_report_year,
+      </if>
+      <if test="nextReportYear != null">
+        next_report_year,
+      </if>
+      <if test="duration != null">
+        duration,
+      </if>
+      <if test="businessEmail != null">
+        business_email,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="notificationEmail != null">
+        notification_email,
+      </if>
+      <if test="fiscalYearEndDate != null">
+        fiscal_year_end_date,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="businessName != null">
+        #{businessName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessId != null">
+        #{businessId,jdbcType=VARCHAR},
+      </if>
+      <if test="businessType != null">
+        #{businessType,jdbcType=VARCHAR},
+      </if>
+      <if test="businessStatus != null">
+        #{businessStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="businessCreationDate != null">
+        #{businessCreationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="nameInStateOfIncorporation != null">
+        #{nameInStateOfIncorporation,jdbcType=VARCHAR},
+      </if>
+      <if test="dateOfFormationInJurisdiction != null">
+        #{dateOfFormationInJurisdiction,jdbcType=VARCHAR},
+      </if>
+      <if test="principalOfficeAddress != null">
+        #{principalOfficeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="mailingAddress != null">
+        #{mailingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="citizenshipStateOfIncorporation != null">
+        #{citizenshipStateOfIncorporation,jdbcType=VARCHAR},
+      </if>
+      <if test="lastAnnualReportYear != null">
+        #{lastAnnualReportYear,jdbcType=VARCHAR},
+      </if>
+      <if test="nextReportYear != null">
+        #{nextReportYear,jdbcType=VARCHAR},
+      </if>
+      <if test="duration != null">
+        #{duration,jdbcType=VARCHAR},
+      </if>
+      <if test="businessEmail != null">
+        #{businessEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="notificationEmail != null">
+        #{notificationEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="fiscalYearEndDate != null">
+        #{fiscalYearEndDate,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.america.newhampshire.AmericaNewhampshire">
+    update america_newhampshire
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="businessName != null">
+        business_name = #{businessName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessId != null">
+        business_id = #{businessId,jdbcType=VARCHAR},
+      </if>
+      <if test="businessType != null">
+        business_type = #{businessType,jdbcType=VARCHAR},
+      </if>
+      <if test="businessStatus != null">
+        business_status = #{businessStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="businessCreationDate != null">
+        business_creation_date = #{businessCreationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="nameInStateOfIncorporation != null">
+        name_in_state_of_incorporation = #{nameInStateOfIncorporation,jdbcType=VARCHAR},
+      </if>
+      <if test="dateOfFormationInJurisdiction != null">
+        date_of_formation_in_jurisdiction = #{dateOfFormationInJurisdiction,jdbcType=VARCHAR},
+      </if>
+      <if test="principalOfficeAddress != null">
+        principal_office_address = #{principalOfficeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="mailingAddress != null">
+        mailing_address = #{mailingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="citizenshipStateOfIncorporation != null">
+        citizenship_state_of_incorporation = #{citizenshipStateOfIncorporation,jdbcType=VARCHAR},
+      </if>
+      <if test="lastAnnualReportYear != null">
+        last_annual_report_year = #{lastAnnualReportYear,jdbcType=VARCHAR},
+      </if>
+      <if test="nextReportYear != null">
+        next_report_year = #{nextReportYear,jdbcType=VARCHAR},
+      </if>
+      <if test="duration != null">
+        duration = #{duration,jdbcType=VARCHAR},
+      </if>
+      <if test="businessEmail != null">
+        business_email = #{businessEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="notificationEmail != null">
+        notification_email = #{notificationEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="fiscalYearEndDate != null">
+        fiscal_year_end_date = #{fiscalYearEndDate,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.america.newhampshire.AmericaNewhampshire">
+    update america_newhampshire
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      business_name = #{businessName,jdbcType=VARCHAR},
+      business_id = #{businessId,jdbcType=VARCHAR},
+      business_type = #{businessType,jdbcType=VARCHAR},
+      business_status = #{businessStatus,jdbcType=VARCHAR},
+      business_creation_date = #{businessCreationDate,jdbcType=VARCHAR},
+      name_in_state_of_incorporation = #{nameInStateOfIncorporation,jdbcType=VARCHAR},
+      date_of_formation_in_jurisdiction = #{dateOfFormationInJurisdiction,jdbcType=VARCHAR},
+      principal_office_address = #{principalOfficeAddress,jdbcType=VARCHAR},
+      mailing_address = #{mailingAddress,jdbcType=VARCHAR},
+      citizenship_state_of_incorporation = #{citizenshipStateOfIncorporation,jdbcType=VARCHAR},
+      last_annual_report_year = #{lastAnnualReportYear,jdbcType=VARCHAR},
+      next_report_year = #{nextReportYear,jdbcType=VARCHAR},
+      duration = #{duration,jdbcType=VARCHAR},
+      business_email = #{businessEmail,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      notification_email = #{notificationEmail,jdbcType=VARCHAR},
+      fiscal_year_end_date = #{fiscalYearEndDate,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <resultMap id="selectNewhampshireEnterprise" type="com.rtc.manager.vo.america.newhampshire.AmericaNewhampshireVO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="business_name" jdbcType="VARCHAR" property="businessName" />
+    <result column="business_id" jdbcType="VARCHAR" property="businessId" />
+    <result column="business_type" jdbcType="VARCHAR" property="businessType" />
+    <result column="business_status" jdbcType="VARCHAR" property="businessStatus" />
+    <result column="business_creation_date" jdbcType="VARCHAR" property="businessCreationDate" />
+    <result column="name_in_state_of_incorporation" jdbcType="VARCHAR" property="nameInStateOfIncorporation" />
+    <result column="date_of_formation_in_jurisdiction" jdbcType="VARCHAR" property="dateOfFormationInJurisdiction" />
+    <result column="principal_office_address" jdbcType="VARCHAR" property="principalOfficeAddress" />
+    <result column="mailing_address" jdbcType="VARCHAR" property="mailingAddress" />
+    <result column="citizenship_state_of_incorporation" jdbcType="VARCHAR" property="citizenshipStateOfIncorporation" />
+    <result column="last_annual_report_year" jdbcType="VARCHAR" property="lastAnnualReportYear" />
+    <result column="next_report_year" jdbcType="VARCHAR" property="nextReportYear" />
+    <result column="duration" jdbcType="VARCHAR" property="duration" />
+    <result column="business_email" jdbcType="VARCHAR" property="businessEmail" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="notification_email" jdbcType="VARCHAR" property="notificationEmail" />
+    <result column="fiscal_year_end_date" jdbcType="VARCHAR" property="fiscalYearEndDate" />
+    <association property="registeredAgentInformationVO" javaType="com.rtc.manager.vo.america.newhampshire.AmericaNewhampshireRegisteredAgentInformationVO">
+      <id column="rai_id" jdbcType="INTEGER" property="id" />
+      <result column="rai_name" jdbcType="VARCHAR" property="name" />
+      <result column="rai_registered_office_address" jdbcType="VARCHAR" property="registeredOfficeAddress" />
+      <result column="rai_registered_mailing_address" jdbcType="VARCHAR" property="registeredMailingAddress" />
+    </association>
+    <collection property="principalInformationVOList" ofType="com.rtc.manager.vo.america.newhampshire.AmericaNewhampshirePrincipalInformationVO" >
+      <id column="pi_id" jdbcType="INTEGER" property="id" />
+      <result column="pi_name" jdbcType="VARCHAR" property="name" />
+      <result column="pi_business_address" jdbcType="VARCHAR" property="businessAddress" />
+    </collection>
+    <collection property="principalPurposeVOList" ofType="com.rtc.manager.vo.america.newhampshire.AmericaNewhampshirePrincipalPurposeVO" >
+      <id column="pp_id" jdbcType="INTEGER" property="id" />
+      <result column="pp_naics_code" jdbcType="VARCHAR" property="naicsCode" />
+      <result column="pp_naics_subcode" jdbcType="VARCHAR" property="naicsSubcode" />
+    </collection>
+    <collection property="trademarkInformationVOList" ofType="com.rtc.manager.vo.america.newhampshire.AmericaNewhampshireTrademarkInformationVO" >
+      <id column="trademark_id" jdbcType="INTEGER" property="id" />
+      <result column="trademark_trademark_number" jdbcType="VARCHAR" property="trademarkNumber" />
+      <result column="trademark_trademark_name" jdbcType="VARCHAR" property="trademarkName" />
+      <result column="trademark_business_address" jdbcType="VARCHAR" property="businessAddress" />
+      <result column="trademark_mailing_address" jdbcType="VARCHAR" property="mailingAddress" />
+    </collection>
+    <collection property="tradenameInformationVOList" ofType="com.rtc.manager.vo.america.newhampshire.AmericaNewhampshireTradenameInformationVO" >
+      <id column="tradenameInfo_id" jdbcType="INTEGER" property="id" />
+      <result column="tradenameInfo_business_name" jdbcType="VARCHAR" property="businessName" />
+      <result column="tradenameInfo_business_id" jdbcType="VARCHAR" property="businessId" />
+      <result column="tradenameInfo_business_status" jdbcType="VARCHAR" property="businessStatus" />
+    </collection>
+    <collection property="tradenameOwnedbyVOList" ofType="com.rtc.manager.vo.america.newhampshire.AmericaNewhampshireTradenameOwnedbyVO" >
+      <id column="tradenameOwned_id" jdbcType="INTEGER" property="id" />
+      <result column="tradenameOwned_name" jdbcType="VARCHAR" property="name" />
+      <result column="tradenameOwned_title" jdbcType="VARCHAR" property="title" />
+      <result column="tradenameOwned_address" jdbcType="VARCHAR" property="address" />
+    </collection>
+  </resultMap>
+  <select id="selectNewhampshireEnterprise" resultMap="selectNewhampshireEnterprise">
+    SELECT
+        america_newhampshire.id,
+        america_newhampshire.enterprise_id,
+        america_newhampshire.business_name,
+        america_newhampshire.business_id,
+        america_newhampshire.business_type,
+        america_newhampshire.business_status,
+        america_newhampshire.business_creation_date,
+        america_newhampshire.name_in_state_of_incorporation,
+        america_newhampshire.date_of_formation_in_jurisdiction,
+        america_newhampshire.principal_office_address,
+        america_newhampshire.mailing_address,
+        america_newhampshire.citizenship_state_of_incorporation,
+        america_newhampshire.last_annual_report_year,
+        america_newhampshire.next_report_year,
+        america_newhampshire.duration,
+        america_newhampshire.business_email,
+        america_newhampshire.phone,
+        america_newhampshire.notification_email,
+        america_newhampshire.fiscal_year_end_date,
+        america_newhampshire_principal_information.`name` AS pi_name,
+        america_newhampshire_principal_information.id AS pi_id,
+        america_newhampshire_principal_information.business_address AS pi_business_address,
+        america_newhampshire_principal_purpose.id AS pp_id,
+        america_newhampshire_principal_purpose.naics_code AS pp_naics_code,
+        america_newhampshire_principal_purpose.naics_subcode AS pp_naics_subcode,
+        america_newhampshire_registered_agentInformation.id AS rai_id,
+        america_newhampshire_registered_agentInformation.`name` AS rai_name,
+        america_newhampshire_registered_agentInformation.registered_office_address AS rai_registered_office_address,
+        america_newhampshire_registered_agentInformation.registered_mailing_address AS rai_registered_mailing_address,
+        america_newhampshire_trademark_information.id AS trademark_id,
+        america_newhampshire_trademark_information.trademark_number AS trademark_trademark_number,
+        america_newhampshire_trademark_information.trademark_name AS trademark_trademark_name,
+        america_newhampshire_trademark_information.business_address AS trademark_business_address,
+        america_newhampshire_trademark_information.mailing_address AS trademark_mailing_address,
+        america_newhampshire_tradename_information.id AS tradenameInfo_id,
+        america_newhampshire_tradename_information.business_name AS tradenameInfo_business_name,
+        america_newhampshire_tradename_information.business_id AS tradenameInfo_business_id,
+        america_newhampshire_tradename_information.business_status AS tradenameInfo_business_status,
+        america_newhampshire_tradename_ownedby.id AS tradenameOwned_id,
+        america_newhampshire_tradename_ownedby.`name` AS tradenameOwned_name,
+        america_newhampshire_tradename_ownedby.title AS tradenameOwned_title,
+        america_newhampshire_tradename_ownedby.address AS tradenameOwned_address
+    FROM
+        america_newhampshire
+        LEFT JOIN america_newhampshire_principal_information ON america_newhampshire.enterprise_id = america_newhampshire_principal_information.enterprise_id
+        LEFT JOIN america_newhampshire_principal_purpose ON america_newhampshire.enterprise_id = america_newhampshire_principal_purpose.enterprise_id
+        LEFT JOIN america_newhampshire_registered_agentInformation ON america_newhampshire.enterprise_id = america_newhampshire_registered_agentInformation.enterprise_id
+        LEFT JOIN america_newhampshire_trademark_information ON america_newhampshire.enterprise_id = america_newhampshire_trademark_information.enterprise_id
+        LEFT JOIN america_newhampshire_tradename_information ON america_newhampshire.enterprise_id = america_newhampshire_tradename_information.enterprise_id
+        LEFT JOIN america_newhampshire_tradename_ownedby ON america_newhampshire.enterprise_id = america_newhampshire_tradename_ownedby.enterprise_id
+    WHERE
+        america_newhampshire.enterprise_id = #{enterpriseId,jdbcType=VARCHAR}
+        and america_newhampshire.status = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+  </select>
+
+  <select id="checkFavouriteNewhampshire" resultType="java.lang.String">
+        SELECT
+            america_newhampshire.enterprise_id
+        FROM
+            america_newhampshire
+        WHERE
+            america_newhampshire.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+            AND america_newhampshire.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+            AND EXISTS (
+                SELECT enterprise_id
+                FROM rtc_user_favourite
+                WHERE rtc_user_favourite.enterprise_id=america_newhampshire.enterprise_id
+                    AND rtc_user_favourite.user_id = #{userId, jdbcType=VARCHAR}
+            )
+    </select>
+</mapper>

@@ -83,11 +83,20 @@ public class SearchEnterpriseListVO {
     // China
 //    @JsonAlias("registered_capital")
 //    private String registeredCapital;
+    /**
+     * 法人代表
+     */
     @JsonAlias("legal_representative")
     private String legalRepresentative;
+    /**
+     * 成立日期
+     */
     @JsonAlias({"establishment_date", "date_of_incorporation"})
     private String establishmentDate;
-    @JsonAlias({"registered_address", "registrated_address"})
+    /**
+     * 公司地址
+     */
+    @JsonAlias({"registered_address", "registrated_address", "principal_address"})
     private String address;
 //    @JsonAlias("country_region")
 //    private String countryRegion;

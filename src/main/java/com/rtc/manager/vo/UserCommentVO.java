@@ -24,13 +24,22 @@ public class UserCommentVO {
     @JsonAlias("enterprise_id")
     private String enterpriseId;
 
+    /**
+     * 法人代表
+     */
     @JsonAlias("legal_representative")
     private String legalRepresentative;
 
+    /**
+     * 成立日期
+     */
     @JsonAlias({"establishment_date", "date_of_incorporation"})
     private String establishmentDate;
 
-    @JsonAlias({"registered_address", "registrated_address"})
+    /**
+     * 公司地址
+     */
+    @JsonAlias({"registered_address", "registrated_address", "principal_address"})
     private String address;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
