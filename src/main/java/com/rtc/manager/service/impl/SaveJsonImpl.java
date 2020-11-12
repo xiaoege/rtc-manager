@@ -2,13 +2,9 @@ package com.rtc.manager.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationConfig;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationConfig;
 import com.rtc.manager.dao.*;
 import com.rtc.manager.dao.america.alabama.AmericaAlabamaDirectorMapper;
 import com.rtc.manager.dao.america.alabama.AmericaAlabamaIncorporatorMapper;
@@ -25,6 +21,10 @@ import com.rtc.manager.dao.america.northcarolina.*;
 import com.rtc.manager.dao.america.ohio.AmericaOhioMapper;
 import com.rtc.manager.dao.america.oklahoma.AmericaOklahomaMapper;
 import com.rtc.manager.dao.america.oklahoma.AmericaOklahomaRegisteredAgentMapper;
+import com.rtc.manager.dao.america.oregon.AmericaOregonAssociateMapper;
+import com.rtc.manager.dao.america.oregon.AmericaOregonMapper;
+import com.rtc.manager.dao.america.oregon.AmericaOregonNameHistoryMapper;
+import com.rtc.manager.dao.america.oregon.AmericaOregonSummaryHistoryMapper;
 import com.rtc.manager.dao.america.wyoming.AmericaWyomingFilingAnnualReportMapper;
 import com.rtc.manager.dao.america.wyoming.AmericaWyomingMapper;
 import com.rtc.manager.dao.america.wyoming.AmericaWyomingPartyMapper;
@@ -44,6 +44,10 @@ import com.rtc.manager.entity.america.newhampshire.*;
 import com.rtc.manager.entity.america.northcarolina.*;
 import com.rtc.manager.entity.america.ohio.AmericaOhio;
 import com.rtc.manager.entity.america.oklahoma.AmericaOklahomaRegisteredAgent;
+import com.rtc.manager.entity.america.oregon.AmericaOregon;
+import com.rtc.manager.entity.america.oregon.AmericaOregonAssociate;
+import com.rtc.manager.entity.america.oregon.AmericaOregonNameHistory;
+import com.rtc.manager.entity.america.oregon.AmericaOregonSummaryHistory;
 import com.rtc.manager.entity.america.wyoming.AmericaWyoming;
 import com.rtc.manager.entity.america.wyoming.AmericaWyomingFilingAnnualReport;
 import com.rtc.manager.entity.canada.*;
@@ -326,6 +330,18 @@ public class SaveJsonImpl implements SaveJson {
 
     @Autowired
     private AmericaDelawareMapper americaDelawareMapper;
+
+    @Autowired
+    private AmericaOregonMapper americaOregonMapper;
+
+    @Autowired
+    private AmericaOregonAssociateMapper americaOregonAssociateMapper;
+
+    @Autowired
+    private AmericaOregonNameHistoryMapper americaOregonNameHistoryMapper;
+
+    @Autowired
+    private AmericaOregonSummaryHistoryMapper americaOregonSummaryHistoryMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -1963,6 +1979,91 @@ public class SaveJsonImpl implements SaveJson {
             if (americaDelawareList.size() > 0) {
                 americaDelawareMapper.insertList(americaDelawareList);
             }
+            logger.info("json文件导入成功，文件是{}", file.getName());
+            reader.close();
+            bis.close();
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveJsonAmerica4Oregon(File fileDirPath) throws Exception {
+        List<String> fileList = new ArrayList();
+        CommonUtils.readJsonFiles(fileDirPath, fileList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (int z = 0; z < fileList.size(); z++) {
+            File file = new File(fileList.get(z));
+
+            // 忽略mac的隐藏文件
+            if (file.getName().contains(".DS_Store")) {
+                continue;
+            }
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
+
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
+
+            StringBuilder sb = new StringBuilder();
+            while (reader.ready()) {
+                sb.append((char) reader.read());
+            }
+            String sss = sb.toString();
+//            sss = sss.replace("\uFeFF", "");
+            sss = sss.replace("\\\"", "");
+            List<AmericaOregonDTO> list = null;
+            try {
+//                objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true);
+                list = Optional.ofNullable(objectMapper.readValue(sss, new TypeReference<List<AmericaOregonDTO>>() {
+                })).orElseGet(() -> new ArrayList<>());
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                logger.info("json序列化出现问题:{}", file.getName());
+                logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
+//                continue;
+                throw e;
+            }
+            for (int i = 0; i < list.size(); i++) {
+                AmericaOregonDTO americaOregonDTO = list.get(i);
+                AmericaOregon americaOregon = new AmericaOregon();
+                BeanUtils.copyProperties(americaOregonDTO, americaOregon);
+                String enterpriseId = getUUID();
+                americaOregon.setEnterpriseId(enterpriseId);
+                americaOregonMapper.insertSelective(americaOregon);
+
+                List<AmericaOregonAssociate> associateList = americaOregonDTO.getAssociateList();
+                if (!ObjectUtils.isEmpty(associateList)) {
+                    List dataList = new ArrayList();
+                    for (int j = 0; j < associateList.size(); j++) {
+                        AmericaOregonAssociate americaOregonAssociate = associateList.get(i);
+                        americaOregonAssociate.setEnterpriseId(enterpriseId);
+                        dataList.add(americaOregonAssociate);
+                    }
+                    americaOregonAssociateMapper.insertList(dataList);
+                }
+
+                List<AmericaOregonNameHistory> nameHistoryList = americaOregonDTO.getNameHistoryList();
+                if (!ObjectUtils.isEmpty(nameHistoryList)) {
+                    List dataList = new ArrayList();
+                    for (int j = 0; j < nameHistoryList.size(); j++) {
+                        AmericaOregonNameHistory americaOregonNameHistory = nameHistoryList.get(i);
+                        americaOregonNameHistory.setEnterpriseId(enterpriseId);
+                        dataList.add(americaOregonNameHistory);
+                    }
+                    americaOregonNameHistoryMapper.insertList(dataList);
+                }
+
+                List<AmericaOregonSummaryHistory> summaryHistoryList = americaOregonDTO.getSummaryHistoryList();
+                if (!ObjectUtils.isEmpty(summaryHistoryList)) {
+                    List dataList = new ArrayList();
+                    for (int j = 0; j < summaryHistoryList.size(); j++) {
+                        AmericaOregonSummaryHistory americaOregonSummaryHistory = summaryHistoryList.get(i);
+                        americaOregonSummaryHistory.setEnterpriseId(enterpriseId);
+                        dataList.add(americaOregonSummaryHistory);
+                    }
+                    americaOregonSummaryHistoryMapper.insertList(dataList);
+                }
+            }
+
             logger.info("json文件导入成功，文件是{}", file.getName());
             reader.close();
             bis.close();

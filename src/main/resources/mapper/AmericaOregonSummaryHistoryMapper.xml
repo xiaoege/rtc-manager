@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.america.oregon.AmericaOregonSummaryHistoryMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.america.oregon.AmericaOregonSummaryHistory">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="image_available" jdbcType="VARCHAR" property="imageAvailable" />
+    <result column="action" jdbcType="VARCHAR" property="action" />
+    <result column="transaction_date" jdbcType="VARCHAR" property="transactionDate" />
+    <result column="effective_date" jdbcType="VARCHAR" property="effectiveDate" />
+    <result column="summary_status" jdbcType="VARCHAR" property="summaryStatus" />
+    <result column="name_agent_change" jdbcType="VARCHAR" property="nameAgentChange" />
+    <result column="dissolved_by" jdbcType="VARCHAR" property="dissolvedBy" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, image_available, action, transaction_date, effective_date, summary_status, 
+    name_agent_change, dissolved_by, gmt_create, gmt_modified, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from america_oregon_summary_history
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from america_oregon_summary_history
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rtc.manager.entity.america.oregon.AmericaOregonSummaryHistory">
+    insert into america_oregon_summary_history (id, enterprise_id, image_available, 
+      action, transaction_date, effective_date, 
+      summary_status, name_agent_change, dissolved_by, 
+      gmt_create, gmt_modified, status
+      )
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{imageAvailable,jdbcType=VARCHAR}, 
+      #{action,jdbcType=VARCHAR}, #{transactionDate,jdbcType=VARCHAR}, #{effectiveDate,jdbcType=VARCHAR}, 
+      #{summaryStatus,jdbcType=VARCHAR}, #{nameAgentChange,jdbcType=VARCHAR}, #{dissolvedBy,jdbcType=VARCHAR}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.america.oregon.AmericaOregonSummaryHistory">
+    insert into america_oregon_summary_history
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="imageAvailable != null">
+        image_available,
+      </if>
+      <if test="action != null">
+        action,
+      </if>
+      <if test="transactionDate != null">
+        transaction_date,
+      </if>
+      <if test="effectiveDate != null">
+        effective_date,
+      </if>
+      <if test="summaryStatus != null">
+        summary_status,
+      </if>
+      <if test="nameAgentChange != null">
+        name_agent_change,
+      </if>
+      <if test="dissolvedBy != null">
+        dissolved_by,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="imageAvailable != null">
+        #{imageAvailable,jdbcType=VARCHAR},
+      </if>
+      <if test="action != null">
+        #{action,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionDate != null">
+        #{transactionDate,jdbcType=VARCHAR},
+      </if>
+      <if test="effectiveDate != null">
+        #{effectiveDate,jdbcType=VARCHAR},
+      </if>
+      <if test="summaryStatus != null">
+        #{summaryStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="nameAgentChange != null">
+        #{nameAgentChange,jdbcType=VARCHAR},
+      </if>
+      <if test="dissolvedBy != null">
+        #{dissolvedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.america.oregon.AmericaOregonSummaryHistory">
+    update america_oregon_summary_history
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="imageAvailable != null">
+        image_available = #{imageAvailable,jdbcType=VARCHAR},
+      </if>
+      <if test="action != null">
+        action = #{action,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionDate != null">
+        transaction_date = #{transactionDate,jdbcType=VARCHAR},
+      </if>
+      <if test="effectiveDate != null">
+        effective_date = #{effectiveDate,jdbcType=VARCHAR},
+      </if>
+      <if test="summaryStatus != null">
+        summary_status = #{summaryStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="nameAgentChange != null">
+        name_agent_change = #{nameAgentChange,jdbcType=VARCHAR},
+      </if>
+      <if test="dissolvedBy != null">
+        dissolved_by = #{dissolvedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.america.oregon.AmericaOregonSummaryHistory">
+    update america_oregon_summary_history
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      image_available = #{imageAvailable,jdbcType=VARCHAR},
+      action = #{action,jdbcType=VARCHAR},
+      transaction_date = #{transactionDate,jdbcType=VARCHAR},
+      effective_date = #{effectiveDate,jdbcType=VARCHAR},
+      summary_status = #{summaryStatus,jdbcType=VARCHAR},
+      name_agent_change = #{nameAgentChange,jdbcType=VARCHAR},
+      dissolved_by = #{dissolvedBy,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <insert id="insertList" parameterType="com.rtc.manager.entity.america.oregon.AmericaOregonSummaryHistory">
+    insert into america_oregon_summary_history (enterprise_id, image_available, 
+      action, transaction_date, effective_date, 
+      summary_status, name_agent_change, dissolved_by
+      )
+    values 
+    <foreach collection="list" item="item" separator=",">
+    (#{item.enterpriseId,jdbcType=VARCHAR}, #{item.imageAvailable,jdbcType=VARCHAR}, 
+      #{item.action,jdbcType=VARCHAR}, #{item.transactionDate,jdbcType=VARCHAR}, #{item.effectiveDate,jdbcType=VARCHAR}, 
+      #{item.summaryStatus,jdbcType=VARCHAR}, #{item.nameAgentChange,jdbcType=VARCHAR}, #{item.dissolvedBy,jdbcType=VARCHAR} 
+      )
+    </foreach>
+  </insert>
+</mapper>

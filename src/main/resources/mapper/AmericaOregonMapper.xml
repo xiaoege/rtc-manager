@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.america.oregon.AmericaOregonMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.america.oregon.AmericaOregon">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="registry_nbr" jdbcType="VARCHAR" property="registryNbr" />
+    <result column="entity_type" jdbcType="VARCHAR" property="entityType" />
+    <result column="entity_status" jdbcType="VARCHAR" property="entityStatus" />
+    <result column="jurisdiction" jdbcType="VARCHAR" property="jurisdiction" />
+    <result column="registry_date" jdbcType="VARCHAR" property="registryDate" />
+    <result column="next_renewal_date" jdbcType="VARCHAR" property="nextRenewalDate" />
+    <result column="renewal_due" jdbcType="VARCHAR" property="renewalDue" />
+    <result column="entity_name" jdbcType="VARCHAR" property="entityName" />
+    <result column="foreign_name" jdbcType="VARCHAR" property="foreignName" />
+    <result column="affidavit" jdbcType="VARCHAR" property="affidavit" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, registry_nbr, entity_type, entity_status, jurisdiction, registry_date, 
+    next_renewal_date, renewal_due, entity_name, foreign_name, affidavit, url, gmt_create, 
+    gmt_modified, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from america_oregon
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from america_oregon
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rtc.manager.entity.america.oregon.AmericaOregon">
+    insert into america_oregon (id, enterprise_id, registry_nbr, 
+      entity_type, entity_status, jurisdiction, 
+      registry_date, next_renewal_date, renewal_due, 
+      entity_name, foreign_name, affidavit, 
+      url, gmt_create, gmt_modified, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{registryNbr,jdbcType=VARCHAR}, 
+      #{entityType,jdbcType=VARCHAR}, #{entityStatus,jdbcType=VARCHAR}, #{jurisdiction,jdbcType=VARCHAR}, 
+      #{registryDate,jdbcType=VARCHAR}, #{nextRenewalDate,jdbcType=VARCHAR}, #{renewalDue,jdbcType=VARCHAR}, 
+      #{entityName,jdbcType=VARCHAR}, #{foreignName,jdbcType=VARCHAR}, #{affidavit,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.america.oregon.AmericaOregon">
+    insert into america_oregon
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="registryNbr != null">
+        registry_nbr,
+      </if>
+      <if test="entityType != null">
+        entity_type,
+      </if>
+      <if test="entityStatus != null">
+        entity_status,
+      </if>
+      <if test="jurisdiction != null">
+        jurisdiction,
+      </if>
+      <if test="registryDate != null">
+        registry_date,
+      </if>
+      <if test="nextRenewalDate != null">
+        next_renewal_date,
+      </if>
+      <if test="renewalDue != null">
+        renewal_due,
+      </if>
+      <if test="entityName != null">
+        entity_name,
+      </if>
+      <if test="foreignName != null">
+        foreign_name,
+      </if>
+      <if test="affidavit != null">
+        affidavit,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="registryNbr != null">
+        #{registryNbr,jdbcType=VARCHAR},
+      </if>
+      <if test="entityType != null">
+        #{entityType,jdbcType=VARCHAR},
+      </if>
+      <if test="entityStatus != null">
+        #{entityStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="jurisdiction != null">
+        #{jurisdiction,jdbcType=VARCHAR},
+      </if>
+      <if test="registryDate != null">
+        #{registryDate,jdbcType=VARCHAR},
+      </if>
+      <if test="nextRenewalDate != null">
+        #{nextRenewalDate,jdbcType=VARCHAR},
+      </if>
+      <if test="renewalDue != null">
+        #{renewalDue,jdbcType=VARCHAR},
+      </if>
+      <if test="entityName != null">
+        #{entityName,jdbcType=VARCHAR},
+      </if>
+      <if test="foreignName != null">
+        #{foreignName,jdbcType=VARCHAR},
+      </if>
+      <if test="affidavit != null">
+        #{affidavit,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.america.oregon.AmericaOregon">
+    update america_oregon
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="registryNbr != null">
+        registry_nbr = #{registryNbr,jdbcType=VARCHAR},
+      </if>
+      <if test="entityType != null">
+        entity_type = #{entityType,jdbcType=VARCHAR},
+      </if>
+      <if test="entityStatus != null">
+        entity_status = #{entityStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="jurisdiction != null">
+        jurisdiction = #{jurisdiction,jdbcType=VARCHAR},
+      </if>
+      <if test="registryDate != null">
+        registry_date = #{registryDate,jdbcType=VARCHAR},
+      </if>
+      <if test="nextRenewalDate != null">
+        next_renewal_date = #{nextRenewalDate,jdbcType=VARCHAR},
+      </if>
+      <if test="renewalDue != null">
+        renewal_due = #{renewalDue,jdbcType=VARCHAR},
+      </if>
+      <if test="entityName != null">
+        entity_name = #{entityName,jdbcType=VARCHAR},
+      </if>
+      <if test="foreignName != null">
+        foreign_name = #{foreignName,jdbcType=VARCHAR},
+      </if>
+      <if test="affidavit != null">
+        affidavit = #{affidavit,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.america.oregon.AmericaOregon">
+    update america_oregon
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      registry_nbr = #{registryNbr,jdbcType=VARCHAR},
+      entity_type = #{entityType,jdbcType=VARCHAR},
+      entity_status = #{entityStatus,jdbcType=VARCHAR},
+      jurisdiction = #{jurisdiction,jdbcType=VARCHAR},
+      registry_date = #{registryDate,jdbcType=VARCHAR},
+      next_renewal_date = #{nextRenewalDate,jdbcType=VARCHAR},
+      renewal_due = #{renewalDue,jdbcType=VARCHAR},
+      entity_name = #{entityName,jdbcType=VARCHAR},
+      foreign_name = #{foreignName,jdbcType=VARCHAR},
+      affidavit = #{affidavit,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
