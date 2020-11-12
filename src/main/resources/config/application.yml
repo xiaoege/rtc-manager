@@ -57,11 +57,7 @@ mybatis:
 
 logging:
   level:
-<<<<<<< HEAD
-    com.rtc.manager: debug
-=======
     com.rtc.manager: info
->>>>>>> c51f0840651b8adf42e6007aea28ca7c18bd59d0
   file:
     path: /work/log
 #  config: src/main/resources/config/logback.xml
