@@ -2034,7 +2034,7 @@ public class SaveJsonImpl implements SaveJson {
                 if (!ObjectUtils.isEmpty(associateList)) {
                     List dataList = new ArrayList();
                     for (int j = 0; j < associateList.size(); j++) {
-                        AmericaOregonAssociate americaOregonAssociate = associateList.get(i);
+                        AmericaOregonAssociate americaOregonAssociate = associateList.get(j);
                         americaOregonAssociate.setEnterpriseId(enterpriseId);
                         dataList.add(americaOregonAssociate);
                     }
@@ -2045,7 +2045,7 @@ public class SaveJsonImpl implements SaveJson {
                 if (!ObjectUtils.isEmpty(nameHistoryList)) {
                     List dataList = new ArrayList();
                     for (int j = 0; j < nameHistoryList.size(); j++) {
-                        AmericaOregonNameHistory americaOregonNameHistory = nameHistoryList.get(i);
+                        AmericaOregonNameHistory americaOregonNameHistory = nameHistoryList.get(j);
                         americaOregonNameHistory.setEnterpriseId(enterpriseId);
                         dataList.add(americaOregonNameHistory);
                     }
@@ -2056,7 +2056,7 @@ public class SaveJsonImpl implements SaveJson {
                 if (!ObjectUtils.isEmpty(summaryHistoryList)) {
                     List dataList = new ArrayList();
                     for (int j = 0; j < summaryHistoryList.size(); j++) {
-                        AmericaOregonSummaryHistory americaOregonSummaryHistory = summaryHistoryList.get(i);
+                        AmericaOregonSummaryHistory americaOregonSummaryHistory = summaryHistoryList.get(j);
                         americaOregonSummaryHistory.setEnterpriseId(enterpriseId);
                         dataList.add(americaOregonSummaryHistory);
                     }
