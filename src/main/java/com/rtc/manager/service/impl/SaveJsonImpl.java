@@ -2117,7 +2117,7 @@ public class SaveJsonImpl implements SaveJson {
             }
             String sss = sb.toString();
 //            sss = sss.replace("\uFeFF", "");
-            sss = sss.replace("\\\"", "").replace("\\,", "\",");
+            sss = sss.replace("\\", "");
             List<AmericaPuertoRicoDTO> list = null;
             try {
 //                objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true);
