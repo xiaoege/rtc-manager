@@ -258,12 +258,12 @@
   </update>
   <insert id="insertList" parameterType="com.rtc.manager.entity.america.delaware.AmericaDelaware">
     insert into america_delaware
-    (enterprise_id, file_number, 
-      name, entity_kind, residency, 
-      incorporation_formation_date, entity_type, 
-      state, agent_name, agent_address, 
-      agent_city, agent_county, agent_state, 
-      agent_postal_code, agent_phone)
+    (`enterprise_id`, `file_number`,
+      `name`, `entity_kind`, `residency`,
+      `incorporation_formation_date`, `entity_type`,
+      `state`, `agent_name`, `agent_address`,
+      `agent_city`, `agent_county`, `agent_state`,
+      `agent_postal_code`, `agent_phone`)
       values 
       <foreach collection="list" item="item" separator=",">
         (#{item.enterpriseId,jdbcType=VARCHAR}, #{item.fileNumber,jdbcType=VARCHAR},
