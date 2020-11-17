@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.america.puertorico.AmericaPuertoRicoMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.america.puertorico.AmericaPuertoRico">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="register_number" jdbcType="VARCHAR" property="registerNumber" />
+    <result column="enterprise_status" jdbcType="VARCHAR" property="enterpriseStatus" />
+    <result column="formation_date" jdbcType="VARCHAR" property="formationDate" />
+    <result column="effective_date" jdbcType="VARCHAR" property="effectiveDate" />
+    <result column="expiration_date" jdbcType="VARCHAR" property="expirationDate" />
+    <result column="enterprise_class" jdbcType="VARCHAR" property="enterpriseClass" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="jurisdiction" jdbcType="VARCHAR" property="jurisdiction" />
+    <result column="home_state" jdbcType="VARCHAR" property="homeState" />
+    <result column="domicile_address" jdbcType="VARCHAR" property="domicileAddress" />
+    <result column="incorporation_date" jdbcType="VARCHAR" property="incorporationDate" />
+    <result column="domicile_expiration_date" jdbcType="VARCHAR" property="domicileExpirationDate" />
+    <result column="office_street_address" jdbcType="VARCHAR" property="officeStreetAddress" />
+    <result column="office_mailing_address" jdbcType="VARCHAR" property="officeMailingAddress" />
+    <result column="resident_name" jdbcType="VARCHAR" property="residentName" />
+    <result column="resident_street_address" jdbcType="VARCHAR" property="residentStreetAddress" />
+    <result column="resident_mailing_address" jdbcType="VARCHAR" property="residentMailingAddress" />
+    <result column="purpose" jdbcType="VARCHAR" property="purpose" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, name, register_number, enterprise_status, formation_date, effective_date, 
+    expiration_date, enterprise_class, type, jurisdiction, home_state, domicile_address, 
+    incorporation_date, domicile_expiration_date, office_street_address, office_mailing_address, 
+    resident_name, resident_street_address, resident_mailing_address, purpose, url, gmt_create, 
+    gmt_modified, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from america_puerto_rico
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from america_puerto_rico
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rtc.manager.entity.america.puertorico.AmericaPuertoRico">
+    insert into america_puerto_rico (id, enterprise_id, name, 
+      register_number, enterprise_status, formation_date, 
+      effective_date, expiration_date, enterprise_class, 
+      type, jurisdiction, home_state, 
+      domicile_address, incorporation_date, domicile_expiration_date, 
+      office_street_address, office_mailing_address, 
+      resident_name, resident_street_address, resident_mailing_address, 
+      purpose, url, gmt_create, 
+      gmt_modified, status)
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{registerNumber,jdbcType=VARCHAR}, #{enterpriseStatus,jdbcType=VARCHAR}, #{formationDate,jdbcType=VARCHAR}, 
+      #{effectiveDate,jdbcType=VARCHAR}, #{expirationDate,jdbcType=VARCHAR}, #{enterpriseClass,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{jurisdiction,jdbcType=VARCHAR}, #{homeState,jdbcType=VARCHAR}, 
+      #{domicileAddress,jdbcType=VARCHAR}, #{incorporationDate,jdbcType=VARCHAR}, #{domicileExpirationDate,jdbcType=VARCHAR}, 
+      #{officeStreetAddress,jdbcType=VARCHAR}, #{officeMailingAddress,jdbcType=VARCHAR}, 
+      #{residentName,jdbcType=VARCHAR}, #{residentStreetAddress,jdbcType=VARCHAR}, #{residentMailingAddress,jdbcType=VARCHAR}, 
+      #{purpose,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.america.puertorico.AmericaPuertoRico">
+    insert into america_puerto_rico
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="registerNumber != null">
+        register_number,
+      </if>
+      <if test="enterpriseStatus != null">
+        enterprise_status,
+      </if>
+      <if test="formationDate != null">
+        formation_date,
+      </if>
+      <if test="effectiveDate != null">
+        effective_date,
+      </if>
+      <if test="expirationDate != null">
+        expiration_date,
+      </if>
+      <if test="enterpriseClass != null">
+        enterprise_class,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="jurisdiction != null">
+        jurisdiction,
+      </if>
+      <if test="homeState != null">
+        home_state,
+      </if>
+      <if test="domicileAddress != null">
+        domicile_address,
+      </if>
+      <if test="incorporationDate != null">
+        incorporation_date,
+      </if>
+      <if test="domicileExpirationDate != null">
+        domicile_expiration_date,
+      </if>
+      <if test="officeStreetAddress != null">
+        office_street_address,
+      </if>
+      <if test="officeMailingAddress != null">
+        office_mailing_address,
+      </if>
+      <if test="residentName != null">
+        resident_name,
+      </if>
+      <if test="residentStreetAddress != null">
+        resident_street_address,
+      </if>
+      <if test="residentMailingAddress != null">
+        resident_mailing_address,
+      </if>
+      <if test="purpose != null">
+        purpose,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="registerNumber != null">
+        #{registerNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseStatus != null">
+        #{enterpriseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="formationDate != null">
+        #{formationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="effectiveDate != null">
+        #{effectiveDate,jdbcType=VARCHAR},
+      </if>
+      <if test="expirationDate != null">
+        #{expirationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseClass != null">
+        #{enterpriseClass,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="jurisdiction != null">
+        #{jurisdiction,jdbcType=VARCHAR},
+      </if>
+      <if test="homeState != null">
+        #{homeState,jdbcType=VARCHAR},
+      </if>
+      <if test="domicileAddress != null">
+        #{domicileAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="incorporationDate != null">
+        #{incorporationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="domicileExpirationDate != null">
+        #{domicileExpirationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="officeStreetAddress != null">
+        #{officeStreetAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="officeMailingAddress != null">
+        #{officeMailingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="residentName != null">
+        #{residentName,jdbcType=VARCHAR},
+      </if>
+      <if test="residentStreetAddress != null">
+        #{residentStreetAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="residentMailingAddress != null">
+        #{residentMailingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="purpose != null">
+        #{purpose,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.america.puertorico.AmericaPuertoRico">
+    update america_puerto_rico
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="registerNumber != null">
+        register_number = #{registerNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseStatus != null">
+        enterprise_status = #{enterpriseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="formationDate != null">
+        formation_date = #{formationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="effectiveDate != null">
+        effective_date = #{effectiveDate,jdbcType=VARCHAR},
+      </if>
+      <if test="expirationDate != null">
+        expiration_date = #{expirationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseClass != null">
+        enterprise_class = #{enterpriseClass,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="jurisdiction != null">
+        jurisdiction = #{jurisdiction,jdbcType=VARCHAR},
+      </if>
+      <if test="homeState != null">
+        home_state = #{homeState,jdbcType=VARCHAR},
+      </if>
+      <if test="domicileAddress != null">
+        domicile_address = #{domicileAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="incorporationDate != null">
+        incorporation_date = #{incorporationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="domicileExpirationDate != null">
+        domicile_expiration_date = #{domicileExpirationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="officeStreetAddress != null">
+        office_street_address = #{officeStreetAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="officeMailingAddress != null">
+        office_mailing_address = #{officeMailingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="residentName != null">
+        resident_name = #{residentName,jdbcType=VARCHAR},
+      </if>
+      <if test="residentStreetAddress != null">
+        resident_street_address = #{residentStreetAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="residentMailingAddress != null">
+        resident_mailing_address = #{residentMailingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="purpose != null">
+        purpose = #{purpose,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.america.puertorico.AmericaPuertoRico">
+    update america_puerto_rico
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      register_number = #{registerNumber,jdbcType=VARCHAR},
+      enterprise_status = #{enterpriseStatus,jdbcType=VARCHAR},
+      formation_date = #{formationDate,jdbcType=VARCHAR},
+      effective_date = #{effectiveDate,jdbcType=VARCHAR},
+      expiration_date = #{expirationDate,jdbcType=VARCHAR},
+      enterprise_class = #{enterpriseClass,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      jurisdiction = #{jurisdiction,jdbcType=VARCHAR},
+      home_state = #{homeState,jdbcType=VARCHAR},
+      domicile_address = #{domicileAddress,jdbcType=VARCHAR},
+      incorporation_date = #{incorporationDate,jdbcType=VARCHAR},
+      domicile_expiration_date = #{domicileExpirationDate,jdbcType=VARCHAR},
+      office_street_address = #{officeStreetAddress,jdbcType=VARCHAR},
+      office_mailing_address = #{officeMailingAddress,jdbcType=VARCHAR},
+      resident_name = #{residentName,jdbcType=VARCHAR},
+      resident_street_address = #{residentStreetAddress,jdbcType=VARCHAR},
+      resident_mailing_address = #{residentMailingAddress,jdbcType=VARCHAR},
+      purpose = #{purpose,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

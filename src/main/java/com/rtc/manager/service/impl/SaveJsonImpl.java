@@ -25,6 +25,7 @@ import com.rtc.manager.dao.america.oregon.AmericaOregonAssociateMapper;
 import com.rtc.manager.dao.america.oregon.AmericaOregonMapper;
 import com.rtc.manager.dao.america.oregon.AmericaOregonNameHistoryMapper;
 import com.rtc.manager.dao.america.oregon.AmericaOregonSummaryHistoryMapper;
+import com.rtc.manager.dao.america.puertorico.*;
 import com.rtc.manager.dao.america.wyoming.AmericaWyomingFilingAnnualReportMapper;
 import com.rtc.manager.dao.america.wyoming.AmericaWyomingMapper;
 import com.rtc.manager.dao.america.wyoming.AmericaWyomingPartyMapper;
@@ -48,6 +49,7 @@ import com.rtc.manager.entity.america.oregon.AmericaOregon;
 import com.rtc.manager.entity.america.oregon.AmericaOregonAssociate;
 import com.rtc.manager.entity.america.oregon.AmericaOregonNameHistory;
 import com.rtc.manager.entity.america.oregon.AmericaOregonSummaryHistory;
+import com.rtc.manager.entity.america.puertorico.*;
 import com.rtc.manager.entity.america.wyoming.AmericaWyoming;
 import com.rtc.manager.entity.america.wyoming.AmericaWyomingFilingAnnualReport;
 import com.rtc.manager.entity.canada.*;
@@ -342,6 +344,27 @@ public class SaveJsonImpl implements SaveJson {
 
     @Autowired
     private AmericaOregonSummaryHistoryMapper americaOregonSummaryHistoryMapper;
+
+    @Autowired
+    private AmericaPuertoRicoMapper americaPuertoRicoMapper;
+
+    @Autowired
+    private AmericaPuertoRicoAdministratorMapper americaPuertoRicoAdministratorMapper;
+
+    @Autowired
+    private AmericaPuertoRicoDocumentMapper americaPuertoRicoDocumentMapper;
+
+    @Autowired
+    private AmericaPuertoRicoIncorporatorMapper americaPuertoRicoIncorporatorMapper;
+
+    @Autowired
+    private AmericaPuertoRicoOfficerMapper americaPuertoRicoOfficerMapper;
+
+    @Autowired
+    private AmericaPuertoRicoStockMapper americaPuertoRicoStockMapper;
+
+    @Autowired
+    private AmericaPuertoRicoAuthorizedPersonMapper americaPuertoRicoAuthorizedPersonMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -2061,6 +2084,101 @@ public class SaveJsonImpl implements SaveJson {
                         dataList.add(americaOregonSummaryHistory);
                     }
                     americaOregonSummaryHistoryMapper.insertList(dataList);
+                }
+            }
+
+            logger.info("json文件导入成功，文件是{}", file.getName());
+            reader.close();
+            bis.close();
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveJsonAmerica4PuertoRico(File fileDirPath) throws Exception {
+        List<String> fileList = new ArrayList();
+        CommonUtils.readJsonFiles(fileDirPath, fileList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (int z = 0; z < fileList.size(); z++) {
+            File file = new File(fileList.get(z));
+
+            // 忽略mac的隐藏文件
+            if (file.getName().contains(".DS_Store")) {
+                continue;
+            }
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
+
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
+
+            StringBuilder sb = new StringBuilder();
+            while (reader.ready()) {
+                sb.append((char) reader.read());
+            }
+            String sss = sb.toString();
+//            sss = sss.replace("\uFeFF", "");
+            sss = sss.replace("\\\"", "").replace("\\,", "\",");
+            List<AmericaPuertoRicoDTO> list = null;
+            try {
+//                objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true);
+                list = Optional.ofNullable(objectMapper.readValue(sss, new TypeReference<List<AmericaPuertoRicoDTO>>() {
+                })).orElseGet(() -> new ArrayList<>());
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                logger.info("json序列化出现问题:{}", file.getName());
+                logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
+//                continue;
+                throw e;
+            }
+
+            for (int i = 0; i < list.size(); i++) {
+                AmericaPuertoRicoDTO americaPuertoRicoDTO = list.get(i);
+                String enterpriseId = getUUID();
+                AmericaPuertoRico americaPuertoRico = new AmericaPuertoRico(enterpriseId, americaPuertoRicoDTO.getDomicile(), americaPuertoRicoDTO.getOfficeAddress(), americaPuertoRicoDTO.getResidentAgent());
+                BeanUtil.copyProperties(americaPuertoRicoDTO, americaPuertoRico, true, CopyOptions.create().setIgnoreNullValue(true).setIgnoreError(true));
+                americaPuertoRicoMapper.insertSelective(americaPuertoRico);
+
+                List<AmericaPuertoRicoOfficer> officerList = americaPuertoRicoDTO.getOfficerList();
+                for (int j = 0; j < officerList.size(); j++) {
+                    officerList.get(j).setEnterpriseId(enterpriseId);
+                }
+                if (officerList.size() > 0) {
+                    americaPuertoRicoOfficerMapper.insertList(officerList);
+                }
+                List<AmericaPuertoRicoIncorporator> incorporatorList = americaPuertoRicoDTO.getIncorporatorList();
+                for (int j = 0; j < incorporatorList.size(); j++) {
+                    incorporatorList.get(j).setEnterpriseId(enterpriseId);
+                }
+                if (incorporatorList.size() > 0) {
+                    americaPuertoRicoIncorporatorMapper.insertList(incorporatorList);
+                }
+                List<AmericaPuertoRicoStock> stockList = americaPuertoRicoDTO.getStockList();
+                for (int j = 0; j < stockList.size(); j++) {
+                    stockList.get(j).setEnterpriseId(enterpriseId);
+                }
+                if (stockList.size() > 0) {
+                    americaPuertoRicoStockMapper.insertList(stockList);
+                }
+                List<AmericaPuertoRicoAdministrator> administratorList = americaPuertoRicoDTO.getAdministratorList();
+                for (int j = 0; j < administratorList.size(); j++) {
+                    administratorList.get(j).setEnterpriseId(enterpriseId);
+                }
+                if (administratorList.size() > 0) {
+                    americaPuertoRicoAdministratorMapper.insertList(administratorList);
+                }
+                List<AmericaPuertoRicoAuthorizedPerson> authorizedPersonList = americaPuertoRicoDTO.getAuthorizedPersonList();
+                for (int j = 0; j < authorizedPersonList.size(); j++) {
+                    authorizedPersonList.get(j).setEnterpriseId(enterpriseId);
+                }
+                if (authorizedPersonList.size() > 0) {
+                    americaPuertoRicoAuthorizedPersonMapper.insertList(authorizedPersonList);
+                }
+                List<AmericaPuertoRicoDocument> documentList = americaPuertoRicoDTO.getDocumentList();
+                for (int j = 0; j < documentList.size(); j++) {
+                    documentList.get(j).setEnterpriseId(enterpriseId);
+                }
+                if (documentList.size() > 0) {
+                    americaPuertoRicoDocumentMapper.insertList(documentList);
                 }
             }
 
