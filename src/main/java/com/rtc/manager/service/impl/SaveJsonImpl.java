@@ -26,6 +26,10 @@ import com.rtc.manager.dao.america.oregon.AmericaOregonMapper;
 import com.rtc.manager.dao.america.oregon.AmericaOregonNameHistoryMapper;
 import com.rtc.manager.dao.america.oregon.AmericaOregonSummaryHistoryMapper;
 import com.rtc.manager.dao.america.puertorico.*;
+import com.rtc.manager.dao.america.rhodeisland.AmericaRhodeislandManagerBusinessMapper;
+import com.rtc.manager.dao.america.rhodeisland.AmericaRhodeislandMapper;
+import com.rtc.manager.dao.america.rhodeisland.AmericaRhodeislandOfficerDirctorMapper;
+import com.rtc.manager.dao.america.rhodeisland.AmericaRhodeislandStockMapper;
 import com.rtc.manager.dao.america.wyoming.AmericaWyomingFilingAnnualReportMapper;
 import com.rtc.manager.dao.america.wyoming.AmericaWyomingMapper;
 import com.rtc.manager.dao.america.wyoming.AmericaWyomingPartyMapper;
@@ -50,6 +54,10 @@ import com.rtc.manager.entity.america.oregon.AmericaOregonAssociate;
 import com.rtc.manager.entity.america.oregon.AmericaOregonNameHistory;
 import com.rtc.manager.entity.america.oregon.AmericaOregonSummaryHistory;
 import com.rtc.manager.entity.america.puertorico.*;
+import com.rtc.manager.entity.america.rhodeisland.AmericaRhodeisland;
+import com.rtc.manager.entity.america.rhodeisland.AmericaRhodeislandManagerBusiness;
+import com.rtc.manager.entity.america.rhodeisland.AmericaRhodeislandOfficerDirctor;
+import com.rtc.manager.entity.america.rhodeisland.AmericaRhodeislandStock;
 import com.rtc.manager.entity.america.wyoming.AmericaWyoming;
 import com.rtc.manager.entity.america.wyoming.AmericaWyomingFilingAnnualReport;
 import com.rtc.manager.entity.canada.*;
@@ -365,6 +373,18 @@ public class SaveJsonImpl implements SaveJson {
 
     @Autowired
     private AmericaPuertoRicoAuthorizedPersonMapper americaPuertoRicoAuthorizedPersonMapper;
+
+    @Autowired
+    private AmericaRhodeislandMapper americaRhodeislandMapper;
+
+    @Autowired
+    private AmericaRhodeislandOfficerDirctorMapper americaRhodeislandOfficerDirctorMapper;
+
+    @Autowired
+    private AmericaRhodeislandManagerBusinessMapper americaRhodeislandManagerBusinessMapper;
+
+    @Autowired
+    private AmericaRhodeislandStockMapper americaRhodeislandStockMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -2179,6 +2199,76 @@ public class SaveJsonImpl implements SaveJson {
                 }
                 if (documentList.size() > 0) {
                     americaPuertoRicoDocumentMapper.insertList(documentList);
+                }
+            }
+
+            logger.info("json文件导入成功，文件是{}", file.getName());
+            reader.close();
+            bis.close();
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveJsonAmerica4RhodeIsland(File fileDirPath) throws Exception {
+        List<String> fileList = new ArrayList();
+        CommonUtils.readJsonFiles(fileDirPath, fileList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (int z = 0; z < fileList.size(); z++) {
+            File file = new File(fileList.get(z));
+
+            // 忽略mac的隐藏文件
+            if (file.getName().contains(".DS_Store")) {
+                continue;
+            }
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
+
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
+
+            StringBuilder sb = new StringBuilder();
+            while (reader.ready()) {
+                sb.append((char) reader.read());
+            }
+            String sss = sb.toString();
+//            sss = sss.replace("\uFeFF", "");
+            sss = sss.replace("\\\"", "");
+            List<AmericaRhodeislandDTO> list = null;
+            try {
+//                objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true);
+                list = Optional.ofNullable(objectMapper.readValue(sss, new TypeReference<List<AmericaRhodeislandDTO>>() {
+                })).orElseGet(() -> new ArrayList<>());
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                logger.info("json序列化出现问题:{}", file.getName());
+                logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
+//                continue;
+                throw e;
+            }
+
+            for (int i = 0; i < list.size(); i++) {
+                String enterpriseId = getUUID();
+                AmericaRhodeislandDTO americaRhodeislandDTO = list.get(i);
+                AmericaRhodeisland americaRhodeisland = new AmericaRhodeisland(enterpriseId, americaRhodeislandDTO.getPrincipleLocation(),
+                        americaRhodeislandDTO.getOfficeLocation(), americaRhodeislandDTO.getResidentLocation());
+                BeanUtil.copyProperties(americaRhodeislandDTO, americaRhodeisland, true, CopyOptions.create().setIgnoreNullValue(true).setIgnoreError(true));
+                americaRhodeislandMapper.insertSelective(americaRhodeisland);
+                List<AmericaRhodeislandOfficerDirctor> officerDirctorList = americaRhodeislandDTO.getOfficerDirctorList();
+                if (!ObjectUtils.isEmpty(officerDirctorList)) {
+                    officerDirctorList.stream().forEach((j) -> j.setEnterpriseId(enterpriseId));
+                    americaRhodeislandOfficerDirctorMapper.insertList(officerDirctorList);
+                }
+
+                List<AmericaRhodeislandManagerBusiness> managerBusinessList = americaRhodeislandDTO.getManagerBusinessList();
+                if (!ObjectUtils.isEmpty(managerBusinessList)) {
+                    managerBusinessList.stream().forEach((j) -> j.setEnterpriseId(enterpriseId));
+                    americaRhodeislandManagerBusinessMapper.insertList(managerBusinessList);
+                }
+
+                List<AmericaRhodeislandStock> stockList = americaRhodeislandDTO.getStockList();
+                if (!ObjectUtils.isEmpty(stockList)) {
+                    stockList.stream().forEach((j) -> j.setEnterpriseId(enterpriseId));
+                    americaRhodeislandStockMapper.insertList(stockList);
                 }
             }
 
