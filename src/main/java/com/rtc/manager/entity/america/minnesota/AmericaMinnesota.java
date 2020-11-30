@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 public class AmericaMinnesota {
     private Integer id;
 
-    private String enterpriseid;
+    private String enterpriseId;
 
     private String name;
 
@@ -53,12 +53,12 @@ public class AmericaMinnesota {
         this.id = id;
     }
 
-    public String getEnterpriseid() {
-        return enterpriseid;
+    public String getEnterpriseId() {
+        return enterpriseId;
     }
 
-    public void setEnterpriseid(String enterpriseid) {
-        this.enterpriseid = enterpriseid == null ? null : enterpriseid.trim();
+    public void setEnterpriseId(String enterpriseid) {
+        this.enterpriseId = enterpriseid == null ? null : enterpriseid.trim();
     }
 
     public String getName() {

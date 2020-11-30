@@ -3,7 +3,7 @@
 <mapper namespace="com.rtc.manager.dao.america.minnesota.AmericaMinnesotaMapper">
   <resultMap id="BaseResultMap" type="com.rtc.manager.entity.america.minnesota.AmericaMinnesota">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="enterpriseId" jdbcType="VARCHAR" property="enterpriseid" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="business_type" jdbcType="VARCHAR" property="businessType" />
     <result column="mn_statute" jdbcType="VARCHAR" property="mnStatute" />
@@ -25,7 +25,7 @@
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, enterpriseId, name, business_type, mn_statute, file_number, home_jurisdiction, 
+    id, enterprise_id, name, business_type, mn_statute, file_number, home_jurisdiction, 
     filing_date, enterprise_status, renewal_due_date, registered_office_address, number_of_shares, 
     registered_agent, chief_executive_officer, principal_executive_office_address, manager, 
     mailing_address, mark_type, gmt_create, gmt_modified, status
@@ -41,7 +41,7 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.rtc.manager.entity.america.minnesota.AmericaMinnesota">
-    insert into america_minnesota (id, enterpriseId, name, 
+    insert into america_minnesota (id, enterprise_id, name, 
       business_type, mn_statute, file_number, 
       home_jurisdiction, filing_date, enterprise_status, 
       renewal_due_date, registered_office_address, 
@@ -49,7 +49,7 @@
       principal_executive_office_address, manager, 
       mailing_address, mark_type, gmt_create, 
       gmt_modified, status)
-    values (#{id,jdbcType=INTEGER}, #{enterpriseid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{businessType,jdbcType=VARCHAR}, #{mnStatute,jdbcType=VARCHAR}, #{fileNumber,jdbcType=VARCHAR}, 
       #{homeJurisdiction,jdbcType=VARCHAR}, #{filingDate,jdbcType=VARCHAR}, #{enterpriseStatus,jdbcType=VARCHAR}, 
       #{renewalDueDate,jdbcType=VARCHAR}, #{registeredOfficeAddress,jdbcType=VARCHAR}, 
@@ -64,8 +64,8 @@
       <if test="id != null">
         id,
       </if>
-      <if test="enterpriseid != null">
-        enterpriseId,
+      <if test="enterpriseId != null">
+        enterprise_id,
       </if>
       <if test="name != null">
         name,
@@ -129,8 +129,8 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="enterpriseid != null">
-        #{enterpriseid,jdbcType=VARCHAR},
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=VARCHAR},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -194,8 +194,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.america.minnesota.AmericaMinnesota">
     update america_minnesota
     <set>
-      <if test="enterpriseid != null">
-        enterpriseId = #{enterpriseid,jdbcType=VARCHAR},
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
@@ -259,7 +259,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.america.minnesota.AmericaMinnesota">
     update america_minnesota
-    set enterpriseId = #{enterpriseid,jdbcType=VARCHAR},
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       business_type = #{businessType,jdbcType=VARCHAR},
       mn_statute = #{mnStatute,jdbcType=VARCHAR},

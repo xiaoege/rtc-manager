@@ -9,7 +9,7 @@ import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AmericaMinnesotaDTO {
-    private String enterpriseid;
+    private String enterpriseId;
 
     private String name;
     @JsonAlias("Business Type")
@@ -47,12 +47,12 @@ public class AmericaMinnesotaDTO {
     @JsonAlias("markholders")
     private List<AmericaMinnesotaMarkholder> markholderList;
 
-    public String getEnterpriseid() {
-        return enterpriseid;
+    public String getEnterpriseId() {
+        return enterpriseId;
     }
 
-    public void setEnterpriseid(String enterpriseid) {
-        this.enterpriseid = enterpriseid;
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
     }
 
     public String getName() {

@@ -19,6 +19,10 @@ import com.rtc.manager.dao.america.florida.AmericaFloridaMapper;
 import com.rtc.manager.dao.america.minnesota.AmericaMinnesotaMapper;
 import com.rtc.manager.dao.america.minnesota.AmericaMinnesotaMarkholderMapper;
 import com.rtc.manager.dao.america.minnesota.AmericaMinnesotaNameholderMapper;
+import com.rtc.manager.dao.america.mississippi.AmericaMississippiMapper;
+import com.rtc.manager.dao.america.mississippi.AmericaMississippiNameHistoryMapper;
+import com.rtc.manager.dao.america.mississippi.AmericaMississippiOfficeDirectorMapper;
+import com.rtc.manager.dao.america.mississippi.AmericaMississippiRegisteredAgentMapper;
 import com.rtc.manager.dao.america.newhampshire.*;
 import com.rtc.manager.dao.america.northcarolina.*;
 import com.rtc.manager.dao.america.ohio.AmericaOhioMapper;
@@ -51,6 +55,10 @@ import com.rtc.manager.entity.america.florida.AmericaFloridaAuthorizedPersonDeta
 import com.rtc.manager.entity.america.minnesota.AmericaMinnesota;
 import com.rtc.manager.entity.america.minnesota.AmericaMinnesotaMarkholder;
 import com.rtc.manager.entity.america.minnesota.AmericaMinnesotaNameholder;
+import com.rtc.manager.entity.america.mississippi.AmericaMississippi;
+import com.rtc.manager.entity.america.mississippi.AmericaMississippiNameHistory;
+import com.rtc.manager.entity.america.mississippi.AmericaMississippiOfficeDirector;
+import com.rtc.manager.entity.america.mississippi.AmericaMississippiRegisteredAgent;
 import com.rtc.manager.entity.america.newhampshire.*;
 import com.rtc.manager.entity.america.northcarolina.*;
 import com.rtc.manager.entity.america.ohio.AmericaOhio;
@@ -400,6 +408,18 @@ public class SaveJsonImpl implements SaveJson {
 
     @Autowired
     private AmericaMinnesotaMarkholderMapper americaMinnesotaMarkholderMapper;
+
+    @Autowired
+    private AmericaMississippiMapper americaMississippiMapper;
+
+    @Autowired
+    private AmericaMississippiNameHistoryMapper americaMississippiNameHistoryMapper;
+
+    @Autowired
+    private AmericaMississippiOfficeDirectorMapper americaMississippiOfficeDirectorMapper;
+
+    @Autowired
+    private AmericaMississippiRegisteredAgentMapper americaMississippiRegisteredAgentMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -2336,7 +2356,7 @@ public class SaveJsonImpl implements SaveJson {
                 AmericaMinnesotaDTO americaMinnesotaDTO = list.get(i);
                 AmericaMinnesota americaMinnesota = new AmericaMinnesota();
                 BeanUtils.copyProperties(americaMinnesotaDTO, americaMinnesota);
-                americaMinnesota.setEnterpriseid(enterpriseId);
+                americaMinnesota.setEnterpriseId(enterpriseId);
                 americaMinnesotaMapper.insertSelective(americaMinnesota);
 
                 List<AmericaMinnesotaNameholder> nameholderList = americaMinnesotaDTO.getNameholderList();
@@ -2352,6 +2372,73 @@ public class SaveJsonImpl implements SaveJson {
                 }
             }
 
+
+            logger.info("json文件导入成功，文件是{}", file.getName());
+            reader.close();
+            bis.close();
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveJsonAmerica4Mississippi(File fileDirPath) throws Exception {
+        List<String> fileList = new ArrayList();
+        CommonUtils.readJsonFiles(fileDirPath, fileList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (int z = 0; z < fileList.size(); z++) {
+            File file = new File(fileList.get(z));
+
+            // 忽略mac的隐藏文件
+            if (file.getName().contains(".DS_Store")) {
+                continue;
+            }
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
+
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
+
+            StringBuilder sb = new StringBuilder();
+            while (reader.ready()) {
+                sb.append((char) reader.read());
+            }
+            String sss = sb.toString();
+//            sss = sss.replace("\uFeFF", "");
+            sss = sss.replace("\\\"", "");
+            List<AmericaMississippiDTO> list = null;
+            try {
+//                objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true);
+                list = Optional.ofNullable(objectMapper.readValue(sss, new TypeReference<List<AmericaMississippiDTO>>() {
+                })).orElseGet(() -> new ArrayList<>());
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                logger.info("json序列化出现问题:{}", file.getName());
+                logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
+//                continue;
+                throw e;
+            }
+
+            for (int i = 0; i < list.size(); i++) {
+                String enterpriseId = getUUID();
+                AmericaMississippiDTO americaMississippiDTO = list.get(i);
+                AmericaMississippi americaMississippi = new AmericaMississippi(enterpriseId, americaMississippiDTO.getBusinessInformation());
+                BeanUtil.copyProperties(americaMississippiDTO, americaMississippi, true, CopyOptions.create().setIgnoreNullValue(true).setIgnoreError(true));
+                americaMississippiMapper.insertSelective(americaMississippi);
+                List<AmericaMississippiNameHistory> nameHistoryList = americaMississippiDTO.getNameHistoryList();
+                if (!ObjectUtils.isEmpty(nameHistoryList)) {
+                    nameHistoryList.stream().forEach((j) -> j.setEnterpriseId(enterpriseId));
+                    americaMississippiNameHistoryMapper.insertList(nameHistoryList);
+                }
+                List<AmericaMississippiOfficeDirector> officeDirectorList = americaMississippiDTO.getOfficeDirectorList();
+                if (!ObjectUtils.isEmpty(officeDirectorList)) {
+                    officeDirectorList.stream().forEach((j) -> j.setEnterpriseId(enterpriseId));
+                    americaMississippiOfficeDirectorMapper.insertList(officeDirectorList);
+                }
+                List<AmericaMississippiRegisteredAgent> registeredAgentList = americaMississippiDTO.getRegisteredAgentList();
+                if (!ObjectUtils.isEmpty(registeredAgentList)) {
+                    registeredAgentList.stream().forEach((j) -> j.setEnterpriseId(enterpriseId));
+                    americaMississippiRegisteredAgentMapper.insertList(registeredAgentList);
+                }
+            }
 
             logger.info("json文件导入成功，文件是{}", file.getName());
             reader.close();
