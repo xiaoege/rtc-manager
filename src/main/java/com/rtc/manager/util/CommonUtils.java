@@ -470,6 +470,19 @@ public final class CommonUtils {
         return address.substring(0, addressDigit) + " " + address.substring(addressDigit, in) + " " + address.substring(in);
     }
 
+    /**
+     * 打印Map的key
+     * @param map
+     */
+    public static void printMapKey(Map map) {
+        Set entrySet = map.entrySet();
+        Iterator iterator = entrySet.iterator();
+        while (iterator.hasNext()) {
+            Map.Entry next = (Map.Entry) iterator.next();
+            System.out.println(next.getKey());
+        }
+    }
+
     public static void main(String[] args) {
         String address = "FEDERAL TOWERSP B NO 103ALWAYEERANAKULAMKe683101IN";
         address = "ndsnjfdsn1111f33333IN";
