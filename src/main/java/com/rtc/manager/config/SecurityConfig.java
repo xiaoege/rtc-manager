@@ -2,7 +2,6 @@ package com.rtc.manager.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rtc.manager.dao.RtcUserMapper;
-import com.rtc.manager.entity.dto.RtcUserDTO;
 import com.rtc.manager.filter.CustomAuthenticationFilter;
 import com.rtc.manager.filter.TokenFilter;
 import com.rtc.manager.util.UserUtils;
@@ -33,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author ChenHang
@@ -165,6 +165,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 忘记密码-修改密码
                 .antMatchers("/user/forgetPassword").permitAll()
                 .antMatchers("/savejson/**").permitAll()
+                // 邮箱注册-发送验证码
+                .antMatchers("/user/checkEmailRegistered").permitAll()
+                // 邮箱注册-注册
+                .antMatchers("/user/emailRegister").permitAll()
+                // 忘记密码-邮箱-发送验证码
+                .antMatchers("/user/send4ForgetEmailPassword").permitAll()
+                // 忘记密码-邮箱-校验验证码
+                .antMatchers("/user/check4ForgetEmailPassword").permitAll()
+                // 忘记密码-邮箱-修改密码
+                .antMatchers("/user/forgetEmailPassword").permitAll()
                 // druid
                 .antMatchers("/druid/**").permitAll()
                 .anyRequest().authenticated()
@@ -253,6 +263,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             Map data = new HashMap();
             data.put("account", principal.getUsername());
             RtcUserVO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount2RtcUserVO(principal.getUsername());
+            // 设置token
+            String uuid = rtcUserDTO.getUuid();
+
+            if (!stringRedisTemplate.hasKey(UserUtils.getToken(uuid))) {
+                stringRedisTemplate.opsForValue().set(UserUtils.getToken(uuid), uuid, 30, TimeUnit.DAYS);
+            } else {
+                stringRedisTemplate.expire(UserUtils.getToken(uuid), 30, TimeUnit.DAYS);
+            }
+
             data.put("Authorization", UserUtils.getToken(rtcUserDTO.getUuid()));
             data.put("user", rtcUserDTO);
             Collection<? extends GrantedAuthority> authorities = principal.getAuthorities();
@@ -278,8 +297,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             if (authenticationException instanceof InternalAuthenticationServiceException) {
                 map.put("code", 1002);
                 map.put("message", "该账号不存在");
-            }else if (authenticationException instanceof BadCredentialsException) {
-                 map.put("code", 1003);
+            } else if (authenticationException instanceof BadCredentialsException) {
+                map.put("code", 1003);
                 map.put("message", "密码错误");
             }
             out.write(objectMapper.writeValueAsString(map));

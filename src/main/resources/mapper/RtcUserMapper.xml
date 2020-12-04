@@ -235,7 +235,8 @@
             rtc_user_role.role_name AS roleName,
             rtc_user.uuid,
             rtc_user.phone,
-            rtc_user.country_code countryCode
+            rtc_user.country_code countryCode,
+            rtc_user.email
         FROM
             rtc_user
             LEFT JOIN rtc_user_role ON rtc_user.role_id = rtc_user_role.id
@@ -249,7 +250,8 @@
             rtc_user_role.role_name AS roleName,
             rtc_user.uuid,
             rtc_user.phone,
-            rtc_user.country_code countryCode
+            rtc_user.country_code countryCode,
+            rtc_user.email
         FROM
             rtc_user
             LEFT JOIN rtc_user_role ON rtc_user.role_id = rtc_user_role.id
@@ -263,13 +265,29 @@
             rtc_user_role.role_name AS roleName,
             rtc_user.uuid,
             rtc_user.phone,
-            rtc_user.country_code countryCode
+            rtc_user.country_code countryCode,
+            rtc_user.email
         FROM
             rtc_user
             LEFT JOIN rtc_user_role ON rtc_user.role_id = rtc_user_role.id
         WHERE
             rtc_user.phone = #{uuid,jdbcType=VARCHAR}
             AND rtc_user.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+        UNION
+        SELECT
+            rtc_user.id,
+            rtc_user.`password`,
+            rtc_user_role.role_name AS roleName,
+            rtc_user.uuid,
+            rtc_user.phone,
+            rtc_user.country_code countryCode,
+            rtc_user.email
+        FROM
+            rtc_user
+                LEFT JOIN rtc_user_role ON rtc_user.role_id = rtc_user_role.id
+        WHERE
+            rtc_user.email = #{uuid,jdbcType=VARCHAR}
+          AND rtc_user.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
   </select>
 
   <select id="checkNicknameRegistered" resultType="java.lang.String">
@@ -334,8 +352,26 @@
         FROM
             rtc_user
         WHERE
-            rtc_user.uuid = #{uuid, jdbcType=VARCHAR}
+            rtc_user.uuid = #{account, jdbcType=VARCHAR}
             AND rtc_user.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+        UNION
+        SELECT
+            rtc_user.id,
+            rtc_user.nickname,
+            rtc_user.phone,
+            rtc_user.country_code countryCode,
+            rtc_user.email,
+            rtc_user.synopsis,
+            rtc_user.country,
+            rtc_user.enterprise,
+            rtc_user.address,
+            rtc_user.uuid,
+            rtc_user.portrait
+        FROM
+            rtc_user
+        WHERE
+            rtc_user.email = #{account, jdbcType=VARCHAR}
+          AND rtc_user.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
   </select>
 
     <select id="checkFavourite" resultType="java.lang.Integer">

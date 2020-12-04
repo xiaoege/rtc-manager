@@ -16,7 +16,7 @@ import java.io.InputStream;
 /**
  * 获得请求体里的username和password
  *
- * @author chenhuanming
+ * @author ChenHang
  */
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 

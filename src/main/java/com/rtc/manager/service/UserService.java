@@ -17,15 +17,15 @@ public interface UserService {
      * @param email
      * @return
      */
-    ResultData checkEmaillRegistered(String email);
+    ResultData checkEmailRegistered(String email);
 
     /**
      * 邮箱注册
      *
-     * @param data
+     * @param user
      * @return
      */
-    ResultData emailRegister(String data) throws Exception;
+    ResultData emailRegister(HttpServletRequest request, String user) throws Exception;
 
     /**
      * 校验手机，发送验证码
@@ -147,4 +147,39 @@ public interface UserService {
      * @return
      */
     ResultData translateComment(Integer commentId) throws Exception;
+
+    /**
+     * 更换邮箱-通过邮箱发送验证码
+     * @param email
+     * @return
+     */
+    ResultData send4ChangeEmail(String email);
+
+    /**
+     * 更换邮箱-更换成功后删除验证码
+     * @param body
+     * @return
+     */
+    ResultData changeEmail(String body);
+
+    /**
+     * 忘记密码-邮箱-发送验证码
+     * @param email
+     * @return
+     */
+    ResultData send4ForgetEmailPassword(String email);
+
+    /**
+     * 忘记密码-邮箱-校验验证码
+     * @param body
+     * @return
+     */
+    ResultData check4ForgetEmailPassword(String body);
+
+    /**
+     * 忘记密码-邮箱-修改密码
+     * @param body
+     * @return
+     */
+    ResultData forgetEmailPassword(String body);
 }

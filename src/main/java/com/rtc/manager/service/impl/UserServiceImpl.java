@@ -1,6 +1,7 @@
 package com.rtc.manager.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.rtc.manager.dao.RtcUserCommentMapper;
@@ -9,10 +10,7 @@ import com.rtc.manager.dao.RtcUserMapper;
 import com.rtc.manager.entity.RtcUser;
 import com.rtc.manager.entity.RtcUserComment;
 import com.rtc.manager.entity.RtcUserFavourite;
-import com.rtc.manager.entity.dto.PhoneRegisterDTO;
-import com.rtc.manager.entity.dto.RemoveFavouriteDTO;
-import com.rtc.manager.entity.dto.RtcUserDTO;
-import com.rtc.manager.entity.dto.UserCommentDTO;
+import com.rtc.manager.entity.dto.*;
 import com.rtc.manager.service.UserService;
 import com.rtc.manager.util.CommonUtils;
 import com.rtc.manager.util.ElasticsearchUtils;
@@ -20,17 +18,12 @@ import com.rtc.manager.util.SmsUtils;
 import com.rtc.manager.util.UserUtils;
 import com.rtc.manager.vo.ResultData;
 import com.rtc.manager.vo.RtcUserVO;
-import com.rtc.manager.vo.SearchEnterpriseListVO;
 import com.rtc.manager.vo.UserCommentVO;
-import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.MatchPhraseQueryBuilder;
-import org.elasticsearch.script.ScriptType;
-import org.elasticsearch.script.mustache.SearchTemplateRequest;
-import org.elasticsearch.script.mustache.SearchTemplateResponse;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
@@ -49,17 +42,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
-import java.lang.reflect.Array;
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -102,18 +90,27 @@ public class UserServiceImpl implements UserService {
     Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private static final JavaMailSenderImpl JAVA_MAIL_SENDER;
-    private static final String EMAIL_CODE_700 = "邮箱格式错误";
-    private static final String EMAIL_CODE_701 = "邮箱已注册";
-    private static final String EMAIL_CODE_704 = "该邮箱尚未发送验证码";
+
     private static final String CODE_702 = "验证码发送次数过多，请稍后再试";
     private static final String CODE_703 = "验证码发送失败";
     private static final String CODE_705 = "数据有误";
     private static final String CODE_707 = "验证码错误";
+    private static final String CODE_708 = "翻译失败";
+
+    private static final String EMAIL_CODE_850 = "邮箱格式错误";
+    private static final String EMAIL_CODE_851 = "邮箱已注册";
+    private static final String EMAIL_CODE_852 = "该邮箱尚未发送验证码";
+    private static final String EMAIL_CODE_853 = "邮箱验证失败";
+    private static final String EMAIL_CODE_854 = "邮箱注册失败";
+    private static final String EMAIL_CODE_855 = "邮箱不能与原来相同";
+    private static final String EMAIL_CODE_856 = "该邮箱尚未注册";
 
     private static final String PHONE_CODE_800 = "手机号格式错误";
     private static final String PHONE_CODE_801 = "手机号已注册";
-    private static final String PHONE_CODE_802 = "请输入手机号";
+    private static final String PHONE_CODE_803 = "国家代码与手机号不符";
     private static final String PHONE_CODE_804 = "该手机号尚未发送验证码";
+    private static final String PHONE_CODE_805 = "该手机号尚未注册";
+
 
     @Value("${rtc.mail.redisEmailLimt}")
     private Integer redisEmailLimt;
@@ -133,79 +130,111 @@ public class UserServiceImpl implements UserService {
 
     }
 
+
     /**
-     * 校验邮箱是否注册
+     * 校验邮箱是否注册，发送验证码
      *
-     * @param emaill
+     * @param email
      * @return
      */
     @Override
-    public ResultData checkEmaillRegistered(String emaill) {
+    public ResultData checkEmailRegistered(String email) {
         // 正则判断是否是邮箱
-        if (!UserUtils.checkEmailRegex(emaill)) {
-            return ResultData.FAIL(emaill, 700, EMAIL_CODE_700);
-        } else if (rtcUserMapper.checkEmaillRegistered(emaill) != null) {
-            return ResultData.FAIL(emaill, 701, EMAIL_CODE_701);
+        if (!UserUtils.checkEmailRegex(email)) {
+            return ResultData.FAIL(email, 850, EMAIL_CODE_850);
+        }
+        // 检验是否注册过
+        if (rtcUserMapper.checkEmaillRegistered(email) != null) {
+            return ResultData.FAIL(email, 851, EMAIL_CODE_851);
         }
 
         // 验证码
         String verificationCode = UserUtils.getVerificationCode();
 
         // 验证，15分钟内最多发5次，一个验证码有效期15分钟
-        if (checkVerificationCodeRedis(emaill, verificationCode)) {
+        if (checkVerificationCodeRedis(email, verificationCode)) {
             // 发送邮件验证码
-            UserUtils.sendEmailVerificationCode(emaill, verificationCode);
-            return ResultData.SUCCESS(emaill, "验证码已发送");
-        } else if (!checkVerificationCodeRedis(emaill, verificationCode)) {
-            return ResultData.FAIL(emaill, 702, CODE_702);
+            try {
+                UserUtils.sendEmailVerificationCode(email, verificationCode);
+            } catch (Exception e) {
+                e.printStackTrace();
+                logger.info("发送验证码失败:{}", e);
+                return ResultData.FAIL(null, 703, CODE_703);
+            }
+            return ResultData.SUCCESS(email, "验证码已发送");
         }
 
-        return ResultData.FAIL(emaill, 703, CODE_703);
+        return ResultData.FAIL(email, 702, CODE_702);
     }
 
     /**
      * 邮箱注册
      *
-     * @param data
+     * @param user
      * @return
      * @throws Exception
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ResultData emailRegister(String data) throws Exception {
+    public ResultData emailRegister(HttpServletRequest request, String user) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        RtcUserDTO rtcUserDTO = objectMapper.readValue(data, RtcUserDTO.class);
+//        RtcUserDTO rtcUserDTO = objectMapper.readValue(user, RtcUserDTO.class);
+        EmailRegisterDTO emailRegisterDTO = objectMapper.readValue(user, EmailRegisterDTO.class);
 
-        if (rtcUserDTO == null) {
-            return ResultData.FAIL(data, 705, CODE_705);
+        if (emailRegisterDTO == null || emailRegisterDTO.getPassword() == null ||
+                !emailRegisterDTO.getPassword().equals(emailRegisterDTO.getRetypePassword())) {
+            return ResultData.FAIL(user, 705, CODE_705);
         }
         RtcUser rtcUser = new RtcUser();
-        BeanUtils.copyProperties(rtcUserDTO, rtcUser);
+        BeanUtils.copyProperties(emailRegisterDTO, rtcUser);
 
-        String email = rtcUserDTO.getEmail();
+        String email = rtcUser.getEmail();
 
         // 邮箱格式错误
         if (!UserUtils.checkEmailRegex(email)) {
-            return ResultData.FAIL(email, 700, EMAIL_CODE_700);
+            return ResultData.FAIL(user, 850, EMAIL_CODE_850);
             // 邮箱已注册
         } else if (rtcUserMapper.checkEmaillRegistered(email) != null) {
-            return ResultData.FAIL(email, 701, EMAIL_CODE_701);
+            return ResultData.FAIL(user, 851, EMAIL_CODE_851);
             // 没发过验证码
         } else if (!stringRedisTemplate.hasKey(email)) {
-            return ResultData.FAIL(email, 704, EMAIL_CODE_704);
-        } else if (rtcUserDTO.getVerificationCode() == null) {
-            // 没填验证码
-//            return ResultData.FAIL(email, 705, CODE_706);
+            return ResultData.FAIL(user, 852, EMAIL_CODE_852);
+        }
+        // 校验密码格式
+        String password = rtcUser.getPassword();
+        if (!UserUtils.checkPasswordFormat(password)) {
+            return ResultData.FAIL(user, 903, "密码格式错误");
         }
         String verificationCodeRedis = stringRedisTemplate.opsForValue().get(email);
-        if (rtcUserDTO.getVerificationCode().equals(verificationCodeRedis)) {
-            Map<String, String> map = UserUtils.hexPassword(rtcUser.getPassword());
-            rtcUser.setPassword(map.get("password"));
-            rtcUser.setSalt(map.get("salt"));
+        if (emailRegisterDTO.getVerificationCode().equals(verificationCodeRedis)) {
+            String uuid = UUID.randomUUID().toString();
+            rtcUser.setUuid(uuid);
+            // todo
+            rtcUser.setNickname(email);
+            rtcUser.setPassword(UserUtils.hexBCryptPassword(password));
             rtcUserMapper.insertSelective(rtcUser);
-            return ResultData.SUCCESS(data, "注册成功");
+            // 注册成功后删除验证码
+            stringRedisTemplate.delete(email);
+            // 注册完自动登录，返回token
+            UserDetails userDetails = userDetailService.loadUserByUsername(email);
+            if (userDetails != null) {
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+            RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(uuid);
+            String token = UserUtils.getToken(rtcUserDTO.getUuid());
+            stringRedisTemplate.opsForValue().set(token, rtcUserDTO.getUuid(), loginTokenTTL, TimeUnit.DAYS);
+            Map map = new HashMap();
+            map.put("account", email);
+            map.put("Authorization", token);
+            return ResultData.SUCCESS(map, "注册成功");
         }
-        return ResultData.FAIL(data, 707, CODE_707);
+
+
+        return ResultData.FAIL(user, 707, CODE_707);
     }
 
     /**
@@ -236,8 +265,14 @@ public class UserServiceImpl implements UserService {
             return ResultData.FAIL(phone, 702, CODE_702);
         }
 
-        // todo 发送验证码
-        SmsUtils.sendSms(verificationCode);
+        // 发送验证码
+        try {
+            SmsUtils.sendSms(verificationCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info("发送验证码失败:{}", e);
+            return ResultData.FAIL(null, 703, CODE_703);
+        }
 
         return ResultData.SUCCESS(phone, "验证码发送成功");
     }
@@ -283,7 +318,6 @@ public class UserServiceImpl implements UserService {
         if (!UserUtils.checkPasswordFormat(password)) {
             return ResultData.FAIL(user, 903, "密码格式错误");
         }
-
 
         // 验证手机号是否注册
         if (rtcUserMapper.checkPhoneRegistered(phone) != null) {
@@ -402,7 +436,6 @@ public class UserServiceImpl implements UserService {
             }
         }
 
-
         rtcUser.setId(rtcUserVO.getId());
         rtcUser.setPassword(null);
         rtcUser.setPhone(null);
@@ -476,14 +509,13 @@ public class UserServiceImpl implements UserService {
         if (phone == null || countryCode == null) {
             return ResultData.FAIL(null, 400, "数据有误");
         }
-
         // 该手机号尚未注册
         if (rtcUserMapper.checkPhoneRegistered(phone) == null) {
-            return ResultData.FAIL(null, 805, "该手机号尚未注册");
+            return ResultData.FAIL(null, 805, PHONE_CODE_805);
         }
         RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(phone);
         if (!countryCode.equals(rtcUserDTO.getCountryCode())) {
-            return ResultData.FAIL(null, 803, "国家代码与手机号不符");
+            return ResultData.FAIL(null, 803, PHONE_CODE_803);
         }
 
         // 校验验证码次数
@@ -492,8 +524,14 @@ public class UserServiceImpl implements UserService {
             return ResultData.FAIL(phone, 702, CODE_702);
         }
 
-        // todo 发送验证码
-        SmsUtils.sendSms(verificationCode);
+        // 发送验证码
+        try {
+            SmsUtils.sendSms(verificationCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info("发送验证码失败:{}", e);
+            return ResultData.FAIL(null, 703, CODE_703);
+        }
 
         return ResultData.SUCCESS(null, "发送验证码成功");
     }
@@ -514,15 +552,15 @@ public class UserServiceImpl implements UserService {
         }
         // 该手机号尚未注册
         if (rtcUserMapper.checkPhoneRegistered(phone) == null) {
-            return ResultData.FAIL(null, 805, "该手机号尚未注册");
+            return ResultData.FAIL(null, 805, PHONE_CODE_805);
         }
         RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(phone);
         if (!countryCode.equals(rtcUserDTO.getCountryCode())) {
-            return ResultData.FAIL(null, 803, "国家代码与手机号不符");
+            return ResultData.FAIL(null, 803, PHONE_CODE_803);
         }
         // 该手机号尚未发送验证码
         if (!stringRedisTemplate.hasKey(phone)) {
-            return ResultData.FAIL(null, 804, "该手机号尚未发送验证码");
+            return ResultData.FAIL(null, 804, PHONE_CODE_804);
         }
         // 校验验证码
         if (stringRedisTemplate.opsForValue().get(phone).equals(verificationCode)) {
@@ -595,7 +633,7 @@ public class UserServiceImpl implements UserService {
         }
         // 该手机号尚未发送验证码
         if (!stringRedisTemplate.hasKey(phone)) {
-            return ResultData.FAIL(null, 804, "该手机号尚未发送验证码");
+            return ResultData.FAIL(null, 804, PHONE_CODE_804);
         }
         // 校验验证码
         if (!stringRedisTemplate.opsForValue().get(phone).equals(verificationCode)) {
@@ -633,8 +671,9 @@ public class UserServiceImpl implements UserService {
             return ResultData.FAIL(user, 400, "数据有误");
         }
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String oldPhone = userDetails.getUsername();
-//        String oldPhone = map.get("oldPhone");
+        RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(userDetails.getUsername());
+
+        String oldPhone = rtcUserDTO.getPhone();
         String newPhone = map.get("phone");
         String countryCode = map.get("countryCode");
         String verificationCode = map.get("verificationCode");
@@ -642,24 +681,23 @@ public class UserServiceImpl implements UserService {
         if (newPhone == null || countryCode == null || verificationCode == null) {
             return ResultData.FAIL(user, 400, "数据有误");
         }
-        if (oldPhone.equals(newPhone)) {
-            return ResultData.FAIL(user, 805, "新手机号不能和原来一样");
+        if (oldPhone != null && oldPhone.equals(newPhone)) {
+            return ResultData.FAIL(user, 805, PHONE_CODE_805);
         }
 
         if (rtcUserMapper.checkPhoneRegistered(newPhone) != null) {
-            return ResultData.FAIL(user, 801, "手机号已注册");
+            return ResultData.FAIL(user, 801, PHONE_CODE_801);
         }
 
         // 手机尚未发送验证码
         if (!stringRedisTemplate.hasKey(newPhone)) {
-            return ResultData.FAIL(user, 804, "该手机号尚未发送验证码");
+            return ResultData.FAIL(user, 804, PHONE_CODE_804);
         }
         // 验证码错误
         if (!stringRedisTemplate.opsForValue().get(newPhone).equals(verificationCode)) {
             return ResultData.FAIL(user, 707, "验证码错误");
         }
 
-        RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(oldPhone);
         RtcUser rtcUser = new RtcUser();
         rtcUser.setId(rtcUserDTO.getId());
         rtcUser.setPhone(newPhone);
@@ -684,12 +722,14 @@ public class UserServiceImpl implements UserService {
             return ResultData.FAIL(null, 400, "数据有误");
         }
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (phone.equals(userDetails.getUsername())) {
-            return ResultData.FAIL(null, 805, "新手机号不能和原来一样");
+        RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(userDetails.getUsername());
+        String oldPhone = rtcUserDTO.getPhone();
+        if (phone.equals(oldPhone)) {
+            return ResultData.FAIL(null, 805, PHONE_CODE_805);
         }
         // 该手机号已注册
         if (rtcUserMapper.checkPhoneRegistered(phone) != null) {
-            return ResultData.FAIL(null, 801, "该手机号已注册");
+            return ResultData.FAIL(null, 801, PHONE_CODE_801);
         }
 
         // 校验验证码次数
@@ -697,8 +737,14 @@ public class UserServiceImpl implements UserService {
         if (!checkVerificationCodeRedis(phone, verificationCode)) {
             return ResultData.FAIL(phone, 702, CODE_702);
         }
-        // todo 发送验证码
-        SmsUtils.sendSms(verificationCode);
+        // 发送验证码
+        try {
+            SmsUtils.sendSms(verificationCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info("发送验证码失败:{}", e);
+            return ResultData.FAIL(null, 703, CODE_703);
+        }
 
         return ResultData.FAIL(null, 200, "发送验证码成功");
     }
@@ -932,7 +978,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public ResultData translateComment(Integer commentId) throws Exception{
+    public ResultData translateComment(Integer commentId) throws Exception {
         Map resultMap = new HashMap();
         resultMap.put("commentId", commentId);
         resultMap.put("comment", "");
@@ -951,14 +997,252 @@ public class UserServiceImpl implements UserService {
             resultMap.put("comment", comment);
             return ResultData.SUCCESS(resultMap);
         }
-        return ResultData.FAIL(resultMap, 708, "翻译失败");
+        return ResultData.FAIL(resultMap, 708, CODE_708);
+    }
+
+    /**
+     * 更换邮箱-通过邮箱发送验证码
+     *
+     * @param email
+     * @return
+     */
+    @Override
+    public ResultData send4ChangeEmail(String email) {
+        // 邮箱格式验证
+        if (email == null || !UserUtils.checkEmailRegex(email)) {
+            return ResultData.FAIL(email, 850, EMAIL_CODE_850);
+        }
+
+        // 邮箱不能与原来相同
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        RtcUserDTO rtcUser = rtcUserMapper.selectByPhoneOrAccount(userDetails.getUsername());
+        String oldEmail = rtcUser.getEmail();
+        if (oldEmail != null && oldEmail.equals(email)) {
+            return ResultData.FAIL(email, 855, EMAIL_CODE_855);
+        }
+
+        // 邮箱已注册
+        if (rtcUserMapper.checkEmaillRegistered(email) != null) {
+            return ResultData.FAIL(email, 851, EMAIL_CODE_851);
+        }
+
+        // 校验验证码次数
+        String verificationCode = UserUtils.getVerificationCode();
+        // 验证，15分钟内最多发5次，一个验证码有效期15分钟
+        if (checkVerificationCodeRedis(email, verificationCode)) {
+            // 发送邮件验证码
+            try {
+                UserUtils.sendEmailVerificationCode(email, verificationCode);
+            } catch (Exception e) {
+                e.printStackTrace();
+                logger.info("发送验证码失败:{}", e);
+                return ResultData.FAIL(null, 703, CODE_703);
+            }
+            return ResultData.SUCCESS(email, "验证码已发送");
+        }
+
+        return ResultData.FAIL(email, 702, CODE_702);
+    }
+
+    /**
+     * 更换邮箱-更换成功后删除验证码
+     *
+     * @param body
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ResultData changeEmail(String body) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            HashMap<String, String> map = objectMapper.readValue(body, HashMap.class);
+            String email = map.get("email");
+            String verificationCode = map.get("verificationCode");
+            if (email == null || verificationCode == null) {
+                return ResultData.FAIL(body, 400, "数据有误");
+            }
+
+            // 邮箱格式验证
+            if (email == null || !UserUtils.checkEmailRegex(email)) {
+                return ResultData.FAIL(email, 850, EMAIL_CODE_850);
+            }
+
+            // 邮箱不能与原来相同
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            RtcUserDTO rtcUser = rtcUserMapper.selectByPhoneOrAccount(userDetails.getUsername());
+            String oldEmail = rtcUser.getEmail();
+            if (oldEmail != null && oldEmail.equals(email)) {
+                return ResultData.FAIL(email, 855, EMAIL_CODE_855);
+            }
+
+            // 邮箱已注册
+            if (rtcUserMapper.checkEmaillRegistered(email) != null) {
+                return ResultData.FAIL(email, 851, EMAIL_CODE_851);
+            }
+            // 该邮箱尚未发送验证码
+            if (!stringRedisTemplate.hasKey(email)) {
+                return ResultData.FAIL(email, 852, EMAIL_CODE_852);
+            }
+            // 检验验证码
+            if (!verificationCode.equals(stringRedisTemplate.opsForValue().get(email))) {
+                return ResultData.FAIL(email, 707, CODE_707);
+            }
+
+            // 修改邮箱
+            RtcUser data = new RtcUser();
+            data.setId(rtcUser.getId());
+            data.setEmail(email);
+            rtcUserMapper.updateByPrimaryKeySelective(data);
+
+            // 删除验证码
+            stringRedisTemplate.delete(email);
+
+        } catch (JsonProcessingException e) {
+            logger.info("changeEmail():{},{}", e, body);
+            return ResultData.FAIL(body, 400, "数据有误");
+        }
+        return ResultData.SUCCESS(body, 200, "更新邮箱成功");
+    }
+
+    /**
+     * 忘记密码-邮箱-发送验证码
+     *
+     * @param email
+     * @return
+     */
+    @Override
+    public ResultData send4ForgetEmailPassword(String email) {
+        // 邮箱格式验证
+        if (!UserUtils.checkEmailRegex(email)) {
+            return ResultData.FAIL(email, 850, EMAIL_CODE_850);
+        }
+        // 邮箱未注册
+        if (rtcUserMapper.checkEmaillRegistered(email) == null) {
+            return ResultData.FAIL(email, 856, EMAIL_CODE_856);
+        }
+        String verificationCode = UserUtils.getVerificationCode();
+        // 验证，15分钟内最多发5次，一个验证码有效期15分钟
+        if (checkVerificationCodeRedis(email, verificationCode)) {
+            // 发送邮件验证码
+            try {
+                UserUtils.sendEmailVerificationCode(email, verificationCode);
+            } catch (Exception e) {
+                e.printStackTrace();
+                logger.info("发送验证码失败:{}", e);
+                return ResultData.FAIL(null, 703, CODE_703);
+            }
+            return ResultData.SUCCESS(email, "验证码已发送");
+        }
+
+        return ResultData.FAIL(email, 702, CODE_702);
+    }
+
+    /**
+     * 忘记密码-邮箱-校验验证码
+     *
+     * @param body
+     * @return
+     */
+    @Override
+    public ResultData check4ForgetEmailPassword(String body) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            HashMap<String, String> hashMap = objectMapper.readValue(body, HashMap.class);
+            String email = hashMap.get("email");
+            String verificationCode = hashMap.get("verificationCode");
+            // 邮箱格式验证
+            if (!UserUtils.checkEmailRegex(email)) {
+                return ResultData.FAIL(body, 850, EMAIL_CODE_850);
+            }
+            // 邮箱未注册
+            if (rtcUserMapper.checkEmaillRegistered(email) == null) {
+                return ResultData.FAIL(body, 856, EMAIL_CODE_856);
+            }
+            // 邮箱未发送验证码
+            if (!stringRedisTemplate.hasKey(email)) {
+                return ResultData.FAIL(body, 852, EMAIL_CODE_852);
+            }
+
+            // 校验验证码
+            if (stringRedisTemplate.opsForValue().get(email).equals(verificationCode)) {
+                return ResultData.SUCCESS(body, 200, "验证码校验成功");
+            }
+
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            logger.info("check4ForgetEmailPassword():{},{}", body, e);
+        }
+
+        return ResultData.FAIL(body, 707, CODE_707);
+    }
+
+    /**
+     * 忘记密码-邮箱-修改密码
+     *
+     * @param body
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ResultData forgetEmailPassword(String body) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            HashMap<String, String> hashMap = objectMapper.readValue(body, HashMap.class);
+            String email = hashMap.get("email");
+            String password = hashMap.get("password");
+            String retypePassword = hashMap.get("retypePassword");
+            String verificationCode = hashMap.get("verificationCode");
+
+            // 邮箱格式验证
+            if (!UserUtils.checkEmailRegex(email)) {
+                return ResultData.FAIL(body, 850, EMAIL_CODE_850);
+            }
+            // 校验数据格式
+            if (password == null || !password.equals(retypePassword)) {
+                return ResultData.FAIL(body, 705, CODE_705);
+            }
+            // 邮箱未注册
+            if (rtcUserMapper.checkEmaillRegistered(email) == null) {
+                return ResultData.FAIL(body, 856, EMAIL_CODE_856);
+            }
+
+            // 邮箱未发送验证码
+            if (!stringRedisTemplate.hasKey(email)) {
+                return ResultData.FAIL(body, 852, EMAIL_CODE_852);
+            }
+
+            // 校验密码格式
+            if (!UserUtils.checkPasswordFormat(password)) {
+                return ResultData.FAIL(body, 903, "密码格式错误");
+            }
+
+            // 校验验证码
+            if (stringRedisTemplate.opsForValue().get(email).equals(verificationCode)) {
+                RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(email);
+                if (new BCryptPasswordEncoder().matches(password, rtcUserDTO.getPassword())) {
+                    return ResultData.FAIL(body, 904, "新密码不能和原密码相同");
+                }
+                RtcUser rtcUser = new RtcUser();
+                rtcUser.setId(rtcUserDTO.getId());
+                rtcUser.setPassword(UserUtils.hexBCryptPassword(password));
+                rtcUserMapper.updateByPrimaryKeySelective(rtcUser);
+                // 删除验证码
+                stringRedisTemplate.delete(email);
+                return ResultData.SUCCESS(body, 200, "修改密码成功");
+            }
+
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            logger.info("forgetEmailPassword():{},{}", body, e);
+        }
+        return ResultData.SUCCESS(null);
     }
 
     /**
      * 检验验证码发送频率限制并记录在redis，设置过期时间
      *
      * @param verificationCode
-     * @return
+     * @return 可以发送返回true，超过限制返回false
      */
     public boolean checkVerificationCodeRedis(String account, String verificationCode) {
         if (!stringRedisTemplate.hasKey(account)) {
@@ -967,7 +1251,7 @@ public class UserServiceImpl implements UserService {
             stringRedisTemplate.opsForValue().increment(account + "_incr");
             stringRedisTemplate.expire(account + "_incr", verificationCodeTTL, TimeUnit.MINUTES);
             return true;
-        } else if (stringRedisTemplate.hasKey(account)) {
+        } else {
             if (stringRedisTemplate.hasKey("countdown:" + account)) {
                 return false;
             }
@@ -978,7 +1262,6 @@ public class UserServiceImpl implements UserService {
                 stringRedisTemplate.expire(account + "_incr", verificationCodeTTL, TimeUnit.MINUTES);
                 return true;
             }
-
         }
 
         return false;

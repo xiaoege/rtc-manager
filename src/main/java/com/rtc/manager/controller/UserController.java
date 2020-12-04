@@ -31,22 +31,25 @@ public class UserController {
      * @throws Exception
      */
     @ApiIgnore
-    @ApiOperation("邮箱注册")
+    @ApiOperation(value = "邮箱注册,注册成功后删除验证码", notes = "参数例子:\n" +
+            "{\n" +
+            "    \"email\":\"xxxx@qq.com\",\n" +
+            "    \"password\":\"asd\",\n" +
+            "    \"retypePassword\":\"asd\",\n" +
+            "    \"verificationCode\":\"30505\"\n" +
+            "}\n" +
+            "phone:手机号,countryCode:手机号国家代码,password:密码,retypePassword:确认密码,verificationCode:验证码")
     @ApiResponses({
-            @ApiResponse(code = 700, message = "邮箱格式错误"),
-            @ApiResponse(code = 701, message = "邮箱已注册"),
-            @ApiResponse(code = 702, message = "验证码发送次数过多，请15分钟稍后再试"),
-            @ApiResponse(code = 703, message = "验证码发送失败"),
-            @ApiResponse(code = 704, message = "该邮箱尚未发送验证码"),
             @ApiResponse(code = 705, message = "数据有误"),
-            @ApiResponse(code = 706, message = "请输入验证码"),
-            @ApiResponse(code = 707, message = "验证码错误")
+            @ApiResponse(code = 707, message = "邮箱验证码错误"),
+            @ApiResponse(code = 850, message = "邮箱格式错误"),
+            @ApiResponse(code = 851, message = "邮箱已注册"),
+            @ApiResponse(code = 852, message = "该邮箱尚未发送验证码")
     })
-    @Deprecated
     @PostMapping("emailRegister")
-    public ResultData emailRegister(@RequestParam(name = "data") String data) throws Exception {
+    public ResultData emailRegister(@RequestBody String user, HttpServletRequest request) throws Exception {
         //校验验证码,注册
-        ResultData resultData = userService.emailRegister(data);
+        ResultData resultData = userService.emailRegister(request, user);
 
         return resultData;
     }
@@ -60,21 +63,72 @@ public class UserController {
     @ApiIgnore
     @ApiOperation("校验邮箱，发送验证码")
     @ApiResponses({
-            @ApiResponse(code = 700, message = "邮箱格式错误"),
-            @ApiResponse(code = 701, message = "邮箱已注册"),
+            @ApiResponse(code = 850, message = "邮箱格式错误"),
+            @ApiResponse(code = 851, message = "邮箱已注册"),
             @ApiResponse(code = 702, message = "验证码发送次数过多，请15分钟稍后再试"),
-            @ApiResponse(code = 703, message = "验证码发送失败"),
-            @ApiResponse(code = 704, message = "该邮箱尚未发送验证码"),
-            @ApiResponse(code = 705, message = "数据有误"),
-            @ApiResponse(code = 706, message = "请输入验证码"),
-            @ApiResponse(code = 707, message = "验证码错误")
+            @ApiResponse(code = 703, message = "验证码发送失败")
     })
-    @Deprecated
-    @PostMapping("checkEmaillRegistered")
-    public ResultData checkEmaillRegistered(@RequestParam(name = "email") String email) {
-        ResultData resultData = userService.checkEmaillRegistered(email);
+    @PostMapping("checkEmailRegistered")
+    public ResultData checkEmailRegistered(@RequestParam(name = "email") String email) {
+        ResultData resultData = userService.checkEmailRegistered(email);
 
         return resultData;
+    }
+
+    /**
+     * 更换邮箱-通过邮箱发送验证码
+     *
+     * @param phone
+     * @return
+     */
+    @ApiOperation(value = "更换邮箱-通过邮箱发送验证码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
+            @ApiImplicitParam(name = "user", value = "参数示例：{\n" +
+                    "    \"email\":\"777\",\n" +
+                    "}", paramType = "body")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "{\n" +
+                    "    \"message\": \"发送验证码成功\",\n" +
+                    "    \"data\": null,\n" +
+                    "    \"code\": 200\n" +
+                    "}"),
+            @ApiResponse(code = 702, message = "验证码发送次数过多，请15分钟稍后再试"),
+            @ApiResponse(code = 703, message = "验证码发送失败"),
+            @ApiResponse(code = 850, message = "邮箱格式错误"),
+            @ApiResponse(code = 851, message = "该邮箱已注册"),
+            @ApiResponse(code = 855, message = "邮箱不能与原来相同")
+    })
+    @PostMapping("send4ChangeEmail")
+    public ResultData send4ChangeEmail(@RequestBody HashMap<String, String> user) {
+        String email = user.get("email");
+        return userService.send4ChangeEmail(email);
+    }
+
+    /**
+     * 更换邮箱-更换成功后删除验证码
+     *
+     * @return
+     */
+    @ApiOperation(value = "更换邮箱-更换成功后删除验证码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
+            @ApiImplicitParam(name = "body", value = "参数示例：{\n" +
+                    "    \"email\": \"xxx@qq.com\",\n" +
+                    "    \"verificationCode\": \"581106\"\n" +
+                    "}", paramType = "body")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 707, message = "验证码错误"),
+            @ApiResponse(code = 850, message = "邮箱格式错误"),
+            @ApiResponse(code = 851, message = "邮箱已注册"),
+            @ApiResponse(code = 852, message = "该邮箱尚未发送验证码"),
+            @ApiResponse(code = 855, message = "邮箱不能与原来相同")
+    })
+    @PostMapping("changeEmail")
+    public ResultData changeEmail(@RequestBody String body) {
+        return userService.changeEmail(body);
     }
 
     /**
@@ -120,6 +174,7 @@ public class UserController {
     })
     @ApiResponses({
             @ApiResponse(code = 702, message = "验证码发送次数过多，请15分钟稍后再试"),
+            @ApiResponse(code = 703, message = "验证码发送失败"),
             @ApiResponse(code = 800, message = "手机号格式错误"),
             @ApiResponse(code = 801, message = "手机号已注册")
     })
@@ -230,6 +285,7 @@ public class UserController {
                     "    \"code\": 200\n" +
                     "}"),
             @ApiResponse(code = 702, message = "验证码发送次数过多，请15分钟稍后再试"),
+            @ApiResponse(code = 703, message = "验证码发送失败"),
             @ApiResponse(code = 803, message = "国家代码与手机号不符"),
             @ApiResponse(code = 805, message = "该手机号尚未注册")
     })
@@ -343,6 +399,7 @@ public class UserController {
                     "    \"code\": 200\n" +
                     "}"),
             @ApiResponse(code = 702, message = "验证码发送次数过多，请15分钟稍后再试"),
+            @ApiResponse(code = 703, message = "验证码发送失败"),
             @ApiResponse(code = 801, message = "该手机号已注册"),
             @ApiResponse(code = 805, message = "新手机号不能和原来一样")
     })
@@ -646,4 +703,89 @@ public class UserController {
     public ResultData translateComment(@RequestParam(name = "commentId") Integer commentId) throws Exception {
         return userService.translateComment(commentId);
     }
+
+    /**
+     * 忘记密码-邮箱-发送验证码
+     *
+     * @param email
+     * @return
+     */
+    @ApiOperation(value = "忘记密码-邮箱-发送验证码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
+            @ApiImplicitParam(name = "email", value = "参数示例：xxx@qq.com", paramType = "query")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "{\n" +
+                    "    \"message\": \"请求成功\",\n" +
+                    "    \"data\": \"xxx@qq.com\",\n" +
+                    "    \"code\": 200\n" +
+                    "}"),
+            @ApiResponse(code = 702, message = "验证码发送次数过多，请稍后再试"),
+            @ApiResponse(code = 703, message = "验证码发送失败"),
+            @ApiResponse(code = 850, message = "邮箱格式错误"),
+            @ApiResponse(code = 856, message = "该邮箱尚未注册")
+    })
+    @GetMapping("send4ForgetEmailPassword")
+    public ResultData send4ForgetEmailPassword(@RequestParam String email) {
+        return userService.send4ForgetEmailPassword(email);
+    }
+
+    /**
+     * 忘记密码-邮箱-校验验证码
+     *
+     * @param email
+     * @return
+     */
+    @ApiOperation(value = "忘记密码-邮箱-校验验证码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
+            @ApiImplicitParam(name = "body", value = "参数示例：{\n" +
+                    "    \"email\": \"xxx@qq.com\",\n" +
+                    "    \"verificationCode\": \"177249\"\n" +
+                    "}", paramType = "body")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "{\n" +
+                    "    \"message\": \"验证码校验成功\",\n" +
+                    "    \"data\": {\"email\": \"xxx@qq.com\",\"verificationCode\": \"177249\"} ,\n" +
+                    "    \"code\": 200\n" +
+                    "}"),
+            @ApiResponse(code = 707, message = "验证码错误"),
+            @ApiResponse(code = 850, message = "邮箱格式错误"),
+            @ApiResponse(code = 852, message = "该邮箱尚未发送验证码"),
+            @ApiResponse(code = 856, message = "该邮箱尚未注册")
+    })
+    @PostMapping("check4ForgetEmailPassword")
+    public ResultData check4ForgetEmailPassword(@RequestBody String body) {
+        return userService.check4ForgetEmailPassword(body);
+    }
+
+    /**
+     * 忘记密码-邮箱-修改密码
+     */
+    @ApiOperation(value = "忘记密码-邮箱-修改密码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
+            @ApiImplicitParam(name = "body", value = "参数示例：{\n" +
+                    "    \"email\": \"xxx@qq.com\",\n" +
+                    "    \"verificationCode\": \"177249\",\n" +
+                    "    \"password\":\"asd123\",\n" +
+                    "    \"retypePassword\":\"asd123\"\n" +
+                    "}", paramType = "body")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "修改密码成功"),
+            @ApiResponse(code = 705, message = "705"),
+            @ApiResponse(code = 850, message = "邮箱格式错误"),
+            @ApiResponse(code = 852, message = "该邮箱尚未发送验证码"),
+            @ApiResponse(code = 856, message = "该邮箱尚未注册"),
+            @ApiResponse(code = 903, message = "密码格式错误"),
+            @ApiResponse(code = 904, message = "新密码不能和原密码相同")
+    })
+    @PutMapping("forgetEmailPassword")
+    public ResultData forgetEmailPassword(@RequestBody String body) {
+        return userService.forgetEmailPassword(body);
+    }
+
 }
