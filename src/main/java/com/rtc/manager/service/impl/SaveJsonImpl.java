@@ -2052,12 +2052,13 @@ public class SaveJsonImpl implements SaveJson {
                 AmericaDelaware americaDelaware = new AmericaDelaware();
                 BeanUtils.copyProperties(americaDelawareDTO, americaDelaware);
                 americaDelaware.setEnterpriseId(getUUID());
-                americaDelawareList.add(americaDelaware);
+                americaDelawareMapper.insertSelective(americaDelaware);
+//                americaDelawareList.add(americaDelaware);
             }
-            logger.info("americaDelawareList.size : " + americaDelawareList.size());
-            if (americaDelawareList.size() > 0) {
-                americaDelawareMapper.insertList(americaDelawareList);
-            }
+//            logger.info("americaDelawareList.size : " + americaDelawareList.size());
+//            if (americaDelawareList.size() > 0) {
+//                americaDelawareMapper.insertList(americaDelawareList);
+//            }
             logger.info("json文件导入成功，文件是{}", file.getName());
             reader.close();
             bis.close();
