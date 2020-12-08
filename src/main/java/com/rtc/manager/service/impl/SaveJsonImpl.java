@@ -2054,6 +2054,7 @@ public class SaveJsonImpl implements SaveJson {
                 americaDelaware.setEnterpriseId(getUUID());
                 americaDelawareList.add(americaDelaware);
             }
+            logger.info("americaDelawareList.size : " + americaDelawareList.size());
             if (americaDelawareList.size() > 0) {
                 americaDelawareMapper.insertList(americaDelawareList);
             }
