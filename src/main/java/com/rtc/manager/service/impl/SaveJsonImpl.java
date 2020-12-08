@@ -2046,7 +2046,7 @@ public class SaveJsonImpl implements SaveJson {
 //                continue;
                 throw e;
             }
-            List<AmericaDelaware> americaDelawareList = new ArrayList();
+            List<AmericaDelaware> americaDelawareList = new ArrayList(2556039);
             for (int i = 0; i < list.size(); i++) {
                 AmericaDelawareDTO americaDelawareDTO = list.get(i);
                 AmericaDelaware americaDelaware = new AmericaDelaware();
