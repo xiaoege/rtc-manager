@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.america.michigan.AmericaMichiganShareMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.america.michigan.AmericaMichiganShare">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="total_authorized_shares" jdbcType="VARCHAR" property="totalAuthorizedShares" />
+    <result column="shares_attributable_michigan" jdbcType="VARCHAR" property="sharesAttributableMichigan" />
+    <result column="most_recent_apportionment" jdbcType="VARCHAR" property="mostRecentApportionment" />
+    <result column="year_ending" jdbcType="VARCHAR" property="yearEnding" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, total_authorized_shares, shares_attributable_michigan, most_recent_apportionment, 
+    year_ending, gmt_create, gmt_modified, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from america_michigan_share
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from america_michigan_share
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rtc.manager.entity.america.michigan.AmericaMichiganShare">
+    insert into america_michigan_share (id, enterprise_id, total_authorized_shares, 
+      shares_attributable_michigan, most_recent_apportionment, 
+      year_ending, gmt_create, gmt_modified, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{totalAuthorizedShares,jdbcType=VARCHAR}, 
+      #{sharesAttributableMichigan,jdbcType=VARCHAR}, #{mostRecentApportionment,jdbcType=VARCHAR}, 
+      #{yearEnding,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.america.michigan.AmericaMichiganShare">
+    insert into america_michigan_share
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="totalAuthorizedShares != null">
+        total_authorized_shares,
+      </if>
+      <if test="sharesAttributableMichigan != null">
+        shares_attributable_michigan,
+      </if>
+      <if test="mostRecentApportionment != null">
+        most_recent_apportionment,
+      </if>
+      <if test="yearEnding != null">
+        year_ending,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="totalAuthorizedShares != null">
+        #{totalAuthorizedShares,jdbcType=VARCHAR},
+      </if>
+      <if test="sharesAttributableMichigan != null">
+        #{sharesAttributableMichigan,jdbcType=VARCHAR},
+      </if>
+      <if test="mostRecentApportionment != null">
+        #{mostRecentApportionment,jdbcType=VARCHAR},
+      </if>
+      <if test="yearEnding != null">
+        #{yearEnding,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.america.michigan.AmericaMichiganShare">
+    update america_michigan_share
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="totalAuthorizedShares != null">
+        total_authorized_shares = #{totalAuthorizedShares,jdbcType=VARCHAR},
+      </if>
+      <if test="sharesAttributableMichigan != null">
+        shares_attributable_michigan = #{sharesAttributableMichigan,jdbcType=VARCHAR},
+      </if>
+      <if test="mostRecentApportionment != null">
+        most_recent_apportionment = #{mostRecentApportionment,jdbcType=VARCHAR},
+      </if>
+      <if test="yearEnding != null">
+        year_ending = #{yearEnding,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.america.michigan.AmericaMichiganShare">
+    update america_michigan_share
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      total_authorized_shares = #{totalAuthorizedShares,jdbcType=VARCHAR},
+      shares_attributable_michigan = #{sharesAttributableMichigan,jdbcType=VARCHAR},
+      most_recent_apportionment = #{mostRecentApportionment,jdbcType=VARCHAR},
+      year_ending = #{yearEnding,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

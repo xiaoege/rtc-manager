@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.america.michigan.AmericaMichiganMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.america.michigan.AmericaMichigan">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="id_number_header" jdbcType="VARCHAR" property="idNumberHeader" />
+    <result column="name_header" jdbcType="VARCHAR" property="nameHeader" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="entity_type" jdbcType="VARCHAR" property="entityType" />
+    <result column="id_number" jdbcType="VARCHAR" property="idNumber" />
+    <result column="old_id_number" jdbcType="VARCHAR" property="oldIdNumber" />
+    <result column="organisation_date" jdbcType="VARCHAR" property="organisationDate" />
+    <result column="purpose" jdbcType="VARCHAR" property="purpose" />
+    <result column="inactive_date" jdbcType="VARCHAR" property="inactiveDate" />
+    <result column="term" jdbcType="VARCHAR" property="term" />
+    <result column="recent_annual_report_year" jdbcType="VARCHAR" property="recentAnnualReportYear" />
+    <result column="recent_annual_report_withes" jdbcType="VARCHAR" property="recentAnnualReportWithes" />
+    <result column="acts_formed_under" jdbcType="VARCHAR" property="actsFormedUnder" />
+    <result column="sum_info" jdbcType="VARCHAR" property="sumInfo" />
+    <result column="resident_agent_name" jdbcType="VARCHAR" property="residentAgentName" />
+    <result column="resident_street" jdbcType="VARCHAR" property="residentStreet" />
+    <result column="aptsuiteother" jdbcType="VARCHAR" property="aptsuiteother" />
+    <result column="resident_city" jdbcType="VARCHAR" property="residentCity" />
+    <result column="resident_state" jdbcType="VARCHAR" property="residentState" />
+    <result column="resident_zip" jdbcType="VARCHAR" property="residentZip" />
+    <result column="principle_street" jdbcType="VARCHAR" property="principleStreet" />
+    <result column="aptsuiteotherlblpricipal" jdbcType="VARCHAR" property="aptsuiteotherlblpricipal" />
+    <result column="principle_city" jdbcType="VARCHAR" property="principleCity" />
+    <result column="principle_state" jdbcType="VARCHAR" property="principleState" />
+    <result column="principle_zip" jdbcType="VARCHAR" property="principleZip" />
+    <result column="reginfon_ame" jdbcType="VARCHAR" property="reginfonAme" />
+    <result column="reginfo_street" jdbcType="VARCHAR" property="reginfoStreet" />
+    <result column="reginfo_apt" jdbcType="VARCHAR" property="reginfoApt" />
+    <result column="reginfo_city" jdbcType="VARCHAR" property="reginfoCity" />
+    <result column="reginfo_state" jdbcType="VARCHAR" property="reginfoState" />
+    <result column="reginfo_zipcode" jdbcType="VARCHAR" property="reginfoZipcode" />
+    <result column="reginfo_country" jdbcType="VARCHAR" property="reginfoCountry" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, id_number_header, name_header, name, entity_type, id_number, old_id_number, 
+    organisation_date, purpose, inactive_date, term, recent_annual_report_year, recent_annual_report_withes, 
+    acts_formed_under, sum_info, resident_agent_name, resident_street, aptsuiteother, 
+    resident_city, resident_state, resident_zip, principle_street, aptsuiteotherlblpricipal, 
+    principle_city, principle_state, principle_zip, reginfon_ame, reginfo_street, reginfo_apt, 
+    reginfo_city, reginfo_state, reginfo_zipcode, reginfo_country, gmt_create, gmt_modified, 
+    status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from america_michigan
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from america_michigan
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rtc.manager.entity.america.michigan.AmericaMichigan">
+    insert into america_michigan (id, enterprise_id, id_number_header, 
+      name_header, name, entity_type, 
+      id_number, old_id_number, organisation_date, 
+      purpose, inactive_date, term, 
+      recent_annual_report_year, recent_annual_report_withes, 
+      acts_formed_under, sum_info, resident_agent_name, 
+      resident_street, aptsuiteother, resident_city, 
+      resident_state, resident_zip, principle_street, 
+      aptsuiteotherlblpricipal, principle_city, 
+      principle_state, principle_zip, reginfon_ame, 
+      reginfo_street, reginfo_apt, reginfo_city, 
+      reginfo_state, reginfo_zipcode, reginfo_country, 
+      gmt_create, gmt_modified, status
+      )
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{idNumberHeader,jdbcType=VARCHAR}, 
+      #{nameHeader,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{entityType,jdbcType=VARCHAR}, 
+      #{idNumber,jdbcType=VARCHAR}, #{oldIdNumber,jdbcType=VARCHAR}, #{organisationDate,jdbcType=VARCHAR}, 
+      #{purpose,jdbcType=VARCHAR}, #{inactiveDate,jdbcType=VARCHAR}, #{term,jdbcType=VARCHAR}, 
+      #{recentAnnualReportYear,jdbcType=VARCHAR}, #{recentAnnualReportWithes,jdbcType=VARCHAR}, 
+      #{actsFormedUnder,jdbcType=VARCHAR}, #{sumInfo,jdbcType=VARCHAR}, #{residentAgentName,jdbcType=VARCHAR}, 
+      #{residentStreet,jdbcType=VARCHAR}, #{aptsuiteother,jdbcType=VARCHAR}, #{residentCity,jdbcType=VARCHAR}, 
+      #{residentState,jdbcType=VARCHAR}, #{residentZip,jdbcType=VARCHAR}, #{principleStreet,jdbcType=VARCHAR}, 
+      #{aptsuiteotherlblpricipal,jdbcType=VARCHAR}, #{principleCity,jdbcType=VARCHAR}, 
+      #{principleState,jdbcType=VARCHAR}, #{principleZip,jdbcType=VARCHAR}, #{reginfonAme,jdbcType=VARCHAR}, 
+      #{reginfoStreet,jdbcType=VARCHAR}, #{reginfoApt,jdbcType=VARCHAR}, #{reginfoCity,jdbcType=VARCHAR}, 
+      #{reginfoState,jdbcType=VARCHAR}, #{reginfoZipcode,jdbcType=VARCHAR}, #{reginfoCountry,jdbcType=VARCHAR}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.america.michigan.AmericaMichigan">
+    insert into america_michigan
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="idNumberHeader != null">
+        id_number_header,
+      </if>
+      <if test="nameHeader != null">
+        name_header,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="entityType != null">
+        entity_type,
+      </if>
+      <if test="idNumber != null">
+        id_number,
+      </if>
+      <if test="oldIdNumber != null">
+        old_id_number,
+      </if>
+      <if test="organisationDate != null">
+        organisation_date,
+      </if>
+      <if test="purpose != null">
+        purpose,
+      </if>
+      <if test="inactiveDate != null">
+        inactive_date,
+      </if>
+      <if test="term != null">
+        term,
+      </if>
+      <if test="recentAnnualReportYear != null">
+        recent_annual_report_year,
+      </if>
+      <if test="recentAnnualReportWithes != null">
+        recent_annual_report_withes,
+      </if>
+      <if test="actsFormedUnder != null">
+        acts_formed_under,
+      </if>
+      <if test="sumInfo != null">
+        sum_info,
+      </if>
+      <if test="residentAgentName != null">
+        resident_agent_name,
+      </if>
+      <if test="residentStreet != null">
+        resident_street,
+      </if>
+      <if test="aptsuiteother != null">
+        aptsuiteother,
+      </if>
+      <if test="residentCity != null">
+        resident_city,
+      </if>
+      <if test="residentState != null">
+        resident_state,
+      </if>
+      <if test="residentZip != null">
+        resident_zip,
+      </if>
+      <if test="principleStreet != null">
+        principle_street,
+      </if>
+      <if test="aptsuiteotherlblpricipal != null">
+        aptsuiteotherlblpricipal,
+      </if>
+      <if test="principleCity != null">
+        principle_city,
+      </if>
+      <if test="principleState != null">
+        principle_state,
+      </if>
+      <if test="principleZip != null">
+        principle_zip,
+      </if>
+      <if test="reginfonAme != null">
+        reginfon_ame,
+      </if>
+      <if test="reginfoStreet != null">
+        reginfo_street,
+      </if>
+      <if test="reginfoApt != null">
+        reginfo_apt,
+      </if>
+      <if test="reginfoCity != null">
+        reginfo_city,
+      </if>
+      <if test="reginfoState != null">
+        reginfo_state,
+      </if>
+      <if test="reginfoZipcode != null">
+        reginfo_zipcode,
+      </if>
+      <if test="reginfoCountry != null">
+        reginfo_country,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumberHeader != null">
+        #{idNumberHeader,jdbcType=VARCHAR},
+      </if>
+      <if test="nameHeader != null">
+        #{nameHeader,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="entityType != null">
+        #{entityType,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null">
+        #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="oldIdNumber != null">
+        #{oldIdNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="organisationDate != null">
+        #{organisationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="purpose != null">
+        #{purpose,jdbcType=VARCHAR},
+      </if>
+      <if test="inactiveDate != null">
+        #{inactiveDate,jdbcType=VARCHAR},
+      </if>
+      <if test="term != null">
+        #{term,jdbcType=VARCHAR},
+      </if>
+      <if test="recentAnnualReportYear != null">
+        #{recentAnnualReportYear,jdbcType=VARCHAR},
+      </if>
+      <if test="recentAnnualReportWithes != null">
+        #{recentAnnualReportWithes,jdbcType=VARCHAR},
+      </if>
+      <if test="actsFormedUnder != null">
+        #{actsFormedUnder,jdbcType=VARCHAR},
+      </if>
+      <if test="sumInfo != null">
+        #{sumInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="residentAgentName != null">
+        #{residentAgentName,jdbcType=VARCHAR},
+      </if>
+      <if test="residentStreet != null">
+        #{residentStreet,jdbcType=VARCHAR},
+      </if>
+      <if test="aptsuiteother != null">
+        #{aptsuiteother,jdbcType=VARCHAR},
+      </if>
+      <if test="residentCity != null">
+        #{residentCity,jdbcType=VARCHAR},
+      </if>
+      <if test="residentState != null">
+        #{residentState,jdbcType=VARCHAR},
+      </if>
+      <if test="residentZip != null">
+        #{residentZip,jdbcType=VARCHAR},
+      </if>
+      <if test="principleStreet != null">
+        #{principleStreet,jdbcType=VARCHAR},
+      </if>
+      <if test="aptsuiteotherlblpricipal != null">
+        #{aptsuiteotherlblpricipal,jdbcType=VARCHAR},
+      </if>
+      <if test="principleCity != null">
+        #{principleCity,jdbcType=VARCHAR},
+      </if>
+      <if test="principleState != null">
+        #{principleState,jdbcType=VARCHAR},
+      </if>
+      <if test="principleZip != null">
+        #{principleZip,jdbcType=VARCHAR},
+      </if>
+      <if test="reginfonAme != null">
+        #{reginfonAme,jdbcType=VARCHAR},
+      </if>
+      <if test="reginfoStreet != null">
+        #{reginfoStreet,jdbcType=VARCHAR},
+      </if>
+      <if test="reginfoApt != null">
+        #{reginfoApt,jdbcType=VARCHAR},
+      </if>
+      <if test="reginfoCity != null">
+        #{reginfoCity,jdbcType=VARCHAR},
+      </if>
+      <if test="reginfoState != null">
+        #{reginfoState,jdbcType=VARCHAR},
+      </if>
+      <if test="reginfoZipcode != null">
+        #{reginfoZipcode,jdbcType=VARCHAR},
+      </if>
+      <if test="reginfoCountry != null">
+        #{reginfoCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.america.michigan.AmericaMichigan">
+    update america_michigan
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumberHeader != null">
+        id_number_header = #{idNumberHeader,jdbcType=VARCHAR},
+      </if>
+      <if test="nameHeader != null">
+        name_header = #{nameHeader,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="entityType != null">
+        entity_type = #{entityType,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null">
+        id_number = #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="oldIdNumber != null">
+        old_id_number = #{oldIdNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="organisationDate != null">
+        organisation_date = #{organisationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="purpose != null">
+        purpose = #{purpose,jdbcType=VARCHAR},
+      </if>
+      <if test="inactiveDate != null">
+        inactive_date = #{inactiveDate,jdbcType=VARCHAR},
+      </if>
+      <if test="term != null">
+        term = #{term,jdbcType=VARCHAR},
+      </if>
+      <if test="recentAnnualReportYear != null">
+        recent_annual_report_year = #{recentAnnualReportYear,jdbcType=VARCHAR},
+      </if>
+      <if test="recentAnnualReportWithes != null">
+        recent_annual_report_withes = #{recentAnnualReportWithes,jdbcType=VARCHAR},
+      </if>
+      <if test="actsFormedUnder != null">
+        acts_formed_under = #{actsFormedUnder,jdbcType=VARCHAR},
+      </if>
+      <if test="sumInfo != null">
+        sum_info = #{sumInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="residentAgentName != null">
+        resident_agent_name = #{residentAgentName,jdbcType=VARCHAR},
+      </if>
+      <if test="residentStreet != null">
+        resident_street = #{residentStreet,jdbcType=VARCHAR},
+      </if>
+      <if test="aptsuiteother != null">
+        aptsuiteother = #{aptsuiteother,jdbcType=VARCHAR},
+      </if>
+      <if test="residentCity != null">
+        resident_city = #{residentCity,jdbcType=VARCHAR},
+      </if>
+      <if test="residentState != null">
+        resident_state = #{residentState,jdbcType=VARCHAR},
+      </if>
+      <if test="residentZip != null">
+        resident_zip = #{residentZip,jdbcType=VARCHAR},
+      </if>
+      <if test="principleStreet != null">
+        principle_street = #{principleStreet,jdbcType=VARCHAR},
+      </if>
+      <if test="aptsuiteotherlblpricipal != null">
+        aptsuiteotherlblpricipal = #{aptsuiteotherlblpricipal,jdbcType=VARCHAR},
+      </if>
+      <if test="principleCity != null">
+        principle_city = #{principleCity,jdbcType=VARCHAR},
+      </if>
+      <if test="principleState != null">
+        principle_state = #{principleState,jdbcType=VARCHAR},
+      </if>
+      <if test="principleZip != null">
+        principle_zip = #{principleZip,jdbcType=VARCHAR},
+      </if>
+      <if test="reginfonAme != null">
+        reginfon_ame = #{reginfonAme,jdbcType=VARCHAR},
+      </if>
+      <if test="reginfoStreet != null">
+        reginfo_street = #{reginfoStreet,jdbcType=VARCHAR},
+      </if>
+      <if test="reginfoApt != null">
+        reginfo_apt = #{reginfoApt,jdbcType=VARCHAR},
+      </if>
+      <if test="reginfoCity != null">
+        reginfo_city = #{reginfoCity,jdbcType=VARCHAR},
+      </if>
+      <if test="reginfoState != null">
+        reginfo_state = #{reginfoState,jdbcType=VARCHAR},
+      </if>
+      <if test="reginfoZipcode != null">
+        reginfo_zipcode = #{reginfoZipcode,jdbcType=VARCHAR},
+      </if>
+      <if test="reginfoCountry != null">
+        reginfo_country = #{reginfoCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.america.michigan.AmericaMichigan">
+    update america_michigan
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      id_number_header = #{idNumberHeader,jdbcType=VARCHAR},
+      name_header = #{nameHeader,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      entity_type = #{entityType,jdbcType=VARCHAR},
+      id_number = #{idNumber,jdbcType=VARCHAR},
+      old_id_number = #{oldIdNumber,jdbcType=VARCHAR},
+      organisation_date = #{organisationDate,jdbcType=VARCHAR},
+      purpose = #{purpose,jdbcType=VARCHAR},
+      inactive_date = #{inactiveDate,jdbcType=VARCHAR},
+      term = #{term,jdbcType=VARCHAR},
+      recent_annual_report_year = #{recentAnnualReportYear,jdbcType=VARCHAR},
+      recent_annual_report_withes = #{recentAnnualReportWithes,jdbcType=VARCHAR},
+      acts_formed_under = #{actsFormedUnder,jdbcType=VARCHAR},
+      sum_info = #{sumInfo,jdbcType=VARCHAR},
+      resident_agent_name = #{residentAgentName,jdbcType=VARCHAR},
+      resident_street = #{residentStreet,jdbcType=VARCHAR},
+      aptsuiteother = #{aptsuiteother,jdbcType=VARCHAR},
+      resident_city = #{residentCity,jdbcType=VARCHAR},
+      resident_state = #{residentState,jdbcType=VARCHAR},
+      resident_zip = #{residentZip,jdbcType=VARCHAR},
+      principle_street = #{principleStreet,jdbcType=VARCHAR},
+      aptsuiteotherlblpricipal = #{aptsuiteotherlblpricipal,jdbcType=VARCHAR},
+      principle_city = #{principleCity,jdbcType=VARCHAR},
+      principle_state = #{principleState,jdbcType=VARCHAR},
+      principle_zip = #{principleZip,jdbcType=VARCHAR},
+      reginfon_ame = #{reginfonAme,jdbcType=VARCHAR},
+      reginfo_street = #{reginfoStreet,jdbcType=VARCHAR},
+      reginfo_apt = #{reginfoApt,jdbcType=VARCHAR},
+      reginfo_city = #{reginfoCity,jdbcType=VARCHAR},
+      reginfo_state = #{reginfoState,jdbcType=VARCHAR},
+      reginfo_zipcode = #{reginfoZipcode,jdbcType=VARCHAR},
+      reginfo_country = #{reginfoCountry,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
