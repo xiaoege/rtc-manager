@@ -16,6 +16,7 @@ import com.rtc.manager.dao.america.florida.AmericaFloridaAnnualReportFieldMapper
 import com.rtc.manager.dao.america.florida.AmericaFloridaAnnualReportYearMapper;
 import com.rtc.manager.dao.america.florida.AmericaFloridaAuthorizedPersonDetailMapper;
 import com.rtc.manager.dao.america.florida.AmericaFloridaMapper;
+import com.rtc.manager.dao.america.massachusetts.*;
 import com.rtc.manager.dao.america.michigan.AmericaMichiganMapper;
 import com.rtc.manager.dao.america.michigan.AmericaMichiganOfficerMapper;
 import com.rtc.manager.dao.america.michigan.AmericaMichiganShareMapper;
@@ -55,6 +56,7 @@ import com.rtc.manager.entity.america.florida.AmericaFlorida;
 import com.rtc.manager.entity.america.florida.AmericaFloridaAnnualReportField;
 import com.rtc.manager.entity.america.florida.AmericaFloridaAnnualReportYear;
 import com.rtc.manager.entity.america.florida.AmericaFloridaAuthorizedPersonDetail;
+import com.rtc.manager.entity.america.massachusetts.*;
 import com.rtc.manager.entity.america.michigan.AmericaMichigan;
 import com.rtc.manager.entity.america.michigan.AmericaMichiganOfficer;
 import com.rtc.manager.entity.america.michigan.AmericaMichiganShare;
@@ -98,6 +100,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
+import springfox.documentation.schema.Entry;
 
 import java.io.*;
 import java.util.*;
@@ -435,6 +438,21 @@ public class SaveJsonImpl implements SaveJson {
 
     @Autowired
     private AmericaMichiganShareMapper americaMichiganShareMapper;
+
+    @Autowired
+    private AmericaMassachusettsMapper americaMassachusettsMapper;
+
+    @Autowired
+    private AmericaMassachusettsOfficerMapper americaMassachusettsOfficerMapper;
+
+    @Autowired
+    private AmericaMassachusettsManagerMapper americaMassachusettsManagerMapper;
+
+    @Autowired
+    private AmericaMassachusettsOtherManagerMapper americaMassachusettsOtherManagerMapper;
+
+    @Autowired
+    private AmericaMassachusettsPersonMapper americaMassachusettsPersonMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -2514,6 +2532,71 @@ public class SaveJsonImpl implements SaveJson {
                 Optional.ofNullable(shareList).ifPresent((k) -> k.stream().forEach((j) -> j.setEnterpriseId(enterpriseId)));
                 Optional.ofNullable(shareList).ifPresent((k) -> k.stream().forEach((j) -> americaMichiganShareMapper.insertSelective(j)));
 
+            }
+
+            logger.info("json文件导入成功，文件是{}", file.getName());
+            reader.close();
+            bis.close();
+        }
+    }
+
+    @Override
+    public void saveJsonAmerica4Massachusetts(File fileDirPath) throws Exception {
+        List<String> fileList = new ArrayList();
+        CommonUtils.readJsonFiles(fileDirPath, fileList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (int z = 0; z < fileList.size(); z++) {
+            File file = new File(fileList.get(z));
+
+            // 忽略mac的隐藏文件
+            if (file.getName().contains(".DS_Store")) {
+                continue;
+            }
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
+
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
+
+            StringBuilder sb = new StringBuilder();
+            while (reader.ready()) {
+                sb.append((char) reader.read());
+            }
+            String sss = sb.toString();
+            sss = sss.replace("\\\"", "");
+            List<AmericaMassachusettsDTO> list = null;
+            try {
+                list = Optional.ofNullable(objectMapper.readValue(sss, new TypeReference<List<AmericaMassachusettsDTO>>() {
+                })).orElseGet(() -> new ArrayList<>());
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                logger.info("json序列化出现问题:{}", file.getName());
+                logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
+                throw e;
+            }
+
+            for (int i = 0; i < list.size(); i++) {
+                String enterpriseId = getUUID();
+                AmericaMassachusettsDTO americaMassachusettsDTO = list.get(i);
+                AmericaMassachusetts americaMassachusetts = new AmericaMassachusetts();
+                BeanUtils.copyProperties(americaMassachusettsDTO, americaMassachusetts);
+                americaMassachusetts.setEnterpriseid(enterpriseId);
+                americaMassachusettsMapper.insertSelective(americaMassachusetts);
+
+                List<AmericaMassachusettsOfficer> officerList = americaMassachusettsDTO.getOfficerList();
+                Optional.ofNullable(officerList).ifPresent(k -> k.stream().forEach(o -> o.setEnterpriseId(enterpriseId)));
+                Optional.ofNullable(officerList).filter(k -> k.size() > 0).ifPresent(o -> americaMassachusettsOfficerMapper.insertList(o));
+
+                List<AmericaMassachusettsManager> managerList = americaMassachusettsDTO.getManagerList();
+                Optional.ofNullable(managerList).ifPresent(k -> k.stream().forEach(o -> o.setEnterpriseId(enterpriseId)));
+                Optional.ofNullable(managerList).filter(k -> k.size() > 0).ifPresent(o -> americaMassachusettsManagerMapper.insertList(o));
+
+                List<AmericaMassachusettsOtherManager> otherManagerList = americaMassachusettsDTO.getOtherManagerList();
+                Optional.ofNullable(otherManagerList).ifPresent(k -> k.stream().forEach(o -> o.setEnterpriseId(enterpriseId)));
+                Optional.ofNullable(otherManagerList).filter(k -> k.size() > 0).ifPresent(o -> americaMassachusettsOtherManagerMapper.insertList(o));
+
+                List<AmericaMassachusettsPerson> personList = americaMassachusettsDTO.getPersonList();
+                Optional.ofNullable(personList).ifPresent(k -> k.stream().forEach(o -> o.setEnterpriseId(enterpriseId)));
+                Optional.ofNullable(personList).filter(k -> k.size() > 0).ifPresent(o -> o.stream().forEach(j -> americaMassachusettsPersonMapper.insertSelective(j)));
             }
 
             logger.info("json文件导入成功，文件是{}", file.getName());

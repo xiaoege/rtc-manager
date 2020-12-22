@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.america.massachusetts.AmericaMassachusettsMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.america.massachusetts.AmericaMassachusetts">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterpriseId" jdbcType="VARCHAR" property="enterpriseid" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="entity_type" jdbcType="VARCHAR" property="entityType" />
+    <result column="organisation_date" jdbcType="VARCHAR" property="organisationDate" />
+    <result column="principle_street" jdbcType="VARCHAR" property="principleStreet" />
+    <result column="certain_date" jdbcType="VARCHAR" property="certainDate" />
+    <result column="principle_city" jdbcType="VARCHAR" property="principleCity" />
+    <result column="principle_state" jdbcType="VARCHAR" property="principleState" />
+    <result column="principle_zip" jdbcType="VARCHAR" property="principleZip" />
+    <result column="principle_country" jdbcType="VARCHAR" property="principleCountry" />
+    <result column="office_street" jdbcType="VARCHAR" property="officeStreet" />
+    <result column="office_city" jdbcType="VARCHAR" property="officeCity" />
+    <result column="office_state" jdbcType="VARCHAR" property="officeState" />
+    <result column="office_zip" jdbcType="VARCHAR" property="officeZip" />
+    <result column="office_country" jdbcType="VARCHAR" property="officeCountry" />
+    <result column="resident_agent_name" jdbcType="VARCHAR" property="residentAgentName" />
+    <result column="resident_street" jdbcType="VARCHAR" property="residentStreet" />
+    <result column="resident_city" jdbcType="VARCHAR" property="residentCity" />
+    <result column="resident_state" jdbcType="VARCHAR" property="residentState" />
+    <result column="resident_zip" jdbcType="VARCHAR" property="residentZip" />
+    <result column="resident_country" jdbcType="VARCHAR" property="residentCountry" />
+    <result column="inactive_date" jdbcType="VARCHAR" property="inactiveDate" />
+    <result column="rec_street" jdbcType="VARCHAR" property="recStreet" />
+    <result column="rec_city" jdbcType="VARCHAR" property="recCity" />
+    <result column="rec_state" jdbcType="VARCHAR" property="recState" />
+    <result column="rec_zip" jdbcType="VARCHAR" property="recZip" />
+    <result column="rec_country" jdbcType="VARCHAR" property="recCountry" />
+    <result column="id_number" jdbcType="VARCHAR" property="idNumber" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterpriseId, name, entity_type, organisation_date, principle_street, certain_date, 
+    principle_city, principle_state, principle_zip, principle_country, office_street, 
+    office_city, office_state, office_zip, office_country, resident_agent_name, resident_street, 
+    resident_city, resident_state, resident_zip, resident_country, inactive_date, rec_street, 
+    rec_city, rec_state, rec_zip, rec_country, id_number, gmt_create, gmt_modified, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from america_massachusetts
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from america_massachusetts
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rtc.manager.entity.america.massachusetts.AmericaMassachusetts">
+    insert into america_massachusetts (id, enterpriseId, name, 
+      entity_type, organisation_date, principle_street, 
+      certain_date, principle_city, principle_state, 
+      principle_zip, principle_country, office_street, 
+      office_city, office_state, office_zip, 
+      office_country, resident_agent_name, resident_street, 
+      resident_city, resident_state, resident_zip, 
+      resident_country, inactive_date, rec_street, 
+      rec_city, rec_state, rec_zip, 
+      rec_country, id_number, gmt_create, 
+      gmt_modified, status)
+    values (#{id,jdbcType=INTEGER}, #{enterpriseid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{entityType,jdbcType=VARCHAR}, #{organisationDate,jdbcType=VARCHAR}, #{principleStreet,jdbcType=VARCHAR}, 
+      #{certainDate,jdbcType=VARCHAR}, #{principleCity,jdbcType=VARCHAR}, #{principleState,jdbcType=VARCHAR}, 
+      #{principleZip,jdbcType=VARCHAR}, #{principleCountry,jdbcType=VARCHAR}, #{officeStreet,jdbcType=VARCHAR}, 
+      #{officeCity,jdbcType=VARCHAR}, #{officeState,jdbcType=VARCHAR}, #{officeZip,jdbcType=VARCHAR}, 
+      #{officeCountry,jdbcType=VARCHAR}, #{residentAgentName,jdbcType=VARCHAR}, #{residentStreet,jdbcType=VARCHAR}, 
+      #{residentCity,jdbcType=VARCHAR}, #{residentState,jdbcType=VARCHAR}, #{residentZip,jdbcType=VARCHAR}, 
+      #{residentCountry,jdbcType=VARCHAR}, #{inactiveDate,jdbcType=VARCHAR}, #{recStreet,jdbcType=VARCHAR}, 
+      #{recCity,jdbcType=VARCHAR}, #{recState,jdbcType=VARCHAR}, #{recZip,jdbcType=VARCHAR}, 
+      #{recCountry,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.america.massachusetts.AmericaMassachusetts">
+    insert into america_massachusetts
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseid != null">
+        enterpriseId,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="entityType != null">
+        entity_type,
+      </if>
+      <if test="organisationDate != null">
+        organisation_date,
+      </if>
+      <if test="principleStreet != null">
+        principle_street,
+      </if>
+      <if test="certainDate != null">
+        certain_date,
+      </if>
+      <if test="principleCity != null">
+        principle_city,
+      </if>
+      <if test="principleState != null">
+        principle_state,
+      </if>
+      <if test="principleZip != null">
+        principle_zip,
+      </if>
+      <if test="principleCountry != null">
+        principle_country,
+      </if>
+      <if test="officeStreet != null">
+        office_street,
+      </if>
+      <if test="officeCity != null">
+        office_city,
+      </if>
+      <if test="officeState != null">
+        office_state,
+      </if>
+      <if test="officeZip != null">
+        office_zip,
+      </if>
+      <if test="officeCountry != null">
+        office_country,
+      </if>
+      <if test="residentAgentName != null">
+        resident_agent_name,
+      </if>
+      <if test="residentStreet != null">
+        resident_street,
+      </if>
+      <if test="residentCity != null">
+        resident_city,
+      </if>
+      <if test="residentState != null">
+        resident_state,
+      </if>
+      <if test="residentZip != null">
+        resident_zip,
+      </if>
+      <if test="residentCountry != null">
+        resident_country,
+      </if>
+      <if test="inactiveDate != null">
+        inactive_date,
+      </if>
+      <if test="recStreet != null">
+        rec_street,
+      </if>
+      <if test="recCity != null">
+        rec_city,
+      </if>
+      <if test="recState != null">
+        rec_state,
+      </if>
+      <if test="recZip != null">
+        rec_zip,
+      </if>
+      <if test="recCountry != null">
+        rec_country,
+      </if>
+      <if test="idNumber != null">
+        id_number,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseid != null">
+        #{enterpriseid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="entityType != null">
+        #{entityType,jdbcType=VARCHAR},
+      </if>
+      <if test="organisationDate != null">
+        #{organisationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="principleStreet != null">
+        #{principleStreet,jdbcType=VARCHAR},
+      </if>
+      <if test="certainDate != null">
+        #{certainDate,jdbcType=VARCHAR},
+      </if>
+      <if test="principleCity != null">
+        #{principleCity,jdbcType=VARCHAR},
+      </if>
+      <if test="principleState != null">
+        #{principleState,jdbcType=VARCHAR},
+      </if>
+      <if test="principleZip != null">
+        #{principleZip,jdbcType=VARCHAR},
+      </if>
+      <if test="principleCountry != null">
+        #{principleCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="officeStreet != null">
+        #{officeStreet,jdbcType=VARCHAR},
+      </if>
+      <if test="officeCity != null">
+        #{officeCity,jdbcType=VARCHAR},
+      </if>
+      <if test="officeState != null">
+        #{officeState,jdbcType=VARCHAR},
+      </if>
+      <if test="officeZip != null">
+        #{officeZip,jdbcType=VARCHAR},
+      </if>
+      <if test="officeCountry != null">
+        #{officeCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="residentAgentName != null">
+        #{residentAgentName,jdbcType=VARCHAR},
+      </if>
+      <if test="residentStreet != null">
+        #{residentStreet,jdbcType=VARCHAR},
+      </if>
+      <if test="residentCity != null">
+        #{residentCity,jdbcType=VARCHAR},
+      </if>
+      <if test="residentState != null">
+        #{residentState,jdbcType=VARCHAR},
+      </if>
+      <if test="residentZip != null">
+        #{residentZip,jdbcType=VARCHAR},
+      </if>
+      <if test="residentCountry != null">
+        #{residentCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="inactiveDate != null">
+        #{inactiveDate,jdbcType=VARCHAR},
+      </if>
+      <if test="recStreet != null">
+        #{recStreet,jdbcType=VARCHAR},
+      </if>
+      <if test="recCity != null">
+        #{recCity,jdbcType=VARCHAR},
+      </if>
+      <if test="recState != null">
+        #{recState,jdbcType=VARCHAR},
+      </if>
+      <if test="recZip != null">
+        #{recZip,jdbcType=VARCHAR},
+      </if>
+      <if test="recCountry != null">
+        #{recCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null">
+        #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.america.massachusetts.AmericaMassachusetts">
+    update america_massachusetts
+    <set>
+      <if test="enterpriseid != null">
+        enterpriseId = #{enterpriseid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="entityType != null">
+        entity_type = #{entityType,jdbcType=VARCHAR},
+      </if>
+      <if test="organisationDate != null">
+        organisation_date = #{organisationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="principleStreet != null">
+        principle_street = #{principleStreet,jdbcType=VARCHAR},
+      </if>
+      <if test="certainDate != null">
+        certain_date = #{certainDate,jdbcType=VARCHAR},
+      </if>
+      <if test="principleCity != null">
+        principle_city = #{principleCity,jdbcType=VARCHAR},
+      </if>
+      <if test="principleState != null">
+        principle_state = #{principleState,jdbcType=VARCHAR},
+      </if>
+      <if test="principleZip != null">
+        principle_zip = #{principleZip,jdbcType=VARCHAR},
+      </if>
+      <if test="principleCountry != null">
+        principle_country = #{principleCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="officeStreet != null">
+        office_street = #{officeStreet,jdbcType=VARCHAR},
+      </if>
+      <if test="officeCity != null">
+        office_city = #{officeCity,jdbcType=VARCHAR},
+      </if>
+      <if test="officeState != null">
+        office_state = #{officeState,jdbcType=VARCHAR},
+      </if>
+      <if test="officeZip != null">
+        office_zip = #{officeZip,jdbcType=VARCHAR},
+      </if>
+      <if test="officeCountry != null">
+        office_country = #{officeCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="residentAgentName != null">
+        resident_agent_name = #{residentAgentName,jdbcType=VARCHAR},
+      </if>
+      <if test="residentStreet != null">
+        resident_street = #{residentStreet,jdbcType=VARCHAR},
+      </if>
+      <if test="residentCity != null">
+        resident_city = #{residentCity,jdbcType=VARCHAR},
+      </if>
+      <if test="residentState != null">
+        resident_state = #{residentState,jdbcType=VARCHAR},
+      </if>
+      <if test="residentZip != null">
+        resident_zip = #{residentZip,jdbcType=VARCHAR},
+      </if>
+      <if test="residentCountry != null">
+        resident_country = #{residentCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="inactiveDate != null">
+        inactive_date = #{inactiveDate,jdbcType=VARCHAR},
+      </if>
+      <if test="recStreet != null">
+        rec_street = #{recStreet,jdbcType=VARCHAR},
+      </if>
+      <if test="recCity != null">
+        rec_city = #{recCity,jdbcType=VARCHAR},
+      </if>
+      <if test="recState != null">
+        rec_state = #{recState,jdbcType=VARCHAR},
+      </if>
+      <if test="recZip != null">
+        rec_zip = #{recZip,jdbcType=VARCHAR},
+      </if>
+      <if test="recCountry != null">
+        rec_country = #{recCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null">
+        id_number = #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.america.massachusetts.AmericaMassachusetts">
+    update america_massachusetts
+    set enterpriseId = #{enterpriseid,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      entity_type = #{entityType,jdbcType=VARCHAR},
+      organisation_date = #{organisationDate,jdbcType=VARCHAR},
+      principle_street = #{principleStreet,jdbcType=VARCHAR},
+      certain_date = #{certainDate,jdbcType=VARCHAR},
+      principle_city = #{principleCity,jdbcType=VARCHAR},
+      principle_state = #{principleState,jdbcType=VARCHAR},
+      principle_zip = #{principleZip,jdbcType=VARCHAR},
+      principle_country = #{principleCountry,jdbcType=VARCHAR},
+      office_street = #{officeStreet,jdbcType=VARCHAR},
+      office_city = #{officeCity,jdbcType=VARCHAR},
+      office_state = #{officeState,jdbcType=VARCHAR},
+      office_zip = #{officeZip,jdbcType=VARCHAR},
+      office_country = #{officeCountry,jdbcType=VARCHAR},
+      resident_agent_name = #{residentAgentName,jdbcType=VARCHAR},
+      resident_street = #{residentStreet,jdbcType=VARCHAR},
+      resident_city = #{residentCity,jdbcType=VARCHAR},
+      resident_state = #{residentState,jdbcType=VARCHAR},
+      resident_zip = #{residentZip,jdbcType=VARCHAR},
+      resident_country = #{residentCountry,jdbcType=VARCHAR},
+      inactive_date = #{inactiveDate,jdbcType=VARCHAR},
+      rec_street = #{recStreet,jdbcType=VARCHAR},
+      rec_city = #{recCity,jdbcType=VARCHAR},
+      rec_state = #{recState,jdbcType=VARCHAR},
+      rec_zip = #{recZip,jdbcType=VARCHAR},
+      rec_country = #{recCountry,jdbcType=VARCHAR},
+      id_number = #{idNumber,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
