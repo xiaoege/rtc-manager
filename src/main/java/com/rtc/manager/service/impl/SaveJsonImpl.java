@@ -454,6 +454,9 @@ public class SaveJsonImpl implements SaveJson {
     @Autowired
     private AmericaMassachusettsPersonMapper americaMassachusettsPersonMapper;
 
+    @Autowired
+    private FranceMapper franceMapper;
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void readJson(File filePath) throws Exception {
@@ -2598,6 +2601,64 @@ public class SaveJsonImpl implements SaveJson {
                 List<AmericaMassachusettsPerson> personList = americaMassachusettsDTO.getPersonList();
                 Optional.ofNullable(personList).ifPresent(k -> k.stream().forEach(o -> o.setEnterpriseId(enterpriseId)));
                 Optional.ofNullable(personList).filter(k -> k.size() > 0).ifPresent(o -> o.stream().forEach(j -> americaMassachusettsPersonMapper.insertSelective(j)));
+            }
+
+            logger.info("json文件导入成功，文件是{}", file.getName());
+            reader.close();
+            bis.close();
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void readJsonFrance(File fileDirPath) throws Exception {
+        List<String> fileList = new ArrayList();
+        CommonUtils.readJsonFiles(fileDirPath, fileList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (int z = 0; z < fileList.size(); z++) {
+            File file = new File(fileList.get(z));
+
+            // 忽略mac的隐藏文件
+            if (file.getName().contains(".DS_Store")) {
+                continue;
+            }
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
+
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
+
+            StringBuilder sb = new StringBuilder();
+            while (reader.ready()) {
+                sb.append((char) reader.read());
+            }
+            String sss = sb.toString();
+            sss = sss.replace("\\\"", "");
+            List<FranceDTO> list = null;
+            try {
+                list = Optional.ofNullable(objectMapper.readValue(sss, new TypeReference<List<FranceDTO>>() {
+                })).orElseGet(() -> new ArrayList<>());
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                logger.info("json序列化出现问题:{}", file.getName());
+                logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
+                throw e;
+            }
+
+            List<France> dataList = new ArrayList();
+            for (int i = 0; i < list.size(); i++) {
+                String enterpriseId = getUUID();
+                FranceDTO franceDTO = list.get(i);
+                France france = new France();
+                BeanUtils.copyProperties(franceDTO, france);
+                france.setEnterpriseId(enterpriseId);
+                france.setClose(objectMapper.writeValueAsString(franceDTO.getClose()));
+                france.setTurnover(objectMapper.writeValueAsString(franceDTO.getTurnover()));
+                france.setProfit(objectMapper.writeValueAsString(franceDTO.getProfit()));
+                france.setWorkforce(objectMapper.writeValueAsString(franceDTO.getWorkforce()));
+                dataList.add(france);
+            }
+            if (dataList.size() > 0) {
+                franceMapper.insertList(dataList);
             }
 
             logger.info("json文件导入成功，文件是{}", file.getName());

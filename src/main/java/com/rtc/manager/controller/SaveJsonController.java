@@ -193,4 +193,27 @@ public class SaveJsonController {
         }
         return "导入" + dirPath + "成功";
     }
+
+    /**
+     * 解析json文件导入到数据库
+     * 法国企业
+     *
+     * @param dirPath json文件上一级文件夹路径，里面只能有json文件
+     * @return
+     */
+    @PostMapping("saveJsonFrance")
+    public String saveJsonFrance(@RequestParam(name = "dirPath") String dirPath) {
+        try {
+            File fileDirPath = new File(dirPath);
+            if (fileDirPath.exists()) {
+                saveJson.readJsonFrance(fileDirPath);
+            } else {
+                return "路径错误";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info("错误，{}", CommonUtils.getExceptionInfo(e));
+        }
+        return "导入" + dirPath + "成功";
+    }
 }

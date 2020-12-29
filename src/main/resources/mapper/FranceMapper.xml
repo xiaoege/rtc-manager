@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.america.massachusetts.FranceMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.america.massachusetts.France">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="registry_number" jdbcType="VARCHAR" property="registryNumber" />
+    <result column="registered_office" jdbcType="VARCHAR" property="registeredOffice" />
+    <result column="siret" jdbcType="VARCHAR" property="siret" />
+    <result column="activities" jdbcType="VARCHAR" property="activities" />
+    <result column="registration" jdbcType="VARCHAR" property="registration" />
+    <result column="beneficiaries" jdbcType="VARCHAR" property="beneficiaries" />
+    <result column="turnover" jdbcType="VARCHAR" property="turnover" />
+    <result column="profit" jdbcType="VARCHAR" property="profit" />
+    <result column="workforce" jdbcType="VARCHAR" property="workforce" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.rtc.manager.entity.america.massachusetts.France">
+    <result column="close" jdbcType="LONGVARCHAR" property="close" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, name, registry_number, registered_office, siret, activities, registration, 
+    beneficiaries, turnover, profit, workforce, gmt_create, gmt_modified, status
+  </sql>
+  <sql id="Blob_Column_List">
+    close
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from france
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from france
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rtc.manager.entity.america.massachusetts.France">
+    insert into france (id, enterprise_id, name, 
+      registry_number, registered_office, siret, 
+      activities, registration, beneficiaries, 
+      turnover, profit, workforce, 
+      gmt_create, gmt_modified, status, 
+      close)
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{registryNumber,jdbcType=VARCHAR}, #{registeredOffice,jdbcType=VARCHAR}, #{siret,jdbcType=VARCHAR}, 
+      #{activities,jdbcType=VARCHAR}, #{registration,jdbcType=VARCHAR}, #{beneficiaries,jdbcType=VARCHAR}, 
+      #{turnover,jdbcType=VARCHAR}, #{profit,jdbcType=VARCHAR}, #{workforce,jdbcType=VARCHAR}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
+      #{close,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.america.massachusetts.France">
+    insert into france
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="registryNumber != null">
+        registry_number,
+      </if>
+      <if test="registeredOffice != null">
+        registered_office,
+      </if>
+      <if test="siret != null">
+        siret,
+      </if>
+      <if test="activities != null">
+        activities,
+      </if>
+      <if test="registration != null">
+        registration,
+      </if>
+      <if test="beneficiaries != null">
+        beneficiaries,
+      </if>
+      <if test="turnover != null">
+        turnover,
+      </if>
+      <if test="profit != null">
+        profit,
+      </if>
+      <if test="workforce != null">
+        workforce,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="close != null">
+        close,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="registryNumber != null">
+        #{registryNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredOffice != null">
+        #{registeredOffice,jdbcType=VARCHAR},
+      </if>
+      <if test="siret != null">
+        #{siret,jdbcType=VARCHAR},
+      </if>
+      <if test="activities != null">
+        #{activities,jdbcType=VARCHAR},
+      </if>
+      <if test="registration != null">
+        #{registration,jdbcType=VARCHAR},
+      </if>
+      <if test="beneficiaries != null">
+        #{beneficiaries,jdbcType=VARCHAR},
+      </if>
+      <if test="turnover != null">
+        #{turnover,jdbcType=VARCHAR},
+      </if>
+      <if test="profit != null">
+        #{profit,jdbcType=VARCHAR},
+      </if>
+      <if test="workforce != null">
+        #{workforce,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="close != null">
+        #{close,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.america.massachusetts.France">
+    update france
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="registryNumber != null">
+        registry_number = #{registryNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredOffice != null">
+        registered_office = #{registeredOffice,jdbcType=VARCHAR},
+      </if>
+      <if test="siret != null">
+        siret = #{siret,jdbcType=VARCHAR},
+      </if>
+      <if test="activities != null">
+        activities = #{activities,jdbcType=VARCHAR},
+      </if>
+      <if test="registration != null">
+        registration = #{registration,jdbcType=VARCHAR},
+      </if>
+      <if test="beneficiaries != null">
+        beneficiaries = #{beneficiaries,jdbcType=VARCHAR},
+      </if>
+      <if test="turnover != null">
+        turnover = #{turnover,jdbcType=VARCHAR},
+      </if>
+      <if test="profit != null">
+        profit = #{profit,jdbcType=VARCHAR},
+      </if>
+      <if test="workforce != null">
+        workforce = #{workforce,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="close != null">
+        close = #{close,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.rtc.manager.entity.america.massachusetts.France">
+    update france
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      registry_number = #{registryNumber,jdbcType=VARCHAR},
+      registered_office = #{registeredOffice,jdbcType=VARCHAR},
+      siret = #{siret,jdbcType=VARCHAR},
+      activities = #{activities,jdbcType=VARCHAR},
+      registration = #{registration,jdbcType=VARCHAR},
+      beneficiaries = #{beneficiaries,jdbcType=VARCHAR},
+      turnover = #{turnover,jdbcType=VARCHAR},
+      profit = #{profit,jdbcType=VARCHAR},
+      workforce = #{workforce,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      close = #{close,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.america.massachusetts.France">
+    update france
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      registry_number = #{registryNumber,jdbcType=VARCHAR},
+      registered_office = #{registeredOffice,jdbcType=VARCHAR},
+      siret = #{siret,jdbcType=VARCHAR},
+      activities = #{activities,jdbcType=VARCHAR},
+      registration = #{registration,jdbcType=VARCHAR},
+      beneficiaries = #{beneficiaries,jdbcType=VARCHAR},
+      turnover = #{turnover,jdbcType=VARCHAR},
+      profit = #{profit,jdbcType=VARCHAR},
+      workforce = #{workforce,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <insert id="insertList" parameterType="com.rtc.manager.entity.america.massachusetts.France">
+    insert into france (enterprise_id, name,
+                        registry_number, registered_office, siret,
+                        activities, registration, beneficiaries,
+                        turnover, profit, workforce, close)
+    values 
+       <foreach collection="list" item="item" separator=",">
+       (#{item.enterpriseId,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR},
+        #{item.registryNumber,jdbcType=VARCHAR}, #{item.registeredOffice,jdbcType=VARCHAR}, #{item.siret,jdbcType=VARCHAR},
+        #{item.activities,jdbcType=VARCHAR}, #{item.registration,jdbcType=VARCHAR}, #{item.beneficiaries,jdbcType=VARCHAR},
+        #{item.turnover,jdbcType=VARCHAR}, #{item.profit,jdbcType=VARCHAR}, #{item.workforce,jdbcType=VARCHAR},
+        #{item.close,jdbcType=LONGVARCHAR})
+       </foreach>
+  </insert>
+</mapper>
