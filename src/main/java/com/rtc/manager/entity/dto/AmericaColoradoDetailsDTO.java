@@ -1,7 +1,9 @@
 package com.rtc.manager.entity.dto;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AmericaColoradoDetailsDTO {
     @JsonAlias("Name")
     private String name;
