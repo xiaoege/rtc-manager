@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.america.colorado.AmericaColoradoMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.america.colorado.AmericaColorado">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="enterprise_status" jdbcType="VARCHAR" property="enterpriseStatus" />
+    <result column="id_number" jdbcType="VARCHAR" property="idNumber" />
+    <result column="periodic_report_month" jdbcType="VARCHAR" property="periodicReportMonth" />
+    <result column="principal_office_street_address" jdbcType="VARCHAR" property="principalOfficeStreetAddress" />
+    <result column="principal_office_mailing_address" jdbcType="VARCHAR" property="principalOfficeMailingAddress" />
+    <result column="agent_name" jdbcType="VARCHAR" property="agentName" />
+    <result column="agent_street_address" jdbcType="VARCHAR" property="agentStreetAddress" />
+    <result column="agent_mailing_address" jdbcType="VARCHAR" property="agentMailingAddress" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, name, enterprise_status, id_number, periodic_report_month, principal_office_street_address, 
+    principal_office_mailing_address, agent_name, agent_street_address, agent_mailing_address, 
+    url, gmt_create, gmt_modified, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from america_colorado
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from america_colorado
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rtc.manager.entity.america.colorado.AmericaColorado">
+    insert into america_colorado (id, enterprise_id, name, 
+      enterprise_status, id_number, periodic_report_month, 
+      principal_office_street_address, principal_office_mailing_address, 
+      agent_name, agent_street_address, agent_mailing_address, 
+      url, gmt_create, gmt_modified, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{enterpriseStatus,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, #{periodicReportMonth,jdbcType=VARCHAR}, 
+      #{principalOfficeStreetAddress,jdbcType=VARCHAR}, #{principalOfficeMailingAddress,jdbcType=VARCHAR}, 
+      #{agentName,jdbcType=VARCHAR}, #{agentStreetAddress,jdbcType=VARCHAR}, #{agentMailingAddress,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.america.colorado.AmericaColorado">
+    insert into america_colorado
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="enterpriseStatus != null">
+        enterprise_status,
+      </if>
+      <if test="idNumber != null">
+        id_number,
+      </if>
+      <if test="periodicReportMonth != null">
+        periodic_report_month,
+      </if>
+      <if test="principalOfficeStreetAddress != null">
+        principal_office_street_address,
+      </if>
+      <if test="principalOfficeMailingAddress != null">
+        principal_office_mailing_address,
+      </if>
+      <if test="agentName != null">
+        agent_name,
+      </if>
+      <if test="agentStreetAddress != null">
+        agent_street_address,
+      </if>
+      <if test="agentMailingAddress != null">
+        agent_mailing_address,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseStatus != null">
+        #{enterpriseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null">
+        #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="periodicReportMonth != null">
+        #{periodicReportMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="principalOfficeStreetAddress != null">
+        #{principalOfficeStreetAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="principalOfficeMailingAddress != null">
+        #{principalOfficeMailingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="agentName != null">
+        #{agentName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentStreetAddress != null">
+        #{agentStreetAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="agentMailingAddress != null">
+        #{agentMailingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.america.colorado.AmericaColorado">
+    update america_colorado
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseStatus != null">
+        enterprise_status = #{enterpriseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null">
+        id_number = #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="periodicReportMonth != null">
+        periodic_report_month = #{periodicReportMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="principalOfficeStreetAddress != null">
+        principal_office_street_address = #{principalOfficeStreetAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="principalOfficeMailingAddress != null">
+        principal_office_mailing_address = #{principalOfficeMailingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="agentName != null">
+        agent_name = #{agentName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentStreetAddress != null">
+        agent_street_address = #{agentStreetAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="agentMailingAddress != null">
+        agent_mailing_address = #{agentMailingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.america.colorado.AmericaColorado">
+    update america_colorado
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      enterprise_status = #{enterpriseStatus,jdbcType=VARCHAR},
+      id_number = #{idNumber,jdbcType=VARCHAR},
+      periodic_report_month = #{periodicReportMonth,jdbcType=VARCHAR},
+      principal_office_street_address = #{principalOfficeStreetAddress,jdbcType=VARCHAR},
+      principal_office_mailing_address = #{principalOfficeMailingAddress,jdbcType=VARCHAR},
+      agent_name = #{agentName,jdbcType=VARCHAR},
+      agent_street_address = #{agentStreetAddress,jdbcType=VARCHAR},
+      agent_mailing_address = #{agentMailingAddress,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <insert id="insertList" parameterType="com.rtc.manager.entity.america.colorado.AmericaColorado">
+    insert into america_colorado (enterprise_id, name,
+                                  enterprise_status, id_number, periodic_report_month,
+                                  principal_office_street_address, principal_office_mailing_address,
+                                  agent_name, agent_street_address, agent_mailing_address,
+                                  url)
+    values (
+            <foreach collection="list" separator="," item="item">
+            #{item.enterpriseId,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR},
+            #{item.enterpriseStatus,jdbcType=VARCHAR}, #{item.idNumber,jdbcType=VARCHAR}, #{item.periodicReportMonth,jdbcType=VARCHAR},
+            #{item.principalOfficeStreetAddress,jdbcType=VARCHAR}, #{item.principalOfficeMailingAddress,jdbcType=VARCHAR},
+            #{item.agentName,jdbcType=VARCHAR}, #{item.agentStreetAddress,jdbcType=VARCHAR}, #{item.agentMailingAddress,jdbcType=VARCHAR},
+            #{item.url,jdbcType=VARCHAR})
+            </foreach>
+  </insert>
+</mapper>
