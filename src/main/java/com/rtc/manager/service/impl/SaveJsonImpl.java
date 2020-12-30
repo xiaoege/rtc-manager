@@ -2721,9 +2721,7 @@ public class SaveJsonImpl implements SaveJson {
                 colorado.setEnterpriseId(getUUID());
                 colorado.setUrl(americaColoradoDTO.getUrl());
                 dataList.add(colorado);
-            }
-            if (dataList.size() > 0) {
-                americaColoradoMapper.insertList(dataList);
+                americaColoradoMapper.insertSelective(colorado);
             }
 
             logger.info("json文件导入成功，文件是{}", file.getName());
