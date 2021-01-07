@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.america.kentucky.AmericaKentuckyMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.america.kentucky.AmericaKentucky">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="organization_number" jdbcType="VARCHAR" property="organizationNumber" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="profit" jdbcType="VARCHAR" property="profit" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="enterprise_status" jdbcType="VARCHAR" property="enterpriseStatus" />
+    <result column="standing" jdbcType="VARCHAR" property="standing" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="file_date" jdbcType="VARCHAR" property="fileDate" />
+    <result column="organization_date" jdbcType="VARCHAR" property="organizationDate" />
+    <result column="last_annual_report" jdbcType="VARCHAR" property="lastAnnualReport" />
+    <result column="principal_office" jdbcType="VARCHAR" property="principalOffice" />
+    <result column="registered_agent" jdbcType="VARCHAR" property="registeredAgent" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, organization_number, name, profit, type, enterprise_status, standing, 
+    state, file_date, organization_date, last_annual_report, principal_office, registered_agent, 
+    gmt_create, gmt_modified, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from america_kentucky
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from america_kentucky
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rtc.manager.entity.america.kentucky.AmericaKentucky">
+    insert into america_kentucky (id, enterprise_id, organization_number, 
+      name, profit, type, 
+      enterprise_status, standing, state, 
+      file_date, organization_date, last_annual_report, 
+      principal_office, registered_agent, gmt_create, 
+      gmt_modified, status)
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{organizationNumber,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{profit,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{enterpriseStatus,jdbcType=VARCHAR}, #{standing,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
+      #{fileDate,jdbcType=VARCHAR}, #{organizationDate,jdbcType=VARCHAR}, #{lastAnnualReport,jdbcType=VARCHAR}, 
+      #{principalOffice,jdbcType=VARCHAR}, #{registeredAgent,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.america.kentucky.AmericaKentucky">
+    insert into america_kentucky
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="organizationNumber != null">
+        organization_number,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="profit != null">
+        profit,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="enterpriseStatus != null">
+        enterprise_status,
+      </if>
+      <if test="standing != null">
+        standing,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="fileDate != null">
+        file_date,
+      </if>
+      <if test="organizationDate != null">
+        organization_date,
+      </if>
+      <if test="lastAnnualReport != null">
+        last_annual_report,
+      </if>
+      <if test="principalOffice != null">
+        principal_office,
+      </if>
+      <if test="registeredAgent != null">
+        registered_agent,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="organizationNumber != null">
+        #{organizationNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="profit != null">
+        #{profit,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseStatus != null">
+        #{enterpriseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="standing != null">
+        #{standing,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="fileDate != null">
+        #{fileDate,jdbcType=VARCHAR},
+      </if>
+      <if test="organizationDate != null">
+        #{organizationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="lastAnnualReport != null">
+        #{lastAnnualReport,jdbcType=VARCHAR},
+      </if>
+      <if test="principalOffice != null">
+        #{principalOffice,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredAgent != null">
+        #{registeredAgent,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.america.kentucky.AmericaKentucky">
+    update america_kentucky
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="organizationNumber != null">
+        organization_number = #{organizationNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="profit != null">
+        profit = #{profit,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseStatus != null">
+        enterprise_status = #{enterpriseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="standing != null">
+        standing = #{standing,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="fileDate != null">
+        file_date = #{fileDate,jdbcType=VARCHAR},
+      </if>
+      <if test="organizationDate != null">
+        organization_date = #{organizationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="lastAnnualReport != null">
+        last_annual_report = #{lastAnnualReport,jdbcType=VARCHAR},
+      </if>
+      <if test="principalOffice != null">
+        principal_office = #{principalOffice,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredAgent != null">
+        registered_agent = #{registeredAgent,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.america.kentucky.AmericaKentucky">
+    update america_kentucky
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      organization_number = #{organizationNumber,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      profit = #{profit,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      enterprise_status = #{enterpriseStatus,jdbcType=VARCHAR},
+      standing = #{standing,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR},
+      file_date = #{fileDate,jdbcType=VARCHAR},
+      organization_date = #{organizationDate,jdbcType=VARCHAR},
+      last_annual_report = #{lastAnnualReport,jdbcType=VARCHAR},
+      principal_office = #{principalOffice,jdbcType=VARCHAR},
+      registered_agent = #{registeredAgent,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -17,6 +17,10 @@ import com.rtc.manager.dao.america.florida.AmericaFloridaAnnualReportFieldMapper
 import com.rtc.manager.dao.america.florida.AmericaFloridaAnnualReportYearMapper;
 import com.rtc.manager.dao.america.florida.AmericaFloridaAuthorizedPersonDetailMapper;
 import com.rtc.manager.dao.america.florida.AmericaFloridaMapper;
+import com.rtc.manager.dao.america.kentucky.AmericaKentuckyAssumeNameMapper;
+import com.rtc.manager.dao.america.kentucky.AmericaKentuckyHistoryMapper;
+import com.rtc.manager.dao.america.kentucky.AmericaKentuckyMapper;
+import com.rtc.manager.dao.america.kentucky.AmericaKentuckyOfficerMapper;
 import com.rtc.manager.dao.america.massachusetts.*;
 import com.rtc.manager.dao.america.michigan.AmericaMichiganMapper;
 import com.rtc.manager.dao.america.michigan.AmericaMichiganOfficerMapper;
@@ -58,6 +62,10 @@ import com.rtc.manager.entity.america.florida.AmericaFlorida;
 import com.rtc.manager.entity.america.florida.AmericaFloridaAnnualReportField;
 import com.rtc.manager.entity.america.florida.AmericaFloridaAnnualReportYear;
 import com.rtc.manager.entity.america.florida.AmericaFloridaAuthorizedPersonDetail;
+import com.rtc.manager.entity.america.kentucky.AmericaKentucky;
+import com.rtc.manager.entity.america.kentucky.AmericaKentuckyAssumeName;
+import com.rtc.manager.entity.america.kentucky.AmericaKentuckyHistory;
+import com.rtc.manager.entity.america.kentucky.AmericaKentuckyOfficer;
 import com.rtc.manager.entity.america.massachusetts.*;
 import com.rtc.manager.entity.america.michigan.AmericaMichigan;
 import com.rtc.manager.entity.america.michigan.AmericaMichiganOfficer;
@@ -460,6 +468,18 @@ public class SaveJsonImpl implements SaveJson {
 
     @Autowired
     private AmericaColoradoMapper americaColoradoMapper;
+
+    @Autowired
+    private AmericaKentuckyMapper americaKentuckyMapper;
+
+    @Autowired
+    private AmericaKentuckyOfficerMapper americaKentuckyOfficerMapper;
+
+    @Autowired
+    private AmericaKentuckyHistoryMapper americaKentuckyHistoryMapper;
+
+    @Autowired
+    private AmericaKentuckyAssumeNameMapper americaKentuckyAssumeNameMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -2722,6 +2742,71 @@ public class SaveJsonImpl implements SaveJson {
                 colorado.setUrl(americaColoradoDTO.getUrl());
                 dataList.add(colorado);
                 americaColoradoMapper.insertSelective(colorado);
+            }
+
+            logger.info("json文件导入成功，文件是{}", file.getName());
+            reader.close();
+            bis.close();
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveJsonAmerica4Kentucky(File fileDirPath) throws Exception {
+        List<String> fileList = new ArrayList();
+        CommonUtils.readJsonFiles(fileDirPath, fileList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (int z = 0; z < fileList.size(); z++) {
+            File file = new File(fileList.get(z));
+
+            // 忽略mac的隐藏文件
+            if (file.getName().contains(".DS_Store")) {
+                continue;
+            }
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
+
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
+
+            StringBuilder sb = new StringBuilder();
+            while (reader.ready()) {
+                sb.append((char) reader.read());
+            }
+            String sss = sb.toString();
+            sss = sss.replace("\\\"", "");
+            List<AmericaKentuckyDTO> list = null;
+            try {
+                list = Optional.ofNullable(objectMapper.readValue(sss, new TypeReference<List<AmericaKentuckyDTO>>() {
+                })).orElseGet(() -> new ArrayList<>());
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                logger.info("json序列化出现问题:{}", file.getName());
+                logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
+                throw e;
+            }
+            for (int i = 0; i < list.size(); i++) {
+                AmericaKentuckyDTO americaKentuckyDTO = list.get(i);
+                AmericaKentucky americaKentucky = new AmericaKentucky();
+                BeanUtils.copyProperties(americaKentuckyDTO, americaKentucky);
+                String enterpriseId = getUUID();
+                americaKentucky.setEnterpriseId(enterpriseId);
+                americaKentuckyMapper.insertSelective(americaKentucky);
+
+                List<AmericaKentuckyOfficer> officerList = americaKentuckyDTO.getOfficerList();
+                Optional.ofNullable(officerList).ifPresent(k -> k.stream().forEach(o -> {
+                    o.setEnterpriseId(enterpriseId);
+                    americaKentuckyOfficerMapper.insertSelective(o);
+                }));
+                List<AmericaKentuckyHistory> historyList = americaKentuckyDTO.getHistoryList();
+                Optional.ofNullable(historyList).ifPresent(k -> k.stream().forEach(o -> {
+                    o.setEnterpriseId(enterpriseId);
+                    americaKentuckyHistoryMapper.insertSelective(o);
+                }));
+                List<AmericaKentuckyAssumeName> assumeNameList = americaKentuckyDTO.getAssumeNameList();
+                Optional.ofNullable(assumeNameList).ifPresent(k -> k.stream().forEach(o -> {
+                    o.setEnterpriseId(enterpriseId);
+                    americaKentuckyAssumeNameMapper.insertSelective(o);
+                }));
             }
 
             logger.info("json文件导入成功，文件是{}", file.getName());
