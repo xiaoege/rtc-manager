@@ -2854,17 +2854,18 @@ public class SaveJsonImpl implements SaveJson {
                 logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
                 throw e;
             }
-            List<AmericaCalifornia> dataList = new ArrayList();
+//            List<AmericaCalifornia> dataList = new ArrayList();
             for (int i = 0; i < list.size(); i++) {
                 AmericaCaliforniaDTO americaCaliforniaDTO = list.get(i);
                 AmericaCalifornia americaCalifornia = new AmericaCalifornia(americaCaliforniaDTO.getAgentDTO(), americaCaliforniaDTO.getAddressDTO(), americaCaliforniaDTO.getMailDTO());
                 BeanUtil.copyProperties(americaCaliforniaDTO, americaCalifornia, true, CopyOptions.create().setIgnoreNullValue(true).setIgnoreError(true));
                 americaCalifornia.setEnterpriseId(getUUID());
-                dataList.add(americaCalifornia);
+//                dataList.add(americaCalifornia);
+                americaCaliforniaMapper.insertSelective(americaCalifornia);
             }
-            if (dataList.size() > 0) {
-                americaCaliforniaMapper.insertList(dataList);
-            }
+//            if (dataList.size() > 0) {
+//                americaCaliforniaMapper.insertList(dataList);
+//            }
 
             logger.info("json文件导入成功，文件是{}", file.getName());
             reader.close();
