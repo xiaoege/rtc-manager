@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.america.california.AmericaCaliforniaMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.america.california.AmericaCalifornia">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="entity_number" jdbcType="VARCHAR" property="entityNumber" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="registration_date" jdbcType="VARCHAR" property="registrationDate" />
+    <result column="jurisdiction" jdbcType="VARCHAR" property="jurisdiction" />
+    <result column="entity_type" jdbcType="VARCHAR" property="entityType" />
+    <result column="enterprise_status" jdbcType="VARCHAR" property="enterpriseStatus" />
+    <result column="agent_name" jdbcType="VARCHAR" property="agentName" />
+    <result column="agent_address" jdbcType="VARCHAR" property="agentAddress" />
+    <result column="agent_city" jdbcType="VARCHAR" property="agentCity" />
+    <result column="agent_state" jdbcType="VARCHAR" property="agentState" />
+    <result column="agent_zip" jdbcType="VARCHAR" property="agentZip" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="zip" jdbcType="VARCHAR" property="zip" />
+    <result column="mailing_address" jdbcType="VARCHAR" property="mailingAddress" />
+    <result column="mailing_city" jdbcType="VARCHAR" property="mailingCity" />
+    <result column="mailing_state" jdbcType="VARCHAR" property="mailingState" />
+    <result column="mailing_zip" jdbcType="VARCHAR" property="mailingZip" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, entity_number, name, registration_date, jurisdiction, entity_type, 
+    enterprise_status, agent_name, agent_address, agent_city, agent_state, agent_zip, 
+    address, city, state, zip, mailing_address, mailing_city, mailing_state, mailing_zip, 
+    gmt_create, gmt_modified, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from america_california
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from america_california
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rtc.manager.entity.america.california.AmericaCalifornia">
+    insert into america_california (id, enterprise_id, entity_number, 
+      name, registration_date, jurisdiction, 
+      entity_type, enterprise_status, agent_name, 
+      agent_address, agent_city, agent_state, 
+      agent_zip, address, city, 
+      state, zip, mailing_address, 
+      mailing_city, mailing_state, mailing_zip, 
+      gmt_create, gmt_modified, status
+      )
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{entityNumber,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{registrationDate,jdbcType=VARCHAR}, #{jurisdiction,jdbcType=VARCHAR}, 
+      #{entityType,jdbcType=VARCHAR}, #{enterpriseStatus,jdbcType=VARCHAR}, #{agentName,jdbcType=VARCHAR}, 
+      #{agentAddress,jdbcType=VARCHAR}, #{agentCity,jdbcType=VARCHAR}, #{agentState,jdbcType=VARCHAR}, 
+      #{agentZip,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{state,jdbcType=VARCHAR}, #{zip,jdbcType=VARCHAR}, #{mailingAddress,jdbcType=VARCHAR}, 
+      #{mailingCity,jdbcType=VARCHAR}, #{mailingState,jdbcType=VARCHAR}, #{mailingZip,jdbcType=VARCHAR}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.america.california.AmericaCalifornia">
+    insert into america_california
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="entityNumber != null">
+        entity_number,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="registrationDate != null">
+        registration_date,
+      </if>
+      <if test="jurisdiction != null">
+        jurisdiction,
+      </if>
+      <if test="entityType != null">
+        entity_type,
+      </if>
+      <if test="enterpriseStatus != null">
+        enterprise_status,
+      </if>
+      <if test="agentName != null">
+        agent_name,
+      </if>
+      <if test="agentAddress != null">
+        agent_address,
+      </if>
+      <if test="agentCity != null">
+        agent_city,
+      </if>
+      <if test="agentState != null">
+        agent_state,
+      </if>
+      <if test="agentZip != null">
+        agent_zip,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="zip != null">
+        zip,
+      </if>
+      <if test="mailingAddress != null">
+        mailing_address,
+      </if>
+      <if test="mailingCity != null">
+        mailing_city,
+      </if>
+      <if test="mailingState != null">
+        mailing_state,
+      </if>
+      <if test="mailingZip != null">
+        mailing_zip,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="entityNumber != null">
+        #{entityNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="registrationDate != null">
+        #{registrationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="jurisdiction != null">
+        #{jurisdiction,jdbcType=VARCHAR},
+      </if>
+      <if test="entityType != null">
+        #{entityType,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseStatus != null">
+        #{enterpriseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="agentName != null">
+        #{agentName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentAddress != null">
+        #{agentAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="agentCity != null">
+        #{agentCity,jdbcType=VARCHAR},
+      </if>
+      <if test="agentState != null">
+        #{agentState,jdbcType=VARCHAR},
+      </if>
+      <if test="agentZip != null">
+        #{agentZip,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="zip != null">
+        #{zip,jdbcType=VARCHAR},
+      </if>
+      <if test="mailingAddress != null">
+        #{mailingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="mailingCity != null">
+        #{mailingCity,jdbcType=VARCHAR},
+      </if>
+      <if test="mailingState != null">
+        #{mailingState,jdbcType=VARCHAR},
+      </if>
+      <if test="mailingZip != null">
+        #{mailingZip,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.america.california.AmericaCalifornia">
+    update america_california
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="entityNumber != null">
+        entity_number = #{entityNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="registrationDate != null">
+        registration_date = #{registrationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="jurisdiction != null">
+        jurisdiction = #{jurisdiction,jdbcType=VARCHAR},
+      </if>
+      <if test="entityType != null">
+        entity_type = #{entityType,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseStatus != null">
+        enterprise_status = #{enterpriseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="agentName != null">
+        agent_name = #{agentName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentAddress != null">
+        agent_address = #{agentAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="agentCity != null">
+        agent_city = #{agentCity,jdbcType=VARCHAR},
+      </if>
+      <if test="agentState != null">
+        agent_state = #{agentState,jdbcType=VARCHAR},
+      </if>
+      <if test="agentZip != null">
+        agent_zip = #{agentZip,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="zip != null">
+        zip = #{zip,jdbcType=VARCHAR},
+      </if>
+      <if test="mailingAddress != null">
+        mailing_address = #{mailingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="mailingCity != null">
+        mailing_city = #{mailingCity,jdbcType=VARCHAR},
+      </if>
+      <if test="mailingState != null">
+        mailing_state = #{mailingState,jdbcType=VARCHAR},
+      </if>
+      <if test="mailingZip != null">
+        mailing_zip = #{mailingZip,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.america.california.AmericaCalifornia">
+    update america_california
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      entity_number = #{entityNumber,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      registration_date = #{registrationDate,jdbcType=VARCHAR},
+      jurisdiction = #{jurisdiction,jdbcType=VARCHAR},
+      entity_type = #{entityType,jdbcType=VARCHAR},
+      enterprise_status = #{enterpriseStatus,jdbcType=VARCHAR},
+      agent_name = #{agentName,jdbcType=VARCHAR},
+      agent_address = #{agentAddress,jdbcType=VARCHAR},
+      agent_city = #{agentCity,jdbcType=VARCHAR},
+      agent_state = #{agentState,jdbcType=VARCHAR},
+      agent_zip = #{agentZip,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR},
+      zip = #{zip,jdbcType=VARCHAR},
+      mailing_address = #{mailingAddress,jdbcType=VARCHAR},
+      mailing_city = #{mailingCity,jdbcType=VARCHAR},
+      mailing_state = #{mailingState,jdbcType=VARCHAR},
+      mailing_zip = #{mailingZip,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <insert id="insertList" parameterType="com.rtc.manager.entity.america.california.AmericaCalifornia">
+    insert into america_california (enterprise_id, entity_number,
+                                    name, registration_date, jurisdiction,
+                                    entity_type, enterprise_status, agent_name,
+                                    agent_address, agent_city, agent_state,
+                                    agent_zip, address, city,
+                                    state, zip, mailing_address,
+                                    mailing_city, mailing_state, mailing_zip
+    )
+    values 
+           <foreach collection="list" item="item" separator=",">
+           (#{item.enterpriseId,jdbcType=VARCHAR}, #{item.entityNumber,jdbcType=VARCHAR},
+            #{item.name,jdbcType=VARCHAR}, #{item.registrationDate,jdbcType=VARCHAR}, #{item.jurisdiction,jdbcType=VARCHAR},
+            #{item.entityType,jdbcType=VARCHAR}, #{item.enterpriseStatus,jdbcType=VARCHAR}, #{item.agentName,jdbcType=VARCHAR},
+            #{item.agentAddress,jdbcType=VARCHAR}, #{item.agentCity,jdbcType=VARCHAR}, #{item.agentState,jdbcType=VARCHAR},
+            #{item.agentZip,jdbcType=VARCHAR}, #{item.address,jdbcType=VARCHAR}, #{item.city,jdbcType=VARCHAR},
+            #{item.state,jdbcType=VARCHAR}, #{item.zip,jdbcType=VARCHAR}, #{item.mailingAddress,jdbcType=VARCHAR},
+            #{item.mailingCity,jdbcType=VARCHAR}, #{item.mailingState,jdbcType=VARCHAR}, #{item.mailingZip,jdbcType=VARCHAR}
+           )
+           </foreach>
+  </insert>
+</mapper>

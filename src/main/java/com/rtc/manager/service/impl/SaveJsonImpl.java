@@ -11,6 +11,7 @@ import com.rtc.manager.dao.america.alabama.AmericaAlabamaIncorporatorMapper;
 import com.rtc.manager.dao.america.alabama.AmericaAlabamaMapper;
 import com.rtc.manager.dao.america.alabama.AmericaAlabamaMemberMapper;
 import com.rtc.manager.dao.america.alaska.AmericaAlaskaMapper;
+import com.rtc.manager.dao.america.california.AmericaCaliforniaMapper;
 import com.rtc.manager.dao.america.colorado.AmericaColoradoMapper;
 import com.rtc.manager.dao.america.delaware.AmericaDelawareMapper;
 import com.rtc.manager.dao.america.florida.AmericaFloridaAnnualReportFieldMapper;
@@ -56,6 +57,7 @@ import com.rtc.manager.entity.america.alabama.AmericaAlabamaDirector;
 import com.rtc.manager.entity.america.alabama.AmericaAlabamaIncorporator;
 import com.rtc.manager.entity.america.alabama.AmericaAlabamaMember;
 import com.rtc.manager.entity.america.alaska.AmericaAlaska;
+import com.rtc.manager.entity.america.california.AmericaCalifornia;
 import com.rtc.manager.entity.america.colorado.AmericaColorado;
 import com.rtc.manager.entity.america.delaware.AmericaDelaware;
 import com.rtc.manager.entity.america.florida.AmericaFlorida;
@@ -480,6 +482,9 @@ public class SaveJsonImpl implements SaveJson {
 
     @Autowired
     private AmericaKentuckyAssumeNameMapper americaKentuckyAssumeNameMapper;
+
+    @Autowired
+    private AmericaCaliforniaMapper americaCaliforniaMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -2807,6 +2812,58 @@ public class SaveJsonImpl implements SaveJson {
                     o.setEnterpriseId(enterpriseId);
                     americaKentuckyAssumeNameMapper.insertSelective(o);
                 }));
+            }
+
+            logger.info("json文件导入成功，文件是{}", file.getName());
+            reader.close();
+            bis.close();
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveJsonAmerica4California(File fileDirPath) throws Exception {
+        List<String> fileList = new ArrayList();
+        CommonUtils.readJsonFiles(fileDirPath, fileList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (int z = 0; z < fileList.size(); z++) {
+            File file = new File(fileList.get(z));
+
+            // 忽略mac的隐藏文件
+            if (file.getName().contains(".DS_Store")) {
+                continue;
+            }
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
+
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
+
+            StringBuilder sb = new StringBuilder();
+            while (reader.ready()) {
+                sb.append((char) reader.read());
+            }
+            String sss = sb.toString();
+            sss = sss.replace("\\\"", "");
+            List<AmericaCaliforniaDTO> list = null;
+            try {
+                list = Optional.ofNullable(objectMapper.readValue(sss, new TypeReference<List<AmericaCaliforniaDTO>>() {
+                })).orElseGet(() -> new ArrayList<>());
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                logger.info("json序列化出现问题:{}", file.getName());
+                logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
+                throw e;
+            }
+            List<AmericaCalifornia> dataList = new ArrayList();
+            for (int i = 0; i < list.size(); i++) {
+                AmericaCaliforniaDTO americaCaliforniaDTO = list.get(i);
+                AmericaCalifornia americaCalifornia = new AmericaCalifornia(americaCaliforniaDTO.getAgentDTO(), americaCaliforniaDTO.getAddressDTO(), americaCaliforniaDTO.getMailDTO());
+                BeanUtil.copyProperties(americaCaliforniaDTO, americaCalifornia, true, CopyOptions.create().setIgnoreNullValue(true).setIgnoreError(true));
+                americaCalifornia.setEnterpriseId(getUUID());
+                dataList.add(americaCalifornia);
+            }
+            if (dataList.size() > 0) {
+                americaCaliforniaMapper.insertList(dataList);
             }
 
             logger.info("json文件导入成功，文件是{}", file.getName());
