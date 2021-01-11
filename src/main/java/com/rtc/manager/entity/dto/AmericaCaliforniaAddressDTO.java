@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 /**
  * @author ChenHang
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AmericaCaliforniaAddressDTO {
     @JsonAlias("Address")
     private String address;
