@@ -22,8 +22,8 @@ spring:
       filters: stat,wall,config # 配置后哪些可以看到,stat:SQL监控页面,wall:防火墙
       url: jdbc:mysql://localhost:3306/rtc?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=True&serverTimezone=UTC
       username: root
-      password: K5hRuLZ7aiDfJbUKHluXM8uiQWa8o/lVUFqpndJ67GpoDsefzRLoYkdpGg+mt5Zv6SXS8A1Q2+AOQHpb7OG8AA==
-      connection-properties: config.decrypt=true;config.decrypt.key=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAKk8sXDNYybMPUu1u1Z5jF+QiW9sv/G0jS5W9HloR1DQZrR4Zvr/TJNihSXbOpS91OzqkDpgf3RryWoPU/k1l58CAwEAAQ==
+      password: IywBSNTqJNbQ4fxk386Je8QGHdK5ZsX1JepnL/2h/cB8i42Neg3Lj8JiHD9iUbzEY5t+3k718eknwLCK086kpw==
+      connection-properties: config.decrypt=true;config.decrypt.key=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAMJS6B3QFwE5ypsNTa2CkeDhI7dC4aNJ13D9LYZpJsAiYaXWexj5f0dRpqCxKot2VIzUMqxuVPmUADjfmGKLrf0CAwEAAQ==
   #            time-between-log-stats-millis: 3000 #配置每xx毫秒输出一次统计日志,并清除druid页面的SQL监控数据
 
   redis:
