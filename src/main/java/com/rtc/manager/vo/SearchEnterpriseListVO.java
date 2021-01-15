@@ -117,4 +117,20 @@ public class SearchEnterpriseListVO {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public String getEsId() {
+        return esId;
+    }
+
+    public void setEsId(String esId) {
+        this.esId = esId;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
 }
