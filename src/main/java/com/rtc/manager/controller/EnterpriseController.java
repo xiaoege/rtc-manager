@@ -47,27 +47,6 @@ public class EnterpriseController {
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false, defaultValue = "1"),
             @ApiImplicitParam(name = "pageSize", value = "当前页大小", required = false, defaultValue = "20")
     })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "{\n" +
-                    "\"message\": \"请求成功\",\n" +
-                    "\"data\": {\n" +
-                    "\"total\": 4,\n" +
-                    "\"pageSize\": 20,\n" +
-                    "\"list\": [{\n" +
-                    "\"nation\": \"China\",\n" +
-                    "\"pid\": 6326,\n" +
-                    "\"enterpriseId\": \"a29f22683e08421581defa47168bd44b\",\n" +
-                    "\"legalRepresentative\": \"潘崇福\",\n" +
-                    "\"establishmentDate\": \"2008-12-29\",\n" +
-                    "\"address\": \"南京市溧水区永阳镇高塘村东山边村60号\",\n" +
-                    "\"e_type\": \"China\",\n" +
-                    "\"e_name\": \"南京崇福物流有限公司\"\n" +
-                    "}],\n" +
-                    "\"pageNum\": 0\n" +
-                    "},\n" +
-                    "\"code\": 200\n" +
-                    "}")
-    })
     @GetMapping("listEnterprise")
     public ResultData<SearchEnterpriseListVO> listEnterprise(@RequestParam(name = "name", required = true) String name,
                                                              @RequestParam(name = "pageNum", required = false, defaultValue = "0") int pageNum,

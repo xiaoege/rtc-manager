@@ -4,19 +4,25 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * @author ChenHang
  */
+@ApiModel(value = "企业搜索-列表")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SearchEnterpriseListVO {
 
     @JsonAlias("e_type")
+    @ApiModelProperty(value = "公司所在地区(国家的次一级，例如美国的肯塔基州)")
     private String eType;
 
     @JsonAlias("e_name")
+    @ApiModelProperty(value = "公司名")
     private String eName;
 
+    @ApiModelProperty(value ="公司所在国家")
     private String nation;
     /**
      * mysql表的id
@@ -30,28 +36,33 @@ public class SearchEnterpriseListVO {
     private String esId;
 
     @JsonAlias("enterprise_id")
+    @ApiModelProperty(value ="公司id-内部定义")
     private String enterpriseId;
 
     /**
      * 法人代表
      */
     @JsonAlias("legal_representative")
+    @ApiModelProperty(value ="法人代表")
     private String legalRepresentative;
     /**
      * 成立日期
      */
     @JsonAlias({"establishment_date", "date_of_incorporation"})
+    @ApiModelProperty(value ="成立日期")
     private String establishmentDate;
     /**
      * 公司地址
      */
     @JsonAlias({"registered_address", "registrated_address", "principal_address"})
+    @ApiModelProperty(value ="公司地址")
     private String address;
 
     /**
      * es 文档创建时间
      */
     @JsonAlias("@timestamp")
+    @ApiModelProperty(value ="该数据创建时间")
     private String createTime;
 
     public String geteType() {

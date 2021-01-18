@@ -30,15 +30,15 @@ public class UserController {
      * @return
      * @throws Exception
      */
-    @ApiIgnore
-    @ApiOperation(value = "邮箱注册,注册成功后删除验证码", notes = "参数例子:\n" +
-            "{\n" +
-            "    \"email\":\"xxxx@qq.com\",\n" +
-            "    \"password\":\"asd\",\n" +
-            "    \"retypePassword\":\"asd\",\n" +
-            "    \"verificationCode\":\"30505\"\n" +
-            "}\n" +
-            "phone:手机号,countryCode:手机号国家代码,password:密码,retypePassword:确认密码,verificationCode:验证码")
+    @ApiOperation(value = "邮箱注册,注册成功后删除验证码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "body", name = "user", required = true, value = "{\n" +
+                    "\"email\": \"邮箱\",\n" +
+                    "\"password\": \"注册密码\",\n" +
+                    "\"retypePassword\": \"注册密码-确认\",\n" +
+                    "\"verificationCode\": \"验证码\"" +
+                    "\n}")
+    })
     @ApiResponses({
             @ApiResponse(code = 705, message = "数据有误"),
             @ApiResponse(code = 707, message = "邮箱验证码错误"),
@@ -55,19 +55,19 @@ public class UserController {
     }
 
     /**
-     * 校验邮箱，发送验证码
+     * 邮箱注册-校验邮箱，发送验证码
      *
      * @param email
      * @return
      */
-    @ApiIgnore
-    @ApiOperation("校验邮箱，发送验证码")
+    @ApiOperation("邮箱注册-校验邮箱，发送验证码")
     @ApiResponses({
             @ApiResponse(code = 850, message = "邮箱格式错误"),
             @ApiResponse(code = 851, message = "邮箱已注册"),
             @ApiResponse(code = 702, message = "验证码发送次数过多，请15分钟稍后再试"),
             @ApiResponse(code = 703, message = "验证码发送失败")
     })
+    @ApiImplicitParam(name = "email", value = "邮箱", required = true)
     @PostMapping("checkEmailRegistered")
     public ResultData checkEmailRegistered(@RequestParam(name = "email") String email) {
         ResultData resultData = userService.checkEmailRegistered(email);
@@ -84,9 +84,9 @@ public class UserController {
     @ApiOperation(value = "更换邮箱-通过邮箱发送验证码")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
-            @ApiImplicitParam(name = "user", value = "参数示例：{\n" +
-                    "    \"email\":\"777\",\n" +
-                    "}", paramType = "body")
+            @ApiImplicitParam(name = "user", paramType = "body", value = "{\n" +
+                    "\"email\":\"邮箱\"" +
+                    "\n}")
     })
     @ApiResponses({
             @ApiResponse(code = 200, message = "{\n" +
@@ -114,10 +114,10 @@ public class UserController {
     @ApiOperation(value = "更换邮箱-更换成功后删除验证码")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
-            @ApiImplicitParam(name = "body", value = "参数示例：{\n" +
-                    "    \"email\": \"xxx@qq.com\",\n" +
-                    "    \"verificationCode\": \"581106\"\n" +
-                    "}", paramType = "body")
+            @ApiImplicitParam(name = "body", value = "{\n" +
+                    "    \"email\": \"邮箱\",\n" +
+                    "    \"verificationCode\": \"验证码\"" +
+                    "\n}", paramType = "body")
     })
     @ApiResponses({
             @ApiResponse(code = 707, message = "验证码错误"),
@@ -138,15 +138,14 @@ public class UserController {
      * @return
      * @throws Exception
      */
-    @ApiOperation(value = "手机注册,注册成功后删除验证码", notes = "参数例子:\n" +
-            "{\n" +
-            "    \"phone\":\"189\",\n" +
-            "    \"countryCode\":\"\",\n" +
-            "    \"password\":\"asd\",\n" +
-            "    \"retypePassword\":\"asd\",\n" +
-            "    \"verificationCode\":\"30505\"\n" +
-            "}\n" +
-            "phone:手机号,countryCode:手机号国家代码,password:密码,retypePassword:确认密码,verificationCode:验证码")
+    @ApiOperation(value = "手机注册,注册成功后删除验证码")
+    @ApiImplicitParam(name = "user", paramType = "body", value = "{\n" +
+            "\"phone\":\"手机号\",\n" +
+            "\"countryCode\":\"手机号国家代码\",\n" +
+            "\"password\":\"密码\",\n" +
+            "\"retypePassword\":\"确认密码\",\n" +
+            "\"verificationCode\":\"验证码\"" +
+            "\n}")
     @ApiResponses({
             @ApiResponse(code = 705, message = "数据有误"),
             @ApiResponse(code = 707, message = "验证码错误"),
@@ -170,7 +169,10 @@ public class UserController {
      */
     @ApiOperation(value = "注册-校验手机，发送验证码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "map", value = "参数示例：{\"phone\":\"123\", \"countryCode\":\"123456\"}", required = true),
+            @ApiImplicitParam(name = "map", required = true, paramType = "body", value = "{\n" +
+                    "\"phone\":\"手机号\",\n" +
+                    "\"countryCode\":\"手机号国家代码\"\n" +
+                    "\n}"),
     })
     @ApiResponses({
             @ApiResponse(code = 702, message = "验证码发送次数过多，请15分钟稍后再试"),
@@ -195,36 +197,16 @@ public class UserController {
     @ApiOperation(value = "修改用户基本信息", notes = "成功后返回该用户的最新信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
-            @ApiImplicitParam(name = "user", value = "参数示例：{\n" +
-                    "    \"nickname\": \"miaopasi\",\n" +
-                    "    \"synopsis\": \"喵\",\n" +
-                    "    \"country\": \"喵\",\n" +
-                    "    \"enterprise\": \"喵\",\n" +
-                    "    \"address\": \"喵\",\n" +
-                    "    \"portrait\": \"http://192.168.1.125/portrait/temp/dc410238-c5cc-4ad3-8e2f-96e0b145b239/2020-09-02-9643372645178440190.png\"\n" +
-                    "}", paramType = "body")
+            @ApiImplicitParam(name = "user", value = "{\n" +
+                    "    \"nickname\": \"昵称\",\n" +
+                    "    \"synopsis\": \"简介\",\n" +
+                    "    \"country\": \"国家\",\n" +
+                    "    \"enterprise\": \"公司\",\n" +
+                    "    \"address\": \"地址\",\n" +
+                    "    \"portrait\": \"头像地址\"\n" +
+                    "}", paramType = "body", required = true)
     })
     @ApiResponses({
-            @ApiResponse(code = 200, message = "{\n" +
-                    "    \"message\": \"请求成功\",\n" +
-                    "    \"data\": {\n" +
-                    "        \"role\": \"ROLE_USER\",\n" +
-                    "        \"user\": {\n" +
-                    "            \"nickname\": \"miaopasi\",\n" +
-                    "            \"phone\": \"996\",\n" +
-                    "            \"countryCode\": \"\",\n" +
-                    "            \"email\": null,\n" +
-                    "            \"synopsis\": \"喵\",\n" +
-                    "            \"country\": \"喵\",\n" +
-                    "            \"enterprise\": \"喵\",\n" +
-                    "            \"address\": \"喵\",\n" +
-                    "            \"portrait\": \"http://192.168.1.125/portrait/dc410238-c5cc-4ad3-8e2f-96e0b145b239/2020-09-02-9643372645178440190.png\",\n" +
-                    "            \"pid\": 35\n" +
-                    "        },\n" +
-                    "        \"account\": \"miaopasi\"\n" +
-                    "    },\n" +
-                    "    \"code\": 200\n" +
-                    "}"),
             @ApiResponse(code = 901, message = "昵称格式错误"),
             @ApiResponse(code = 902, message = "昵称已存在"),
             @ApiResponse(code = 906, message = "请重新上传头像")
@@ -245,18 +227,13 @@ public class UserController {
     @ApiOperation(value = "根据原始密码修改密码")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
-            @ApiImplicitParam(name = "user", value = "参数示例：{\n" +
-                    "    \"oldPassword\":\"asd\",\n" +
-                    "    \"newPassword\":\"asd111\",\n" +
-                    "    \"retypePassword\":\"asd111\"\n" +
-                    "}", paramType = "body")
+            @ApiImplicitParam(name = "user", value = "{\n" +
+                    "    \"oldPassword\":\"原密码\",\n" +
+                    "    \"newPassword\":\"新密码\",\n" +
+                    "    \"retypePassword\":\"新密码-确认\"\n" +
+                    "}", paramType = "body", required = true)
     })
     @ApiResponses({
-            @ApiResponse(code = 200, message = "{\n" +
-                    "    \"message\": \"请求成功\",\n" +
-                    "    \"data\": \"null\",\n" +
-                    "    \"code\": 200\n" +
-                    "}"),
             @ApiResponse(code = 903, message = "密码格式错误"),
             @ApiResponse(code = 1004, message = "原始密码错误")
     })
@@ -273,17 +250,12 @@ public class UserController {
      */
     @ApiOperation(value = "忘记密码-通过手机号发送验证码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "map", value = "参数示例：{\n" +
-                    "    \"phone\":\"777\",\n" +
-                    "    \"countryCode\":\"+86\"\n" +
-                    "}", paramType = "body")
+            @ApiImplicitParam(name = "map", value = "{\n" +
+                    "    \"phone\":\"手机号\",\n" +
+                    "    \"countryCode\":\"手机号国家代码\"\n" +
+                    "}", paramType = "body", required = true)
     })
     @ApiResponses({
-            @ApiResponse(code = 200, message = "{\n" +
-                    "    \"message\": \"发送验证码成功\",\n" +
-                    "    \"data\": null,\n" +
-                    "    \"code\": 200\n" +
-                    "}"),
             @ApiResponse(code = 702, message = "验证码发送次数过多，请15分钟稍后再试"),
             @ApiResponse(code = 703, message = "验证码发送失败"),
             @ApiResponse(code = 803, message = "国家代码与手机号不符"),
@@ -306,11 +278,11 @@ public class UserController {
      */
     @ApiOperation(value = "忘记密码-检验验证码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "map", value = "参数示例：{\n" +
-                    "    \"phone\":\"777\",\n" +
-                    "    \"countryCode\":\"+86\",\n" +
-                    "    \"verificationCode\":\"123456\"\n" +
-                    "}", paramType = "body")
+            @ApiImplicitParam(name = "map", value = "{\n" +
+                    "    \"phone\":\"手机号\",\n" +
+                    "    \"countryCode\":\"手机号国家代码\",\n" +
+                    "    \"verificationCode\":\"验证码\"\n" +
+                    "}", paramType = "body", required = true)
     })
     @ApiResponses({
             @ApiResponse(code = 803, message = "国家代码与手机号不符"),
@@ -328,20 +300,20 @@ public class UserController {
     }
 
     /**
-     * 忘记密码-修改密码,修改成功后删除验证码
+     * 忘记密码-手机-修改密码,修改成功后删除验证码
      *
      * @param user
      * @return
      */
-    @ApiOperation("忘记密码-修改密码,修改成功后删除验证码")
+    @ApiOperation("忘记密码-手机-修改密码,修改成功后删除验证码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "user", value = "参数示例：{\n" +
-                    "    \"phone\":\"321\",\n" +
-                    "    \"password\":\"asd123\",\n" +
-                    "    \"retypePassword\":\"asd123\",\n" +
-                    "    \"countryCode\":\"86\",\n" +
-                    "    \"verificationCode\":\"783269\"\n" +
-                    "}", paramType = "body")
+            @ApiImplicitParam(name = "user", value = "{\n" +
+                    "    \"phone\":\"手机号\",\n" +
+                    "    \"password\":\"新密码\",\n" +
+                    "    \"retypePassword\":\"新密码-确认\",\n" +
+                    "    \"countryCode\":\"手机号国家代码\",\n" +
+                    "    \"verificationCode\":\"验证码\"\n" +
+                    "}", paramType = "body", required = true)
     })
     @ApiResponses({
             @ApiResponse(code = 903, message = "密码格式错误"),
@@ -359,7 +331,7 @@ public class UserController {
      */
     @ApiOperation(value = "更换手机号-校验原始手机号")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "phone", value = "参数示例：{\"phone\":\"666\"}", paramType = "body")
+            @ApiImplicitParam(name = "phone", value = "{\"phone\":\"手机号\"}", paramType = "body", required = true)
     })
     @ApiResponses({
             @ApiResponse(code = 806, message = "输入的手机号和原始手机号不一致")
@@ -367,7 +339,6 @@ public class UserController {
     )
     @PostMapping("checkOriginalPhone")
     public ResultData checkOriginalPhone(@RequestBody String phone) {
-        // todo 校验手机号
         if (phone == null) {
             return ResultData.FAIL(null, 400, "数据有误");
         }
