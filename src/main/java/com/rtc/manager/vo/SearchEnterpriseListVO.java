@@ -1,6 +1,7 @@
 package com.rtc.manager.vo;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
@@ -25,6 +26,7 @@ public class SearchEnterpriseListVO {
     /**
      * es-document的id
      */
+    @JsonIgnore
     private String esId;
 
     @JsonAlias("enterprise_id")
