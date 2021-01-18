@@ -20,8 +20,8 @@ spring:
           config:
             multi-statement-allow: true # 是否允许批量SQL
       filters: stat,wall,config # 配置后哪些可以看到,stat:SQL监控页面,wall:防火墙
-      url: jdbc:mysql://localhost:3306/rtc?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=True&serverTimezone=UTC
-#      url: jdbc:mysql://localhost:3306/rtc_android?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=True&serverTimezone=UTC
+#      url: jdbc:mysql://localhost:3306/rtc?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=True&serverTimezone=UTC
+      url: jdbc:mysql://localhost:3306/rtc_android?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=True&serverTimezone=UTC
       username: root
       password: IywBSNTqJNbQ4fxk386Je8QGHdK5ZsX1JepnL/2h/cB8i42Neg3Lj8JiHD9iUbzEY5t+3k718eknwLCK086kpw==
       connection-properties: config.decrypt=true;config.decrypt.key=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAMJS6B3QFwE5ypsNTa2CkeDhI7dC4aNJ13D9LYZpJsAiYaXWexj5f0dRpqCxKot2VIzUMqxuVPmUADjfmGKLrf0CAwEAAQ==
@@ -51,7 +51,7 @@ spring:
       max-file-size: 5MB
 
 server:
-  port: 9998
+  port: 9981
 
 mybatis:
   mapperLocations: classpath:mapper/*.xml
