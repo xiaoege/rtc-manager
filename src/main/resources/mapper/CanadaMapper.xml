@@ -153,6 +153,7 @@
   
   <resultMap id="selectCanadaEnterprise" type="com.rtc.manager.vo.canada.CanadaVO">
     <id column="canada_id" jdbcType="INTEGER" property="id" />
+    <result column="canada_enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
     <result column="canada_corporation_number" jdbcType="VARCHAR" property="corporationNumber" />
     <result column="canada_business_number" jdbcType="VARCHAR" property="businessNumber" />
     <result column="canada_name" jdbcType="VARCHAR" property="name" />
@@ -185,6 +186,7 @@
   <select id="selectCanadaEnterprise" resultMap="selectCanadaEnterprise">
     SELECT
         canada.id canada_id,
+        canada.enterprise_id canada_enterprise_id,
         canada.corporation_number canada_corporation_number,
         canada.business_number canada_business_number,
         canada.`name` canada_name,
@@ -214,5 +216,21 @@
     WHERE
         canada.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
         AND canada.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+  </select>
+
+  <select id="checkFavouriteCanada" resultType="java.lang.String">
+    SELECT
+      canada.enterprise_id
+    FROM
+      canada
+    WHERE
+      canada.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+      AND canada.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+      AND EXISTS (
+            SELECT enterprise_id
+            FROM rtc_user_favourite
+            WHERE rtc_user_favourite.enterprise_id = canada.enterprise_id
+              AND rtc_user_favourite.user_id = #{userId, jdbcType=VARCHAR}
+      )
   </select>
 </mapper>

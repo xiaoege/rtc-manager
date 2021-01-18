@@ -1,6 +1,8 @@
 package com.rtc.manager.dao.canada;
 
 import com.rtc.manager.entity.canada.Canada;
+import com.rtc.manager.vo.canada.CanadaVO;
+import org.apache.ibatis.annotations.Param;
 
 public interface CanadaMapper {
     int deleteByPrimaryKey(Integer id);
@@ -15,5 +17,7 @@ public interface CanadaMapper {
 
     int updateByPrimaryKey(Canada record);
 
-    Object selectCanadaEnterprise(String enterpriseId);
+    CanadaVO selectCanadaEnterprise(String enterpriseId);
+
+    String checkFavouriteCanada(@Param(("enterpriseId")) String enterpriseId, @Param("userId") String userId);
 }

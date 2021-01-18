@@ -2,6 +2,7 @@ package com.rtc.manager.service.impl;
 
 import com.rtc.manager.dao.canada.CanadaMapper;
 import com.rtc.manager.service.Canada;
+import com.rtc.manager.vo.canada.CanadaVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,12 @@ public class CanadaImpl implements Canada {
 
     @Override
     public Object getCanadaEnterprise(String enterpriseId, String userId, String timeZone) {
-        Object vo = canadaMapper.selectCanadaEnterprise(enterpriseId);
+        CanadaVO vo = canadaMapper.selectCanadaEnterprise(enterpriseId);
+        if (vo != null) {
+            if (canadaMapper.checkFavouriteCanada(enterpriseId, userId) != null) {
+                vo.setFavourite(1);
+            }
+        }
         return vo;
     }
 }

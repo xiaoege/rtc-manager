@@ -8,6 +8,8 @@ public class CanadaVO {
 
     private Integer id;
 
+    private String enterpriseId;
+
     private String corporationNumber;
 
     private String businessNumber;
@@ -25,6 +27,8 @@ public class CanadaVO {
     private List<CanadaAnnualFilingVO> annualFilingListVO;
 
     private List<CanadaCorporateHistoryVO> corporateHistoryListVO;
+
+    private int favourite;
 
     public Integer getId() {
         return id;
@@ -104,5 +108,21 @@ public class CanadaVO {
 
     public void setCorporateHistoryListVO(List<CanadaCorporateHistoryVO> corporateHistoryListVO) {
         this.corporateHistoryListVO = corporateHistoryListVO;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
+    }
+
+    public int getFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(int favourite) {
+        this.favourite = favourite;
     }
 }
