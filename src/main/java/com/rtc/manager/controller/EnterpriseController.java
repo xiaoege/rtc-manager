@@ -42,7 +42,7 @@ public class EnterpriseController {
      */
     @ApiOperation(value = "搜索企业-列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
             @ApiImplicitParam(name = "name", value = "企业名，参数示例：China:南京，India:banana，Vietnam:viet", required = true),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false, defaultValue = "1"),
             @ApiImplicitParam(name = "pageSize", value = "当前页大小", required = false, defaultValue = "20")
@@ -75,7 +75,7 @@ public class EnterpriseController {
      */
     @ApiOperation("企业详情")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
             @ApiImplicitParam(name = "enterpriseId", value = "企业id", required = true),
             @ApiImplicitParam(name = "nation", value = "国家：China / India / Vietnam / America / Canada", required = true),
             @ApiImplicitParam(name = "e_type", value = "企业类型，对应国家：China.China / India.[cin, llpin] / Vietnam.Vietnam /America.[Alabama, NewHampshire] / Canada.Canada", required = true),
@@ -98,7 +98,7 @@ public class EnterpriseController {
     }
 
     /**
-     * 五大类-列表
+     * China企业：五大类-列表
      *
      * @param name
      * @param enterpriseId
@@ -106,9 +106,9 @@ public class EnterpriseController {
      * @param pageSize
      * @return
      */
-    @ApiOperation("五大类-列表")
+    @ApiOperation("China企业：五大类-列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
             @ApiImplicitParam(name = "name", value = "类别", required = true),
             @ApiImplicitParam(name = "enterpriseId", value = "企业id", required = true),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false),
@@ -129,7 +129,7 @@ public class EnterpriseController {
     }
 
     /**
-     * 五大类-详情
+     * China企业：五大类-详情
      *
      * @param name
      * @param id
@@ -147,7 +147,7 @@ public class EnterpriseController {
     }
 
     /**
-     * 五大类-详情,适配ios，只提供一个接口，不传入pid则根据enterpriseId查
+     * China企业：五大类-详情,适配ios，只提供一个接口，不传入pid则根据enterpriseId查
      *
      * @param name
      * @param enterpriseId
@@ -155,9 +155,9 @@ public class EnterpriseController {
      * @param pageSize
      * @return
      */
-    @ApiOperation("五大类-详情")
+    @ApiOperation("China企业：五大类-详情")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
             @ApiImplicitParam(name = "name", value = "类别", required = true),
             @ApiImplicitParam(name = "pid", value = "详情id", required = false),
             @ApiImplicitParam(name = "enterpriseId", value = "企业id", required = false),
@@ -188,7 +188,7 @@ public class EnterpriseController {
      */
     @ApiOperation("查看企业的所有评论")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
             @ApiImplicitParam(name = "enterpriseId", value = "企业id", required = true),
             @ApiImplicitParam(name = "timeZone", value = "时区，参数示例：8或者-8, 范围: -18 to 18 的整数", required = false),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false, defaultValue = "1"),

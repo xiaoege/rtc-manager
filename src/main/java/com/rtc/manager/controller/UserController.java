@@ -83,10 +83,10 @@ public class UserController {
      */
     @ApiOperation(value = "更换邮箱-通过邮箱发送验证码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
             @ApiImplicitParam(name = "user", paramType = "body", value = "{\n" +
                     "\"email\":\"邮箱\"" +
-                    "\n}")
+                    "\n}", required = true)
     })
     @ApiResponses({
             @ApiResponse(code = 200, message = "{\n" +
@@ -113,11 +113,11 @@ public class UserController {
      */
     @ApiOperation(value = "更换邮箱-更换成功后删除验证码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
             @ApiImplicitParam(name = "body", value = "{\n" +
                     "    \"email\": \"邮箱\",\n" +
                     "    \"verificationCode\": \"验证码\"" +
-                    "\n}", paramType = "body")
+                    "\n}", paramType = "body", required = true)
     })
     @ApiResponses({
             @ApiResponse(code = 707, message = "验证码错误"),
@@ -145,7 +145,7 @@ public class UserController {
             "\"password\":\"密码\",\n" +
             "\"retypePassword\":\"确认密码\",\n" +
             "\"verificationCode\":\"验证码\"" +
-            "\n}")
+            "\n}", required = true)
     @ApiResponses({
             @ApiResponse(code = 705, message = "数据有误"),
             @ApiResponse(code = 707, message = "验证码错误"),
@@ -196,7 +196,7 @@ public class UserController {
      */
     @ApiOperation(value = "修改用户基本信息", notes = "成功后返回该用户的最新信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
             @ApiImplicitParam(name = "user", value = "{\n" +
                     "    \"nickname\": \"昵称\",\n" +
                     "    \"synopsis\": \"简介\",\n" +
@@ -226,7 +226,7 @@ public class UserController {
      */
     @ApiOperation(value = "根据原始密码修改密码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
             @ApiImplicitParam(name = "user", value = "{\n" +
                     "    \"oldPassword\":\"原密码\",\n" +
                     "    \"newPassword\":\"新密码\",\n" +
@@ -357,11 +357,11 @@ public class UserController {
      */
     @ApiOperation(value = "更换手机号-通过手机号发送验证码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
-            @ApiImplicitParam(name = "user", value = "参数示例：{\n" +
-                    "    \"phone\":\"777\",\n" +
-                    "    \"countryCode\":\"+86\"\n" +
-                    "}", paramType = "body")
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "user", value = "{\n" +
+                    "    \"phone\":\"手机号\",\n" +
+                    "    \"countryCode\":\"手机号国家代码\"" +
+                    "\n}", paramType = "body", required = true)
     })
     @ApiResponses({
             @ApiResponse(code = 200, message = "{\n" +
@@ -388,12 +388,12 @@ public class UserController {
      */
     @ApiOperation(value = "更换手机号,更换成功后删除验证码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
-            @ApiImplicitParam(name = "user", value = "参数示例：{\n" +
-                    "    \"phone\": \"777\",\n" +
-                    "    \"countryCode\": \"asd\",\n" +
-                    "    \"verificationCode\": \"581106\"\n" +
-                    "}", paramType = "body")
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "user", value = "{\n" +
+                    "    \"phone\": \"手机号\",\n" +
+                    "    \"countryCode\": \"手机号国家代码\",\n" +
+                    "    \"verificationCode\": \"验证码\"\n" +
+                    "}", paramType = "body", required = true)
     })
     @ApiResponses({
             @ApiResponse(code = 707, message = "验证码错误"),
@@ -411,14 +411,14 @@ public class UserController {
      */
     @ApiOperation(value = "上传头像,返回头像的URL")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
-            @ApiImplicitParam(name = "file", value = "后缀名是jpg,jpeg,png,bmp格式的图片,大小在2MB以内", paramType = "form", dataType = "__file")
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "file", value = "后缀名是jpg,jpeg,png,bmp格式的图片,大小在2MB以内", paramType = "form", dataType = "__file", required = true)
     })
     @ApiResponses({
             @ApiResponse(code = 200, message = "{\n" +
                     "    \"message\": \"上传头像成功\",\n" +
                     "    \"data\": {\n" +
-                    "        \"portrait\": \"http://192.168.1.125/portrait/temp/dc410238-c5cc-4ad3-8e2f-96e0b145b239/2020-09-02-9643372645178440190.png\"\n" +
+                    "        \"portrait\": \"头像地址\"\n" +
                     "    },\n" +
                     "    \"code\": 200\n" +
                     "}"),
@@ -434,29 +434,29 @@ public class UserController {
             @ApiResponse(code = 200, message = "{\n" +
                     "    \"code\": 200,\n" +
                     "    \"data\": {\n" +
-                    "        \"Authorization\": \"Bearer 9b8dc8b599368836ed7deb163e01ded1\",\n" +
+                    "        \"Authorization\": \"token\",\n" +
                     "        \"role\": \"ROLE_USER\",\n" +
                     "        \"user\": {\n" +
-                    "            \"nickname\": \"ca123tddd\",\n" +
-                    "            \"phone\": \"333\",\n" +
-                    "            \"countryCode\": null,\n" +
-                    "            \"email\": \"email\",\n" +
-                    "            \"synopsis\": \"synopsis\",\n" +
-                    "            \"country\": \"country\",\n" +
-                    "            \"enterprise\": \"enterprise\",\n" +
-                    "            \"address\": \"address\",\n" +
-                    "            \"pid\": 19,\n" +
-                    "            \"Authorization\": null\n" +
+                    "            \"nickname\": \"昵称\",\n" +
+                    "            \"phone\": \"手机号\",\n" +
+                    "            \"countryCode\": 手机号国家代码,\n" +
+                    "            \"email\": \"邮箱\",\n" +
+                    "            \"synopsis\": \"简介\",\n" +
+                    "            \"country\": \"国家\",\n" +
+                    "            \"enterprise\": \"企业\",\n" +
+                    "            \"address\": \"地址\",\n" +
+                    "            \"pid\": pid,\n" +
+                    "            \"Authorization\": token\n" +
                     "        },\n" +
-                    "        \"account\": \"333\"\n" +
+                    "        \"account\": \"账号\"\n" +
                     "    },\n" +
                     "    \"message\": \"登录成功\"\n" +
                     "}"),
             @ApiResponse(code = 1002, message = "{\n" +
-                    "    \"code\": 401,\n" +
+                    "    \"code\": 1002\n" +
                     "    \"message\": \"该账号不存在\"\n" +
                     "}"), @ApiResponse(code = 1003, message = "{\n" +
-            "    \"code\": 401,\n" +
+            "    \"code\": 1003\n" +
             "    \"message\": \"密码错误\"\n" +
             "}")
     })
@@ -467,7 +467,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "登出，此文档仅供参考，不可在swagger里调用，调用请使用/logout路径", notes = "参数放在header里")
-    @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719")
+    @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c")
     @ApiResponses(
             @ApiResponse(code = 200, message = "{\n" +
                     "    \"code\": 200,\n" +
@@ -486,23 +486,23 @@ public class UserController {
      * @return
      */
     @ApiOperation(value = "查询用户信息", notes = "参数在header里")
-    @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719")
+    @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c")
     @ApiResponses({
             @ApiResponse(code = 200, message = "{\n" +
                     "    \"message\": \"请求成功\",\n" +
                     "    \"data\": {\n" +
-                    "        \"role\": \"ROLE_USER\",\n" +
+                    "        \"role\": \"角色\",\n" +
                     "        \"user\": {\n" +
-                    "            \"nickname\": \"996\",\n" +
-                    "            \"phone\": \"996\",\n" +
-                    "            \"countryCode\": \"+86\",\n" +
-                    "            \"email\": \"ad\",\n" +
-                    "            \"synopsis\": \"喵喵\",\n" +
-                    "            \"country\": \"喵喵\",\n" +
-                    "            \"enterprise\": \"喵喵\",\n" +
-                    "            \"address\": \"喵喵\",\n" +
-                    "            \"pid\": 46,\n" +
-                    "            \"portrait\": \"http://192.168.1.125/portrait/8f2928ea-377e-4141-803b-129d5942acb5/2020-09-01-363159222557607733.png\",\n" +
+                    "            \"nickname\": \"昵称\",\n" +
+                    "            \"phone\": \"手机号\",\n" +
+                    "            \"countryCode\": \"手机号国家代码\",\n" +
+                    "            \"email\": \"邮箱\",\n" +
+                    "            \"synopsis\": \"简介\",\n" +
+                    "            \"country\": \"国家\",\n" +
+                    "            \"enterprise\": \"公司\",\n" +
+                    "            \"address\": \"地址\",\n" +
+                    "            \"pid\": pid,\n" +
+                    "            \"portrait\": \"头像url\",\n" +
                     "        }\n" +
                     "    },\n" +
                     "    \"code\": 200\n" +
@@ -521,12 +521,12 @@ public class UserController {
      */
     @ApiOperation(value = "添加到收藏夹/从收藏夹移除(公司页面)")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
-            @ApiImplicitParam(name = "body", value = "参数示例：{\n" +
-                    "    \"enterpriseId\":\"829f84ee2c0f404eb821f3cfca3f6a30\",\n" +
-                    "    \"nation\":\"India\",\n" +
-                    "    \"e_type\":\"llpin\"\n" +
-                    "}", paramType = "body", dataType = "string")
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "body", value = "{\n" +
+                    "    \"enterpriseId\":\"公司ID（内部）\",\n" +
+                    "    \"nation\":\"国家\",\n" +
+                    "    \"e_type\":\"地区\"\n" +
+                    "}", paramType = "body", dataType = "string", required = true)
     })
     @ApiResponses({
             @ApiResponse(code = 200, message = "{\n" +
@@ -553,12 +553,12 @@ public class UserController {
      */
     @ApiOperation(value = "我的收藏-移除收藏")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
             @ApiImplicitParam(name = "body", value = "参数示例：{\n" +
                     "    \"pidArray\": [\n" +
                     "        11,14,15\n" +
                     "    ]\n" +
-                    "}", paramType = "body")
+                    "}", paramType = "body", required = true)
     })
     @ApiResponses({
             @ApiResponse(code = 200, message = "{\n" +
@@ -579,7 +579,7 @@ public class UserController {
      */
     @ApiOperation(value = "查看收藏夹列表，默认查看20个")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
             @ApiImplicitParam(name = "sort", value = "默认根据添加时间倒序排列，在此基础上可以选择国家排列，字母排列不依照时间倒序。参数示例：nation：根据国家排列。e_name：根据字母排列"),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false, defaultValue = "1"),
             @ApiImplicitParam(name = "pageSize", value = "当前页大小", required = false, defaultValue = "20")
@@ -589,14 +589,14 @@ public class UserController {
                     "    \"message\": \"请求成功\",\n" +
                     "    \"data\": [\n" +
                     "        {\n" +
-                    "            \"nation\": \"India\",\n" +
+                    "            \"nation\": \"国家\",\n" +
                     "            \"pid\": 360,\n" +
-                    "            \"enterpriseId\": \"96cabb14df324335bc268e1b200082b7\",\n" +
-                    "            \"legalRepresentative\": null,\n" +
-                    "            \"establishmentDate\": \"25/01/2016\",\n" +
-                    "            \"address\": \"C 301, HARI OM SADAN, RATAN NAGAR, FOUR BUNGALOWS, ANDHERI (WEST) MUMBAI Mumbai City MH 400053 IN\",\n" +
-                    "            \"e_type\": \"llpin\",\n" +
-                    "            \"e_name\": \"9TH E FILMS LLP\"\n" +
+                    "            \"enterpriseId\": \"公司ID（内部）\",\n" +
+                    "            \"legalRepresentative\": 法人代表,\n" +
+                    "            \"establishmentDate\": \"成立日期\",\n" +
+                    "            \"address\": \"公司地址\",\n" +
+                    "            \"e_type\": \"地区\",\n" +
+                    "            \"e_name\": \"公司名\"\n" +
                     "        }, \"code\": 200\n" +
                     "}")
     })
@@ -621,14 +621,14 @@ public class UserController {
      */
     @ApiOperation(value = "新增评论")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
-            @ApiImplicitParam(name = "body", value = "参数示例：{\n" +
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "body", value = "{\n" +
                     "    \"comment\":\"评论内容\",\n" +
-                    "    \"enterpriseId\":\"e74d2f1a75fe47e08a9b80649644aa61\",\n" +
-                    "    \"nation\":\"Vietnam\",\n" +
-                    "    \"e_type\":\"Vietnam\"\n" +
-                    "    \"stars\":\"5\"\n" +
-                    "} , stars数据类型:string, 参数取值:[0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5]", paramType = "body")
+                    "    \"enterpriseId\":\"公司ID（内部）\",\n" +
+                    "    \"nation\":\"国家\",\n" +
+                    "    \"e_type\":\"地区\"\n" +
+                    "    \"stars\":\"评星\"\n" +
+                    "} , stars数据类型:string, 参数取值:[0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5]", paramType = "body", required = true)
     })
     @ApiResponses({
             @ApiResponse(code = 200, message = "{\n" +
@@ -651,23 +651,23 @@ public class UserController {
      */
     @ApiOperation(value = "翻译评论")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
-            @ApiImplicitParam(name = "commentId", value = "参数示例：86", paramType = "query")
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "commentId", value = "参数示例：86", paramType = "query", required = true)
     })
     @ApiResponses({
             @ApiResponse(code = 200, message = "{\n" +
                     "    \"message\": \"请求成功\",\n" +
                     "    \"data\": {\n" +
-                    "        \"commentId\": 86,\n" +
-                    "        \"comment\": \"Five star high praise\"\n" +
+                    "        \"commentId\": 评论id,\n" +
+                    "        \"comment\": \"评论内容\"\n" +
                     "    },\n" +
                     "    \"code\": 200\n" +
                     "}"),
             @ApiResponse(code = 708, message = "{\n" +
                     "    \"message\": \"翻译失败\",\n" +
                     "    \"data\": {\n" +
-                    "        \"commentId\": 86,\n" +
-                    "        \"comment\":\"\"" +
+                    "        \"commentId\": 评论id,\n" +
+                    "        \"comment\":\"评论内容\"" +
                     "}")
     })
     @GetMapping("translateComment")
@@ -683,13 +683,13 @@ public class UserController {
      */
     @ApiOperation(value = "忘记密码-邮箱-发送验证码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
-            @ApiImplicitParam(name = "email", value = "参数示例：xxx@qq.com", paramType = "query")
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "email", value = "参数示例：xxx@qq.com", paramType = "query", required = true)
     })
     @ApiResponses({
             @ApiResponse(code = 200, message = "{\n" +
                     "    \"message\": \"请求成功\",\n" +
-                    "    \"data\": \"xxx@qq.com\",\n" +
+                    "    \"data\": \"邮箱\",\n" +
                     "    \"code\": 200\n" +
                     "}"),
             @ApiResponse(code = 702, message = "验证码发送次数过多，请稍后再试"),
@@ -710,16 +710,16 @@ public class UserController {
      */
     @ApiOperation(value = "忘记密码-邮箱-校验验证码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
-            @ApiImplicitParam(name = "body", value = "参数示例：{\n" +
-                    "    \"email\": \"xxx@qq.com\",\n" +
-                    "    \"verificationCode\": \"177249\"\n" +
-                    "}", paramType = "body")
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "body", value = "{\n" +
+                    "    \"email\": \"邮箱\",\n" +
+                    "    \"verificationCode\": \"验证码\"\n" +
+                    "}", paramType = "body", required = true)
     })
     @ApiResponses({
             @ApiResponse(code = 200, message = "{\n" +
                     "    \"message\": \"验证码校验成功\",\n" +
-                    "    \"data\": {\"email\": \"xxx@qq.com\",\"verificationCode\": \"177249\"} ,\n" +
+                    "    \"data\": {\"email\": \"邮箱\",\"verificationCode\": \"验证码\"} ,\n" +
                     "    \"code\": 200\n" +
                     "}"),
             @ApiResponse(code = 707, message = "验证码错误"),
@@ -737,13 +737,13 @@ public class UserController {
      */
     @ApiOperation(value = "忘记密码-邮箱-修改密码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer 9051a99276af0a1f1c5b22c5ef264719", paramType = "header", required = true, example = "Bearer 9051a99276af0a1f1c5b22c5ef264719"),
-            @ApiImplicitParam(name = "body", value = "参数示例：{\n" +
-                    "    \"email\": \"xxx@qq.com\",\n" +
-                    "    \"verificationCode\": \"177249\",\n" +
-                    "    \"password\":\"asd123\",\n" +
-                    "    \"retypePassword\":\"asd123\"\n" +
-                    "}", paramType = "body")
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "body", value = "{\n" +
+                    "    \"email\": \"邮箱\",\n" +
+                    "    \"verificationCode\": \"验证码\",\n" +
+                    "    \"password\":\"密码\",\n" +
+                    "    \"retypePassword\":\"密码确认\"\n" +
+                    "}", paramType = "body", required = true)
     })
     @ApiResponses({
             @ApiResponse(code = 200, message = "修改密码成功"),
