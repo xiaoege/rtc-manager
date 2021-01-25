@@ -18,6 +18,7 @@ import com.rtc.manager.dao.america.florida.AmericaFloridaAnnualReportFieldMapper
 import com.rtc.manager.dao.america.florida.AmericaFloridaAnnualReportYearMapper;
 import com.rtc.manager.dao.america.florida.AmericaFloridaAuthorizedPersonDetailMapper;
 import com.rtc.manager.dao.america.florida.AmericaFloridaMapper;
+import com.rtc.manager.dao.america.idaho.AmericaIdahoMapper;
 import com.rtc.manager.dao.america.kentucky.AmericaKentuckyAssumeNameMapper;
 import com.rtc.manager.dao.america.kentucky.AmericaKentuckyHistoryMapper;
 import com.rtc.manager.dao.america.kentucky.AmericaKentuckyMapper;
@@ -66,6 +67,7 @@ import com.rtc.manager.entity.america.florida.AmericaFlorida;
 import com.rtc.manager.entity.america.florida.AmericaFloridaAnnualReportField;
 import com.rtc.manager.entity.america.florida.AmericaFloridaAnnualReportYear;
 import com.rtc.manager.entity.america.florida.AmericaFloridaAuthorizedPersonDetail;
+import com.rtc.manager.entity.america.idaho.AmericaIdaho;
 import com.rtc.manager.entity.america.kentucky.AmericaKentucky;
 import com.rtc.manager.entity.america.kentucky.AmericaKentuckyAssumeName;
 import com.rtc.manager.entity.america.kentucky.AmericaKentuckyHistory;
@@ -494,6 +496,9 @@ public class SaveJsonImpl implements SaveJson {
 
     @Autowired
     private AmericaMaineFilingMapper americaMaineFilingMapper;
+
+    @Autowired
+    private AmericaIdahoMapper americaIdahoMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -2935,6 +2940,56 @@ public class SaveJsonImpl implements SaveJson {
                     americaMaineFilingMapper.insertSelective(q);
                 }));
             }
+
+            logger.info("json文件导入成功，文件是{}", file.getName());
+            reader.close();
+            bis.close();
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveJsonAmerica4Idaho(File fileDirPath) throws Exception {
+        List<String> fileList = new ArrayList();
+        CommonUtils.readJsonFiles(fileDirPath, fileList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (int z = 0; z < fileList.size(); z++) {
+            File file = new File(fileList.get(z));
+
+            // 忽略mac的隐藏文件
+            if (file.getName().contains(".DS_Store")) {
+                continue;
+            }
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
+
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
+
+            StringBuilder sb = new StringBuilder();
+            while (reader.ready()) {
+                sb.append((char) reader.read());
+            }
+            String sss = sb.toString();
+            sss = sss.replace("\\\"", "").replace("\\n", " ");
+            List<AmericaIdahoDTO> list = null;
+            try {
+                list = Optional.ofNullable(objectMapper.readValue(sss, new TypeReference<List<AmericaIdahoDTO>>() {
+                })).orElseGet(() -> new ArrayList<>());
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                logger.info("json序列化出现问题:{}", file.getName());
+                logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
+                throw e;
+            }
+            List<AmericaIdaho> dataList = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+                AmericaIdaho americaIdaho = new AmericaIdaho();
+                BeanUtils.copyProperties(list.get(i), americaIdaho);
+                americaIdaho.setEnterpriseId(getUUID());
+                dataList.add(americaIdaho);
+            }
+            americaIdahoMapper.insertList(dataList);
+
 
             logger.info("json文件导入成功，文件是{}", file.getName());
             reader.close();

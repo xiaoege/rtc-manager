@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.america.idaho.AmericaIdahoMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.america.idaho.AmericaIdaho">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="number" jdbcType="VARCHAR" property="number" />
+    <result column="filing_type" jdbcType="VARCHAR" property="filingType" />
+    <result column="enterprise_status" jdbcType="VARCHAR" property="enterpriseStatus" />
+    <result column="formed_in" jdbcType="VARCHAR" property="formedIn" />
+    <result column="duration_term" jdbcType="VARCHAR" property="durationTerm" />
+    <result column="principal_address" jdbcType="VARCHAR" property="principalAddress" />
+    <result column="mailing_address" jdbcType="VARCHAR" property="mailingAddress" />
+    <result column="initial_filing_date" jdbcType="VARCHAR" property="initialFilingDate" />
+    <result column="ar_due_date" jdbcType="VARCHAR" property="arDueDate" />
+    <result column="registered_agent" jdbcType="VARCHAR" property="registeredAgent" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, name, number, filing_type, enterprise_status, formed_in, duration_term, 
+    principal_address, mailing_address, initial_filing_date, ar_due_date, registered_agent, 
+    gmt_create, gmt_modified, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from america_idaho
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from america_idaho
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rtc.manager.entity.america.idaho.AmericaIdaho">
+    insert into america_idaho (id, enterprise_id, name, 
+      number, filing_type, enterprise_status, 
+      formed_in, duration_term, principal_address, 
+      mailing_address, initial_filing_date, ar_due_date, 
+      registered_agent, gmt_create, gmt_modified, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{number,jdbcType=VARCHAR}, #{filingType,jdbcType=VARCHAR}, #{enterpriseStatus,jdbcType=VARCHAR}, 
+      #{formedIn,jdbcType=VARCHAR}, #{durationTerm,jdbcType=VARCHAR}, #{principalAddress,jdbcType=VARCHAR}, 
+      #{mailingAddress,jdbcType=VARCHAR}, #{initialFilingDate,jdbcType=VARCHAR}, #{arDueDate,jdbcType=VARCHAR}, 
+      #{registeredAgent,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.america.idaho.AmericaIdaho">
+    insert into america_idaho
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="number != null">
+        number,
+      </if>
+      <if test="filingType != null">
+        filing_type,
+      </if>
+      <if test="enterpriseStatus != null">
+        enterprise_status,
+      </if>
+      <if test="formedIn != null">
+        formed_in,
+      </if>
+      <if test="durationTerm != null">
+        duration_term,
+      </if>
+      <if test="principalAddress != null">
+        principal_address,
+      </if>
+      <if test="mailingAddress != null">
+        mailing_address,
+      </if>
+      <if test="initialFilingDate != null">
+        initial_filing_date,
+      </if>
+      <if test="arDueDate != null">
+        ar_due_date,
+      </if>
+      <if test="registeredAgent != null">
+        registered_agent,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="filingType != null">
+        #{filingType,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseStatus != null">
+        #{enterpriseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="formedIn != null">
+        #{formedIn,jdbcType=VARCHAR},
+      </if>
+      <if test="durationTerm != null">
+        #{durationTerm,jdbcType=VARCHAR},
+      </if>
+      <if test="principalAddress != null">
+        #{principalAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="mailingAddress != null">
+        #{mailingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="initialFilingDate != null">
+        #{initialFilingDate,jdbcType=VARCHAR},
+      </if>
+      <if test="arDueDate != null">
+        #{arDueDate,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredAgent != null">
+        #{registeredAgent,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.america.idaho.AmericaIdaho">
+    update america_idaho
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        number = #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="filingType != null">
+        filing_type = #{filingType,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseStatus != null">
+        enterprise_status = #{enterpriseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="formedIn != null">
+        formed_in = #{formedIn,jdbcType=VARCHAR},
+      </if>
+      <if test="durationTerm != null">
+        duration_term = #{durationTerm,jdbcType=VARCHAR},
+      </if>
+      <if test="principalAddress != null">
+        principal_address = #{principalAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="mailingAddress != null">
+        mailing_address = #{mailingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="initialFilingDate != null">
+        initial_filing_date = #{initialFilingDate,jdbcType=VARCHAR},
+      </if>
+      <if test="arDueDate != null">
+        ar_due_date = #{arDueDate,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredAgent != null">
+        registered_agent = #{registeredAgent,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.america.idaho.AmericaIdaho">
+    update america_idaho
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      number = #{number,jdbcType=VARCHAR},
+      filing_type = #{filingType,jdbcType=VARCHAR},
+      enterprise_status = #{enterpriseStatus,jdbcType=VARCHAR},
+      formed_in = #{formedIn,jdbcType=VARCHAR},
+      duration_term = #{durationTerm,jdbcType=VARCHAR},
+      principal_address = #{principalAddress,jdbcType=VARCHAR},
+      mailing_address = #{mailingAddress,jdbcType=VARCHAR},
+      initial_filing_date = #{initialFilingDate,jdbcType=VARCHAR},
+      ar_due_date = #{arDueDate,jdbcType=VARCHAR},
+      registered_agent = #{registeredAgent,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <insert id="insertList" parameterType="com.rtc.manager.entity.america.idaho.AmericaIdaho">
+    insert into america_idaho (enterprise_id, name,
+                               number, filing_type, enterprise_status,
+                               formed_in, duration_term, principal_address,
+                               mailing_address, initial_filing_date, ar_due_date,
+                               registered_agent)
+    values
+           <foreach collection="list" separator="," item="item">
+           (#{item.enterpriseId,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR},
+            #{item.number,jdbcType=VARCHAR}, #{item.filingType,jdbcType=VARCHAR}, #{item.enterpriseStatus,jdbcType=VARCHAR},
+            #{item.formedIn,jdbcType=VARCHAR}, #{item.durationTerm,jdbcType=VARCHAR}, #{item.principalAddress,jdbcType=VARCHAR},
+            #{item.mailingAddress,jdbcType=VARCHAR}, #{item.initialFilingDate,jdbcType=VARCHAR}, #{item.arDueDate,jdbcType=VARCHAR},
+            #{item.registeredAgent,jdbcType=VARCHAR}
+            )
+           </foreach>
+  </insert>
+</mapper>
