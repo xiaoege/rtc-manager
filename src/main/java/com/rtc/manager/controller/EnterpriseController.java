@@ -98,6 +98,21 @@ public class EnterpriseController {
     }
 
     /**
+     * 查询企业列表-Bulletin，用于app主页企业列表展示
+     *
+     * @return 默认每次返回10个企业
+     */
+    @ApiOperation("查询企业列表-Bulletin，用于app主页企业列表展示")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "size", value = "每次返回个数", defaultValue = "10", paramType = "query")
+    })
+    @GetMapping("listEnterprise4Bulletin")
+    public ResultData<SearchEnterpriseListVO> listEnterprise4Bulletin(@RequestParam(name = "size", defaultValue = "10") int size) {
+        return qcc.listEnterprise4Bulletin(size);
+    }
+
+    /**
      * China企业：五大类-列表
      *
      * @param name

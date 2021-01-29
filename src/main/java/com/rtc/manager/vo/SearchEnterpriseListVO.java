@@ -65,6 +65,11 @@ public class SearchEnterpriseListVO {
     @ApiModelProperty(value ="该数据创建时间")
     private String createTime;
 
+    /**
+     * 企业编号
+     */
+    private String enterpriseCode;
+
     public String geteType() {
         return eType;
     }
@@ -145,5 +150,13 @@ public class SearchEnterpriseListVO {
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+    public String getEnterpriseCode() {
+        return enterpriseCode;
+    }
+
+    public void setEnterpriseCode(String enterpriseCode) {
+        this.enterpriseCode = enterpriseCode;
     }
 }

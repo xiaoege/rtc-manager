@@ -1,5 +1,7 @@
 package com.rtc.manager.service;
 
+import com.rtc.manager.vo.ResultData;
+
 import java.io.IOException;
 
 /**
@@ -18,4 +20,7 @@ public interface Elasticsearch {
     Object modify(String index, String document) throws Exception;
 
     Object remove(String index, String document) throws Exception;
+
+    ResultData initBulletin() ;
+
 }

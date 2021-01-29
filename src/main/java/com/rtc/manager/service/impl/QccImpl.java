@@ -1,5 +1,7 @@
 package com.rtc.manager.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -22,22 +24,22 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.MatchPhraseQueryBuilder;
+import org.elasticsearch.index.query.TermsQueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * @author ChenHang
@@ -78,6 +80,12 @@ public class QccImpl implements Qcc {
 
     @Value("${rtc.esIndices}")
     private String[] esIndices;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Override
     public ResultData listEnterprise(String name, int pageNum, int pageSize) throws Exception {
@@ -648,6 +656,32 @@ public class QccImpl implements Qcc {
         }
 
         return ResultData.SUCCESS(new PageInfo(commentList));
+    }
+
+    /**
+     * 查询企业列表-Bulletin，用于app主页企业列表展示
+     * Redis存放enterpriseId，每次取随机相应数量去es里获得企业列表详情
+     *
+     * @param size 默认10
+     * @return 每次返回{size}个
+     */
+    @Override
+    public ResultData<SearchEnterpriseListVO> listEnterprise4Bulletin(int size) {
+        List<SearchEnterpriseListVO> dataList = new ArrayList<>();
+        if (stringRedisTemplate.hasKey("bulletin")) {
+            Set<String> bulletinSet = new HashSet(stringRedisTemplate.opsForSet().randomMembers("bulletin", size));
+            try {
+                String jsonString = objectMapper.writeValueAsString(bulletinSet);
+                for (String s : bulletinSet) {
+                    dataList.add(objectMapper.readValue(s, SearchEnterpriseListVO.class));
+                }
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                logger.info("JsonProcessingException:{}", CommonUtils.getExceptionInfo(e));
+            }
+        }
+
+        return ResultData.SUCCESS(dataList);
     }
 
 

@@ -2,6 +2,7 @@ package com.rtc.manager.service;
 
 import com.github.pagehelper.PageInfo;
 import com.rtc.manager.vo.ResultData;
+import com.rtc.manager.vo.SearchEnterpriseListVO;
 
 import java.util.List;
 
@@ -33,4 +34,11 @@ public interface Qcc {
      * @return
      */
     ResultData listEnterpriseComment(String enterpriseId, String timeZone, int pageNum, int pageSize);
+
+    /**
+     * 查询企业列表-Bulletin，用于app主页企业列表展示
+     * @return 每次返回10个
+     * @param size
+     */
+    ResultData<SearchEnterpriseListVO> listEnterprise4Bulletin(int size);
 }

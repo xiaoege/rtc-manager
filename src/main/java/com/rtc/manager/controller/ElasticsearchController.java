@@ -1,6 +1,7 @@
 package com.rtc.manager.controller;
 
 import com.rtc.manager.service.Elasticsearch;
+import com.rtc.manager.vo.ResultData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.annotation.Schedules;
@@ -48,4 +49,11 @@ public class ElasticsearchController {
 
         return elasticsearch.remove(index, document);
     }
+
+    @PostMapping("initBulletin")
+    public ResultData initBulletin() {
+        return elasticsearch.initBulletin();
+    }
+
+
 }

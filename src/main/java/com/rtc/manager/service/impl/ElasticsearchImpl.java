@@ -3,10 +3,10 @@ package com.rtc.manager.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rtc.manager.service.Elasticsearch;
 import com.rtc.manager.util.CommonUtils;
+import com.rtc.manager.util.ElasticsearchUtils;
 import com.rtc.manager.vo.QccListVO;
-import org.apache.http.HttpHost;
+import com.rtc.manager.vo.ResultData;
 import org.apache.lucene.search.TotalHits;
-import org.elasticsearch.action.DocWriteResponse;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetRequest;
@@ -18,28 +18,32 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.query.MatchAllQueryBuilder;
 import org.elasticsearch.index.query.MatchPhraseQueryBuilder;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.rest.RestStatus;
+import org.elasticsearch.script.Script;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.sort.ScriptSortBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.*;
 
 /**
@@ -50,9 +54,16 @@ public class ElasticsearchImpl implements Elasticsearch {
 
     Logger logger = LoggerFactory.getLogger(ElasticsearchImpl.class);
 
-    RestHighLevelClient client = new RestHighLevelClient(
-            RestClient.builder(
-                    new HttpHost("localhost", 9200, "http")));
+    private final RestHighLevelClient client = ElasticsearchUtils.getClient();
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    @Value("${rtc.esIndices}")
+    private String[] esIndices;
 
     @Override
     public void addTest() throws Exception {
@@ -214,5 +225,38 @@ public class ElasticsearchImpl implements Elasticsearch {
         return null;
     }
 
+    /**
+     * 每周三下午2点（UTC+8）从es中随机选择5000加入到Redis的bulletin中，之后随机删除掉bulletin 3/4的数据
+     *
+     * @return
+     */
+    @Override
+    @Scheduled(cron = "0 0 14 ? * WED")
+    public ResultData initBulletin() {
+        SearchRequest searchRequest = new SearchRequest(esIndices);
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        MatchAllQueryBuilder matchAllQueryBuilder = new MatchAllQueryBuilder();
+        searchSourceBuilder.query(matchAllQueryBuilder);
+        searchSourceBuilder.size(5000);
+        Script script = new Script("Math.random()");
+        ScriptSortBuilder scriptSortBuilder = new ScriptSortBuilder(script, ScriptSortBuilder.ScriptSortType.NUMBER);
+        searchSourceBuilder.sort(scriptSortBuilder);
+        searchRequest.source(searchSourceBuilder);
+        try {
+            SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
+            SearchHit[] hits = searchResponse.getHits().getHits();
+            Arrays.stream(hits).forEach(k -> stringRedisTemplate.opsForSet().add("bulletin", k.getSourceAsString()));
+            if (hits.length > 0) {
+                stringRedisTemplate.opsForSet().pop("bulletin", Math.round(hits.length * 0.75));
+            }
+            logger.info("bulletin配置成功");
+        } catch (IOException e) {
+            e.printStackTrace();
+            logger.info("bulletin配置失败:{}", CommonUtils.getExceptionInfo(e));
+            return ResultData.FAIL(null, 500);
+        }
+
+        return ResultData.SUCCESS("bulletin配置成功");
+    }
 
 }
