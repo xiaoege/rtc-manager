@@ -1935,7 +1935,7 @@ public class SaveJsonImpl implements SaveJson {
                     AmericaFlorida americaFlorida = new AmericaFlorida();
                     BeanUtils.copyProperties(americaFloridaDTO, americaFlorida);
                     americaFlorida.setEnterpriseId(enterpriseId);
-//                    americaFloridaMapper.insertSelective(americaFlorida);
+                    americaFloridaMapper.insertSelective(americaFlorida);
 
                     List<String> authorizedPersonDetailList = americaFloridaDTO.getAuthorizedPersonDetailList();
                     if (authorizedPersonDetailList != null && authorizedPersonDetailList.size() > 2) {
