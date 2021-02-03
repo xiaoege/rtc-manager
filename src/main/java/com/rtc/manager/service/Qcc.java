@@ -41,4 +41,12 @@ public interface Qcc {
      * @param size
      */
     ResultData<SearchEnterpriseListVO> listEnterprise4Bulletin(int size);
+
+    /**
+     * 搜索企业-企业推荐
+     *
+     * @param name 企业名
+     * @return 默认返回10个
+     */
+    ResultData<SearchEnterpriseListVO> listRecommend(String name, int pageSize) throws Exception;
 }

@@ -57,6 +57,7 @@ public class EnterpriseController {
         } else {
             pageNum -= 1;
         }
+
         ResultData resultData = null;
         try {
             resultData = qcc.listEnterprise(name, pageNum, pageSize);
@@ -231,4 +232,30 @@ public class EnterpriseController {
         return qcc.listEnterpriseComment(enterpriseId, timeZone, pageNum, pageSize);
     }
 
+
+    /**
+     * 搜索企业-企业推荐
+     *
+     * @param name 企业名
+     * @return 默认返回10个
+     */
+    @ApiOperation(value = "搜索企业-企业推荐", notes = "默认返回10个")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "name", value = "企业名，参数示例：China:南京，India:banana，Vietnam:viet", required = true),
+            @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false, defaultValue = "1"),
+            @ApiImplicitParam(name = "pageSize", value = "当前页大小", required = false, defaultValue = "10")
+    })
+    @GetMapping("listRecommend")
+    public ResultData<SearchEnterpriseListVO> listRecommend(@RequestParam(name = "name", required = true) String name,
+                                                            @RequestParam(name = "pageSize", required = false, defaultValue = "10") int pageSize) {
+        ResultData resultData = null;
+        try {
+            resultData = qcc.listRecommend(name, pageSize);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info("listEnterprise错误, {}", CommonUtils.getExceptionInfo(e));
+        }
+        return resultData;
+    }
 }

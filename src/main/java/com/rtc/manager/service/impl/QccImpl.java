@@ -17,16 +17,24 @@ import com.rtc.manager.vo.*;
 import com.rtc.manager.vo.india.IndiaCinListVO;
 import com.rtc.manager.vo.india.IndiaLlpinLIstVO;
 import org.apache.lucene.search.TotalHits;
+import org.elasticsearch.action.admin.indices.analyze.AnalyzeAction;
 import org.elasticsearch.action.search.MultiSearchRequest;
 import org.elasticsearch.action.search.MultiSearchResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.indices.AnalyzeRequest;
+import org.elasticsearch.client.indices.AnalyzeResponse;
+import org.elasticsearch.common.xcontent.XContentParser;
+import org.elasticsearch.index.query.MatchAllQueryBuilder;
 import org.elasticsearch.index.query.MatchPhraseQueryBuilder;
+import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.TermsQueryBuilder;
+import org.elasticsearch.script.Script;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.sort.ScriptSortBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -679,6 +687,43 @@ public class QccImpl implements Qcc {
                 e.printStackTrace();
                 logger.info("JsonProcessingException:{}", CommonUtils.getExceptionInfo(e));
             }
+        }
+
+        return ResultData.SUCCESS(dataList);
+    }
+
+    /**
+     * 搜索企业-企业推荐
+     *
+     * @param name     企业名
+     * @param pageSize 默认返回10个
+     * @return
+     */
+    @Override
+    public ResultData<SearchEnterpriseListVO> listRecommend(String name, int pageSize) throws Exception {
+        // 使用es分词器对name进行分词获得token, 取前3
+//        AnalyzeRequest analyzeRequest = AnalyzeRequest.withGlobalAnalyzer("english", name);
+//        AnalyzeResponse analyzeResponse = client.indices().analyze(analyzeRequest, RequestOptions.DEFAULT);
+//        List<AnalyzeResponse.AnalyzeToken> tokenList = analyzeResponse.getTokens();
+//        if (tokenList.size() > 3) {
+//        name = tokenList.get(0) + " " + tokenList.get(1) + " " + tokenList.get(2);
+//        }
+
+        SearchRequest searchRequest = new SearchRequest(esIndices);
+        MatchQueryBuilder matchQueryBuilder = new MatchQueryBuilder("e_name", name);
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.query(matchQueryBuilder);
+        searchSourceBuilder.size(pageSize);
+        Script script = new Script("Math.random()");
+        ScriptSortBuilder scriptSortBuilder = new ScriptSortBuilder(script, ScriptSortBuilder.ScriptSortType.NUMBER);
+        searchSourceBuilder.sort(scriptSortBuilder);
+        searchRequest.source(searchSourceBuilder);
+        SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
+
+        SearchHit[] hits = searchResponse.getHits().getHits();
+        List<SearchEnterpriseListVO> dataList = new ArrayList<>();
+        for (SearchHit hit : hits) {
+            dataList.add(objectMapper.readValue(hit.getSourceAsString(), SearchEnterpriseListVO.class));
         }
 
         return ResultData.SUCCESS(dataList);
