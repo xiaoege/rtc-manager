@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.america.connecticut.AmericaConnecticutMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.america.connecticut.AmericaConnecticut">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="citizenship_state_inc" jdbcType="VARCHAR" property="citizenshipStateInc" />
+    <result column="business_id" jdbcType="VARCHAR" property="businessId" />
+    <result column="last_report_filed_year" jdbcType="VARCHAR" property="lastReportFiledYear" />
+    <result column="business_address" jdbcType="VARCHAR" property="businessAddress" />
+    <result column="business_type" jdbcType="VARCHAR" property="businessType" />
+    <result column="mailing_address" jdbcType="VARCHAR" property="mailingAddress" />
+    <result column="business_status" jdbcType="VARCHAR" property="businessStatus" />
+    <result column="registration_date" jdbcType="VARCHAR" property="registrationDate" />
+    <result column="annual_report_due_date" jdbcType="VARCHAR" property="annualReportDueDate" />
+    <result column="naics_code" jdbcType="VARCHAR" property="naicsCode" />
+    <result column="naics_sub_code" jdbcType="VARCHAR" property="naicsSubCode" />
+    <result column="agent_name" jdbcType="VARCHAR" property="agentName" />
+    <result column="agent_business_address" jdbcType="VARCHAR" property="agentBusinessAddress" />
+    <result column="agent_residence_address" jdbcType="VARCHAR" property="agentResidenceAddress" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, name, citizenship_state_inc, business_id, last_report_filed_year, 
+    business_address, business_type, mailing_address, business_status, registration_date, 
+    annual_report_due_date, naics_code, naics_sub_code, agent_name, agent_business_address, 
+    agent_residence_address, gmt_create, gmt_modified, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from america_connecticut
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from america_connecticut
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rtc.manager.entity.america.connecticut.AmericaConnecticut">
+    insert into america_connecticut (id, enterprise_id, name, 
+      citizenship_state_inc, business_id, last_report_filed_year, 
+      business_address, business_type, mailing_address, 
+      business_status, registration_date, annual_report_due_date, 
+      naics_code, naics_sub_code, agent_name, 
+      agent_business_address, agent_residence_address, 
+      gmt_create, gmt_modified, status
+      )
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{citizenshipStateInc,jdbcType=VARCHAR}, #{businessId,jdbcType=VARCHAR}, #{lastReportFiledYear,jdbcType=VARCHAR}, 
+      #{businessAddress,jdbcType=VARCHAR}, #{businessType,jdbcType=VARCHAR}, #{mailingAddress,jdbcType=VARCHAR}, 
+      #{businessStatus,jdbcType=VARCHAR}, #{registrationDate,jdbcType=VARCHAR}, #{annualReportDueDate,jdbcType=VARCHAR}, 
+      #{naicsCode,jdbcType=VARCHAR}, #{naicsSubCode,jdbcType=VARCHAR}, #{agentName,jdbcType=VARCHAR}, 
+      #{agentBusinessAddress,jdbcType=VARCHAR}, #{agentResidenceAddress,jdbcType=VARCHAR}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.america.connecticut.AmericaConnecticut">
+    insert into america_connecticut
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="citizenshipStateInc != null">
+        citizenship_state_inc,
+      </if>
+      <if test="businessId != null">
+        business_id,
+      </if>
+      <if test="lastReportFiledYear != null">
+        last_report_filed_year,
+      </if>
+      <if test="businessAddress != null">
+        business_address,
+      </if>
+      <if test="businessType != null">
+        business_type,
+      </if>
+      <if test="mailingAddress != null">
+        mailing_address,
+      </if>
+      <if test="businessStatus != null">
+        business_status,
+      </if>
+      <if test="registrationDate != null">
+        registration_date,
+      </if>
+      <if test="annualReportDueDate != null">
+        annual_report_due_date,
+      </if>
+      <if test="naicsCode != null">
+        naics_code,
+      </if>
+      <if test="naicsSubCode != null">
+        naics_sub_code,
+      </if>
+      <if test="agentName != null">
+        agent_name,
+      </if>
+      <if test="agentBusinessAddress != null">
+        agent_business_address,
+      </if>
+      <if test="agentResidenceAddress != null">
+        agent_residence_address,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="citizenshipStateInc != null">
+        #{citizenshipStateInc,jdbcType=VARCHAR},
+      </if>
+      <if test="businessId != null">
+        #{businessId,jdbcType=VARCHAR},
+      </if>
+      <if test="lastReportFiledYear != null">
+        #{lastReportFiledYear,jdbcType=VARCHAR},
+      </if>
+      <if test="businessAddress != null">
+        #{businessAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="businessType != null">
+        #{businessType,jdbcType=VARCHAR},
+      </if>
+      <if test="mailingAddress != null">
+        #{mailingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="businessStatus != null">
+        #{businessStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="registrationDate != null">
+        #{registrationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="annualReportDueDate != null">
+        #{annualReportDueDate,jdbcType=VARCHAR},
+      </if>
+      <if test="naicsCode != null">
+        #{naicsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="naicsSubCode != null">
+        #{naicsSubCode,jdbcType=VARCHAR},
+      </if>
+      <if test="agentName != null">
+        #{agentName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentBusinessAddress != null">
+        #{agentBusinessAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="agentResidenceAddress != null">
+        #{agentResidenceAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.america.connecticut.AmericaConnecticut">
+    update america_connecticut
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="citizenshipStateInc != null">
+        citizenship_state_inc = #{citizenshipStateInc,jdbcType=VARCHAR},
+      </if>
+      <if test="businessId != null">
+        business_id = #{businessId,jdbcType=VARCHAR},
+      </if>
+      <if test="lastReportFiledYear != null">
+        last_report_filed_year = #{lastReportFiledYear,jdbcType=VARCHAR},
+      </if>
+      <if test="businessAddress != null">
+        business_address = #{businessAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="businessType != null">
+        business_type = #{businessType,jdbcType=VARCHAR},
+      </if>
+      <if test="mailingAddress != null">
+        mailing_address = #{mailingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="businessStatus != null">
+        business_status = #{businessStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="registrationDate != null">
+        registration_date = #{registrationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="annualReportDueDate != null">
+        annual_report_due_date = #{annualReportDueDate,jdbcType=VARCHAR},
+      </if>
+      <if test="naicsCode != null">
+        naics_code = #{naicsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="naicsSubCode != null">
+        naics_sub_code = #{naicsSubCode,jdbcType=VARCHAR},
+      </if>
+      <if test="agentName != null">
+        agent_name = #{agentName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentBusinessAddress != null">
+        agent_business_address = #{agentBusinessAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="agentResidenceAddress != null">
+        agent_residence_address = #{agentResidenceAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.america.connecticut.AmericaConnecticut">
+    update america_connecticut
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      citizenship_state_inc = #{citizenshipStateInc,jdbcType=VARCHAR},
+      business_id = #{businessId,jdbcType=VARCHAR},
+      last_report_filed_year = #{lastReportFiledYear,jdbcType=VARCHAR},
+      business_address = #{businessAddress,jdbcType=VARCHAR},
+      business_type = #{businessType,jdbcType=VARCHAR},
+      mailing_address = #{mailingAddress,jdbcType=VARCHAR},
+      business_status = #{businessStatus,jdbcType=VARCHAR},
+      registration_date = #{registrationDate,jdbcType=VARCHAR},
+      annual_report_due_date = #{annualReportDueDate,jdbcType=VARCHAR},
+      naics_code = #{naicsCode,jdbcType=VARCHAR},
+      naics_sub_code = #{naicsSubCode,jdbcType=VARCHAR},
+      agent_name = #{agentName,jdbcType=VARCHAR},
+      agent_business_address = #{agentBusinessAddress,jdbcType=VARCHAR},
+      agent_residence_address = #{agentResidenceAddress,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

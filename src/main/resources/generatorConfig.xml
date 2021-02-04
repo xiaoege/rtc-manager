@@ -31,7 +31,7 @@
 
         <!-- targetPackage：生成的实体类所在的包 -->
         <!-- targetProject：生成的实体类所在的硬盘位置 -->
-        <javaModelGenerator targetPackage="com.rtc.manager.entity.america.idaho"
+        <javaModelGenerator targetPackage="com.rtc.manager.entity.america.connecticut"
                             targetProject="src/main/java">
             <!-- 是否允许子包 -->
             <property name="enableSubPackages" value="false"/>
@@ -50,7 +50,7 @@
         </sqlMapGenerator>
         <!-- targetPackage 和 targetProject：生成的 interface 文件的包和位置 -->
         <javaClientGenerator type="XMLMAPPER"
-                             targetPackage="com.rtc.manager.dao.america.idaho" targetProject="src/main/java">
+                             targetPackage="com.rtc.manager.dao.america.connecticut" targetProject="src/main/java">
             <!-- 针对 oracle 数据库的一个配置，是否把 schema 作为字包名 -->
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
@@ -862,13 +862,27 @@
 <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
 <!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
 <!--        </table>-->
-        <table tableName="america_idaho" domainObjectName="AmericaIdaho"
+<!--        <table tableName="america_idaho" domainObjectName="AmericaIdaho"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+<!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
+<!--        </table>-->
+        <table tableName="america_connecticut" domainObjectName="AmericaConnecticut"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
             <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>
             <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>
         </table>
+<!--        <table tableName="america_connecticut_principal_detail" domainObjectName="AmericaConnecticutPrincipalDetail"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+<!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
+<!--        </table>-->
     </context>
 
 </generatorConfiguration>
