@@ -51,8 +51,8 @@ spring:
       max-file-size: 5MB
 
 server:
-#  port: 9998 # json
-  port: 9981 # android
+  port: 9998 # json
+#  port: 9981 # android
 
 mybatis:
   mapperLocations: classpath:mapper/*.xml
