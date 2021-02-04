@@ -3035,7 +3035,7 @@ public class SaveJsonImpl implements SaveJson {
                 list = Optional.ofNullable(objectMapper.readValue(sss, new TypeReference<List<AmericaConnecticutDTO>>() {
                 })).orElseGet(() -> new ArrayList<>());
                 for (int i = 0; i < list.size(); i++) {
-                    AmericaConnecticutDTO americaConnecticutDTO = list.get(0);
+                    AmericaConnecticutDTO americaConnecticutDTO = list.get(i);
                     AmericaConnecticut americaConnecticut = new AmericaConnecticut(americaConnecticutDTO.getAgentSummaryDTO());
                     BeanUtil.copyProperties(americaConnecticutDTO, americaConnecticut, true, CopyOptions.create().setIgnoreNullValue(true).setIgnoreError(true));
                     String enterpriseId = getUUID();
