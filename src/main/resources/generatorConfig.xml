@@ -869,13 +869,13 @@
 <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
 <!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
 <!--        </table>-->
-        <table tableName="america_connecticut" domainObjectName="AmericaConnecticut"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>
-            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>
-        </table>
+<!--        <table tableName="america_connecticut" domainObjectName="AmericaConnecticut"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+<!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
+<!--        </table>-->
 <!--        <table tableName="america_connecticut_principal_detail" domainObjectName="AmericaConnecticutPrincipalDetail"-->
 <!--               enableCountByExample="false" enableUpdateByExample="false"-->
 <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
@@ -883,6 +883,16 @@
 <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
 <!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
 <!--        </table>-->
+        <table tableName="china_ec" domainObjectName="ChinaEc"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+            <columnOverride column="selling_category" property="sellingCategory" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="buying_category" property="buyingCategory" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="keyword" property="keyword" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>
+            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>
+        </table>
     </context>
 
 </generatorConfiguration>

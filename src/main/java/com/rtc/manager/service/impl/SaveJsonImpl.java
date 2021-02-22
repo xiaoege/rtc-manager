@@ -15,6 +15,7 @@ import com.rtc.manager.dao.america.california.AmericaCaliforniaMapper;
 import com.rtc.manager.dao.america.colorado.AmericaColoradoMapper;
 import com.rtc.manager.dao.america.connecticut.AmericaConnecticutMapper;
 import com.rtc.manager.dao.america.connecticut.AmericaConnecticutPrincipalDetailMapper;
+import com.rtc.manager.dao.america.connecticut.ChinaEcMapper;
 import com.rtc.manager.dao.america.delaware.AmericaDelawareMapper;
 import com.rtc.manager.dao.america.florida.AmericaFloridaAnnualReportFieldMapper;
 import com.rtc.manager.dao.america.florida.AmericaFloridaAnnualReportYearMapper;
@@ -66,6 +67,7 @@ import com.rtc.manager.entity.america.california.AmericaCalifornia;
 import com.rtc.manager.entity.america.colorado.AmericaColorado;
 import com.rtc.manager.entity.america.connecticut.AmericaConnecticut;
 import com.rtc.manager.entity.america.connecticut.AmericaConnecticutPrincipalDetail;
+import com.rtc.manager.entity.america.connecticut.ChinaEc;
 import com.rtc.manager.entity.america.delaware.AmericaDelaware;
 import com.rtc.manager.entity.america.florida.AmericaFlorida;
 import com.rtc.manager.entity.america.florida.AmericaFloridaAnnualReportField;
@@ -509,6 +511,9 @@ public class SaveJsonImpl implements SaveJson {
 
     @Autowired
     private AmericaConnecticutPrincipalDetailMapper americaConnecticutPrincipalDetailMapper;
+
+    @Autowired
+    private ChinaEcMapper chinaEcMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -3048,6 +3053,64 @@ public class SaveJsonImpl implements SaveJson {
                                 americaConnecticutPrincipalDetailMapper.insertSelective(o);
                             })
                     );
+                }
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                logger.info("json序列化出现问题:{}", file.getName());
+                logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
+                throw e;
+            }
+
+            logger.info("json文件导入成功，文件是{}", file.getName());
+            reader.close();
+            bis.close();
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveJsonChinaEc(File fileDirPath) throws Exception {
+        List<String> fileList = new ArrayList();
+        CommonUtils.readJsonFiles(fileDirPath, fileList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (int z = 0; z < fileList.size(); z++) {
+            File file = new File(fileList.get(z));
+
+            // 忽略mac的隐藏文件
+            if (file.getName().contains(".DS_Store")) {
+                continue;
+            }
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
+
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
+
+            StringBuilder sb = new StringBuilder();
+            while (reader.ready()) {
+                sb.append((char) reader.read());
+            }
+            String sss = sb.toString();
+            sss = sss.replace("\\\"", "").replace("\\n", " ");
+            List<ChinaEcDTO> list = null;
+            try {
+                list = Optional.ofNullable(objectMapper.readValue(sss, new TypeReference<List<ChinaEcDTO>>() {
+                })).orElseGet(() -> new ArrayList<>());
+                for (int i = 0; i < list.size(); i++) {
+                    ChinaEcDTO chinaEcDTO = list.get(i);
+                    ChinaEc chinaEc = new ChinaEc();
+                    BeanUtils.copyProperties(chinaEcDTO, chinaEc);
+                    if (!ObjectUtils.isEmpty(chinaEcDTO.getSellingCategory())) {
+                        chinaEc.setSellingCategory(objectMapper.writeValueAsString(chinaEcDTO.getSellingCategory()));
+                    }
+                    if (!ObjectUtils.isEmpty(chinaEcDTO.getBuyingCategory())) {
+                        chinaEc.setBuyingCategory(objectMapper.writeValueAsString(chinaEcDTO.getBuyingCategory()));
+                    }
+                    if (!ObjectUtils.isEmpty(chinaEcDTO.getKeyword())) {
+                        chinaEc.setKeyword(objectMapper.writeValueAsString(chinaEcDTO.getKeyword()));
+                    }
+                    chinaEc.setEnterpriseId(getUUID());
+
+                    chinaEcMapper.insertSelective(chinaEc);
                 }
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
