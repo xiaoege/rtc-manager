@@ -75,7 +75,7 @@ swagger:
   enable: true
 
 rtc:
-  url: http://192.168.1.125
+  url: http://192.168.1.123
   mail:
     redisEmailLimt: 1000
   portrait:
@@ -84,7 +84,7 @@ rtc:
     /home/work/portrait
   #  对外暴露位置
   portraitURI:
-    http://192.168.1.125/portrait
+    http://192.168.1.123/portrait
   # 评论长度限制
   commitLength:
     1000
