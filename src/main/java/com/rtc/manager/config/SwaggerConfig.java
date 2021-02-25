@@ -42,7 +42,7 @@ public class SwaggerConfig {
                                 "短信验证码内置cd 55s，页面展示为60s倒计时"  + "\n" +
                                 "短信：目前暂时只支持国内短信，countryCode国家代码暂时无需校验" + "\n" +
                                 "\n" +
-                                "注意：有些请求的参数例子，会出现 \" 格式错误的bug")
+                                "注意：有些请求的参数例子，swagger文档中会出现 \" 格式错误的bug")
                         .version("0.3.0")
 //                        .contact(new Contact("啊啊啊啊", "blog.csdn.net", "aaa@gmail.com"))
 //                        .license("The Apache License")
