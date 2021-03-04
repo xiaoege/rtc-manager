@@ -39,15 +39,15 @@ public final class CommonUtils {
     /**
      * 和美元之间的汇率
      */
-    private final static String CNY = "7";
+    public final static String CNY = "7";
     /**
-     * 和美元之间的汇率
+     * 和欧元之间的汇率
      */
-    private final static String EUR = "0.86";
+    public final static String EUR = "0.86";
     /**
-     * 和美元之间的汇率
+     * 和港元之间的汇率
      */
-    private final static String HKD = "7.75";
+    public final static String HKD = "7.75";
 
     private static final String APP_ID = "20200722000524091";
     private static final String SECURITY_KEY = "fzXcZ4t3jWGnRP0cIVIn";

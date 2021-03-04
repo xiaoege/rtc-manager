@@ -44,7 +44,7 @@ public class SwaggerConfig {
                                 "\n" +
                                 "注意：有些请求的参数例子，swagger文档中会出现 \" 格式错误的bug")
                         .version("0.3.0")
-//                        .contact(new Contact("啊啊啊啊", "blog.csdn.net", "aaa@gmail.com"))
+//                        .contact(new Contact("test", "blog.csdn.net", "aaa@gmail.com"))
 //                        .license("The Apache License")
 //                        .licenseUrl("http://www.baidu.com")
                         .build());

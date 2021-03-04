@@ -58,4 +58,24 @@ public interface QccSubDetailMapper {
     Object getQccEquityPledgeVO(Integer id);
 
     Object getQccEquityOutPledgeVO(Integer id);
+
+    // 基本信息-start
+    Object getQccShareholderThreeVO(Integer id);
+
+    Object getQccQualificationVO(Integer id);
+
+    Object getQccOutInvestmentVO(Integer id);
+
+    Object getQccShareholderInvestmentVO(Integer id);
+
+    Object getQccEquityChangeVO(Integer id);
+
+    Object getQccChangeRecordVO(Integer id);
+    // 基本信息-end
+    // 经营状况 - 抽查检查
+    Object getQccSpotCheckVO(Integer id);
+    // 经营风险 - 司法拍卖
+    Object getQccJudicialAuctionVO(Integer id);
+    // 经营风险 - 环保处罚
+    Object getQccEnvironmentalPunishmentVO(Integer id);
 }

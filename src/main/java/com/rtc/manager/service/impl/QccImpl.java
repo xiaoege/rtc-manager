@@ -1,7 +1,6 @@
 package com.rtc.manager.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -17,20 +16,14 @@ import com.rtc.manager.vo.*;
 import com.rtc.manager.vo.india.IndiaCinListVO;
 import com.rtc.manager.vo.india.IndiaLlpinLIstVO;
 import org.apache.lucene.search.TotalHits;
-import org.elasticsearch.action.admin.indices.analyze.AnalyzeAction;
 import org.elasticsearch.action.search.MultiSearchRequest;
 import org.elasticsearch.action.search.MultiSearchResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.client.indices.AnalyzeRequest;
-import org.elasticsearch.client.indices.AnalyzeResponse;
-import org.elasticsearch.common.xcontent.XContentParser;
-import org.elasticsearch.index.query.MatchAllQueryBuilder;
 import org.elasticsearch.index.query.MatchPhraseQueryBuilder;
 import org.elasticsearch.index.query.MatchQueryBuilder;
-import org.elasticsearch.index.query.TermsQueryBuilder;
 import org.elasticsearch.script.Script;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -46,7 +39,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
-import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.*;
 
 /**
@@ -478,9 +472,67 @@ public class QccImpl implements Qcc {
                     }
                 }
                 break;
+            // 基本信息-start
+            // 股东信息3
+            case "shareholderThree":
+                list = qccMapper.listQccShareholderThreeVO(enterpriseId);
+                break;
+            // 资质资格
+            case "qualification":
+                list = qccMapper.listQccQualificationVO(enterpriseId);
+                break;
+            // 对外投资
+            case "outInvestment":
+                list = qccMapper.listQccOutInvestmentVO(enterpriseId);
+                if (!CollectionUtils.isEmpty(list)) {
+                    for (int i = 0; i < list.size(); i++) {
+                        QccOutInvestmentVO o = (QccOutInvestmentVO) list.get(i);
+                        o.setRegisteredCapital(CommonUtils.transferMoney(o.getRegisteredCapital()));
+                        o.setAmount(CommonUtils.transferMoney(o.getAmount()));
+                    }
+                }
+                break;
+            // 股东及出资信息
+            case "shareholderInvestment":
+                list = qccMapper.listQccShareholderInvestmentVO(enterpriseId);
+                break;
+            // 股权变更信息
+            case "equityChange":
+                list = qccMapper.listQccEquityChangeVO(enterpriseId);
+                break;
+            // 变更记录
+            case "changeRecord":
+                list = qccMapper.listQccChangeRecordVO(enterpriseId);
+                break;
+            // 基本信息-end
+            // 经营状况 - 抽查检查
+            case "spotCheck":
+                list = qccMapper.listQccSpotCheckVO(enterpriseId);
+                break;
+            // 经营风险 - 司法拍卖
+            case "judicialAuction":
+                list = qccMapper.listQccJudicialAuctionVO(enterpriseId);
+                if (!CollectionUtils.isEmpty(list)) {
+                    for (int i = 0; i < list.size(); i++) {
+                        QccJudicialAuctionVO o = (QccJudicialAuctionVO) list.get(i);
+                        try {
+                            BigDecimal bigDecimal = null;
+                            bigDecimal = CommonUtils.numberFormat(new BigDecimal(CommonUtils.CNY), o.getStartPrice(), 1);
+                            DecimalFormat decimalFormat = new DecimalFormat("$,###");
+                            o.setStartPrice(decimalFormat.format(bigDecimal));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            logger.info("JudicialAuction:{}", CommonUtils.getExceptionInfo(e));
+                        }
+                    }
+                }
+                break;
+            // 经营风险 - 环保处罚
+            case "environmentalPunishment":
+                list = qccMapper.listQccEnvironmentalPunishmentVO(enterpriseId);
+                break;
             default:
         }
-//        }
 
         return new PageInfo<>(list);
     }
@@ -613,6 +665,60 @@ public class QccImpl implements Qcc {
                 object = qccSubDetailMapper.getQccEquityOutPledgeVO(id);
                 QccEquityOutPledgeVO qccEquityOutPledgeVO = (QccEquityOutPledgeVO) object;
                 qccEquityOutPledgeVO.setAmount(CommonUtils.transferMoney2(qccEquityOutPledgeVO.getAmount(), "-", Math.pow(10, 4)));
+                break;
+            // 基本信息-start
+            // 股东信息3
+            case "shareholderThree":
+                object = qccSubDetailMapper.getQccShareholderThreeVO(id);
+                break;
+            // 资质资格
+            case "qualification":
+                object = qccSubDetailMapper.getQccQualificationVO(id);
+                break;
+            // 对外投资
+            case "outInvestment":
+                object = (QccOutInvestmentVO) qccSubDetailMapper.getQccOutInvestmentVO(id);
+                if (object != null) {
+                    QccOutInvestmentVO qccOutInvestmentVO = (QccOutInvestmentVO) object;
+                    qccOutInvestmentVO.setRegisteredCapital(CommonUtils.transferMoney(qccOutInvestmentVO.getRegisteredCapital()));
+                    qccOutInvestmentVO.setAmount(CommonUtils.transferMoney(qccOutInvestmentVO.getAmount()));
+                }
+                break;
+            // 股东及出资信息
+            case "shareholderInvestment":
+                object = qccSubDetailMapper.getQccShareholderInvestmentVO(id);
+                break;
+            // 股权变更信息
+            case "equityChange":
+                object = qccSubDetailMapper.getQccEquityChangeVO(id);
+                break;
+            // 变更记录
+            case "changeRecord":
+                object = qccSubDetailMapper.getQccChangeRecordVO(id);
+                break;
+            // 基本信息-end
+            // 经营状况 - 抽查检查
+            case "spotCheck":
+                object = qccSubDetailMapper.getQccSpotCheckVO(id);
+                break;
+            // 经营风险 - 司法拍卖
+            case "judicialAuction":
+                object = qccSubDetailMapper.getQccJudicialAuctionVO(id);
+                if (object != null) {
+                    try {
+                        QccJudicialAuctionVO o = (QccJudicialAuctionVO) object;
+                        BigDecimal bigDecimal = CommonUtils.numberFormat(new BigDecimal(CommonUtils.CNY), o.getStartPrice(), 1);
+                        DecimalFormat decimalFormat = new DecimalFormat("$,###");
+                        o.setStartPrice(decimalFormat.format(bigDecimal));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        logger.info("JudicialAuction:{}", CommonUtils.getExceptionInfo(e));
+                    }
+                }
+                break;
+            // 经营风险 - 环保处罚
+            case "environmentalPunishment":
+                object = qccSubDetailMapper.getQccEnvironmentalPunishmentVO(id);
                 break;
             default:
 

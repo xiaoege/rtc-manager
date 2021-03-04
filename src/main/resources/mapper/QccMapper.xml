@@ -735,6 +735,152 @@
             and qcc_equity_out_pledge.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
     </select>
 
+    <select id="listQccShareholderThreeVO" resultType="com.rtc.manager.vo.QccShareholderThreeVO">
+        SELECT `qcc_shareholder_three`.`id`,
+               `qcc_shareholder_three`.`enterprise_id` enterpriseId,
+               `qcc_shareholder_three`.`name`,
+               `qcc_shareholder_three`.`ratio`,
+               `qcc_shareholder_three`.`numbers`,
+               `qcc_shareholder_three`.`gmt_create` gmtCreate,
+               `qcc_shareholder_three`.`gmt_modify` gmtModify,
+               `qcc_shareholder_three`.`status` status
+        FROM `qcc_shareholder_three`
+        WHERE
+            qcc_shareholder_three.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+          and qcc_shareholder_three.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    </select>
+    <select id="listQccQualificationVO" resultType="com.rtc.manager.vo.QccQualificationVO">
+        SELECT `qcc_qualification`.`id`,
+               `qcc_qualification`.`enterprise_id` enterpriseId,
+               `qcc_qualification`.`type`,
+               `qcc_qualification`.`code`,
+               `qcc_qualification`.`name`,
+               `qcc_qualification`.`release_date` releaseDate,
+               `qcc_qualification`.`validity`,
+               `qcc_qualification`.`authority`,
+               `qcc_qualification`.`gmt_create` gmtCreate,
+               `qcc_qualification`.`gmt_modify` gmtModify,
+               `qcc_qualification`.`status` status
+        FROM `qcc_qualification`
+        WHERE
+            qcc_qualification.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+          and qcc_qualification.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    </select>
+    <select id="listQccOutInvestmentVO" resultType="com.rtc.manager.vo.QccOutInvestmentVO">
+        SELECT `qcc_out_investment`.`id`,
+               `qcc_out_investment`.`enterprise_id` enterpriseId,
+               `qcc_out_investment`.`name`,
+               `qcc_out_investment`.`legal_representative` legalRepresentative,
+               `qcc_out_investment`.`registered_capital` registeredCapital,
+               `qcc_out_investment`.`ratio`,
+               `qcc_out_investment`.`amount`,
+               `qcc_out_investment`.`release_date` releaseDate,
+               `qcc_out_investment`.`investment_status` investmentStatus,
+               `qcc_out_investment`.`round`,
+               `qcc_out_investment`.`financing_date` financingDate,
+               `qcc_out_investment`.`products_institutions` productsInstitutions,
+               `qcc_out_investment`.`gmt_create` gmtCreate,
+               `qcc_out_investment`.`gmt_modify` gmtModify,
+               `qcc_out_investment`.`status`
+        FROM `qcc_out_investment`
+        WHERE
+            qcc_out_investment.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+          and qcc_out_investment.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    </select>
+    <select id="listQccShareholderInvestmentVO" resultType="com.rtc.manager.vo.QccShareholderInvestmentVO">
+        SELECT `qcc_shareholder_investment`.`id`,
+               `qcc_shareholder_investment`.`enterprise_id` enterpriseId,
+               `qcc_shareholder_investment`.`shareholder`,
+               `qcc_shareholder_investment`.`ratio`,
+               `qcc_shareholder_investment`.`subscribed_capital` subscribedCapital,
+               `qcc_shareholder_investment`.`subscribed_date` subscribedDate,
+               `qcc_shareholder_investment`.`publication`,
+               `qcc_shareholder_investment`.`gmt_create` gmtCreate,
+               `qcc_shareholder_investment`.`gmt_modify` gmtModify,
+               `qcc_shareholder_investment`.`status`
+        FROM `qcc_shareholder_investment`
+        WHERE
+                qcc_shareholder_investment.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+        and qcc_shareholder_investment.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    </select>
+    <select id="listQccEquityChangeVO" resultType="com.rtc.manager.vo.QccEquityChangeVO">
+        SELECT `qcc_equity_change`.`id`,
+               `qcc_equity_change`.`enterprise_id` enterpriseId,
+               `qcc_equity_change`.`shareholder`,
+               `qcc_equity_change`.`before`,
+               `qcc_equity_change`.`after`,
+               `qcc_equity_change`.`change_date` changeDate,
+               `qcc_equity_change`.`release_date` releaseDate,
+               `qcc_equity_change`.`gmt_create` gmtCreate,
+               `qcc_equity_change`.`gmt_modify` gmtModify,
+               `qcc_equity_change`.`status`
+        FROM `qcc_equity_change`
+        WHERE
+            qcc_equity_change.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+          and qcc_equity_change.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    </select>
+    <select id="listQccChangeRecordVO" resultType="com.rtc.manager.vo.QccChangeRecordVO">
+        SELECT `qcc_change_record`.`id`,
+               `qcc_change_record`.`enterprise_id` enterpriseId,
+               `qcc_change_record`.`change_date` changeDate,
+               `qcc_change_record`.`change_content` changeContent,
+               `qcc_change_record`.`before_change` beforeChange,
+               `qcc_change_record`.`after_change` afterChange,
+               `qcc_change_record`.`gmt_create` gmtCreate,
+               `qcc_change_record`.`gmt_modify` gmtModify,
+               `qcc_change_record`.`status`
+        FROM `qcc_change_record`
+        WHERE
+            qcc_change_record.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+          and qcc_change_record.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    </select>
+    <select id="listQccSpotCheckVO" resultType="com.rtc.manager.vo.QccSpotCheckVO">
+        SELECT `qcc_spot_check`.`id`,
+               `qcc_spot_check`.`enterprise_id` enterpriseId,
+               `qcc_spot_check`.`organization`,
+               `qcc_spot_check`.`type`,
+               `qcc_spot_check`.`inspection_date` inspectionDate,
+               `qcc_spot_check`.`result`,
+               `qcc_spot_check`.`gmt_create` gmtCreate,
+               `qcc_spot_check`.`gmt_modify` gmtModify,
+               `qcc_spot_check`.`status`
+        FROM `qcc_spot_check`
+        WHERE
+            qcc_spot_check.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+          and qcc_spot_check.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    </select>
+    <select id="listQccJudicialAuctionVO" resultType="com.rtc.manager.vo.QccJudicialAuctionVO">
+        SELECT `qcc_judicial_auction`.`id`,
+               `qcc_judicial_auction`.`enterprise_id` enterpriseId,
+               `qcc_judicial_auction`.`title`,
+               `qcc_judicial_auction`.`start_price` startPrice,
+               `qcc_judicial_auction`.`auction_time` auctionTime,
+               `qcc_judicial_auction`.`court`,
+               `qcc_judicial_auction`.`gmt_create` gmtCreate,
+               `qcc_judicial_auction`.`gmt_modify` gmtModify,
+               `qcc_judicial_auction`.`status`
+        FROM `qcc_judicial_auction`
+        WHERE
+            qcc_judicial_auction.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+          and qcc_judicial_auction.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    </select>
+    <select id="listQccEnvironmentalPunishmentVO" resultType="com.rtc.manager.vo.QccEnvironmentalPunishmentVO">
+        SELECT `qcc_environmental_punishment`.`id`,
+               `qcc_environmental_punishment`.`enterprise_id` enterpriseId,
+               `qcc_environmental_punishment`.`code`,
+               `qcc_environmental_punishment`.`type`,
+               `qcc_environmental_punishment`.`penalty_unite` penaltyUnite,
+               `qcc_environmental_punishment`.`penalty_date` penaltyDate,
+               `qcc_environmental_punishment`.`implementation`,
+               `qcc_environmental_punishment`.`gmt_create` gmtCreate,
+               `qcc_environmental_punishment`.`gmt_modify` gmtModify,
+               `qcc_environmental_punishment`.`status`
+        FROM `qcc_environmental_punishment`
+        WHERE
+                qcc_environmental_punishment.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+          and qcc_environmental_punishment.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    </select>
+
     <select id="checkFavouriteQcc" resultType="java.lang.String">
         SELECT
             qcc.enterprise_id
