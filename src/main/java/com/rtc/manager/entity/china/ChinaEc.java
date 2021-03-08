@@ -1,4 +1,4 @@
-package com.rtc.manager.entity.america.connecticut;
+package com.rtc.manager.entity.china;
 
 import java.time.LocalDateTime;
 

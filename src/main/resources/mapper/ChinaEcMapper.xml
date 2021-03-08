@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.rtc.manager.dao.america.connecticut.ChinaEcMapper">
-  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.america.connecticut.ChinaEc">
+<mapper namespace="com.rtc.manager.dao.china.ChinaEcMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.china.ChinaEc">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
@@ -45,7 +45,7 @@
     delete from china_ec
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.rtc.manager.entity.america.connecticut.ChinaEc">
+  <insert id="insert" parameterType="com.rtc.manager.entity.china.ChinaEc">
     insert into china_ec (id, enterprise_id, name, 
       location, business_type, established_year, 
       employees_total, annual_revenue, website, 
@@ -65,7 +65,7 @@
       #{buyingCategory,jdbcType=VARCHAR}, #{keyword,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
       #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.rtc.manager.entity.america.connecticut.ChinaEc">
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.china.ChinaEc">
     insert into china_ec
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -228,7 +228,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.america.connecticut.ChinaEc">
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.china.ChinaEc">
     update china_ec
     <set>
       <if test="enterpriseId != null">
@@ -309,7 +309,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.america.connecticut.ChinaEc">
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.china.ChinaEc">
     update china_ec
     set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},

@@ -11,11 +11,12 @@ import com.rtc.manager.dao.america.alabama.AmericaAlabamaIncorporatorMapper;
 import com.rtc.manager.dao.america.alabama.AmericaAlabamaMapper;
 import com.rtc.manager.dao.america.alabama.AmericaAlabamaMemberMapper;
 import com.rtc.manager.dao.america.alaska.AmericaAlaskaMapper;
+import com.rtc.manager.dao.america.americaarkansas.AmericaArkansasMapper;
 import com.rtc.manager.dao.america.california.AmericaCaliforniaMapper;
 import com.rtc.manager.dao.america.colorado.AmericaColoradoMapper;
 import com.rtc.manager.dao.america.connecticut.AmericaConnecticutMapper;
 import com.rtc.manager.dao.america.connecticut.AmericaConnecticutPrincipalDetailMapper;
-import com.rtc.manager.dao.america.connecticut.ChinaEcMapper;
+import com.rtc.manager.dao.china.ChinaEcMapper;
 import com.rtc.manager.dao.america.delaware.AmericaDelawareMapper;
 import com.rtc.manager.dao.america.florida.AmericaFloridaAnnualReportFieldMapper;
 import com.rtc.manager.dao.america.florida.AmericaFloridaAnnualReportYearMapper;
@@ -63,11 +64,12 @@ import com.rtc.manager.entity.america.alabama.AmericaAlabamaDirector;
 import com.rtc.manager.entity.america.alabama.AmericaAlabamaIncorporator;
 import com.rtc.manager.entity.america.alabama.AmericaAlabamaMember;
 import com.rtc.manager.entity.america.alaska.AmericaAlaska;
+import com.rtc.manager.entity.america.americaarkansas.AmericaArkansas;
 import com.rtc.manager.entity.america.california.AmericaCalifornia;
 import com.rtc.manager.entity.america.colorado.AmericaColorado;
 import com.rtc.manager.entity.america.connecticut.AmericaConnecticut;
 import com.rtc.manager.entity.america.connecticut.AmericaConnecticutPrincipalDetail;
-import com.rtc.manager.entity.america.connecticut.ChinaEc;
+import com.rtc.manager.entity.china.ChinaEc;
 import com.rtc.manager.entity.america.delaware.AmericaDelaware;
 import com.rtc.manager.entity.america.florida.AmericaFlorida;
 import com.rtc.manager.entity.america.florida.AmericaFloridaAnnualReportField;
@@ -514,6 +516,9 @@ public class SaveJsonImpl implements SaveJson {
 
     @Autowired
     private ChinaEcMapper chinaEcMapper;
+
+    @Autowired
+    private AmericaArkansasMapper americaArkansasMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -3125,8 +3130,53 @@ public class SaveJsonImpl implements SaveJson {
         }
     }
 
+    @Override
+    public void saveJsonAmerica4Arkansas(File fileDirPath) throws Exception {
+        List<String> fileList = new ArrayList();
+        CommonUtils.readJsonFiles(fileDirPath, fileList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (int z = 0; z < fileList.size(); z++) {
+            File file = new File(fileList.get(z));
+
+            // 忽略mac的隐藏文件
+            if (file.getName().contains(".DS_Store")) {
+                continue;
+            }
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
+
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
+
+            StringBuilder sb = new StringBuilder();
+            while (reader.ready()) {
+                sb.append((char) reader.read());
+            }
+            String sss = sb.toString();
+            sss = sss.replace("\\\"", "").replace("\\n", " ");
+            List<AmericaArkansasDTO> list = null;
+            try {
+                list = Optional.ofNullable(objectMapper.readValue(sss, new TypeReference<List<AmericaArkansasDTO>>() {
+                })).orElseGet(() -> new ArrayList<>());
+                for (int i = 0; i < list.size(); i++) {
+                    AmericaArkansas americaArkansas = new AmericaArkansas();
+                    BeanUtils.copyProperties(list.get(i), americaArkansas);
+                    americaArkansas.setEnterpriseId(getUUID());
+                    americaArkansasMapper.insertSelective(americaArkansas);
+                }
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                logger.info("json序列化出现问题:{}", file.getName());
+                logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
+                throw e;
+            }
+
+            logger.info("json文件导入成功，文件是{}", file.getName());
+            reader.close();
+            bis.close();
+        }
+    }
+
     public String getUUID() {
         return randomUUID().toString().replace("-", "");
     }
 }
-

@@ -1,6 +1,6 @@
-package com.rtc.manager.dao.america.connecticut;
+package com.rtc.manager.dao.china;
 
-import com.rtc.manager.entity.america.connecticut.ChinaEc;
+import com.rtc.manager.entity.china.ChinaEc;
 
 public interface ChinaEcMapper {
     int deleteByPrimaryKey(Integer id);
