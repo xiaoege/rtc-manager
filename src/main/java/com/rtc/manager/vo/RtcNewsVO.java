@@ -32,7 +32,7 @@ public class RtcNewsVO {
     private LocalDateTime gmtCreate;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime gmtModify;
+    private LocalDateTime gmtModified;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private String intervalTime;
@@ -127,12 +127,12 @@ public class RtcNewsVO {
         this.gmtCreate = gmtCreate;
     }
 
-    public LocalDateTime getGmtModify() {
-        return gmtModify;
+    public LocalDateTime getgmtModified() {
+        return gmtModified;
     }
 
-    public void setGmtModify(LocalDateTime gmtModify) {
-        this.gmtModify = gmtModify;
+    public void setgmtModified(LocalDateTime gmtModified) {
+        this.gmtModified = gmtModified;
     }
 
     public String getIntervalTime() {

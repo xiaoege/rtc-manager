@@ -81,7 +81,7 @@
         <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--               selectByExampleQueryId="false">-->
         <!--            <columnOverride column="gmt_create" javaType="java.time.LocalDateTime"/>-->
-        <!--            <columnOverride column="gmt_modify" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modified" javaType="java.time.LocalDateTime"/>-->
         <!--        </table>-->
         <!--    <table tableName="qcc_administrative_license" domainObjectName="QccAdministrativeLicense"-->
         <!--                   enableCountByExample="false" enableUpdateByExample="false"-->
@@ -184,112 +184,112 @@
         <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--               selectByExampleQueryId="false">-->
         <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
         <!--        </table>-->
         <!--        <table tableName="qcc_qualification" domainObjectName="QccQualification"-->
         <!--               enableCountByExample="false" enableUpdateByExample="false"-->
         <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--               selectByExampleQueryId="false">-->
         <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
         <!--        </table>-->
         <!--        <table tableName="qcc_out_investment" domainObjectName="QccOutInvestment"-->
         <!--               enableCountByExample="false" enableUpdateByExample="false"-->
         <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--               selectByExampleQueryId="false">-->
         <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
         <!--        </table>-->
         <!--        <table tableName="qcc_shareholder_investment" domainObjectName="QccShareholderInvestment"-->
         <!--               enableCountByExample="false" enableUpdateByExample="false"-->
         <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--               selectByExampleQueryId="false">-->
         <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
         <!--        </table>-->
         <!--        <table tableName="qcc_equity_change" domainObjectName="QccEquityChange"-->
         <!--               enableCountByExample="false" enableUpdateByExample="false"-->
         <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--               selectByExampleQueryId="false">-->
         <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
         <!--        </table>-->
         <!--        <table tableName="qcc_change_record" domainObjectName="QccChangeRecord"-->
         <!--               enableCountByExample="false" enableUpdateByExample="false"-->
         <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--               selectByExampleQueryId="false">-->
         <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
         <!--        </table>-->
         <!--        <table tableName="qcc_court_notice" domainObjectName="QccCourtNotice"-->
         <!--               enableCountByExample="false" enableUpdateByExample="false"-->
         <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--               selectByExampleQueryId="false">-->
         <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
         <!--        </table>-->
         <!--        <table tableName="qcc_filing_information" domainObjectName="QccFilingInformation"-->
         <!--               enableCountByExample="false" enableUpdateByExample="false"-->
         <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--               selectByExampleQueryId="false">-->
         <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
         <!--        </table>-->
         <!--        <table tableName="qcc_administrative_license_china" domainObjectName="QccAdministrativeLicenseChina"-->
         <!--               enableCountByExample="false" enableUpdateByExample="false"-->
         <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--               selectByExampleQueryId="false">-->
         <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
         <!--        </table>-->
         <!--        <table tableName="qcc_spot_check" domainObjectName="QccSpotCheck"-->
         <!--               enableCountByExample="false" enableUpdateByExample="false"-->
         <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--               selectByExampleQueryId="false">-->
         <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
         <!--        </table>-->
         <!--        <table tableName="qcc_equity_pledge" domainObjectName="QccEquityPledge"-->
         <!--               enableCountByExample="false" enableUpdateByExample="false"-->
         <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--               selectByExampleQueryId="false">-->
         <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
         <!--        </table>-->
         <!--        <table tableName="qcc_tax_arrears_notice" domainObjectName="QccTaxArrearsNotice"-->
         <!--               enableCountByExample="false" enableUpdateByExample="false"-->
         <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--               selectByExampleQueryId="false">-->
         <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
         <!--        </table>-->
         <!--        <table tableName="qcc_judicial_auction" domainObjectName="QccJudicialAuction"-->
         <!--               enableCountByExample="false" enableUpdateByExample="false"-->
         <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--               selectByExampleQueryId="false">-->
         <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
         <!--        </table>-->
         <!--        <table tableName="qcc_tax_violation" domainObjectName="QccTaxViolation"-->
         <!--               enableCountByExample="false" enableUpdateByExample="false"-->
         <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--               selectByExampleQueryId="false">-->
         <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
         <!--        </table>-->
         <!--        <table tableName="qcc_environmental_punishment" domainObjectName="QccEnvironmentalPunishment"-->
         <!--               enableCountByExample="false" enableUpdateByExample="false"-->
         <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--               selectByExampleQueryId="false">-->
         <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
         <!--        </table>-->
         <!--        <table tableName="qcc_equity_out_pledge" domainObjectName="QccEquityOutPledge"-->
         <!--               enableCountByExample="false" enableUpdateByExample="false"-->
         <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--               selectByExampleQueryId="false">-->
         <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
         <!--        </table>-->
         <!--        <table tableName="rtc_user" domainObjectName="RtcUser"-->
         <!--               enableCountByExample="false" enableUpdateByExample="false"-->
@@ -303,28 +303,28 @@
         <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--               selectByExampleQueryId="false">-->
         <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
         <!--        </table>-->
         <!--        <table tableName="india_llpin" domainObjectName="IndiaLlpin"-->
         <!--               enableCountByExample="false" enableUpdateByExample="false"-->
         <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--               selectByExampleQueryId="false">-->
         <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
         <!--        </table>-->
         <!--        <table tableName="india_charge" domainObjectName="IndiaCharge"-->
         <!--               enableCountByExample="false" enableUpdateByExample="false"-->
         <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--               selectByExampleQueryId="false">-->
         <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
         <!--        </table>-->
         <!--        <table tableName="india_signatory" domainObjectName="IndiaSignatory"-->
         <!--               enableCountByExample="false" enableUpdateByExample="false"-->
         <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--               selectByExampleQueryId="false">-->
         <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
-        <!--            <columnOverride column="gmt_modify" property="gmtModify" javaType="java.time.LocalDateTime"/>-->
+        <!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
         <!--        </table>-->
         <!--        <table tableName="vietnam_enterprise" domainObjectName="VietnamEnterprise"-->
         <!--               enableCountByExample="false" enableUpdateByExample="false"-->

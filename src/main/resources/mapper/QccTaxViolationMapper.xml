@@ -10,12 +10,12 @@
     <result column="illegal_fact" jdbcType="VARCHAR" property="illegalFact" />
     <result column="basis_punishment" jdbcType="VARCHAR" property="basisPunishment" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
     id, enterprise_id, release_date, tax_authorities, case_nature, illegal_fact, basis_punishment, 
-    gmt_create, gmt_modify, status
+    gmt_create, gmt_modified, status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -30,11 +30,11 @@
   <insert id="insert" parameterType="com.rtc.manager.entity.QccTaxViolation">
     insert into qcc_tax_violation (id, enterprise_id, release_date, 
       tax_authorities, case_nature, illegal_fact, 
-      basis_punishment, gmt_create, gmt_modify, 
+      basis_punishment, gmt_create, gmt_modified,
       status)
     values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{releaseDate,jdbcType=VARCHAR}, 
       #{taxAuthorities,jdbcType=VARCHAR}, #{caseNature,jdbcType=VARCHAR}, #{illegalFact,jdbcType=VARCHAR}, 
-      #{basisPunishment,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, 
+      #{basisPunishment,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP},
       #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.rtc.manager.entity.QccTaxViolation">
@@ -64,8 +64,8 @@
       <if test="gmtCreate != null">
         gmt_create,
       </if>
-      <if test="gmtModify != null">
-        gmt_modify,
+      <if test="gmtModified != null">
+        gmt_modified,
       </if>
       <if test="status != null">
         status,
@@ -96,8 +96,8 @@
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModify != null">
-        #{gmtModify,jdbcType=TIMESTAMP},
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
@@ -128,8 +128,8 @@
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModify != null">
-        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
@@ -146,7 +146,7 @@
       illegal_fact = #{illegalFact,jdbcType=VARCHAR},
       basis_punishment = #{basisPunishment,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

@@ -16,7 +16,7 @@ public class QccMatchSummary {
 
     private Date gmtCreate;
 
-    private Date gmtModify;
+    private Date gmtModified;
 
     private Integer status;
 
@@ -60,12 +60,12 @@ public class QccMatchSummary {
         this.gmtCreate = gmtCreate;
     }
 
-    public Date getGmtModify() {
-        return gmtModify;
+    public Date getgmtModified() {
+        return gmtModified;
     }
 
-    public void setGmtModify(Date gmtModify) {
-        this.gmtModify = gmtModify;
+    public void setgmtModified(Date gmtModified) {
+        this.gmtModified = gmtModified;
     }
 
     public Integer getStatus() {

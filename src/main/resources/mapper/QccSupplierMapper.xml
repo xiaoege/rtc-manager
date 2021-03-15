@@ -11,12 +11,12 @@
     <result column="source" jdbcType="VARCHAR" property="source" />
     <result column="relationship" jdbcType="VARCHAR" property="relationship" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
     id, enterprise_id, name, proportion_of_procurement, purchase_amount, report_period, 
-    source, relationship, gmt_create, gmt_modify, status
+    source, relationship, gmt_create, gmt_modified, status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -32,12 +32,12 @@
     insert into qcc_supplier (id, enterprise_id, name, 
       proportion_of_procurement, purchase_amount, 
       report_period, source, relationship, 
-      gmt_create, gmt_modify, status
+      gmt_create, gmt_modified, status
       )
     values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{proportionOfProcurement,jdbcType=VARCHAR}, #{purchaseAmount,jdbcType=VARCHAR}, 
       #{reportPeriod,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, #{relationship,jdbcType=VARCHAR}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.rtc.manager.entity.QccSupplier">
@@ -70,8 +70,8 @@
       <if test="gmtCreate != null">
         gmt_create,
       </if>
-      <if test="gmtModify != null">
-        gmt_modify,
+      <if test="gmtModified != null">
+        gmt_modified,
       </if>
       <if test="status != null">
         status,
@@ -105,8 +105,8 @@
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModify != null">
-        #{gmtModify,jdbcType=TIMESTAMP},
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
@@ -140,8 +140,8 @@
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModify != null">
-        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
@@ -159,7 +159,7 @@
       source = #{source,jdbcType=VARCHAR},
       relationship = #{relationship,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

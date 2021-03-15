@@ -49,4 +49,12 @@ public interface Qcc {
      * @return 默认返回10个
      */
     ResultData<SearchEnterpriseListVO> listRecommend(String name, int pageSize) throws Exception;
+
+    /**
+     * 新增企业-单个
+     * @param body
+     * @param nation
+     * @param eType
+     */
+    void addEnterprise(String body, String nation, String eType);
 }

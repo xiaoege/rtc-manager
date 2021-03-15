@@ -27,7 +27,7 @@
     <result column="business_scope" jdbcType="VARCHAR" property="businessScope" />
     <result column="legal_representative" jdbcType="VARCHAR" property="legalRepresentative" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
@@ -36,7 +36,7 @@
     taxpayer_registration_number, import_export_enterprise_code, industry, business_type,
     business_term, registration_authority, staff_size, staff_insured, area, old_name, 
     english_name, business_address, business_scope, legal_representative, gmt_create, 
-    gmt_modify, status
+    gmt_modified, status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -57,7 +57,7 @@
       business_term, registration_authority, staff_size, 
       staff_insured, area, old_name, 
       english_name, business_address, business_scope, 
-      legal_representative, gmt_create, gmt_modify, 
+      legal_representative, gmt_create, gmt_modified,
       status)
     values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{businessStatus,jdbcType=VARCHAR}, 
       #{establishmentDate,jdbcType=VARCHAR}, #{registeredCapital,jdbcType=VARCHAR}, #{paidInCapital,jdbcType=VARCHAR}, 
@@ -67,7 +67,7 @@
       #{businessTerm,jdbcType=VARCHAR}, #{registrationAuthority,jdbcType=VARCHAR}, #{staffSize,jdbcType=VARCHAR}, 
       #{staffInsured,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{oldName,jdbcType=VARCHAR}, 
       #{englishName,jdbcType=VARCHAR}, #{businessAddress,jdbcType=VARCHAR}, #{businessScope,jdbcType=VARCHAR}, 
-      #{legalRepresentative,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, 
+      #{legalRepresentative,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP},
       #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.rtc.manager.entity.QccBusinessInformation">
@@ -148,8 +148,8 @@
       <if test="gmtCreate != null">
         gmt_create,
       </if>
-      <if test="gmtModify != null">
-        gmt_modify,
+      <if test="gmtModified != null">
+        gmt_modified,
       </if>
       <if test="status != null">
         status,
@@ -231,8 +231,8 @@
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModify != null">
-        #{gmtModify,jdbcType=TIMESTAMP},
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
@@ -314,8 +314,8 @@
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModify != null">
-        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
@@ -349,7 +349,7 @@
       business_scope = #{businessScope,jdbcType=VARCHAR},
       legal_representative = #{legalRepresentative,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

@@ -10,7 +10,7 @@
     <result column="decision_making_organ" jdbcType="VARCHAR" property="decisionMakingOrgan" />
     <result column="decision_date" jdbcType="VARCHAR" property="decisionDate" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="punishment_unit" jdbcType="VARCHAR" property="punishmentUnit" />
     <result column="source" jdbcType="VARCHAR" property="source" />
@@ -21,7 +21,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     id, enterprise_id, determine_document_number, content, publication_date, decision_making_organ, 
-    decision_date, gmt_create, gmt_modify, status, punishment_unit, source, punishment_date
+    decision_date, gmt_create, gmt_modified, status, punishment_unit, source, punishment_date
   </sql>
   <sql id="Blob_Column_List">
     violations_type
@@ -41,12 +41,12 @@
   <insert id="insert" parameterType="com.rtc.manager.entity.QccAdministrativeSanction">
     insert into qcc_administrative_sanction (id, enterprise_id, determine_document_number, 
       content, publication_date, decision_making_organ, 
-      decision_date, gmt_create, gmt_modify, 
+      decision_date, gmt_create, gmt_modified,
       status, punishment_unit, source, 
       punishment_date, violations_type)
     values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{determineDocumentNumber,jdbcType=VARCHAR}, 
       #{content,jdbcType=VARCHAR}, #{publicationDate,jdbcType=VARCHAR}, #{decisionMakingOrgan,jdbcType=VARCHAR}, 
-      #{decisionDate,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, 
+      #{decisionDate,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP},
       #{status,jdbcType=INTEGER}, #{punishmentUnit,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, 
       #{punishmentDate,jdbcType=VARCHAR}, #{violationsType,jdbcType=LONGVARCHAR})
   </insert>
@@ -77,8 +77,8 @@
       <if test="gmtCreate != null">
         gmt_create,
       </if>
-      <if test="gmtModify != null">
-        gmt_modify,
+      <if test="gmtModified != null">
+        gmt_modified,
       </if>
       <if test="status != null">
         status,
@@ -121,8 +121,8 @@
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModify != null">
-        #{gmtModify,jdbcType=TIMESTAMP},
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
@@ -165,8 +165,8 @@
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModify != null">
-        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
@@ -195,7 +195,7 @@
       decision_making_organ = #{decisionMakingOrgan,jdbcType=VARCHAR},
       decision_date = #{decisionDate,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER},
       punishment_unit = #{punishmentUnit,jdbcType=VARCHAR},
       source = #{source,jdbcType=VARCHAR},
@@ -212,7 +212,7 @@
       decision_making_organ = #{decisionMakingOrgan,jdbcType=VARCHAR},
       decision_date = #{decisionDate,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER},
       punishment_unit = #{punishmentUnit,jdbcType=VARCHAR},
       source = #{source,jdbcType=VARCHAR},

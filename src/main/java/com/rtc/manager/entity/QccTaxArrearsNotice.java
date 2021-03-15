@@ -23,7 +23,7 @@ public class QccTaxArrearsNotice {
 
     private LocalDateTime gmtCreate;
 
-    private LocalDateTime gmtModify;
+    private LocalDateTime gmtModified;
 
     private Integer status;
 
@@ -91,12 +91,12 @@ public class QccTaxArrearsNotice {
         this.gmtCreate = gmtCreate;
     }
 
-    public LocalDateTime getGmtModify() {
-        return gmtModify;
+    public LocalDateTime getgmtModified() {
+        return gmtModified;
     }
 
-    public void setGmtModify(LocalDateTime gmtModify) {
-        this.gmtModify = gmtModify;
+    public void setgmtModified(LocalDateTime gmtModified) {
+        this.gmtModified = gmtModified;
     }
 
     public Integer getStatus() {

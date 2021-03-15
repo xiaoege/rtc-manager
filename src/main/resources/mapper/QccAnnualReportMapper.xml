@@ -30,7 +30,7 @@
     <result column="unemployment_insurance" jdbcType="VARCHAR" property="unemploymentInsurance" />
     <result column="employment_injury_insurance" jdbcType="VARCHAR" property="employmentInjuryInsurance" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
@@ -39,7 +39,7 @@
     postal_address, total_assets, total_equity, total_operating_income, total_profit, 
     net_profit, main_business_income, total_tax, total_liabilities, endowment_insurance, 
     medical_insurance, maternity_insurance, 
-    unemployment_insurance, employment_injury_insurance, gmt_create, gmt_modify, status
+    unemployment_insurance, employment_injury_insurance, gmt_create, gmt_modified, status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -62,7 +62,7 @@
       total_liabilities, endowment_insurance, medical_insurance, 
       maternity_insurance, 
       unemployment_insurance, employment_injury_insurance, 
-      gmt_create, gmt_modify, status
+      gmt_create, gmt_modified, status
       )
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{enterpriseId,jdbcType=VARCHAR}, 
       #{year,jdbcType=VARCHAR}, #{unifiedSocialCreditCode,jdbcType=VARCHAR}, #{registrationNumber,jdbcType=VARCHAR}, 
@@ -74,7 +74,7 @@
       #{totalLiabilities,jdbcType=VARCHAR}, #{endowmentInsurance,jdbcType=VARCHAR}, #{medicalInsurance,jdbcType=VARCHAR}, 
       #{maternityInsurance,jdbcType=VARCHAR}, 
       #{unemploymentInsurance,jdbcType=VARCHAR}, #{employmentInjuryInsurance,jdbcType=VARCHAR}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.rtc.manager.entity.QccAnnualReport">
@@ -164,8 +164,8 @@
       <if test="gmtCreate != null">
         gmt_create,
       </if>
-      <if test="gmtModify != null">
-        gmt_modify,
+      <if test="gmtModified != null">
+        gmt_modified,
       </if>
       <if test="status != null">
         status,
@@ -256,8 +256,8 @@
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModify != null">
-        #{gmtModify,jdbcType=TIMESTAMP},
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
@@ -348,8 +348,8 @@
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModify != null">
-        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
@@ -386,7 +386,7 @@
       unemployment_insurance = #{unemploymentInsurance,jdbcType=VARCHAR},
       employment_injury_insurance = #{employmentInjuryInsurance,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

@@ -24,7 +24,7 @@
     <result column="company_status" jdbcType="VARCHAR" property="companyStatus" />
     <result column="registered_address" jdbcType="VARCHAR" property="registeredAddress" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
@@ -32,7 +32,7 @@
     company_sub_category, class_of_company, authorised_capital, paid_up_capital, number_of_members, 
     date_of_incorporation, email_id, whether_listed_or_not, active_compliant, suspended_at_stock_exchange, 
     date_of_last_agm, date_of_balance_sheet, company_status, registered_address, gmt_create, 
-    gmt_modify, status
+    gmt_modified, status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -52,7 +52,7 @@
       date_of_incorporation, email_id, whether_listed_or_not, 
       active_compliant, suspended_at_stock_exchange, 
       date_of_last_agm, date_of_balance_sheet, company_status, 
-      registered_address, gmt_create, gmt_modify, 
+      registered_address, gmt_create, gmt_modified,
       status)
     values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{cin,jdbcType=VARCHAR}, 
       #{companyName,jdbcType=VARCHAR}, #{rocCode,jdbcType=VARCHAR}, #{registrationNumber,jdbcType=VARCHAR}, 
@@ -61,7 +61,7 @@
       #{dateOfIncorporation,jdbcType=VARCHAR}, #{emailId,jdbcType=VARCHAR}, #{whetherListedOrNot,jdbcType=VARCHAR}, 
       #{activeCompliant,jdbcType=VARCHAR}, #{suspendedAtStockExchange,jdbcType=VARCHAR}, 
       #{dateOfLastAgm,jdbcType=VARCHAR}, #{dateOfBalanceSheet,jdbcType=VARCHAR}, #{companyStatus,jdbcType=VARCHAR}, 
-      #{registeredAddress,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, 
+      #{registeredAddress,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP},
       #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.rtc.manager.entity.india.IndiaCin">
@@ -133,8 +133,8 @@
       <if test="gmtCreate != null">
         gmt_create,
       </if>
-      <if test="gmtModify != null">
-        gmt_modify,
+      <if test="gmtModified != null">
+        gmt_modified,
       </if>
       <if test="status != null">
         status,
@@ -207,8 +207,8 @@
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModify != null">
-        #{gmtModify,jdbcType=TIMESTAMP},
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
@@ -281,8 +281,8 @@
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModify != null">
-        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
@@ -313,7 +313,7 @@
       company_status = #{companyStatus,jdbcType=VARCHAR},
       registered_address = #{registeredAddress,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

@@ -10,11 +10,11 @@
     <result column="country" jdbcType="VARCHAR" property="country" />
     <result column="sequence" jdbcType="INTEGER" property="sequence" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, uuid, author, title, source, country, sequence, gmt_create, gmt_modify, status
+    id, uuid, author, title, source, country, sequence, gmt_create, gmt_modified, status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -29,11 +29,11 @@
   <insert id="insert" parameterType="com.rtc.manager.entity.RtcNews">
     insert into rtc_news (id, uuid, author, 
       title, source, country, 
-      sequence, gmt_create, gmt_modify, 
+      sequence, gmt_create, gmt_modified,
       status)
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, 
       #{title,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, 
-      #{sequence,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, 
+      #{sequence,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP},
       #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.rtc.manager.entity.RtcNews">
@@ -63,8 +63,8 @@
       <if test="gmtCreate != null">
         gmt_create,
       </if>
-      <if test="gmtModify != null">
-        gmt_modify,
+      <if test="gmtModified != null">
+        gmt_modified,
       </if>
       <if test="status != null">
         status,
@@ -95,8 +95,8 @@
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModify != null">
-        #{gmtModify,jdbcType=TIMESTAMP},
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
@@ -127,8 +127,8 @@
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModify != null">
-        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
@@ -145,7 +145,7 @@
       country = #{country,jdbcType=VARCHAR},
       sequence = #{sequence,jdbcType=INTEGER},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -161,7 +161,7 @@
         rtc_news.preview,
         rtc_news.sequence,
         rtc_news.gmt_create gmtCreate,
-        rtc_news.gmt_modify gmtModify,
+        rtc_news.gmt_modified gmtModified,
         rtc_news_config.views
     FROM
         rtc_news

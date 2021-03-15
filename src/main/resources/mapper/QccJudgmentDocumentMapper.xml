@@ -8,7 +8,7 @@
     <result column="reason" jdbcType="VARCHAR" property="reason" />
     <result column="release_date" jdbcType="VARCHAR" property="releaseDate" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="litigant" jdbcType="VARCHAR" property="litigant" />
     <result column="amount" jdbcType="VARCHAR" property="amount" />
@@ -19,7 +19,7 @@
     <result column="court_name" jdbcType="LONGVARCHAR" property="courtName" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, enterprise_id, title, reason, release_date, gmt_create, gmt_modify, status, litigant, 
+    id, enterprise_id, title, reason, release_date, gmt_create, gmt_modified, status, litigant,
     amount, result, judgment_date, case_code, case_status, court_name
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -35,13 +35,13 @@
   <insert id="insert" parameterType="com.rtc.manager.entity.QccJudgmentDocument">
     insert into qcc_judgment_document (id, enterprise_id, title, 
       reason, release_date, gmt_create, 
-      gmt_modify, status, litigant, 
+      gmt_modified, status, litigant,
       amount, result, judgment_date, 
       case_code, case_status, court_name
       )
     values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
       #{reason,jdbcType=VARCHAR}, #{releaseDate,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
-      #{gmtModify,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{litigant,jdbcType=VARCHAR}, 
+      #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{litigant,jdbcType=VARCHAR},
       #{amount,jdbcType=VARCHAR}, #{result,jdbcType=VARCHAR}, #{judgmentDate,jdbcType=VARCHAR}, 
       #{caseCode,jdbcType=LONGVARCHAR}, #{caseStatus,jdbcType=LONGVARCHAR}, #{courtName,jdbcType=LONGVARCHAR}
       )
@@ -67,8 +67,8 @@
       <if test="gmtCreate != null">
         gmt_create,
       </if>
-      <if test="gmtModify != null">
-        gmt_modify,
+      <if test="gmtModified != null">
+        gmt_modified,
       </if>
       <if test="status != null">
         status,
@@ -114,8 +114,8 @@
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModify != null">
-        #{gmtModify,jdbcType=TIMESTAMP},
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
@@ -161,8 +161,8 @@
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModify != null">
-        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
@@ -199,7 +199,7 @@
       reason = #{reason,jdbcType=VARCHAR},
       release_date = #{releaseDate,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER},
       litigant = #{litigant,jdbcType=VARCHAR},
       amount = #{amount,jdbcType=VARCHAR},

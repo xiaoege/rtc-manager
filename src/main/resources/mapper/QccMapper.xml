@@ -12,13 +12,13 @@
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="country_region" jdbcType="VARCHAR" property="countryRegion" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="synopsis" jdbcType="VARCHAR" property="synopsis" />
   </resultMap>
   <sql id="Base_Column_List">
     id, enterprise_id,rtc_enterprise_uuid, name, telephone, url, email, address, country_region, gmt_create,
-    gmt_modify, status
+    gmt_modified, status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -34,12 +34,12 @@
     insert into qcc (id, enterprise_id,rtc_enterprise_uuid, name,
       telephone, url, email, 
       address, country_region, gmt_create, 
-      gmt_modify, status)
+      gmt_modified, status)
     values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR},
       #{rtcEnterpriseUuid,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},
       #{telephone,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{countryRegion,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
-      #{gmtModify,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
+      #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.rtc.manager.entity.Qcc">
     insert into qcc
@@ -74,8 +74,8 @@
       <if test="gmtCreate != null">
         gmt_create,
       </if>
-      <if test="gmtModify != null">
-        gmt_modify,
+      <if test="gmtModified != null">
+        gmt_modified,
       </if>
       <if test="status != null">
         status,
@@ -118,8 +118,8 @@
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModify != null">
-        #{gmtModify,jdbcType=TIMESTAMP},
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
@@ -162,8 +162,8 @@
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModify != null">
-        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
@@ -185,7 +185,7 @@
       address = #{address,jdbcType=VARCHAR},
       country_region = #{countryRegion,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER},
       synopsis = #{synopsis,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
@@ -742,7 +742,7 @@
                `qcc_shareholder_three`.`ratio`,
                `qcc_shareholder_three`.`numbers`,
                `qcc_shareholder_three`.`gmt_create` gmtCreate,
-               `qcc_shareholder_three`.`gmt_modify` gmtModify,
+               `qcc_shareholder_three`.`gmt_modified` gmtModified,
                `qcc_shareholder_three`.`status` status
         FROM `qcc_shareholder_three`
         WHERE
@@ -759,7 +759,7 @@
                `qcc_qualification`.`validity`,
                `qcc_qualification`.`authority`,
                `qcc_qualification`.`gmt_create` gmtCreate,
-               `qcc_qualification`.`gmt_modify` gmtModify,
+               `qcc_qualification`.`gmt_modified` gmtModified,
                `qcc_qualification`.`status` status
         FROM `qcc_qualification`
         WHERE
@@ -780,7 +780,7 @@
                `qcc_out_investment`.`financing_date` financingDate,
                `qcc_out_investment`.`products_institutions` productsInstitutions,
                `qcc_out_investment`.`gmt_create` gmtCreate,
-               `qcc_out_investment`.`gmt_modify` gmtModify,
+               `qcc_out_investment`.`gmt_modified` gmtModified,
                `qcc_out_investment`.`status`
         FROM `qcc_out_investment`
         WHERE
@@ -796,7 +796,7 @@
                `qcc_shareholder_investment`.`subscribed_date` subscribedDate,
                `qcc_shareholder_investment`.`publication`,
                `qcc_shareholder_investment`.`gmt_create` gmtCreate,
-               `qcc_shareholder_investment`.`gmt_modify` gmtModify,
+               `qcc_shareholder_investment`.`gmt_modified` gmtModified,
                `qcc_shareholder_investment`.`status`
         FROM `qcc_shareholder_investment`
         WHERE
@@ -812,7 +812,7 @@
                `qcc_equity_change`.`change_date` changeDate,
                `qcc_equity_change`.`release_date` releaseDate,
                `qcc_equity_change`.`gmt_create` gmtCreate,
-               `qcc_equity_change`.`gmt_modify` gmtModify,
+               `qcc_equity_change`.`gmt_modified` gmtModified,
                `qcc_equity_change`.`status`
         FROM `qcc_equity_change`
         WHERE
@@ -827,7 +827,7 @@
                `qcc_change_record`.`before_change` beforeChange,
                `qcc_change_record`.`after_change` afterChange,
                `qcc_change_record`.`gmt_create` gmtCreate,
-               `qcc_change_record`.`gmt_modify` gmtModify,
+               `qcc_change_record`.`gmt_modified` gmtModified,
                `qcc_change_record`.`status`
         FROM `qcc_change_record`
         WHERE
@@ -842,7 +842,7 @@
                `qcc_spot_check`.`inspection_date` inspectionDate,
                `qcc_spot_check`.`result`,
                `qcc_spot_check`.`gmt_create` gmtCreate,
-               `qcc_spot_check`.`gmt_modify` gmtModify,
+               `qcc_spot_check`.`gmt_modified` gmtModified,
                `qcc_spot_check`.`status`
         FROM `qcc_spot_check`
         WHERE
@@ -857,7 +857,7 @@
                `qcc_judicial_auction`.`auction_time` auctionTime,
                `qcc_judicial_auction`.`court`,
                `qcc_judicial_auction`.`gmt_create` gmtCreate,
-               `qcc_judicial_auction`.`gmt_modify` gmtModify,
+               `qcc_judicial_auction`.`gmt_modified` gmtModified,
                `qcc_judicial_auction`.`status`
         FROM `qcc_judicial_auction`
         WHERE
@@ -873,7 +873,7 @@
                `qcc_environmental_punishment`.`penalty_date` penaltyDate,
                `qcc_environmental_punishment`.`implementation`,
                `qcc_environmental_punishment`.`gmt_create` gmtCreate,
-               `qcc_environmental_punishment`.`gmt_modify` gmtModify,
+               `qcc_environmental_punishment`.`gmt_modified` gmtModified,
                `qcc_environmental_punishment`.`status`
         FROM `qcc_environmental_punishment`
         WHERE

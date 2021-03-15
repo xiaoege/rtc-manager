@@ -8,13 +8,13 @@
     <result column="taxpayer_identification_number" jdbcType="VARCHAR" property="taxpayerIdentificationNumber" />
     <result column="tax_credit_rank" jdbcType="VARCHAR" property="taxCreditRank" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="evaluation_cop" jdbcType="INTEGER" property="evaluationCop" />
   </resultMap>
   <sql id="Base_Column_List">
     id, enterprise_id, year, taxpayer_identification_number, tax_credit_rank, gmt_create, 
-    gmt_modify, status, evaluation_cop
+    gmt_modified, status, evaluation_cop
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -29,11 +29,11 @@
   <insert id="insert" parameterType="com.rtc.manager.entity.QccTaxCredit">
     insert into qcc_tax_credit (id, enterprise_id, year, 
       taxpayer_identification_number, tax_credit_rank, 
-      gmt_create, gmt_modify, status, evaluation_cop
+      gmt_create, gmt_modified, status, evaluation_cop
       )
     values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{year,jdbcType=VARCHAR}, 
       #{taxpayerIdentificationNumber,jdbcType=VARCHAR}, #{taxCreditRank,jdbcType=VARCHAR}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{evaluation_cop,jdbcType=INTEGER}
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{evaluation_cop,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.rtc.manager.entity.QccTaxCredit">
@@ -57,8 +57,8 @@
       <if test="gmtCreate != null">
         gmt_create,
       </if>
-      <if test="gmtModify != null">
-        gmt_modify,
+      <if test="gmtModified != null">
+        gmt_modified,
       </if>
       <if test="status != null">
         status,
@@ -86,8 +86,8 @@
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModify != null">
-        #{gmtModify,jdbcType=TIMESTAMP},
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
@@ -115,8 +115,8 @@
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModify != null">
-        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
@@ -134,7 +134,7 @@
       taxpayer_identification_number = #{taxpayerIdentificationNumber,jdbcType=VARCHAR},
       tax_credit_rank = #{taxCreditRank,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER},
       evaluation_cop = #{evaluationCop,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

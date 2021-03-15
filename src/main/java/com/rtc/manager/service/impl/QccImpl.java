@@ -835,5 +835,17 @@ public class QccImpl implements Qcc {
         return ResultData.SUCCESS(dataList);
     }
 
+    /**
+     * 新增企业-单个
+     *
+     * @param body
+     * @param nation
+     * @param eType
+     */
+    @Override
+    public void addEnterprise(String body, String nation, String eType) {
+
+    }
+
 
 }

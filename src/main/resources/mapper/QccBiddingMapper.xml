@@ -9,12 +9,12 @@
     <result column="province" jdbcType="VARCHAR" property="province" />
     <result column="progress" jdbcType="VARCHAR" property="progress" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="announcement_type" jdbcType="VARCHAR" property="announcementType" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, enterprise_id, name, release_date, province, progress, gmt_create, gmt_modify, 
+    id, enterprise_id, name, release_date, province, progress, gmt_create, gmt_modified,
     status, announcement_type
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -30,11 +30,11 @@
   <insert id="insert" parameterType="com.rtc.manager.entity.QccBidding">
     insert into qcc_bidding (id, enterprise_id, name, 
       release_date, province, progress, 
-      gmt_create, gmt_modify, status, announcement_type
+      gmt_create, gmt_modified, status, announcement_type
       )
     values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{releaseDate,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{progress,jdbcType=VARCHAR}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{announcement_type,jdbcType=VARCHAR}
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{announcement_type,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.rtc.manager.entity.QccBidding">
@@ -61,8 +61,8 @@
       <if test="gmtCreate != null">
         gmt_create,
       </if>
-      <if test="gmtModify != null">
-        gmt_modify,
+      <if test="gmtModified != null">
+        gmt_modified,
       </if>
       <if test="status != null">
         status,
@@ -93,8 +93,8 @@
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModify != null">
-        #{gmtModify,jdbcType=TIMESTAMP},
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
@@ -125,8 +125,8 @@
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModify != null">
-        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
@@ -145,7 +145,7 @@
       province = #{province,jdbcType=VARCHAR},
       progress = #{progress,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER},
       announcement_type = #{announcementType,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

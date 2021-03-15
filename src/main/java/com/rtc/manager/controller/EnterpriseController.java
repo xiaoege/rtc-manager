@@ -10,10 +10,7 @@ import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
@@ -257,5 +254,19 @@ public class EnterpriseController {
             logger.info("listEnterprise错误, {}", CommonUtils.getExceptionInfo(e));
         }
         return resultData;
+    }
+
+    /**
+     * 新增企业-单个
+     *
+     * @return
+     */
+    @PostMapping("addEnterprise")
+    public ResultData addEnterprise(@RequestBody String body,
+                                    @RequestParam(name = "nation") String nation,
+                                    @RequestParam(name = "e_type") String eType) {
+        qcc.addEnterprise(body, nation, eType);
+
+        return null;
     }
 }

@@ -13,12 +13,12 @@
     <result column="subscribed_capital_way" jdbcType="VARCHAR" property="subscribedCapitalWay" />
     <result column="paid_capital_way" jdbcType="VARCHAR" property="paidCapitalWay" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
     id, enterprise_id, name, ratio, subscribed_capital, subscribed_capital_date, paid_capital, 
-    paid_capital_date, subscribed_capital_way, paid_capital_way, gmt_create, gmt_modify, 
+    paid_capital_date, subscribed_capital_way, paid_capital_way, gmt_create, gmt_modified,
     status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -35,12 +35,12 @@
     insert into qcc_shareholder (id, enterprise_id, name, 
       ratio, subscribed_capital, subscribed_capital_date, 
       paid_capital, paid_capital_date, subscribed_capital_way, 
-      paid_capital_way, gmt_create, gmt_modify, 
+      paid_capital_way, gmt_create, gmt_modified,
       status)
     values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{ratio,jdbcType=VARCHAR}, #{subscribedCapital,jdbcType=VARCHAR}, #{subscribedCapitalDate,jdbcType=VARCHAR}, 
       #{paidCapital,jdbcType=VARCHAR}, #{paidCapitalDate,jdbcType=VARCHAR}, #{subscribedCapitalWay,jdbcType=VARCHAR}, 
-      #{paidCapitalWay,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, 
+      #{paidCapitalWay,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP},
       #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.rtc.manager.entity.QccShareholder">
@@ -79,8 +79,8 @@
       <if test="gmtCreate != null">
         gmt_create,
       </if>
-      <if test="gmtModify != null">
-        gmt_modify,
+      <if test="gmtModified != null">
+        gmt_modified,
       </if>
       <if test="status != null">
         status,
@@ -120,8 +120,8 @@
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModify != null">
-        #{gmtModify,jdbcType=TIMESTAMP},
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
@@ -161,8 +161,8 @@
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModify != null">
-        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
@@ -182,7 +182,7 @@
       subscribed_capital_way = #{subscribedCapitalWay,jdbcType=VARCHAR},
       paid_capital_way = #{paidCapitalWay,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

@@ -20,14 +20,14 @@
     <result column="annual_date" jdbcType="VARCHAR" property="annualDate" />
     <result column="llp_status" jdbcType="VARCHAR" property="llpStatus" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
     id, enterprise_id, llpin, llp_name, number_of_partners, number_of_designated_partners, 
     roc_code, date_of_incorporation, registrated_address, email_id, previous_firm, total_obligation_of_contribution, 
     main_division_of_business, description_of_main_division, statement_date, annual_date, 
-    llp_status, gmt_create, gmt_modify, status
+    llp_status, gmt_create, gmt_modified, status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -46,7 +46,7 @@
       email_id, previous_firm, total_obligation_of_contribution, 
       main_division_of_business, description_of_main_division, 
       statement_date, annual_date, llp_status, 
-      gmt_create, gmt_modify, status
+      gmt_create, gmt_modified, status
       )
     values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{llpin,jdbcType=VARCHAR}, 
       #{llpName,jdbcType=VARCHAR}, #{numberOfPartners,jdbcType=VARCHAR}, #{numberOfDesignatedPartners,jdbcType=VARCHAR}, 
@@ -54,7 +54,7 @@
       #{emailId,jdbcType=VARCHAR}, #{previousFirm,jdbcType=VARCHAR}, #{totalObligationOfContribution,jdbcType=VARCHAR}, 
       #{mainDivisionOfBusiness,jdbcType=VARCHAR}, #{descriptionOfMainDivision,jdbcType=VARCHAR}, 
       #{statementDate,jdbcType=VARCHAR}, #{annualDate,jdbcType=VARCHAR}, #{llpStatus,jdbcType=VARCHAR}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.rtc.manager.entity.india.IndiaLlpin">
@@ -114,8 +114,8 @@
       <if test="gmtCreate != null">
         gmt_create,
       </if>
-      <if test="gmtModify != null">
-        gmt_modify,
+      <if test="gmtModified != null">
+        gmt_modified,
       </if>
       <if test="status != null">
         status,
@@ -176,8 +176,8 @@
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModify != null">
-        #{gmtModify,jdbcType=TIMESTAMP},
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
@@ -238,8 +238,8 @@
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
-      <if test="gmtModify != null">
-        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
@@ -266,7 +266,7 @@
       annual_date = #{annualDate,jdbcType=VARCHAR},
       llp_status = #{llpStatus,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
