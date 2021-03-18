@@ -23,13 +23,13 @@ public class ElasticsearchController {
     @PostMapping("add")
     public String add() throws Exception {
         elasticsearch.addTest();
-        return "喵帕斯";
+        return "";
     }
 
     @GetMapping("get")
     public Object get() throws Exception {
         elasticsearch.getTest();
-        return "喵喵喵";
+        return "";
     }
 
     @GetMapping("search")

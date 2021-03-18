@@ -62,8 +62,8 @@ public class ElasticsearchImpl implements Elasticsearch {
     @Autowired
     private RedisTemplate redisTemplate;
 
-    @Value("${rtc.esIndices}")
-    private String[] esIndices;
+    @Autowired
+    private ElasticsearchUtils elasticsearchUtils;
 
     @Override
     public void addTest() throws Exception {
@@ -233,6 +233,7 @@ public class ElasticsearchImpl implements Elasticsearch {
     @Override
     @Scheduled(cron = "0 0 14 ? * WED")
     public ResultData initBulletin() {
+        String[] esIndices = elasticsearchUtils.getEsIndices();
         SearchRequest searchRequest = new SearchRequest(esIndices);
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         MatchAllQueryBuilder matchAllQueryBuilder = new MatchAllQueryBuilder();

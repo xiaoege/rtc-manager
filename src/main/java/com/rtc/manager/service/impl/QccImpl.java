@@ -38,6 +38,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -80,18 +81,25 @@ public class QccImpl implements Qcc {
     @Value("${rtc.timezone}")
     private List<String> timezone;
 
-    @Value("${rtc.esIndices}")
-    private String[] esIndices;
-
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private ElasticsearchUtils elasticsearchUtils;
+
     @Override
-    public ResultData listEnterprise(String name, int pageNum, int pageSize) throws Exception {
-        SearchRequest searchRequest = new SearchRequest(esIndices);
+    public ResultData listEnterprise(String name, String idx, int pageNum, int pageSize) throws Exception {
+        SearchRequest searchRequest = null;
+        String[] esIndices = elasticsearchUtils.getEsIndices();
+        if (!StringUtils.isEmpty(idx) && Arrays.asList(esIndices).contains(idx)) {
+            searchRequest = new SearchRequest(idx);
+        } else {
+            searchRequest = new SearchRequest(esIndices);
+        }
+
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.size(pageSize);
         searchSourceBuilder.from(pageNum * pageSize);
@@ -815,7 +823,7 @@ public class QccImpl implements Qcc {
 //        name = tokenList.get(0) + " " + tokenList.get(1) + " " + tokenList.get(2);
 //        }
 
-        SearchRequest searchRequest = new SearchRequest(esIndices);
+        SearchRequest searchRequest = new SearchRequest(elasticsearchUtils.getEsIndices());
         MatchQueryBuilder matchQueryBuilder = new MatchQueryBuilder("e_name", name);
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.query(matchQueryBuilder);

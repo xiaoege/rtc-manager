@@ -7,4 +7,6 @@ import java.util.HashMap;
  */
 public interface UtilsService {
     HashMap getAccessKey(String account);
+
+    String[] getEsIndices();
 }

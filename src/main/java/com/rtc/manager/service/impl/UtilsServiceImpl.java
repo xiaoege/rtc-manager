@@ -19,4 +19,9 @@ public class UtilsServiceImpl implements UtilsService {
     public HashMap getAccessKey(String account) {
         return utilsMapper.selectAccessKey(account);
     }
+
+    @Override
+    public String[] getEsIndices() {
+        return utilsMapper.selectEsIndices();
+    }
 }

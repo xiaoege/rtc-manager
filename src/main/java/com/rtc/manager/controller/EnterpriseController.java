@@ -46,6 +46,7 @@ public class EnterpriseController {
     })
     @GetMapping("listEnterprise")
     public ResultData<SearchEnterpriseListVO> listEnterprise(@RequestParam(name = "name", required = true) String name,
+                                                             @RequestParam(name = "idx", required = false) String idx,
                                                              @RequestParam(name = "pageNum", required = false, defaultValue = "0") int pageNum,
                                                              @RequestParam(name = "pageSize", required = false, defaultValue = "20") int pageSize) {
         // 此处的pageNum在es里从0开始
@@ -57,7 +58,7 @@ public class EnterpriseController {
 
         ResultData resultData = null;
         try {
-            resultData = qcc.listEnterprise(name, pageNum, pageSize);
+            resultData = qcc.listEnterprise(name, idx, pageNum, pageSize);
         } catch (Exception e) {
             e.printStackTrace();
             logger.info("listEnterprise错误, {}", CommonUtils.getExceptionInfo(e));

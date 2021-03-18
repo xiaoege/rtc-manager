@@ -15,7 +15,7 @@ public interface Qcc {
      * @param name 企业名
      * @return
      */
-    ResultData listEnterprise(String name, int pageNum, int pageSize) throws Exception;
+    ResultData listEnterprise(String name, String idx, int pageNum, int pageSize) throws Exception;
 
     Object getEnterprise(String enterpriseId, String nation, String eType, String timeZone) throws Exception;
 

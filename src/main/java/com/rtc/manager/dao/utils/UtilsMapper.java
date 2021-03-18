@@ -7,4 +7,7 @@ import java.util.HashMap;
  */
 public interface UtilsMapper {
     HashMap selectAccessKey(String account);
+
+    String[] selectEsIndices();
+
 }
