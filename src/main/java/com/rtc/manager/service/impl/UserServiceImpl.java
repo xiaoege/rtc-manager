@@ -267,7 +267,7 @@ public class UserServiceImpl implements UserService {
 
         // 发送验证码
         try {
-            SmsUtils.sendSms(verificationCode);
+            SmsUtils.sendSms(phone, verificationCode);
         } catch (Exception e) {
             e.printStackTrace();
             logger.info("发送验证码失败:{}", e);
@@ -526,7 +526,7 @@ public class UserServiceImpl implements UserService {
 
         // 发送验证码
         try {
-            SmsUtils.sendSms(verificationCode);
+            SmsUtils.sendSms(phone, verificationCode);
         } catch (Exception e) {
             e.printStackTrace();
             logger.info("发送验证码失败:{}", e);
@@ -739,14 +739,14 @@ public class UserServiceImpl implements UserService {
         }
         // 发送验证码
         try {
-            SmsUtils.sendSms(verificationCode);
+            SmsUtils.sendSms(phone, verificationCode);
         } catch (Exception e) {
             e.printStackTrace();
             logger.info("发送验证码失败:{}", e);
             return ResultData.FAIL(null, 703, CODE_703);
         }
 
-        return ResultData.FAIL(null, 200, "发送验证码成功");
+        return ResultData.SUCCESS(null, 200, "发送验证码成功");
     }
 
 

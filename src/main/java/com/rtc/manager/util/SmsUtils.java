@@ -31,7 +31,12 @@ public class SmsUtils {
         utilsService = utilsServiceInit;
     }
 
-    public static void sendSms(String verificationCode) {
+    /**
+     *
+     * @param phoneNumbers 手机号
+     * @param verificationCode 验证码
+     */
+    public static void sendSms(String phoneNumbers, String verificationCode) {
         HashMap<String, String> accessKeyMap = utilsService.getAccessKey("");
         String accessKey = accessKeyMap.get("accessKey");
         String secret = accessKeyMap.get("secret");
@@ -45,13 +50,12 @@ public class SmsUtils {
         request.setSysVersion("2017-05-25");
         request.setSysAction("SendSms");
         request.putQueryParameter("RegionId", "cn-hangzhou");
-        request.putQueryParameter("PhoneNumbers", "18951788733");
+        request.putQueryParameter("PhoneNumbers", phoneNumbers);
         request.putQueryParameter("SignName", "ComChec");
         request.putQueryParameter("TemplateCode", "SMS_204460137");
         request.putQueryParameter("TemplateParam", "{\"code\":\"" + verificationCode + "\"}");
         try {
             CommonResponse response = client.getCommonResponse(request);
-//            System.out.println(response.getData());
             logger.info(response.getData());
         } catch (ServerException e) {
             e.printStackTrace();
