@@ -881,6 +881,23 @@
           and qcc_environmental_punishment.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
     </select>
 
+    <select id="listQccTaxViolationVO" resultType="com.rtc.manager.vo.QccTaxViolationVO">
+        SELECT `qcc_tax_violation`.`id`,
+               `qcc_tax_violation`.`enterprise_id` enterpriseId,
+               `qcc_tax_violation`.`release_date` releaseDate,
+               `qcc_tax_violation`.`tax_authorities` taxAuthorities,
+               `qcc_tax_violation`.`case_nature` caseNature,
+               `qcc_tax_violation`.`illegal_fact` illegalFact,
+               `qcc_tax_violation`.`basis_punishment` basisPunishment,
+               `qcc_tax_violation`.`gmt_create` gmtCreate,
+               `qcc_tax_violation`.`gmt_modified` gmtModified,
+               `qcc_tax_violation`.`status`
+        FROM `qcc_tax_violation`
+        WHERE
+            qcc_tax_violation.enterprise_id = #{enterpriseId, jdbcType=VARCHAR}
+          and qcc_tax_violation.`status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    </select>
+
     <select id="checkFavouriteQcc" resultType="java.lang.String">
         SELECT
             qcc.enterprise_id
@@ -896,4 +913,12 @@
                     AND rtc_user_favourite.user_id = #{userId, jdbcType=VARCHAR}
             )
     </select>
+
+    <update id="deleteEnterprise">
+        UPDATE ${tb}
+        SET
+            status = ${@com.rtc.manager.util.CommonConst@STATUS_NOT_USED}
+        WHERE
+            id = #{pid,jdbcType=INTEGER}
+    </update>
 </mapper>

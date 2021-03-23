@@ -14,12 +14,4 @@
         </if>
     </select>
 
-    <select id="selectEsIndices" resultType="java.lang.String">
-        SELECT
-            idx
-        FROM
-            rtc_android.rtc_ref_country
-        WHERE
-            status = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
-    </select>
 </mapper>

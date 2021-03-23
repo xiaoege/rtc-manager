@@ -1,11 +1,17 @@
 package com.rtc.manager.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rtc.manager.dao.QccMapper;
 import com.rtc.manager.service.Elasticsearch;
+import com.rtc.manager.service.UtilsService;
 import com.rtc.manager.util.CommonUtils;
 import com.rtc.manager.util.ElasticsearchUtils;
 import com.rtc.manager.vo.QccListVO;
 import com.rtc.manager.vo.ResultData;
+import com.rtc.manager.vo.SearchEnterpriseListVO;
+import org.apache.http.HttpStatus;
 import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
@@ -34,12 +40,13 @@ import org.elasticsearch.search.sort.ScriptSortBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -64,6 +71,12 @@ public class ElasticsearchImpl implements Elasticsearch {
 
     @Autowired
     private ElasticsearchUtils elasticsearchUtils;
+
+    @Autowired
+    private UtilsService utilsService;
+
+    @Autowired
+    private QccMapper qccMapper;
 
     @Override
     public void addTest() throws Exception {
@@ -258,6 +271,59 @@ public class ElasticsearchImpl implements Elasticsearch {
         }
 
         return ResultData.SUCCESS("bulletin配置成功");
+    }
+
+    /**
+     * 企业删除-es/mysql-多个
+     *
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ResultData delEnterprise(String body) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        List successList = new ArrayList<>();
+        List failList = new ArrayList<>();
+        List<SearchEnterpriseListVO> list = new ArrayList<>();
+        try {
+            list = objectMapper.readValue(body, new TypeReference<>() {
+            });
+            for (int i = 0; i < list.size(); i++) {
+                SearchEnterpriseListVO document = list.get(i);
+                String index = document.getIdx();
+                String esId = document.getEsId();
+                Integer pid = document.getPid();
+                if (!StringUtils.isEmpty(index) && !StringUtils.isEmpty(esId) && pid != null)
+                    if (ElasticsearchUtils.indexExists(index)) {
+                        DeleteRequest deleteRequest = new DeleteRequest(index, esId);
+                        DeleteResponse deleteResponse = client.delete(deleteRequest, RequestOptions.DEFAULT);
+                        RestStatus status = deleteResponse.status();
+                        Map voMap = new HashMap();
+                        voMap.put("idx", document.getIdx());
+                        voMap.put("esId", esId);
+                        voMap.put("pid", pid);
+                        if (HttpStatus.SC_OK == status.getStatus()) {
+                            // mysql逻辑删除
+                            qccMapper.deleteEnterprise(utilsService.getTb(index), pid);
+                            successList.add(voMap);
+                        } else if (HttpStatus.SC_NOT_FOUND == status.getStatus()) {
+                            failList.add(voMap);
+                        }
+                    }
+            }
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            logger.info("json序列化失败:{},{}", body, CommonUtils.getExceptionInfo(e));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Map map = new HashMap();
+        map.put("successNum", successList.size());
+        map.put("successList", successList);
+        map.put("failList", failList);
+        map.put("totalNum", list.size());
+
+        return ResultData.SUCCESS(map, "企业删除");
     }
 
 }

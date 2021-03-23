@@ -53,8 +53,10 @@ public interface Qcc {
     /**
      * 新增企业-单个
      * @param body
-     * @param nation
-     * @param eType
+     * @param nation 国家
+     * @param eType 地区
+     * @return
      */
-    void addEnterprise(String body, String nation, String eType);
+    ResultData addEnterprise(String body, String nation, String eType);
+
 }

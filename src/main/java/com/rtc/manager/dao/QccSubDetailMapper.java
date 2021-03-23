@@ -78,4 +78,7 @@ public interface QccSubDetailMapper {
     Object getQccJudicialAuctionVO(Integer id);
     // 经营风险 - 环保处罚
     Object getQccEnvironmentalPunishmentVO(Integer id);
+
+    // 经营风险 - 税收违法
+    Object getQccTaxViolationVO(Integer id);
 }

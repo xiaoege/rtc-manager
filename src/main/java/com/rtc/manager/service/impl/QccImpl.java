@@ -90,6 +90,9 @@ public class QccImpl implements Qcc {
     @Autowired
     private ElasticsearchUtils elasticsearchUtils;
 
+    @Autowired
+    private UtilsService utilsService;
+
     @Override
     public ResultData listEnterprise(String name, String idx, int pageNum, int pageSize) throws Exception {
         SearchRequest searchRequest = null;
@@ -120,10 +123,8 @@ public class QccImpl implements Qcc {
                 for (int i = 0; i < hits.length; i++) {
                     SearchHit hit = hits[i];
                     SearchEnterpriseListVO vo = objectMapper.readValue(hit.getSourceAsString(), SearchEnterpriseListVO.class);
-//                    if (vo != null && vo.getRegisteredCapital() != null) {
-//                        String registeredCapital = vo.getRegisteredCapital();
-//                        vo.setRegisteredCapital(CommonUtils.transferMoney(registeredCapital));
-//                    }
+                    vo.setEsId(hit.getId());
+                    vo.setIdx(hit.getIndex());
                     resultList.add(vo);
                 }
             }
@@ -539,6 +540,10 @@ public class QccImpl implements Qcc {
             case "environmentalPunishment":
                 list = qccMapper.listQccEnvironmentalPunishmentVO(enterpriseId);
                 break;
+            // 经营风险 - 税收违法
+            case "taxViolation":
+                list = qccMapper.listQccTaxViolationVO(enterpriseId);
+                break;
             default:
         }
 
@@ -728,6 +733,10 @@ public class QccImpl implements Qcc {
             case "environmentalPunishment":
                 object = qccSubDetailMapper.getQccEnvironmentalPunishmentVO(id);
                 break;
+            // 经营风险 - 税收违法
+            case "taxViolation":
+                object = qccSubDetailMapper.getQccTaxViolationVO(id);
+                break;
             default:
 
         }
@@ -847,12 +856,26 @@ public class QccImpl implements Qcc {
      * 新增企业-单个
      *
      * @param body
-     * @param nation
-     * @param eType
+     * @param nation 国家
+     * @param eType  地区
+     * @return
      */
     @Override
-    public void addEnterprise(String body, String nation, String eType) {
-
+    public ResultData addEnterprise(String body, String nation, String eType) {
+        List<String> esIndices = utilsService.getRtcRefCountry("area");
+        if (esIndices.contains(eType)) {
+            switch (eType) {
+                case "China":
+                    break;
+                case "cin":
+                    break;
+                case "llpin":
+                    break;
+                case "Vietnam":
+                    break;
+            }
+        }
+        return ResultData.FAIL(body, 400, "新增单个企业失败");
     }
 
 

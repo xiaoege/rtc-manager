@@ -1,7 +1,6 @@
 package com.rtc.manager.vo;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import io.swagger.annotations.ApiModel;
@@ -32,7 +31,6 @@ public class SearchEnterpriseListVO {
     /**
      * es-document的id
      */
-    @JsonIgnore
     private String esId;
 
     @JsonAlias("enterprise_id")
@@ -62,13 +60,18 @@ public class SearchEnterpriseListVO {
      * es 文档创建时间
      */
     @JsonAlias("@timestamp")
-    @ApiModelProperty(value ="该数据创建时间")
+    @ApiModelProperty(value ="该数据创建时间，内部系统查看，非用户查看")
     private String createTime;
 
     /**
      * 企业编号
      */
     private String enterpriseCode;
+
+    /**
+     * es的index
+     */
+    private String idx;
 
     public String geteType() {
         return eType;
@@ -158,5 +161,13 @@ public class SearchEnterpriseListVO {
 
     public void setEnterpriseCode(String enterpriseCode) {
         this.enterpriseCode = enterpriseCode;
+    }
+
+    public String getIdx() {
+        return idx;
+    }
+
+    public void setIdx(String idx) {
+        this.idx = idx;
     }
 }

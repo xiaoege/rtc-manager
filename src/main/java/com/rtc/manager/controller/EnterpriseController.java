@@ -1,6 +1,7 @@
 package com.rtc.manager.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.rtc.manager.service.Elasticsearch;
 import com.rtc.manager.service.India;
 import com.rtc.manager.service.Qcc;
 import com.rtc.manager.util.CommonUtils;
@@ -10,6 +11,7 @@ import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -18,7 +20,7 @@ import java.util.List;
 /**
  * @author ChenHang
  */
-@Api(tags = "企业查询")
+@Api(tags = "企业接口")
 @RestController
 @RequestMapping("enterprise")
 public class EnterpriseController {
@@ -31,6 +33,9 @@ public class EnterpriseController {
     @Autowired
     private India india;
 
+    @Autowired
+    private Elasticsearch elasticsearch;
+
     /**
      * 搜索企业-列表
      *
@@ -40,7 +45,7 @@ public class EnterpriseController {
     @ApiOperation(value = "搜索企业-列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
-            @ApiImplicitParam(name = "name", value = "企业名，参数示例：China:南京，India:banana，Vietnam:viet", required = true),
+            @ApiImplicitParam(name = "name", value = "企业名", required = true),
             @ApiImplicitParam(name = "idx", value = "选择特定搜索国别，参数实例：[\"china\",\"india-cin\",\"india-llpin\",\"vietnam\"]", required = false),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false, defaultValue = "1"),
             @ApiImplicitParam(name = "pageSize", value = "当前页大小", required = false, defaultValue = "20")
@@ -77,8 +82,8 @@ public class EnterpriseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
             @ApiImplicitParam(name = "enterpriseId", value = "企业id", required = true),
-            @ApiImplicitParam(name = "nation", value = "国家：China / India / Vietnam / America / Canada", required = true),
-            @ApiImplicitParam(name = "e_type", value = "企业类型，对应国家：China.China / India.[cin, llpin] / Vietnam.Vietnam /America.[Alabama, NewHampshire] / Canada.Canada", required = true),
+            @ApiImplicitParam(name = "nation", value = "国家：China / India / Vietnam", required = true),
+            @ApiImplicitParam(name = "e_type", value = "企业类型，对应国家：China.China / India.[cin, llpin] / Vietnam.Vietnam", required = true),
             @ApiImplicitParam(name = "timeZone", value = "时区，参数示例：8或者-8, 范围: -18 to 18 的整数", required = false)
     })
     @GetMapping("getEnterprise")
@@ -173,7 +178,7 @@ public class EnterpriseController {
     @ApiOperation("China企业：五大类-详情")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
-            @ApiImplicitParam(name = "name", value = "类别", required = true),
+            @ApiImplicitParam(name = "name", value = "类别，参数示例请看文档", required = true),
             @ApiImplicitParam(name = "pid", value = "详情id", required = false),
             @ApiImplicitParam(name = "enterpriseId", value = "企业id", required = false),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false),
@@ -238,10 +243,10 @@ public class EnterpriseController {
      * @param name 企业名
      * @return 默认返回10个
      */
-    @ApiOperation(value = "搜索企业-企业推荐", notes = "默认返回10个")
+    @ApiOperation(value = "搜索企业-企业推荐", notes = "根据指定企业名来推荐相关其他的企业，默认返回10个")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
-            @ApiImplicitParam(name = "name", value = "企业名，参数示例：China:南京，India:banana，Vietnam:viet", required = true),
+            @ApiImplicitParam(name = "name", value = "企业名", required = true),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false, defaultValue = "1"),
             @ApiImplicitParam(name = "pageSize", value = "当前页大小", required = false, defaultValue = "10")
     })
@@ -259,16 +264,36 @@ public class EnterpriseController {
     }
 
     /**
-     * 新增企业-单个
+     * 新增单个企业-mysql/es
      *
+     * @param body
+     * @param nation 国家
+     * @param eType  地区
      * @return
      */
+    @ApiIgnore
+    @ApiOperation("新增单个企业")
     @PostMapping("addEnterprise")
     public ResultData addEnterprise(@RequestBody String body,
                                     @RequestParam(name = "nation") String nation,
                                     @RequestParam(name = "e_type") String eType) {
-        qcc.addEnterprise(body, nation, eType);
 
-        return null;
+        return qcc.addEnterprise(body, nation, eType);
     }
+
+    /**
+     * 企业修改-es/mysql
+     */
+
+    /**
+     * 企业删除-es/mysql-多个
+     *
+     */
+    @ApiIgnore
+    @PostMapping("delEnterprise")
+    public ResultData delEnterprise(@RequestBody String body) {
+        return elasticsearch.delEnterprise(body);
+    }
+
+    //todo 用户权限管理
 }

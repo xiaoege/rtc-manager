@@ -2,12 +2,15 @@ package com.rtc.manager.util;
 
 import com.rtc.manager.service.UtilsService;
 import org.apache.http.HttpHost;
+import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
+import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * @author ChenHang
@@ -18,8 +21,8 @@ public class ElasticsearchUtils {
     @Autowired
     private UtilsService utilsService;
 
-//    private ElasticsearchUtils() {
-//    }
+    private ElasticsearchUtils() {
+    }
 
     private static RestHighLevelClient client = new RestHighLevelClient(
             RestClient.builder(
@@ -30,7 +33,20 @@ public class ElasticsearchUtils {
     }
 
     public String[] getEsIndices() {
-        String[] esIndices = utilsService.getEsIndices();
-        return esIndices;
+        List<String> idx = utilsService.getRtcRefCountry("idx");
+        return idx.toArray(new String[idx.size()]);
     }
+
+    /**
+     * 查看es是否存在该index
+     * @param index index
+     * @return
+     * @throws IOException
+     */
+    public static boolean indexExists(String index) throws IOException {
+        GetIndexRequest request = new GetIndexRequest();
+        request.indices(index);
+        return client.indices().exists(request, RequestOptions.DEFAULT);
+    }
+
 }

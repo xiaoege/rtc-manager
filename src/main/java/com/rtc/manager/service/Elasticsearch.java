@@ -2,8 +2,6 @@ package com.rtc.manager.service;
 
 import com.rtc.manager.vo.ResultData;
 
-import java.io.IOException;
-
 /**
  * @author ChenHang
  */
@@ -23,4 +21,9 @@ public interface Elasticsearch {
 
     ResultData initBulletin() ;
 
+    /**
+     * 企业删除-es/mysql-多个
+     * @return
+     */
+    ResultData delEnterprise(String body);
 }

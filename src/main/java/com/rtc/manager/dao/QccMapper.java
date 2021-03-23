@@ -68,7 +68,10 @@ public interface QccMapper {
     // 经营风险 - 环保处罚
     List<QccEnvironmentalPunishmentVO> listQccEnvironmentalPunishmentVO(String enterpriseId);
 
+    List<QccTaxViolationVO> listQccTaxViolationVO(String enterpriseId);
 
     String checkFavouriteQcc(@Param("userId") String userId, @Param("enterpriseId") String enterpriseId);
+
+    void deleteEnterprise(String tb, @Param("pid") Integer pid);
 
 }
