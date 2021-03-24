@@ -3,6 +3,7 @@ package com.rtc.manager.controller;
 import com.rtc.manager.entity.dto.PhoneRegisterDTO;
 import com.rtc.manager.service.UserService;
 import com.rtc.manager.vo.ResultData;
+import com.rtc.manager.vo.SearchEnterpriseListVO;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -587,23 +588,31 @@ public class UserController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "{\n" +
                     "    \"message\": \"请求成功\",\n" +
-                    "    \"data\": [\n" +
-                    "        {\n" +
-                    "            \"nation\": \"国家\",\n" +
-                    "            \"pid\": 360,\n" +
-                    "            \"enterpriseId\": \"公司ID（内部）\",\n" +
-                    "            \"legalRepresentative\": 法人代表,\n" +
-                    "            \"establishmentDate\": \"成立日期\",\n" +
-                    "            \"address\": \"公司地址\",\n" +
-                    "            \"e_type\": \"地区\",\n" +
-                    "            \"e_name\": \"公司名\"\n" +
-                    "        }, \"code\": 200\n" +
+                    "    \"data\": {\n" +
+                    "        \"total\": 总数,\n" +
+                    "        \"pageSize\": 当前页大小,\n" +
+                    "        \"list\": [\n" +
+                    "            {\n" +
+                    "                \"eType\": \"公司所在地区(国家的次一级，例如美国的肯塔基州)\",\n" +
+                    "                \"eName\": \"公司名\",\n" +
+                    "                \"nation\": \"India\",\n" +
+                    "                \"pid\": 73,\n" +
+                    "                \"enterpriseId\": \"公司id-内部定义\",\n" +
+                    "                \"legalRepresentative\": \"公司所在国家\",\n" +
+                    "                \"establishmentDate\": \"成立日期\",\n" +
+                    "                \"address\": \"公司地址\",\n" +
+                    "                \"gmtCreate\": \"收藏时间\"\n" +
+                    "            }" +
+                    "        ],\n" +
+                    "        \"pageNum\": 当前页\n" +
+                    "    },\n" +
+                    "    \"code\": 200\n" +
                     "}")
     })
     @GetMapping("listFavourite")
-    public ResultData listFavourite(@RequestParam(name = "sort", required = false) String sort,
-                                    @RequestParam(name = "pageNum", required = false, defaultValue = "0") int pageNum,
-                                    @RequestParam(name = "pageSize", required = false, defaultValue = "20") int pageSize) throws IOException {
+    public ResultData<SearchEnterpriseListVO> listFavourite(@RequestParam(name = "sort", required = false) String sort,
+                                                            @RequestParam(name = "pageNum", required = false, defaultValue = "0") int pageNum,
+                                                            @RequestParam(name = "pageSize", required = false, defaultValue = "20") int pageSize) throws IOException {
         // 此处的pageNum在es里从0开始
         if (pageNum < 2) {
             pageNum = 0;

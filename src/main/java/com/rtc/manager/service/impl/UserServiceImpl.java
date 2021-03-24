@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.rtc.manager.dao.RtcUserCommentMapper;
 import com.rtc.manager.dao.RtcUserFavouriteMapper;
 import com.rtc.manager.dao.RtcUserMapper;
@@ -866,6 +867,13 @@ public class UserServiceImpl implements UserService {
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
         List<UserCommentVO> voList = new ArrayList();
+        PageInfo<RtcUserFavourite> pageInfo = new PageInfo<>(favouriteList);
+        Map resultMap = new HashMap();
+        resultMap.put("total", pageInfo.getTotal());
+        resultMap.put("pageNum", pageInfo.getPageNum());
+        resultMap.put("pageSize", pageInfo.getPageSize());
+        resultMap.put("list", voList);
+
 
         if (!ObjectUtils.isEmpty(favouriteList)) {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -902,12 +910,13 @@ public class UserServiceImpl implements UserService {
                         }
                     }
                 }
-                return ResultData.SUCCESS(eNameVOList);
+                resultMap.put("list", eNameVOList);
+                return ResultData.SUCCESS(resultMap);
             }
         }
 
 
-        return ResultData.SUCCESS(voList);
+        return ResultData.SUCCESS(resultMap);
     }
 
     /**

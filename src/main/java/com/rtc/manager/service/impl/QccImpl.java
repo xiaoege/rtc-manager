@@ -140,7 +140,7 @@ public class QccImpl implements Qcc {
         Map map = new HashMap();
         map.put("list", resultList);
         map.put("total", total);
-        map.put("pageNum", pageNum);
+        map.put("pageNum", pageNum + 1);
         map.put("pageSize", pageSize);
         return ResultData.SUCCESS(map);
     }
