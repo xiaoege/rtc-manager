@@ -121,6 +121,9 @@ public class UserServiceImpl implements UserService {
     @Value("${rtc.comment-stars}")
     private List<String> commentStars;
 
+    @Autowired
+    private ElasticsearchUtils elasticsearchUtils;
+
     static {
         JAVA_MAIL_SENDER = new JavaMailSenderImpl();
         JAVA_MAIL_SENDER.setHost("smtp.sina.com");
@@ -858,8 +861,8 @@ public class UserServiceImpl implements UserService {
         PageHelper.startPage(pageNum, pageSize);
         List<RtcUserFavourite> favouriteList = rtcUserFavouriteMapper.selectFavourite(uuid, sort);
         PageHelper.clearPage();
-
-        SearchRequest searchRequest = new SearchRequest("china", "india-cin", "india-llpin", "vietnam");
+        String[] esIndices = elasticsearchUtils.getEsIndices();
+        SearchRequest searchRequest = new SearchRequest(esIndices);
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
         List<UserCommentVO> voList = new ArrayList();

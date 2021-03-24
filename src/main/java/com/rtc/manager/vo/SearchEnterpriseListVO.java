@@ -66,6 +66,7 @@ public class SearchEnterpriseListVO {
     /**
      * 企业编号
      */
+    @JsonAlias("enterprise_code")
     private String enterpriseCode;
 
     /**

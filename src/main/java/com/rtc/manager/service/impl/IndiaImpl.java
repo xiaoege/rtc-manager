@@ -44,21 +44,28 @@ public class IndiaImpl implements India {
     @Autowired
     private RtcUserCommentMapper rtcUserCommentMapper;
 
+    @Autowired
+    private ElasticsearchUtils elasticsearchUtils;
+
     @Override
     public List listIndiaEnterprise(String name, int pageNum, int pageSize) throws Exception {
 
         SearchRequest searchRequest = new SearchRequest("india-cin");
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-        searchSourceBuilder.size(pageSize);
-        searchSourceBuilder.from(pageNum * pageSize);
+//        searchSourceBuilder.size(pageSize);
+//        searchSourceBuilder.from(pageNum * pageSize);
+        // 校验查询页数是否小于es的max-result-window
+        elasticsearchUtils.resetQueryPage(searchSourceBuilder, pageNum * pageSize, pageSize);
         MatchPhraseQueryBuilder matchPhraseQueryBuilder = new MatchPhraseQueryBuilder("company_name", name);
         searchSourceBuilder.query(matchPhraseQueryBuilder);
         searchRequest.source(searchSourceBuilder);
 
         SearchRequest searchRequest1 = new SearchRequest("india-llpin");
         SearchSourceBuilder searchSourceBuilder1 = new SearchSourceBuilder();
-        searchSourceBuilder1.size(pageSize);
-        searchSourceBuilder1.from(pageNum * pageSize);
+//        searchSourceBuilder1.size(pageSize);
+//        searchSourceBuilder1.from(pageNum * pageSize);
+        // 校验查询页数是否小于es的max-result-window
+        elasticsearchUtils.resetQueryPage(searchSourceBuilder1, pageNum * pageSize, pageSize);
         MatchPhraseQueryBuilder matchPhraseQueryBuilder1 = new MatchPhraseQueryBuilder("llp_name", name);
         searchSourceBuilder1.query(matchPhraseQueryBuilder1);
         searchRequest1.source(searchSourceBuilder1);

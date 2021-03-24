@@ -263,37 +263,4 @@ public class EnterpriseController {
         return resultData;
     }
 
-    /**
-     * 新增单个企业-mysql/es
-     *
-     * @param body
-     * @param nation 国家
-     * @param eType  地区
-     * @return
-     */
-    @ApiIgnore
-    @ApiOperation("新增单个企业")
-    @PostMapping("addEnterprise")
-    public ResultData addEnterprise(@RequestBody String body,
-                                    @RequestParam(name = "nation") String nation,
-                                    @RequestParam(name = "e_type") String eType) {
-
-        return qcc.addEnterprise(body, nation, eType);
-    }
-
-    /**
-     * 企业修改-es/mysql
-     */
-
-    /**
-     * 企业删除-es/mysql-多个
-     *
-     */
-    @ApiIgnore
-    @PostMapping("delEnterprise")
-    public ResultData delEnterprise(@RequestBody String body) {
-        return elasticsearch.delEnterprise(body);
-    }
-
-    //todo 用户权限管理
 }

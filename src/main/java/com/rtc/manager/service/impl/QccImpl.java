@@ -22,8 +22,7 @@ import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.index.query.MatchPhraseQueryBuilder;
-import org.elasticsearch.index.query.MatchQueryBuilder;
+import org.elasticsearch.index.query.*;
 import org.elasticsearch.script.Script;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -81,6 +80,9 @@ public class QccImpl implements Qcc {
     @Value("${rtc.timezone}")
     private List<String> timezone;
 
+    @Value("${rtc.es.max-result-window}")
+    private Integer maxResultWindow;
+
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
@@ -104,10 +106,14 @@ public class QccImpl implements Qcc {
         }
 
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-        searchSourceBuilder.size(pageSize);
-        searchSourceBuilder.from(pageNum * pageSize);
-        MatchPhraseQueryBuilder matchPhraseQueryBuilder = new MatchPhraseQueryBuilder("e_name", name);
-        searchSourceBuilder.query(matchPhraseQueryBuilder);
+
+        // 校验查询页数是否小于es的max-result-window
+        elasticsearchUtils.resetQueryPage(searchSourceBuilder, pageNum * pageSize, pageSize);
+
+        if (!StringUtils.isEmpty(name)) {
+            MatchPhraseQueryBuilder matchPhraseQueryBuilder = new MatchPhraseQueryBuilder("e_name", name);
+            searchSourceBuilder.query(matchPhraseQueryBuilder);
+        }
         searchRequest.source(searchSourceBuilder);
 
         SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
@@ -141,24 +147,30 @@ public class QccImpl implements Qcc {
     public EnterpriseListResultData listEnterprise2(String name, int pageNum, int pageSize) throws Exception {
         SearchRequest searchRequest = new SearchRequest("china");
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-        searchSourceBuilder.size(pageSize);
-        searchSourceBuilder.from(pageNum * pageSize);
+//        searchSourceBuilder.size(pageSize);
+//        searchSourceBuilder.from(pageNum * pageSize);
+        // 校验查询页数是否小于es的max-result-window
+        elasticsearchUtils.resetQueryPage(searchSourceBuilder, pageNum * pageSize, pageSize);
         MatchPhraseQueryBuilder matchPhraseQueryBuilder = new MatchPhraseQueryBuilder("name", name);
         searchSourceBuilder.query(matchPhraseQueryBuilder);
         searchRequest.source(searchSourceBuilder);
 
         SearchRequest searchRequest1 = new SearchRequest("india-cin");
         SearchSourceBuilder searchSourceBuilder1 = new SearchSourceBuilder();
-        searchSourceBuilder1.size(pageSize);
-        searchSourceBuilder1.from(pageNum * pageSize);
+//        searchSourceBuilder1.size(pageSize);
+//        searchSourceBuilder1.from(pageNum * pageSize);
+        // 校验查询页数是否小于es的max-result-window
+        elasticsearchUtils.resetQueryPage(searchSourceBuilder1, pageNum * pageSize, pageSize);
         MatchPhraseQueryBuilder matchPhraseQueryBuilder1 = new MatchPhraseQueryBuilder("company_name", name);
         searchSourceBuilder1.query(matchPhraseQueryBuilder1);
         searchRequest1.source(searchSourceBuilder1);
 
         SearchRequest searchRequest2 = new SearchRequest("india-llpin");
         SearchSourceBuilder searchSourceBuilder2 = new SearchSourceBuilder();
-        searchSourceBuilder2.size(pageSize);
-        searchSourceBuilder2.from(pageNum * pageSize);
+//        searchSourceBuilder2.size(pageSize);
+//        searchSourceBuilder2.from(pageNum * pageSize);
+        // 校验查询页数是否小于es的max-result-window
+        elasticsearchUtils.resetQueryPage(searchSourceBuilder2, pageNum * pageSize, pageSize);
         MatchPhraseQueryBuilder matchPhraseQueryBuilder2 = new MatchPhraseQueryBuilder("llp_name", name);
         searchSourceBuilder2.query(matchPhraseQueryBuilder2);
         searchRequest2.source(searchSourceBuilder2);
