@@ -110,30 +110,32 @@ public class QccImpl implements Qcc {
         // 校验查询页数是否小于es的max-result-window
         elasticsearchUtils.resetQueryPage(searchSourceBuilder, pageNum * pageSize, pageSize);
 
+        List resultList = new ArrayList();
+        long total = 0;
+
         if (!StringUtils.isEmpty(name)) {
             MatchPhraseQueryBuilder matchPhraseQueryBuilder = new MatchPhraseQueryBuilder("e_name", name);
             searchSourceBuilder.query(matchPhraseQueryBuilder);
-        }
-        searchRequest.source(searchSourceBuilder);
+            searchRequest.source(searchSourceBuilder);
 
-        SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
+            SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
 
-        List resultList = new ArrayList();
-        long total = 0;
-        if (searchResponse != null) {
-            TotalHits totalHits = searchResponse.getHits().getTotalHits();
-            total += totalHits.value;
-            SearchHit[] hits = searchResponse.getHits().getHits();
-            if (!ObjectUtils.isEmpty(hits)) {
-                ObjectMapper objectMapper = new ObjectMapper();
-                for (int i = 0; i < hits.length; i++) {
-                    SearchHit hit = hits[i];
-                    SearchEnterpriseListVO vo = objectMapper.readValue(hit.getSourceAsString(), SearchEnterpriseListVO.class);
-                    vo.setEsId(hit.getId());
-                    vo.setIdx(hit.getIndex());
-                    resultList.add(vo);
+            if (searchResponse != null) {
+                TotalHits totalHits = searchResponse.getHits().getTotalHits();
+                total += totalHits.value;
+                SearchHit[] hits = searchResponse.getHits().getHits();
+                if (!ObjectUtils.isEmpty(hits)) {
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    for (int i = 0; i < hits.length; i++) {
+                        SearchHit hit = hits[i];
+                        SearchEnterpriseListVO vo = objectMapper.readValue(hit.getSourceAsString(), SearchEnterpriseListVO.class);
+                        vo.setEsId(hit.getId());
+                        vo.setIdx(hit.getIndex());
+                        resultList.add(vo);
+                    }
                 }
             }
+
         }
         Map map = new HashMap();
         map.put("list", resultList);
