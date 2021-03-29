@@ -36,9 +36,9 @@ public class EnterpriseManageController {
     private Elasticsearch elasticsearch;
 
     /**
-     * 搜索企业-列表
+     * 搜索企业-列表，此接口的查询不限制必须查name，如果不传入name或者name为""时，改为查所有
      */
-    @ApiOperation(value = "搜索企业-列表")
+    @ApiOperation(value = "搜索企业-列表", tags = "此接口的查询不限制必须查name，如果不传入name或者name为\"\"时，改为查所有")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
             @ApiImplicitParam(name = "name", value = "企业名", required = true),
@@ -82,19 +82,38 @@ public class EnterpriseManageController {
     @PostMapping("addEnterprise")
     public ResultData addEnterprise(@RequestBody String body,
                                     @RequestParam(name = "nation") String nation,
-                                    @RequestParam(name = "e_type") String eType) {
-
+                                    @RequestParam(name = "e_type") String eType) throws Exception{
         return qcc.addEnterprise(body, nation, eType);
     }
 
     /**
      * 企业修改-es/mysql
      */
+    @ApiIgnore
+    @ApiOperation("修改单个企业")
+    @PostMapping("modifyEnterprise")
+    public ResultData modifyEnterprise(@RequestBody String body,
+                                    @RequestParam(name = "nation") String nation,
+                                    @RequestParam(name = "e_type") String eType) {
+//        return qcc.modifyEnterprise(body, nation, eType);
+        return null;
+    }
 
     /**
      * 企业删除-es/mysql-多个
      */
     @ApiIgnore
+    @ApiOperation("企业删除")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+           @ApiImplicitParam(name = "body", value = "参数示例：[\n" +
+                   "    {\n" +
+                   "        \"esId\": \"esId\",\n" +
+                   "        \"pid\": 23,\n" +
+                   "        \"idx\": \"选择特定搜索国别，参数实例：[\"china\",\"india-cin\",\"india-llpin\",\"vietnam\"]\"\n" +
+                   "    }\n" +
+                   "]", paramType = "body", required = true)
+    })
     @PostMapping("delEnterprise")
     public ResultData delEnterprise(@RequestBody String body) {
         return elasticsearch.delEnterprise(body);

@@ -561,7 +561,7 @@ public class SaveJsonImpl implements SaveJson {
             for (RtcEnterpriseDTO temp :
                     contentList) {
                 // 基本信息insert  rtc_enterprise
-                String uuid = getUUID();
+                String uuid = CommonUtils.getUUID();
                 RtcEnterprise rtcEnterprise = new RtcEnterprise();
                 temp.setUuid(uuid);
                 BeanUtil.copyProperties(temp, rtcEnterprise);
@@ -572,7 +572,7 @@ public class SaveJsonImpl implements SaveJson {
 
                 List<String> enterpriseIdList = new ArrayList();
                 for (int i = 0; i < temp.getQccMatch(); i++) {
-                    String enterpriseId = getUUID();
+                    String enterpriseId = CommonUtils.getUUID();
                     enterpriseIdList.add(enterpriseId);
                 }
 
@@ -877,7 +877,7 @@ public class SaveJsonImpl implements SaveJson {
                         QccAnnualReport qarTemp = new QccAnnualReport();
                         Map.Entry<String, LinkedHashMap> next = (Map.Entry<String, LinkedHashMap>) iterator.next();
                         String year = next.getKey();
-                        String annualReportUuid = getUUID();
+                        String annualReportUuid = CommonUtils.getUUID();
                         qarTemp.setUuid(annualReportUuid);
                         qarTemp.setYear(year);
                         LinkedHashMap value = next.getValue();
@@ -1181,38 +1181,50 @@ public class SaveJsonImpl implements SaveJson {
                         List keys = CommonUtils.getKeys((Map) hashMap.get("basic"));
                         if (keys.contains("CIN")) {
                             IndiaCinDTO indiaCinDTO = objectMapper.readValue(hashMapString, IndiaCinDTO.class);
-                            String enterpriseId = getUUID();
-                            IndiaCin basic = indiaCinDTO.getBasic();
-                            List<IndiaCharge> charges = indiaCinDTO.getCharges();
-                            List<IndiaSignatory> signatoryList = indiaCinDTO.getSignatory();
-                            basic.setEnterpriseId(enterpriseId);
-                            indiaCinMapper.insertSelective(basic);
-                            for (IndiaCharge indiaCharge :
+                            String enterpriseId = CommonUtils.getUUID();
+                            IndiaCinBasicDTO basic = indiaCinDTO.getBasic();
+                            List<IndiaChargeDTO> charges = indiaCinDTO.getCharges();
+                            List<IndiaSignatoryDTO> signatoryList = indiaCinDTO.getSignatory();
+                            IndiaCin indiaCin = new IndiaCin();
+                            BeanUtils.copyProperties(basic, indiaCin);
+                            indiaCin.setEnterpriseId(enterpriseId);
+                            indiaCinMapper.insertSelective(indiaCin);
+                            for (IndiaChargeDTO indiaChargeDTO :
                                     charges) {
+                                IndiaCharge indiaCharge = new IndiaCharge();
+                                BeanUtils.copyProperties(indiaChargeDTO, indiaCharge);
                                 indiaCharge.setEnterpriseId(enterpriseId);
                                 indiaChargeMapper.insertSelective(indiaCharge);
                             }
-                            for (IndiaSignatory indiaSignatory :
+                            for (IndiaSignatoryDTO indiaSignatoryDTO :
                                     signatoryList) {
+                                IndiaSignatory indiaSignatory = new IndiaSignatory();
+                                BeanUtils.copyProperties(indiaSignatoryDTO, indiaSignatory);
                                 indiaSignatory.setEnterpriseId(enterpriseId);
                                 indiaSignatoryMapper.insertSelective(indiaSignatory);
                             }
                             cin++;
                         } else if (keys.contains("LLPIN")) {
                             IndiaLlpinDTO indiaLlpinDTO = objectMapper.readValue(hashMapString, IndiaLlpinDTO.class);
-                            String enterpriseId = getUUID();
-                            IndiaLlpin basic = indiaLlpinDTO.getBasic();
-                            List<IndiaCharge> charges = indiaLlpinDTO.getCharges();
-                            List<IndiaSignatory> signatoryList = indiaLlpinDTO.getSignatory();
-                            basic.setEnterpriseId(enterpriseId);
-                            indiaLlpinMapper.insertSelective(basic);
-                            for (IndiaCharge indiaCharge :
+                            String enterpriseId = CommonUtils.getUUID();
+                            IndiaLlpinBasicDTO basic = indiaLlpinDTO.getBasic();
+                            List<IndiaChargeDTO> charges = indiaLlpinDTO.getCharges();
+                            List<IndiaSignatoryDTO> signatoryList = indiaLlpinDTO.getSignatory();
+                            IndiaLlpin indiaLlpin = new IndiaLlpin();
+                            BeanUtils.copyProperties(basic, indiaLlpin);
+                            indiaLlpin.setEnterpriseId(enterpriseId);
+                            indiaLlpinMapper.insertSelective(indiaLlpin);
+                            for (IndiaChargeDTO indiaChargeDTO :
                                     charges) {
+                                IndiaCharge indiaCharge = new IndiaCharge();
+                                BeanUtils.copyProperties(indiaChargeDTO, indiaCharge);
                                 indiaCharge.setEnterpriseId(enterpriseId);
                                 indiaChargeMapper.insertSelective(indiaCharge);
                             }
-                            for (IndiaSignatory indiaSignatory :
+                            for (IndiaSignatoryDTO indiaSignatoryDTO :
                                     signatoryList) {
+                                IndiaSignatory indiaSignatory = new IndiaSignatory();
+                                BeanUtils.copyProperties(indiaSignatoryDTO, indiaSignatory);
                                 indiaSignatory.setEnterpriseId(enterpriseId);
                                 indiaSignatoryMapper.insertSelective(indiaSignatory);
                             }
@@ -1272,7 +1284,7 @@ public class SaveJsonImpl implements SaveJson {
             if (!CollectionUtils.isEmpty(list)) {
                 for (int i = 0; i < list.size(); i++) {
                     VietnamJsonDTO vietnamJsonDTO = list.get(i);
-                    String uuid = getUUID();
+                    String uuid = CommonUtils.getUUID();
                     vietnamJsonDTO.setEnterpriseId(uuid);
                     VietnamEnterprise vietnamEnterprise = new VietnamEnterprise();
                     BeanUtils.copyProperties(vietnamJsonDTO, vietnamEnterprise);
@@ -1332,7 +1344,7 @@ public class SaveJsonImpl implements SaveJson {
             if (!CollectionUtils.isEmpty(list)) {
                 for (int i = 0; i < list.size(); i++) {
                     AmericaAlabamaDTO alabamaDTO = list.get(i);
-                    String uuid = getUUID();
+                    String uuid = CommonUtils.getUUID();
                     AmericaAlabama alabama = new AmericaAlabama();
                     BeanUtils.copyProperties(alabamaDTO, alabama);
                     alabama.setEnterpriseId(uuid);
@@ -1407,7 +1419,7 @@ public class SaveJsonImpl implements SaveJson {
             if (!CollectionUtils.isEmpty(list)) {
                 for (int i = 0; i < list.size(); i++) {
                     AmericaNewhampshireDTO americaNewHampshireDTO = list.get(i);
-                    String uuid = getUUID();
+                    String uuid = CommonUtils.getUUID();
                     AmericaNewhampshire americaNewhampshire = new AmericaNewhampshire();
                     BeanUtils.copyProperties(americaNewHampshireDTO, americaNewhampshire);
                     americaNewhampshire.setEnterpriseId(uuid);
@@ -1523,7 +1535,7 @@ public class SaveJsonImpl implements SaveJson {
             if (!CollectionUtils.isEmpty(list)) {
                 for (int i = 0; i < list.size(); i++) {
                     AmericaNorthcarolinaDTO americaNorthcarolinaDTO = list.get(i);
-                    String uuid = getUUID();
+                    String uuid = CommonUtils.getUUID();
                     americaNorthcarolinaDTO.setEnterpriseId(uuid);
                     AmericaNorthcarolina americaNorthcarolina = new AmericaNorthcarolina();
                     BeanUtils.copyProperties(americaNorthcarolinaDTO, americaNorthcarolina);
@@ -1605,7 +1617,7 @@ public class SaveJsonImpl implements SaveJson {
             if (!CollectionUtils.isEmpty(list)) {
                 for (int i = 0; i < list.size(); i++) {
                     AmericaAlaskaDTO americaAlaskaDTO = list.get(i);
-                    americaAlaskaDTO.setEnterpriseId(getUUID());
+                    americaAlaskaDTO.setEnterpriseId(CommonUtils.getUUID());
                     AmericaAlaska alaska = new AmericaAlaska();
                     BeanUtils.copyProperties(americaAlaskaDTO, alaska);
 
@@ -1710,7 +1722,7 @@ public class SaveJsonImpl implements SaveJson {
                                 if (replace.length() > 1) {
                                     row = "\"" + replace.substring(1, replace.length() - 1) + "\"";
                                 }
-                                sb.append("\"enterprise_id\":\"" + getUUID() + "\",").append(title[j] + ":" + row).append(",");
+                                sb.append("\"enterprise_id\":\"" + CommonUtils.getUUID() + "\",").append(title[j] + ":" + row).append(",");
                             }
                             sb.delete(sb.length() - 1, sb.length());
                             sb.append("}");
@@ -1780,7 +1792,7 @@ public class SaveJsonImpl implements SaveJson {
                             }
                         }
                         sb.delete(sb.length() - 1, sb.length()).append("}");
-                        String enterpriseId = getUUID();
+                        String enterpriseId = CommonUtils.getUUID();
 //                        objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
 //                        objectMapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
                         if ("filing".equals(pojoType) && sb.toString().length() > 150) {
@@ -1870,7 +1882,7 @@ public class SaveJsonImpl implements SaveJson {
                     CanadaDTO canadaDTO = list.get(i);
                     Canada canada = new Canada();
                     BeanUtils.copyProperties(canadaDTO, canada);
-                    String enterpriseId = getUUID();
+                    String enterpriseId = CommonUtils.getUUID();
                     canada.setEnterpriseId(enterpriseId);
                     canadaMapper.insertSelective(canada);
 
@@ -1950,7 +1962,7 @@ public class SaveJsonImpl implements SaveJson {
                 String splitBy = ",(?=([^\"]*\"[^\"]*\")*[^\"]*$)";
                 for (int i = 0; i < list.size(); i++) {
                     AmericaFloridaDTO americaFloridaDTO = list.get(i);
-                    String enterpriseId = getUUID();
+                    String enterpriseId = CommonUtils.getUUID();
                     americaFloridaDTO.setEnterpriseId(enterpriseId);
                     AmericaFlorida americaFlorida = new AmericaFlorida();
                     BeanUtils.copyProperties(americaFloridaDTO, americaFlorida);
@@ -2043,7 +2055,7 @@ public class SaveJsonImpl implements SaveJson {
                     AmericaOhioDTO americaOhioDTO = list.get(i);
                     AmericaOhio americaOhio = new AmericaOhio();
                     BeanUtils.copyProperties(americaOhioDTO, americaOhio);
-                    americaOhio.setEnterpriseId(getUUID());
+                    americaOhio.setEnterpriseId(CommonUtils.getUUID());
                     dataList.add(americaOhio);
 //                    americaOhioMapper.insertSelective(americaOhio);
                 }
@@ -2094,7 +2106,7 @@ public class SaveJsonImpl implements SaveJson {
                 List<AmericaOhio> dataList = new ArrayList();
                 for (int i = 0; i < list.size(); i++) {
                     AmericaOklahomaDTO oklahomaDTO = list.get(i);
-                    String enterpriseId = getUUID();
+                    String enterpriseId = CommonUtils.getUUID();
                     oklahomaDTO.setEnterpriseId(enterpriseId);
                     AmericaOklahomaRegisteredAgent registeredAgent = oklahomaDTO.getRegisteredAgent();
                     registeredAgent.setEnterpriseId(enterpriseId);
@@ -2150,7 +2162,7 @@ public class SaveJsonImpl implements SaveJson {
                 AmericaDelawareDTO americaDelawareDTO = list.get(i);
                 AmericaDelaware americaDelaware = new AmericaDelaware();
                 BeanUtils.copyProperties(americaDelawareDTO, americaDelaware);
-                americaDelaware.setEnterpriseId(getUUID());
+                americaDelaware.setEnterpriseId(CommonUtils.getUUID());
                 americaDelawareMapper.insertSelective(americaDelaware);
 //                americaDelawareList.add(americaDelaware);
             }
@@ -2205,7 +2217,7 @@ public class SaveJsonImpl implements SaveJson {
                 AmericaOregonDTO americaOregonDTO = list.get(i);
                 AmericaOregon americaOregon = new AmericaOregon();
                 BeanUtils.copyProperties(americaOregonDTO, americaOregon);
-                String enterpriseId = getUUID();
+                String enterpriseId = CommonUtils.getUUID();
                 americaOregon.setEnterpriseId(enterpriseId);
                 americaOregonMapper.insertSelective(americaOregon);
 
@@ -2289,7 +2301,7 @@ public class SaveJsonImpl implements SaveJson {
 
             for (int i = 0; i < list.size(); i++) {
                 AmericaPuertoRicoDTO americaPuertoRicoDTO = list.get(i);
-                String enterpriseId = getUUID();
+                String enterpriseId = CommonUtils.getUUID();
                 AmericaPuertoRico americaPuertoRico = new AmericaPuertoRico(enterpriseId, americaPuertoRicoDTO.getDomicile(), americaPuertoRicoDTO.getOfficeAddress(), americaPuertoRicoDTO.getResidentAgent());
                 BeanUtil.copyProperties(americaPuertoRicoDTO, americaPuertoRico, true, CopyOptions.create().setIgnoreNullValue(true).setIgnoreError(true));
                 americaPuertoRicoMapper.insertSelective(americaPuertoRico);
@@ -2383,7 +2395,7 @@ public class SaveJsonImpl implements SaveJson {
             }
 
             for (int i = 0; i < list.size(); i++) {
-                String enterpriseId = getUUID();
+                String enterpriseId = CommonUtils.getUUID();
                 AmericaRhodeislandDTO americaRhodeislandDTO = list.get(i);
                 AmericaRhodeisland americaRhodeisland = new AmericaRhodeisland(enterpriseId, americaRhodeislandDTO.getPrincipleLocation(),
                         americaRhodeislandDTO.getOfficeLocation(), americaRhodeislandDTO.getResidentLocation());
@@ -2453,7 +2465,7 @@ public class SaveJsonImpl implements SaveJson {
             }
 
             for (int i = 0; i < list.size(); i++) {
-                String enterpriseId = getUUID();
+                String enterpriseId = CommonUtils.getUUID();
                 AmericaMinnesotaDTO americaMinnesotaDTO = list.get(i);
                 AmericaMinnesota americaMinnesota = new AmericaMinnesota();
                 BeanUtils.copyProperties(americaMinnesotaDTO, americaMinnesota);
@@ -2519,7 +2531,7 @@ public class SaveJsonImpl implements SaveJson {
             }
 
             for (int i = 0; i < list.size(); i++) {
-                String enterpriseId = getUUID();
+                String enterpriseId = CommonUtils.getUUID();
                 AmericaMississippiDTO americaMississippiDTO = list.get(i);
                 AmericaMississippi americaMississippi = new AmericaMississippi(enterpriseId, americaMississippiDTO.getBusinessInformation());
                 BeanUtil.copyProperties(americaMississippiDTO, americaMississippi, true, CopyOptions.create().setIgnoreNullValue(true).setIgnoreError(true));
@@ -2583,7 +2595,7 @@ public class SaveJsonImpl implements SaveJson {
             }
 
             for (int i = 0; i < list.size(); i++) {
-                String enterpriseId = getUUID();
+                String enterpriseId = CommonUtils.getUUID();
                 AmericaMichiganDTO americaMichiganDTO = list.get(i);
                 AmericaMichigan americaMichigan = new AmericaMichigan(enterpriseId, americaMichiganDTO.getResidentDTO(),
                         americaMichiganDTO.getPrincipleOfficeDTO(), americaMichiganDTO.getRegInfoDTO());
@@ -2642,7 +2654,7 @@ public class SaveJsonImpl implements SaveJson {
             }
 
             for (int i = 0; i < list.size(); i++) {
-                String enterpriseId = getUUID();
+                String enterpriseId = CommonUtils.getUUID();
                 AmericaMassachusettsDTO americaMassachusettsDTO = list.get(i);
                 AmericaMassachusetts americaMassachusetts = new AmericaMassachusetts();
                 BeanUtils.copyProperties(americaMassachusettsDTO, americaMassachusetts);
@@ -2709,7 +2721,7 @@ public class SaveJsonImpl implements SaveJson {
 
             List<France> dataList = new ArrayList();
             for (int i = 0; i < list.size(); i++) {
-                String enterpriseId = getUUID();
+                String enterpriseId = CommonUtils.getUUID();
                 FranceDTO franceDTO = list.get(i);
                 France france = new France();
                 BeanUtils.copyProperties(franceDTO, france);
@@ -2777,7 +2789,7 @@ public class SaveJsonImpl implements SaveJson {
                 Optional.ofNullable(registeredAgent).ifPresent(k -> {
                     BeanUtil.copyProperties(new AmericaColorado(k), colorado, true, CopyOptions.create().setIgnoreNullValue(true).setIgnoreError(true));
                 });
-                colorado.setEnterpriseId(getUUID());
+                colorado.setEnterpriseId(CommonUtils.getUUID());
                 colorado.setUrl(americaColoradoDTO.getUrl());
                 dataList.add(colorado);
                 americaColoradoMapper.insertSelective(colorado);
@@ -2827,7 +2839,7 @@ public class SaveJsonImpl implements SaveJson {
                 AmericaKentuckyDTO americaKentuckyDTO = list.get(i);
                 AmericaKentucky americaKentucky = new AmericaKentucky();
                 BeanUtils.copyProperties(americaKentuckyDTO, americaKentucky);
-                String enterpriseId = getUUID();
+                String enterpriseId = CommonUtils.getUUID();
                 americaKentucky.setEnterpriseId(enterpriseId);
                 americaKentuckyMapper.insertSelective(americaKentucky);
 
@@ -2893,7 +2905,7 @@ public class SaveJsonImpl implements SaveJson {
                 AmericaCaliforniaDTO americaCaliforniaDTO = list.get(i);
                 AmericaCalifornia americaCalifornia = new AmericaCalifornia(americaCaliforniaDTO.getAgentDTO(), americaCaliforniaDTO.getAddressDTO(), americaCaliforniaDTO.getMailDTO());
                 BeanUtil.copyProperties(americaCaliforniaDTO, americaCalifornia, true, CopyOptions.create().setIgnoreNullValue(true).setIgnoreError(true));
-                americaCalifornia.setEnterpriseId(getUUID());
+                americaCalifornia.setEnterpriseId(CommonUtils.getUUID());
 //                dataList.add(americaCalifornia);
                 americaCaliforniaMapper.insertSelective(americaCalifornia);
             }
@@ -2952,7 +2964,7 @@ public class SaveJsonImpl implements SaveJson {
                     americaMaine.setRegisteredagentName(k.getName());
                     americaMaine.setRegisteredagentAddress(k.getAddress());
                 });
-                String enterpriseId = getUUID();
+                String enterpriseId = CommonUtils.getUUID();
                 americaMaine.setEnterpriseId(enterpriseId);
                 americaMaineMapper.insertSelective(americaMaine);
                 Optional.ofNullable(americaMaineDTO.getFilingList()).ifPresent(k -> k.stream().forEach(q -> {
@@ -3005,7 +3017,7 @@ public class SaveJsonImpl implements SaveJson {
             for (int i = 0; i < list.size(); i++) {
                 AmericaIdaho americaIdaho = new AmericaIdaho();
                 BeanUtils.copyProperties(list.get(i), americaIdaho);
-                americaIdaho.setEnterpriseId(getUUID());
+                americaIdaho.setEnterpriseId(CommonUtils.getUUID());
                 dataList.add(americaIdaho);
             }
             americaIdahoMapper.insertList(dataList);
@@ -3048,7 +3060,7 @@ public class SaveJsonImpl implements SaveJson {
                     AmericaConnecticutDTO americaConnecticutDTO = list.get(i);
                     AmericaConnecticut americaConnecticut = new AmericaConnecticut(americaConnecticutDTO.getAgentSummaryDTO());
                     BeanUtil.copyProperties(americaConnecticutDTO, americaConnecticut, true, CopyOptions.create().setIgnoreNullValue(true).setIgnoreError(true));
-                    String enterpriseId = getUUID();
+                    String enterpriseId = CommonUtils.getUUID();
                     americaConnecticut.setEnterpriseId(enterpriseId);
                     americaConnecticutMapper.insertSelective(americaConnecticut);
                     List<AmericaConnecticutPrincipalDetail> principalDetailList = americaConnecticutDTO.getPrincipalDetailList();
@@ -3113,7 +3125,7 @@ public class SaveJsonImpl implements SaveJson {
                     if (!ObjectUtils.isEmpty(chinaEcDTO.getKeyword())) {
                         chinaEc.setKeyword(objectMapper.writeValueAsString(chinaEcDTO.getKeyword()));
                     }
-                    chinaEc.setEnterpriseId(getUUID());
+                    chinaEc.setEnterpriseId(CommonUtils.getUUID());
 
                     chinaEcMapper.insertSelective(chinaEc);
                 }
@@ -3161,7 +3173,7 @@ public class SaveJsonImpl implements SaveJson {
                 for (int i = 0; i < list.size(); i++) {
                     AmericaArkansas americaArkansas = new AmericaArkansas();
                     BeanUtils.copyProperties(list.get(i), americaArkansas);
-                    americaArkansas.setEnterpriseId(getUUID());
+                    americaArkansas.setEnterpriseId(CommonUtils.getUUID());
                     americaArkansasMapper.insertSelective(americaArkansas);
                 }
             } catch (JsonProcessingException e) {
@@ -3177,7 +3189,4 @@ public class SaveJsonImpl implements SaveJson {
         }
     }
 
-    public String getUUID() {
-        return randomUUID().toString().replace("-", "");
-    }
 }

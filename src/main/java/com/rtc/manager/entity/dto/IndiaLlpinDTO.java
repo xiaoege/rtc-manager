@@ -1,5 +1,6 @@
 package com.rtc.manager.entity.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.rtc.manager.entity.india.IndiaCharge;
 import com.rtc.manager.entity.india.IndiaLlpin;
 import com.rtc.manager.entity.india.IndiaSignatory;
@@ -9,34 +10,35 @@ import java.util.List;
 /**
  * @author ChenHang
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class IndiaLlpinDTO {
-    IndiaLlpin basic;
+    IndiaLlpinBasicDTO basic;
 
-    List<IndiaCharge> charges;
+    List<IndiaChargeDTO> charges;
 
-    List<IndiaSignatory> signatory;
+    List<IndiaSignatoryDTO> signatory;
 
-    public IndiaLlpin getBasic() {
+    public IndiaLlpinBasicDTO getBasic() {
         return basic;
     }
 
-    public void setBasic(IndiaLlpin basic) {
+    public void setBasic(IndiaLlpinBasicDTO basic) {
         this.basic = basic;
     }
 
-    public List<IndiaCharge> getCharges() {
+    public List<IndiaChargeDTO> getCharges() {
         return charges;
     }
 
-    public void setCharges(List<IndiaCharge> charges) {
+    public void setCharges(List<IndiaChargeDTO> charges) {
         this.charges = charges;
     }
 
-    public List<IndiaSignatory> getSignatory() {
+    public List<IndiaSignatoryDTO> getSignatory() {
         return signatory;
     }
 
-    public void setSignatory(List<IndiaSignatory> signatory) {
+    public void setSignatory(List<IndiaSignatoryDTO> signatory) {
         this.signatory = signatory;
     }
 }

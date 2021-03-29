@@ -4,11 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.rtc.manager.dao.QccMapper;
-import com.rtc.manager.dao.QccSubDetailMapper;
-import com.rtc.manager.dao.RtcUserCommentMapper;
-import com.rtc.manager.dao.RtcUserMapper;
-import com.rtc.manager.entity.dto.RtcUserDTO;
+import com.rtc.manager.dao.*;
+import com.rtc.manager.entity.dto.*;
+import com.rtc.manager.entity.india.IndiaCharge;
+import com.rtc.manager.entity.india.IndiaCin;
+import com.rtc.manager.entity.india.IndiaLlpin;
+import com.rtc.manager.entity.india.IndiaSignatory;
 import com.rtc.manager.service.*;
 import com.rtc.manager.util.CommonUtils;
 import com.rtc.manager.util.ElasticsearchUtils;
@@ -22,25 +23,30 @@ import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.index.query.*;
+import org.elasticsearch.index.query.MatchPhraseQueryBuilder;
+import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.script.Script;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.ScriptSortBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -52,6 +58,9 @@ public class QccImpl implements Qcc {
     Logger logger = LoggerFactory.getLogger(QccImpl.class);
 
     private final RestHighLevelClient client = ElasticsearchUtils.getClient();
+
+    @Autowired
+    private Elasticsearch elasticsearch;
 
     @Autowired
     private QccMapper qccMapper;
@@ -94,6 +103,18 @@ public class QccImpl implements Qcc {
 
     @Autowired
     private UtilsService utilsService;
+
+    @Autowired
+    private IndiaCinMapper indiaCinMapper;
+
+    @Autowired
+    private IndiaChargeMapper indiaChargeMapper;
+
+    @Autowired
+    private IndiaSignatoryMapper indiaSignatoryMapper;
+
+    @Autowired
+    private IndiaLlpinMapper indiaLlpinMapper;
 
     @Override
     public ResultData listEnterprise(String name, String idx, int pageNum, int pageSize) throws Exception {
@@ -875,21 +896,89 @@ public class QccImpl implements Qcc {
      * @return
      */
     @Override
-    public ResultData addEnterprise(String body, String nation, String eType) {
+    @Transactional(rollbackFor = Exception.class)
+    public ResultData addEnterprise(String body, String nation, String eType) throws Exception {
         List<String> esIndices = utilsService.getRtcRefCountry("area");
         if (esIndices.contains(eType)) {
+            String enterpriseId = CommonUtils.getUUID();
+            String createTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             switch (eType) {
                 case "China":
+                    //                    objectMapper.readValue();
                     break;
                 case "cin":
+                    IndiaCinDTO indiaCinDTO = objectMapper.readValue(body, IndiaCinDTO.class);
+                    IndiaCinBasicDTO basicDTO = indiaCinDTO.getBasic();
+                    if (CommonUtils.checkJsonField(basicDTO)) {
+                        IndiaCin basic = new IndiaCin();
+                        BeanUtils.copyProperties(basicDTO, basic);
+                        basic.setEnterpriseId(enterpriseId);
+                        if (indiaCinMapper.insertSelective(basic) > 0) {
+                            List<IndiaChargeDTO> charges = indiaCinDTO.getCharges();
+                            Optional.ofNullable(charges).ifPresent(k -> k.stream().forEach(j -> {
+                                if (CommonUtils.checkJsonField(j)) {
+                                    IndiaCharge indiaCharge = new IndiaCharge();
+                                    BeanUtils.copyProperties(j, indiaCharge);
+                                    indiaCharge.setEnterpriseId(enterpriseId);
+                                    indiaChargeMapper.insertSelective(indiaCharge);
+                                }
+                            }));
+                            List<IndiaSignatoryDTO> signatory = indiaCinDTO.getSignatory();
+                            Optional.ofNullable(signatory).ifPresent(k -> k.stream().forEach(j -> {
+                                if (CommonUtils.checkJsonField(j)) {
+                                    IndiaSignatory indiaSignatory = new IndiaSignatory();
+                                    BeanUtils.copyProperties(j, indiaSignatory);
+                                    indiaSignatory.setEnterpriseId(enterpriseId);
+                                    indiaSignatoryMapper.insertSelective(indiaSignatory);
+                                }
+                            }));
+                            elasticsearch.addEnterprise("India", "cin", basic.getId(),
+                                    basic.getEnterpriseId(), basic.getCompanyName(), basic.getRegisteredAddress(),
+                                    basic.getDateOfIncorporation(), basic.getCin(), null, createTime, "india-cin");
+                        }
+                    }
                     break;
                 case "llpin":
+                    IndiaLlpinDTO indiaLlpinDTO = objectMapper.readValue(body, IndiaLlpinDTO.class);
+                    IndiaLlpinBasicDTO llpinBasicDTO = indiaLlpinDTO.getBasic();
+                    if (CommonUtils.checkJsonField(llpinBasicDTO)) {
+                        IndiaLlpin basic = new IndiaLlpin();
+                        BeanUtils.copyProperties(llpinBasicDTO, basic);
+                        basic.setEnterpriseId(enterpriseId);
+                        if (indiaLlpinMapper.insertSelective(basic) > 0) {
+                            List<IndiaChargeDTO> charges = indiaLlpinDTO.getCharges();
+                            Optional.ofNullable(charges).ifPresent(k -> k.stream().forEach(j -> {
+                                if (CommonUtils.checkJsonField(j)) {
+                                    IndiaCharge indiaCharge = new IndiaCharge();
+                                    BeanUtils.copyProperties(j, indiaCharge);
+                                    indiaCharge.setEnterpriseId(enterpriseId);
+                                    indiaChargeMapper.insertSelective(indiaCharge);
+                                }
+                            }));
+                            List<IndiaSignatoryDTO> signatory = indiaLlpinDTO.getSignatory();
+                            Optional.ofNullable(signatory).ifPresent(k -> k.stream().forEach(j -> {
+                                if (CommonUtils.checkJsonField(j)) {
+                                    IndiaSignatory indiaSignatory = new IndiaSignatory();
+                                    BeanUtils.copyProperties(j, indiaSignatory);
+                                    indiaSignatory.setEnterpriseId(enterpriseId);
+                                    indiaSignatoryMapper.insertSelective(indiaSignatory);
+                                }
+                            }));
+                            elasticsearch.addEnterprise("India", "cin", basic.getId(),
+                                    basic.getEnterpriseId(), basic.getLlpName(), basic.getRegistratedAddress(),
+                                    basic.getDateOfIncorporation(), basic.getLlpin(), null, createTime, "india-llpin");
+                        }
+                    }
                     break;
                 case "Vietnam":
+                    VietnamJsonDTO vietnamJsonDTO = objectMapper.readValue(body, VietnamJsonDTO.class);
+                    break;
+                case "Canada":
+                    CanadaDTO canadaDTO = objectMapper.readValue(body, CanadaDTO.class);
                     break;
             }
         }
-        return ResultData.FAIL(body, 400, "新增单个企业失败");
+        return ResultData.SUCCESS(null, "新增" + eType + "成功");
     }
 
 

@@ -38,6 +38,10 @@ public class ElasticsearchUtils {
         return client;
     }
 
+    /**
+     * 查看mysql中保存的es的index
+     * @return
+     */
     public String[] getEsIndices() {
         List<String> idx = utilsService.getRtcRefCountry("idx");
         return idx.toArray(new String[idx.size()]);

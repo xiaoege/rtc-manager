@@ -48,7 +48,7 @@ spring:
           writetimeout: 30
   servlet:
     multipart:
-      max-file-size: 5MB
+      max-file-size: 2MB
 
 server:
 #  port: 9998 # json

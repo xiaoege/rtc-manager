@@ -58,6 +58,9 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.rtc.manager.entity.india.IndiaLlpin">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      select LAST_INSERT_ID() AS id
+    </selectKey>
     insert into india_llpin
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

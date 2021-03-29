@@ -65,6 +65,9 @@
       #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.rtc.manager.entity.india.IndiaCin">
+    <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+      SELECT LAST_INSERT_ID() AS id
+    </selectKey>
     insert into india_cin
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

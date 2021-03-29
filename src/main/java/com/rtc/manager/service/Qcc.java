@@ -57,6 +57,6 @@ public interface Qcc {
      * @param eType 地区
      * @return
      */
-    ResultData addEnterprise(String body, String nation, String eType);
+    ResultData addEnterprise(String body, String nation, String eType) throws Exception;
 
 }

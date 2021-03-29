@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rtc.manager.dao.QccMapper;
+import com.rtc.manager.entity.dto.SearchEnterpriseListDTO;
 import com.rtc.manager.service.Elasticsearch;
 import com.rtc.manager.service.UtilsService;
 import com.rtc.manager.util.CommonUtils;
@@ -80,8 +81,8 @@ public class ElasticsearchImpl implements Elasticsearch {
 
     @Override
     public void addTest() throws Exception {
-        IndexRequest request = new IndexRequest("posts");
-        request.id("1");
+        IndexRequest request = new IndexRequest("canada");
+//        request.id("2");
         String jsonString = "{" +
                 "\"user\":\"kimchy\"," +
                 "\"postDate\":\"2013-01-30\"," +
@@ -284,12 +285,12 @@ public class ElasticsearchImpl implements Elasticsearch {
         ObjectMapper objectMapper = new ObjectMapper();
         List successList = new ArrayList<>();
         List failList = new ArrayList<>();
-        List<SearchEnterpriseListVO> list = new ArrayList<>();
+        List<SearchEnterpriseListDTO> list = new ArrayList<>();
         try {
             list = objectMapper.readValue(body, new TypeReference<>() {
             });
             for (int i = 0; i < list.size(); i++) {
-                SearchEnterpriseListVO document = list.get(i);
+                SearchEnterpriseListDTO document = list.get(i);
                 String index = document.getIdx();
                 String esId = document.getEsId();
                 Integer pid = document.getPid();
@@ -324,6 +325,55 @@ public class ElasticsearchImpl implements Elasticsearch {
         map.put("totalNum", list.size());
 
         return ResultData.SUCCESS(map, "企业删除");
+    }
+
+    @Override
+    public int addEnterprise(Object object, String idx) throws Exception {
+        if (object instanceof SearchEnterpriseListDTO && ElasticsearchUtils.indexExists(idx)) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            IndexRequest indexRequest = new IndexRequest(idx);
+            indexRequest.source(objectMapper.writeValueAsString(object), XContentType.JSON);
+            IndexResponse indexResponse = client.index(indexRequest, RequestOptions.DEFAULT);
+            if (indexResponse.status().getStatus() == 201) {
+                return 1;
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * @param nation              国家
+     * @param eType               类型(国家次一级)
+     * @param pid                 mysql-id
+     * @param enterpriseId        内部id
+     * @param name                企业名
+     * @param address             地址
+     * @param establishmentDate   成立日期
+     * @param enterpriseCode      企业编号
+     * @param legalRepresentative 法人代表
+     * @param createTime          创建时间-pattern:yyyy-MM-dd HH:mm:ss
+     * @param idx                 es-index
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public int addEnterprise(String nation, String eType, Integer pid, String enterpriseId,
+                             String name, String address, String establishmentDate,
+                             String enterpriseCode, String legalRepresentative, String createTime, String idx) throws Exception {
+        if (ElasticsearchUtils.indexExists(idx)) {
+            SearchEnterpriseListDTO dto = new SearchEnterpriseListDTO(nation, eType, pid, enterpriseId,
+                    name, address, establishmentDate,
+                    enterpriseCode, legalRepresentative, createTime);
+            ObjectMapper objectMapper = new ObjectMapper();
+            IndexRequest indexRequest = new IndexRequest(idx);
+            indexRequest.source(objectMapper.writeValueAsString(dto), XContentType.JSON);
+            indexRequest.setPipeline("timestamp");
+            IndexResponse indexResponse = client.index(indexRequest, RequestOptions.DEFAULT);
+            if (indexResponse.status().getStatus() == 201) {
+                return 1;
+            }
+        }
+        return 0;
     }
 
 }

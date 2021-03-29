@@ -7,11 +7,13 @@ import com.rtc.manager.util.baidutranslate.TransResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -23,6 +25,8 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static java.util.UUID.randomUUID;
 
 /**
  * @author ChenHang
@@ -490,5 +494,32 @@ public final class CommonUtils {
         System.out.println(s);
     }
 
+    /**
+     * 获得enterpriseId
+     * @return
+     */
+    public static String getUUID() {
+        return randomUUID().toString().replace("-", "");
+    }
 
+    /**
+     * 新增/修改企业时，校验object的field是否全为无效数据(not null & not "")
+     */
+    public static boolean checkJsonField(Object object) {
+        if (object != null) {
+            try {
+                Field[] declaredFields = object.getClass().getDeclaredFields();
+                for (Field declaredField : declaredFields) {
+                    declaredField.setAccessible(true);
+                    if (!StringUtils.isEmpty(declaredField.get(object))) {
+                        return true;
+                    }
+                    declaredField.setAccessible(false);
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
 }
