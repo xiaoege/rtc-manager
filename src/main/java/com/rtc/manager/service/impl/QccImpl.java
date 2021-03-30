@@ -14,8 +14,7 @@ import com.rtc.manager.service.*;
 import com.rtc.manager.util.CommonUtils;
 import com.rtc.manager.util.ElasticsearchUtils;
 import com.rtc.manager.vo.*;
-import com.rtc.manager.vo.india.IndiaCinListVO;
-import com.rtc.manager.vo.india.IndiaLlpinLIstVO;
+import com.rtc.manager.vo.india.*;
 import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.search.MultiSearchRequest;
 import org.elasticsearch.action.search.MultiSearchResponse;
@@ -976,9 +975,126 @@ public class QccImpl implements Qcc {
                 case "Canada":
                     CanadaDTO canadaDTO = objectMapper.readValue(body, CanadaDTO.class);
                     break;
+                case "France":
+                    break;
+
             }
         }
         return ResultData.SUCCESS(null, "新增" + eType + "成功");
+    }
+
+    /**
+     * 企业修改-es/mysql
+     * mysql:修改企业基本信息，删除关联信息，新增关联信息。es:修改企业基本信息
+     *
+     * @param body
+     * @param nation
+     * @param eType
+     * @return
+     * @throws Exception
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ResultData modifyEnterprise(String body, String nation, String eType, String esId, String enterpriseId, String timezone) throws Exception {
+        List<String> esIndices = utilsService.getRtcRefCountry("area");
+        if (esIndices.contains(eType)) {
+            String createTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            switch (eType) {
+                case "China":
+                    //                    objectMapper.readValue();
+                    break;
+                case "cin":
+                    IndiaCinDTO newCin = objectMapper.readValue(body, IndiaCinDTO.class);
+                    IndiaCinEnterpriseVO oldCin = (IndiaCinEnterpriseVO) getEnterprise(enterpriseId, nation, eType, timezone);
+                    IndiaCinVO oldCinBasic = oldCin.getIndiaCin();
+                    IndiaCinBasicDTO newBasicDTO = newCin.getBasic();
+
+                    if (CommonUtils.checkJsonField(newBasicDTO)) {
+                        IndiaCin cinBasic = new IndiaCin();
+                        BeanUtils.copyProperties(newBasicDTO, cinBasic);
+                        cinBasic.setId(oldCinBasic.getId());
+                        indiaCinMapper.updateByPrimaryKeySelective(cinBasic);
+                        for (IndiaChargeVO indiaChargeVO : oldCin.getChargeList()) {
+                            indiaChargeMapper.deleteByPrimaryKey(indiaChargeVO.getId());
+                        }
+                        List<IndiaChargeDTO> charges = newCin.getCharges();
+                        Optional.ofNullable(charges).ifPresent(k -> k.stream().forEach(j -> {
+                            if (CommonUtils.checkJsonField(j)) {
+                                IndiaCharge indiaCharge = new IndiaCharge();
+                                BeanUtils.copyProperties(j, indiaCharge);
+                                indiaCharge.setEnterpriseId(enterpriseId);
+                                indiaChargeMapper.insertSelective(indiaCharge);
+                            }
+                        }));
+                        for (IndiaSignatoryVO indiaSignatoryVO : oldCin.getSignatoryList()) {
+                            indiaSignatoryMapper.deleteByPrimaryKey(indiaSignatoryVO.getId());
+                        }
+                        List<IndiaSignatoryDTO> signatory = newCin.getSignatory();
+                        Optional.ofNullable(signatory).ifPresent(k -> k.stream().forEach(j -> {
+                            if (CommonUtils.checkJsonField(j)) {
+                                IndiaSignatory indiaSignatory = new IndiaSignatory();
+                                BeanUtils.copyProperties(j, indiaSignatory);
+                                indiaSignatory.setEnterpriseId(enterpriseId);
+                                indiaSignatoryMapper.insertSelective(indiaSignatory);
+                            }
+                        }));
+
+                        elasticsearch.modifyEnterprise("India", "cin", oldCinBasic.getId(),
+                                oldCinBasic.getEnterpriseId(), cinBasic.getCompanyName(), cinBasic.getRegisteredAddress(),
+                                cinBasic.getDateOfIncorporation(), cinBasic.getCin(), null, createTime, "india-cin", esId);
+                    }
+                    break;
+                case "llpin":
+                    IndiaLlpinEnterpriseVO oldLlpin = (IndiaLlpinEnterpriseVO) getEnterprise(enterpriseId, nation, eType, timezone);
+                    IndiaLlpinVO oldLlpinBasic = oldLlpin.getIndiaLlpinVO();
+                    IndiaLlpinDTO newLlpin = objectMapper.readValue(body, IndiaLlpinDTO.class);
+                    IndiaLlpinBasicDTO newLlpinBasic = newLlpin.getBasic();
+                    if (CommonUtils.checkJsonField(newLlpinBasic)) {
+                        IndiaLlpin basic = new IndiaLlpin();
+                        BeanUtils.copyProperties(newLlpinBasic, basic);
+                        basic.setId(oldLlpinBasic.getId());
+                        indiaLlpinMapper.updateByPrimaryKeySelective(basic);
+                        for (IndiaChargeVO indiaChargeVO : oldLlpin.getChargeList()) {
+                            indiaChargeMapper.deleteByPrimaryKey(indiaChargeVO.getId());
+                        }
+                        List<IndiaChargeDTO> charges = newLlpin.getCharges();
+                        Optional.ofNullable(charges).ifPresent(k -> k.stream().forEach(j -> {
+                            if (CommonUtils.checkJsonField(j)) {
+                                IndiaCharge indiaCharge = new IndiaCharge();
+                                BeanUtils.copyProperties(j, indiaCharge);
+                                indiaCharge.setEnterpriseId(enterpriseId);
+                                indiaChargeMapper.insertSelective(indiaCharge);
+                            }
+                        }));
+                        for (IndiaSignatoryVO indiaSignatoryVO : oldLlpin.getSignatoryList()) {
+                            indiaSignatoryMapper.deleteByPrimaryKey(indiaSignatoryVO.getId());
+                        }
+                        List<IndiaSignatoryDTO> signatory = newLlpin.getSignatory();
+                        Optional.ofNullable(signatory).ifPresent(k -> k.stream().forEach(j -> {
+                            if (CommonUtils.checkJsonField(j)) {
+                                IndiaSignatory indiaSignatory = new IndiaSignatory();
+                                BeanUtils.copyProperties(j, indiaSignatory);
+                                indiaSignatory.setEnterpriseId(enterpriseId);
+                                indiaSignatoryMapper.insertSelective(indiaSignatory);
+                            }
+                        }));
+                        elasticsearch.modifyEnterprise("India", "llpin", basic.getId(),
+                                basic.getEnterpriseId(), basic.getLlpName(), basic.getRegistratedAddress(),
+                                basic.getDateOfIncorporation(), basic.getLlpin(), null, createTime, "india-llpin", esId);
+                    }
+                    break;
+                case "Vietnam":
+                    VietnamJsonDTO vietnamJsonDTO = objectMapper.readValue(body, VietnamJsonDTO.class);
+                    break;
+                case "Canada":
+                    CanadaDTO canadaDTO = objectMapper.readValue(body, CanadaDTO.class);
+                    break;
+                case "France":
+                    break;
+
+            }
+        }
+        return null;
     }
 
 

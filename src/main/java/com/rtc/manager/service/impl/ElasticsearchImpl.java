@@ -11,7 +11,6 @@ import com.rtc.manager.util.CommonUtils;
 import com.rtc.manager.util.ElasticsearchUtils;
 import com.rtc.manager.vo.QccListVO;
 import com.rtc.manager.vo.ResultData;
-import com.rtc.manager.vo.SearchEnterpriseListVO;
 import org.apache.http.HttpStatus;
 import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.delete.DeleteRequest;
@@ -304,6 +303,7 @@ public class ElasticsearchImpl implements Elasticsearch {
                         voMap.put("esId", esId);
                         voMap.put("pid", pid);
                         if (HttpStatus.SC_OK == status.getStatus()) {
+                            logger.info("es删除成功,id:{}", esId);
                             // mysql逻辑删除
                             qccMapper.deleteEnterprise(utilsService.getTb(index), pid);
                             successList.add(voMap);
@@ -370,10 +370,36 @@ public class ElasticsearchImpl implements Elasticsearch {
             indexRequest.setPipeline("timestamp");
             IndexResponse indexResponse = client.index(indexRequest, RequestOptions.DEFAULT);
             if (indexResponse.status().getStatus() == 201) {
+                logger.info("es新增成功,id:{}", indexResponse.getId());
                 return 1;
             }
         }
         return 0;
     }
+
+    @Override
+    public int modifyEnterprise(String nation, String eType, Integer pid, String enterpriseId,
+                                String name, String address, String establishmentDate,
+                                String enterpriseCode, String legalRepresentative, String createTime, String idx, String esId) throws Exception {
+        if (ElasticsearchUtils.indexExists(idx)) {
+            SearchEnterpriseListDTO dto = new SearchEnterpriseListDTO(nation, eType, pid, enterpriseId,
+                    name, address, establishmentDate,
+                    enterpriseCode, legalRepresentative, createTime);
+            ObjectMapper objectMapper = new ObjectMapper();
+            IndexRequest indexRequest = new IndexRequest(idx);
+            UpdateRequest request = new UpdateRequest(idx, esId);
+            request.doc(objectMapper.writeValueAsString(dto), XContentType.JSON);
+            UpdateResponse updateResponse = client.update(
+                    request, RequestOptions.DEFAULT);
+
+            if ("updated".equals(updateResponse.getResult().getLowercase())) {
+                logger.info("es修改成功,id:{}", esId);
+                return 1;
+            }
+        }
+
+        return 0;
+    }
+
 
 }

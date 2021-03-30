@@ -70,7 +70,7 @@ public class EnterpriseManageController {
 
 
     /**
-     * 新增单个企业-mysql/es
+     * 新增单个企业-es/mysql
      *
      * @param body
      * @param nation 国家
@@ -82,7 +82,7 @@ public class EnterpriseManageController {
     @PostMapping("addEnterprise")
     public ResultData addEnterprise(@RequestBody String body,
                                     @RequestParam(name = "nation") String nation,
-                                    @RequestParam(name = "e_type") String eType) throws Exception{
+                                    @RequestParam(name = "e_type") String eType) throws Exception {
         return qcc.addEnterprise(body, nation, eType);
     }
 
@@ -93,10 +93,10 @@ public class EnterpriseManageController {
     @ApiOperation("修改单个企业")
     @PostMapping("modifyEnterprise")
     public ResultData modifyEnterprise(@RequestBody String body,
-                                    @RequestParam(name = "nation") String nation,
-                                    @RequestParam(name = "e_type") String eType) {
-//        return qcc.modifyEnterprise(body, nation, eType);
-        return null;
+                                       @RequestParam(name = "nation") String nation,
+                                       @RequestParam(name = "e_type") String eType, String esId,
+                                       String enterpriseId, String timezone) throws Exception {
+        return qcc.modifyEnterprise(body, nation, eType, esId, enterpriseId, timezone);
     }
 
     /**
@@ -106,13 +106,13 @@ public class EnterpriseManageController {
     @ApiOperation("企业删除")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
-           @ApiImplicitParam(name = "body", value = "参数示例：[\n" +
-                   "    {\n" +
-                   "        \"esId\": \"esId\",\n" +
-                   "        \"pid\": 23,\n" +
-                   "        \"idx\": \"选择特定搜索国别，参数实例：[\"china\",\"india-cin\",\"india-llpin\",\"vietnam\"]\"\n" +
-                   "    }\n" +
-                   "]", paramType = "body", required = true)
+            @ApiImplicitParam(name = "body", value = "参数示例：[\n" +
+                    "    {\n" +
+                    "        \"esId\": \"esId\",\n" +
+                    "        \"pid\": 23,\n" +
+                    "        \"idx\": \"选择特定搜索国别，参数实例：[\"china\",\"india-cin\",\"india-llpin\",\"vietnam\"]\"\n" +
+                    "    }\n" +
+                    "]", paramType = "body", required = true)
     })
     @PostMapping("delEnterprise")
     public ResultData delEnterprise(@RequestBody String body) {

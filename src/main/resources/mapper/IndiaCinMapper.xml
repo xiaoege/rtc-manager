@@ -221,9 +221,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.india.IndiaCin">
     update india_cin
     <set>
-      <if test="enterpriseId != null">
-        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
-      </if>
       <if test="cin != null">
         cin = #{cin,jdbcType=VARCHAR},
       </if>
@@ -280,12 +277,6 @@
       </if>
       <if test="registeredAddress != null">
         registered_address = #{registeredAddress,jdbcType=VARCHAR},
-      </if>
-      <if test="gmtCreate != null">
-        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="gmtModified != null">
-        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},

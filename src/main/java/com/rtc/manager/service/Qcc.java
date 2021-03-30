@@ -59,4 +59,13 @@ public interface Qcc {
      */
     ResultData addEnterprise(String body, String nation, String eType) throws Exception;
 
+    /**
+     * 企业修改-es/mysql
+     * @param body
+     * @param nation
+     * @param eType
+     * @return
+     * @throws Exception
+     */
+    ResultData modifyEnterprise(String body, String nation, String eType, String esId, String enterpriseId, String timezone) throws Exception;
 }

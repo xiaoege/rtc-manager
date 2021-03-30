@@ -2,6 +2,7 @@ package com.rtc.manager.entity.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,6 +15,12 @@ public class IndiaCinDTO {
     List<IndiaChargeDTO> charges;
 
     List<IndiaSignatoryDTO> signatory;
+
+    public IndiaCinDTO() {
+        this.basic = new IndiaCinBasicDTO();
+        this.charges = new ArrayList<>();
+        this.signatory = new ArrayList<>();
+    }
 
     public IndiaCinBasicDTO getBasic() {
         return basic;

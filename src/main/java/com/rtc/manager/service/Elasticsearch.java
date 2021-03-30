@@ -48,4 +48,8 @@ public interface Elasticsearch {
     int addEnterprise(String nation, String eType, Integer pid, String enterpriseId,
                       String name, String address, String establishmentDate,
                       String enterpriseCode, String legalRepresentative, String createTime, String idx) throws Exception;
+
+    int modifyEnterprise(String nation, String eType, Integer pid, String enterpriseId,
+                         String name, String address, String establishmentDate,
+                         String enterpriseCode, String legalRepresentative, String createTime, String idx, String esId) throws Exception;
 }

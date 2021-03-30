@@ -5,6 +5,7 @@ import com.rtc.manager.entity.india.IndiaCharge;
 import com.rtc.manager.entity.india.IndiaLlpin;
 import com.rtc.manager.entity.india.IndiaSignatory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +18,12 @@ public class IndiaLlpinDTO {
     List<IndiaChargeDTO> charges;
 
     List<IndiaSignatoryDTO> signatory;
+
+    public IndiaLlpinDTO() {
+        this.basic = new IndiaLlpinBasicDTO();
+        this.charges = new ArrayList<>();
+        this.signatory = new ArrayList<>();
+    }
 
     public IndiaLlpinBasicDTO getBasic() {
         return basic;
