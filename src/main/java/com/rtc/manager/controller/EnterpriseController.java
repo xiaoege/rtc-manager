@@ -267,14 +267,14 @@ public class EnterpriseController {
      *
      * @return
      */
-    @ApiOperation("NewlyAdded")
+    @ApiOperation(value = "NewlyAdded", notes = "获得最近在es中新增的企业名，默认10个")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false, defaultValue = "1"),
             @ApiImplicitParam(name = "pageSize", value = "当前页大小", required = false, defaultValue = "10")
     })
     @GetMapping("listNewlyAdded")
-    public ResultData listNewlyAdded(@RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
+    public ResultData<SearchEnterpriseListVO> listNewlyAdded(@RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
                                      @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize) throws Exception{
         // 此处的pageNum在es里从0开始
         if (pageNum < 2) {
