@@ -263,11 +263,11 @@ public class EnterpriseController {
     }
 
     /**
-     * 获得最近在es中新增的企业名，默认10个
+     * 获得最近在es中新增的企业，默认10个
      *
      * @return
      */
-    @ApiOperation(value = "NewlyAdded", notes = "获得最近在es中新增的企业名，默认10个")
+    @ApiOperation(value = "NewlyAdded", notes = "获得最近在es中新增的企业，默认10个")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false, defaultValue = "1"),
