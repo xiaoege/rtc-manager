@@ -111,11 +111,11 @@ public class QccEquityOutPledge {
         this.gmtCreate = gmtCreate;
     }
 
-    public LocalDateTime getgmtModified() {
+    public LocalDateTime getGmtModified() {
         return gmtModified;
     }
 
-    public void setgmtModified(LocalDateTime gmtModified) {
+    public void setGmtModified(LocalDateTime gmtModified) {
         this.gmtModified = gmtModified;
     }
 

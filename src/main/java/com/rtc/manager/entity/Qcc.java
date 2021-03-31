@@ -21,7 +21,8 @@ public class Qcc {
     @JsonAlias("电话")
     private String telephone;
 
-    @JsonProperty("官网")
+//    @JsonProperty("官网")
+    @JsonAlias("官网")
     private String url;
 
     @JsonAlias("邮箱")
@@ -190,11 +191,11 @@ public class Qcc {
         this.gmtCreate = gmtCreate;
     }
 
-    public Date getgmtModified() {
+    public Date getGmtModified() {
         return gmtModified;
     }
 
-    public void setgmtModified(Date gmtModified) {
+    public void setGmtModified(Date gmtModified) {
         this.gmtModified = gmtModified;
     }
 

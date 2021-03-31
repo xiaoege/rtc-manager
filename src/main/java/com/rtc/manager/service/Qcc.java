@@ -68,4 +68,12 @@ public interface Qcc {
      * @throws Exception
      */
     ResultData modifyEnterprise(String body, String nation, String eType, String esId, String enterpriseId, String timezone) throws Exception;
+
+    /**
+     * 获得最近在es中新增的企业名，默认10个
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    ResultData listNewlyAdded(int pageNum, int pageSize) throws Exception;
 }

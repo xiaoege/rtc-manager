@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.rtc.manager.dao.*;
+import com.rtc.manager.entity.QccBusinessInformation;
+import com.rtc.manager.entity.QccShareholder;
 import com.rtc.manager.entity.dto.*;
 import com.rtc.manager.entity.india.IndiaCharge;
 import com.rtc.manager.entity.india.IndiaCin;
@@ -22,12 +24,14 @@ import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.index.query.MatchAllQueryBuilder;
 import org.elasticsearch.index.query.MatchPhraseQueryBuilder;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.script.Script;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.ScriptSortBuilder;
+import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -42,6 +46,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
@@ -114,6 +119,12 @@ public class QccImpl implements Qcc {
 
     @Autowired
     private IndiaLlpinMapper indiaLlpinMapper;
+
+    @Autowired
+    private QccBusinessInformationMapper qccBusinessInformationMapper;
+
+    @Autowired
+    private QccShareholderMapper qccShareholderMapper;
 
     @Override
     public ResultData listEnterprise(String name, String idx, int pageNum, int pageSize) throws Exception {
@@ -888,6 +899,8 @@ public class QccImpl implements Qcc {
 
     /**
      * 新增企业-单个
+     * 新增中国企业-基本信息时，category为null或""：基本信息qcc + 工商信息qcc_business_information + 股东qcc_shareholder
+     * 新增中国企业-五大类时，category为特定栏目
      *
      * @param body
      * @param nation 国家
@@ -903,7 +916,28 @@ public class QccImpl implements Qcc {
             String createTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             switch (eType) {
                 case "China":
-                    //                    objectMapper.readValue();
+                    // 中国企业基本信息：基本信息qcc + 工商信息qcc_business_information + 股东qcc_shareholder
+                    QccDTO qccDTO = objectMapper.readValue(body, QccDTO.class);
+                    if (CommonUtils.checkJsonField(qccDTO)) {
+                        com.rtc.manager.entity.Qcc qcc = new com.rtc.manager.entity.Qcc();
+                        BeanUtils.copyProperties(qccDTO, qcc);
+                        qcc.setEnterpriseId(enterpriseId);
+                        if (qccMapper.insertSelective(qcc) > 0) {
+                            QccBusinessInformation businessInformation = qccDTO.getBusinessInformation();
+                            if (setFieldNull(businessInformation) && CommonUtils.checkJsonField(businessInformation)) {
+                                businessInformation.setEnterpriseId(enterpriseId);
+                                qccBusinessInformationMapper.insertSelective(businessInformation);
+                            }
+                            List<QccShareholder> shareholderList = qccDTO.getShareholderList();
+                            for (QccShareholder shareholder : shareholderList) {
+                                if (setFieldNull(shareholder) && CommonUtils.checkJsonField(shareholder)) {
+                                    shareholder.setEnterpriseId(enterpriseId);
+                                    qccShareholderMapper.insertSelective(shareholder);
+                                }
+                            }
+                            // todo es
+                        }
+                    }
                     break;
                 case "cin":
                     IndiaCinDTO indiaCinDTO = objectMapper.readValue(body, IndiaCinDTO.class);
@@ -983,6 +1017,7 @@ public class QccImpl implements Qcc {
         return ResultData.SUCCESS(null, "新增" + eType + "成功");
     }
 
+
     /**
      * 企业修改-es/mysql
      * mysql:修改企业基本信息，删除关联信息，新增关联信息。es:修改企业基本信息
@@ -1001,7 +1036,27 @@ public class QccImpl implements Qcc {
             String createTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             switch (eType) {
                 case "China":
-                    //                    objectMapper.readValue();
+                    // 中国企业基本信息：基本信息qcc + 工商信息qcc_business_information + 股东qcc_shareholder
+                    QccDTO qccDTO = objectMapper.readValue(body, QccDTO.class);
+                    if (CommonUtils.checkJsonField(qccDTO)) {
+                        com.rtc.manager.entity.Qcc qcc = new com.rtc.manager.entity.Qcc();
+                        BeanUtils.copyProperties(qccDTO, qcc);
+                        QccVO oldQcc = (QccVO) getEnterprise(enterpriseId, nation, eType, timezone);
+                        qcc.setId(oldQcc.getId());
+                        qccMapper.updateByPrimaryKeySelective(qcc);
+                        QccBusinessInformation businessInformation = qccDTO.getBusinessInformation();
+                        if (setFieldNull(businessInformation) && CommonUtils.checkJsonField(businessInformation)) {
+                            businessInformation.setEnterpriseId(enterpriseId);
+                            qccBusinessInformationMapper.insertSelective(businessInformation);
+                        }
+                        List<QccShareholder> shareholderList = qccDTO.getShareholderList();
+                        for (QccShareholder shareholder : shareholderList) {
+                            if (setFieldNull(shareholder) && CommonUtils.checkJsonField(shareholder)) {
+                                shareholder.setEnterpriseId(enterpriseId);
+                                qccShareholderMapper.insertSelective(shareholder);
+                            }
+                        }
+                    }
                     break;
                 case "cin":
                     IndiaCinDTO newCin = objectMapper.readValue(body, IndiaCinDTO.class);
@@ -1097,5 +1152,85 @@ public class QccImpl implements Qcc {
         return null;
     }
 
+    /**
+     * 获得最近在es中新增的企业名，默认10个
+     *
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public ResultData listNewlyAdded(int pageNum, int pageSize) throws Exception {
+        SearchRequest searchRequest = new SearchRequest(elasticsearchUtils.getEsIndices());
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        // 校验查询页数是否小于es的max-result-window
+        elasticsearchUtils.resetQueryPage(searchSourceBuilder, pageNum * pageSize, pageSize);
+        searchSourceBuilder.sort("timestamp", SortOrder.DESC);
+        MatchAllQueryBuilder matchAllQueryBuilder = new MatchAllQueryBuilder();
+        searchSourceBuilder.query(matchAllQueryBuilder);
+        searchRequest.source(searchSourceBuilder);
+        SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
+
+        List resultList = new ArrayList();
+        long total = 0;
+        if (searchResponse != null) {
+            TotalHits totalHits = searchResponse.getHits().getTotalHits();
+            total += totalHits.value;
+            SearchHit[] hits = searchResponse.getHits().getHits();
+            if (!ObjectUtils.isEmpty(hits)) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                for (int i = 0; i < hits.length; i++) {
+                    SearchHit hit = hits[i];
+                    SearchEnterpriseListVO vo = objectMapper.readValue(hit.getSourceAsString(), SearchEnterpriseListVO.class);
+                    vo.setEsId(hit.getId());
+                    vo.setIdx(hit.getIndex());
+                    resultList.add(vo);
+                }
+            }
+
+        }
+        Map map = new HashMap();
+        map.put("list", resultList);
+        map.put("total", total);
+        map.put("pageNum", pageNum + 1);
+        map.put("pageSize", pageSize);
+        return ResultData.SUCCESS(map);
+    }
+
+    /**
+     * 将对象的id,gmtCreate,gmtModified,status设为NULL
+     *
+     * @param obj
+     * @return
+     */
+    private boolean setFieldNull(Object obj) {
+        try {
+            Class clazz = obj.getClass();
+            Method[] declaredMethods = clazz.getDeclaredMethods();
+            Object nullData = null;
+            for (Method declaredMethod : declaredMethods) {
+                String methodName = declaredMethod.getName();
+                switch (methodName) {
+                    case "setId":
+                        declaredMethod.invoke(obj, nullData);
+                        break;
+                    case "setGmtCreate":
+                        declaredMethod.invoke(obj, nullData);
+                        break;
+                    case "setGmtModified":
+                        declaredMethod.invoke(obj, nullData);
+                        break;
+                    case "setStatus":
+                        declaredMethod.invoke(obj, nullData);
+                        break;
+                    default:
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 
 }

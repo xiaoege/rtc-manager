@@ -96,11 +96,11 @@ public class QccRemoveException {
         this.gmtCreate = gmtCreate;
     }
 
-    public Date getgmtModified() {
+    public Date getGmtModified() {
         return gmtModified;
     }
 
-    public void setgmtModified(Date gmtModified) {
+    public void setGmtModified(Date gmtModified) {
         this.gmtModified = gmtModified;
     }
 
