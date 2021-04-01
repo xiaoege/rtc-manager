@@ -408,9 +408,9 @@ public class UserController {
     }
 
     /**
-     * 上传头像,返回头像的URL
+     * 上传头像,保存在临时文件夹
      */
-    @ApiOperation(value = "上传头像,返回头像的URL")
+    @ApiOperation(value = "上传头像,保存在临时文件夹")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
             @ApiImplicitParam(name = "file", value = "后缀名是jpg,jpeg,png,bmp格式的图片,大小在2MB以内", paramType = "form", dataType = "__file", required = true)
@@ -418,9 +418,7 @@ public class UserController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "{\n" +
                     "    \"message\": \"上传头像成功\",\n" +
-                    "    \"data\": {\n" +
-                    "        \"portrait\": \"头像地址\"\n" +
-                    "    },\n" +
+                    "    \"data\": null,\n" +
                     "    \"code\": 200\n" +
                     "}"),
             @ApiResponse(code = 905, message = "头像文件格式错误")

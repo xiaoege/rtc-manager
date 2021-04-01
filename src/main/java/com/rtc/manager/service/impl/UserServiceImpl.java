@@ -1,7 +1,6 @@
 package com.rtc.manager.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -401,50 +400,49 @@ public class UserServiceImpl implements UserService {
             }
         }
 
-        String portraitPath = "";
-        String portraitURI = "";
-        if (portrait != null) {
-            if (!portrait.equals(rtcUserVO.getPortrait())) {
-                // 删除原来头像文件，把临时头像文件夹里的文件放进头像文件夹，然后删除临时文件夹头像
-                String uuid = rtcUserVO.getUuid();
-                portrait = PORTRAIT + "/temp/" + portrait.substring(portrait.indexOf("/temp/") + "/temp/".length());
-                File tempFile = new File(portrait);
-                portraitPath = PORTRAIT + "/" + uuid + "/" + tempFile.getName();
-                portraitURI = PORTRAIT_URI + "/" + uuid + "/" + tempFile.getName();
-                File portraitFile = new File(portraitPath);
-                BufferedInputStream in = null;
-                try {
-                    in = new BufferedInputStream(new FileInputStream(tempFile));
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    return ResultData.FAIL(null, 906, "请重新上传头像");
+        // 删除原来头像文件，把临时头像文件夹里的文件放进头像文件夹，然后删除临时文件夹头像
+        String uuid = rtcUserVO.getUuid();
+        File tempFilePath = new File(PORTRAIT + "/temp/" + uuid);
+        if (tempFilePath.exists() && tempFilePath.listFiles() != null && tempFilePath.listFiles().length > 0) {
+            File tempFile = tempFilePath.listFiles()[0];
+            if (oldPortrait != null && new File(PORTRAIT + "/" + uuid) != null) {
+                File[] oldFiles = new File(PORTRAIT + "/" + uuid).listFiles();
+                for (File oldFile : oldFiles) {
+                    oldFile.delete();
                 }
-                BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(portraitFile));
-                byte[] bytes = new byte[1024 * 2];
-                while (in.read(bytes) > 0) {
-                    out.write(bytes);
-                }
-                out.flush();
-                out.close();
-                in.close();
-                // 删除临时头像
-                tempFile.delete();
-                File tempDir = new File(PORTRAIT + "/temp/" + uuid);
-                tempDir.delete();
-                // 删除原来头像
-                if (oldPortrait != null) {
-                    oldPortrait = PORTRAIT + "/" + oldPortrait.substring(oldPortrait.indexOf("/portrait/") + "/portrait/".length());
-                    File file = new File(oldPortrait);
-                    file.delete();
-                }
+            } else {
+                new File(PORTRAIT + "/" + uuid).mkdirs();
             }
+            String portraitPath = PORTRAIT + "/" + uuid + "/" + tempFile.getName();
+            String portraitURI = PORTRAIT_URI + "/" + uuid + "/" + tempFile.getName();
+            BufferedInputStream in = null;
+            try {
+                in = new BufferedInputStream(new FileInputStream(tempFile));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                return ResultData.FAIL(null, 906, "请重新上传头像");
+            }
+            BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(portraitPath));
+            byte[] bytes = new byte[1024 * 2];
+            while (in.read(bytes) > 0) {
+                out.write(bytes);
+            }
+            out.flush();
+            out.close();
+            in.close();
+            // 删除临时头像
+            for (File localTempFile : tempFilePath.listFiles()) {
+                localTempFile.delete();
+            }
+            tempFilePath.delete();
+
+            rtcUser.setPortrait(portraitURI);
         }
 
         rtcUser.setId(rtcUserVO.getId());
         rtcUser.setPassword(null);
         rtcUser.setPhone(null);
         rtcUser.setCountryCode(null);
-        rtcUser.setPortrait(portraitURI);
         rtcUserMapper.updateByPrimaryKeySelective(rtcUser);
 
         RtcUserVO vo = rtcUserMapper.selectByPhoneOrAccount2RtcUserVO(nickname == null ? oldNickname : nickname);
@@ -755,7 +753,7 @@ public class UserServiceImpl implements UserService {
 
 
     /**
-     * 上传头像,返回头像的URL
+     * 上传头像,保存在临时文件夹
      *
      * @param file
      * @return
@@ -798,10 +796,7 @@ public class UserServiceImpl implements UserService {
         File portraitFile = File.createTempFile(LocalDate.now() + "-", "." + suffString, temp);
         file.transferTo(portraitFile);
 
-        Map map = new HashMap();
-        map.put("portrait", PORTRAIT_URI + "/temp/" + uuid + "/" + portraitFile.getName());
-
-        return ResultData.SUCCESS(map, 200, "上传头像成功");
+        return ResultData.SUCCESS(null, 200, "上传头像成功");
     }
 
     /**

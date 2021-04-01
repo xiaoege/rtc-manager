@@ -106,7 +106,7 @@ public interface UserService {
     ResultData send4ChangePhone(String phone, String countryCode);
 
     /**
-     * 上传头像,返回头像的URL
+     * 上传头像,保存在临时文件夹
      * @param file
      * @return
      */
