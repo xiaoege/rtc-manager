@@ -330,6 +330,8 @@ public class UserController {
     /**
      * 更换手机号-校验原始手机号
      */
+    @ApiIgnore
+    @Deprecated
     @ApiOperation(value = "更换手机号-校验原始手机号")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "phone", value = "{\"phone\":\"手机号\"}", paramType = "body", required = true)
