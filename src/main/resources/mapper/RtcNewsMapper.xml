@@ -168,6 +168,12 @@
         LEFT JOIN rtc_news_config ON rtc_news.uuid = rtc_news_config.news_id
     WHERE
         rtc_news.STATUS = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    <if test="startDate != null and startDate !=''">
+      AND rtc_news.gmt_create >= STR_TO_DATE(#{startDate,jdbcType=TIMESTAMP},'%Y-%m-%d %T')
+    </if>
+    <if test="endDate != null and endDate != ''">
+      AND rtc_news.gmt_create &lt; DATE_ADD(STR_TO_DATE(#{endDate,jdbcType=TIMESTAMP},'%Y-%m-%d %T') ,INTERVAL  1 DAY)
+    </if>
     order by
         rtc_news.gmt_create desc
   </select>

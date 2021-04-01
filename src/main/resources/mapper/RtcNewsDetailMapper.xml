@@ -171,7 +171,7 @@
 
 
 
-  <resultMap id="newsDetail" type="com.rtc.manager.vo.RtcNewsDetatilVO">
+  <resultMap id="newsDetail" type="com.rtc.manager.vo.RtcNewsDetailVO">
     <result column="uuid" property="newsId" jdbcType="VARCHAR"/>
     <result column="author" property="author" jdbcType="VARCHAR"/>
     <result column="title" property="title" jdbcType="VARCHAR"/>

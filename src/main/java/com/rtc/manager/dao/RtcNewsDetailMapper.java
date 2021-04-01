@@ -1,9 +1,7 @@
 package com.rtc.manager.dao;
 
 import com.rtc.manager.entity.RtcNewsDetail;
-import com.rtc.manager.vo.RtcNewsDetatilVO;
-
-import java.util.List;
+import com.rtc.manager.vo.RtcNewsDetailVO;
 
 public interface RtcNewsDetailMapper {
     int deleteByPrimaryKey(Integer id);
@@ -25,5 +23,5 @@ public interface RtcNewsDetailMapper {
      * @param newsId
      * @return
      */
-    RtcNewsDetatilVO getNewsDetail(String newsId);
+    RtcNewsDetailVO getNewsDetail(String newsId);
 }

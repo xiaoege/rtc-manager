@@ -1,7 +1,6 @@
 package com.rtc.manager.dao;
 
 import com.rtc.manager.entity.RtcNews;
-import com.rtc.manager.vo.RtcNewsDetatilVO;
 import com.rtc.manager.vo.RtcNewsVO;
 import org.apache.ibatis.annotations.Param;
 
@@ -26,10 +25,9 @@ public interface RtcNewsMapper {
      * @param endDate
      * @param pageNum
      * @param pageSize
-     * @param sequence
      * @return
      */
     List<RtcNewsVO> listNews(@Param("startDate") String startDate, @Param("endDate") String endDate,
-                             @Param("pageNum") int pageNum, @Param("pageSize") int pageSize,@Param("sequence") Integer sequence);
+                             @Param("pageNum") int pageNum, @Param("pageSize") int pageSize);
 
 }

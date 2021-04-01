@@ -73,8 +73,8 @@ public class EnterpriseManageController {
      * 新增单个企业-es/mysql
      *
      * @param body
-     * @param nation 国家
-     * @param eType  地区
+     * @param nation   国家
+     * @param eType    地区
      * @return
      */
     @ApiIgnore
@@ -87,7 +87,7 @@ public class EnterpriseManageController {
     }
 
     /**
-     * 企业修改-es/mysql
+     * 单个企业修改-es/mysql
      */
     @ApiIgnore
     @ApiOperation("修改单个企业")
@@ -119,5 +119,22 @@ public class EnterpriseManageController {
         return elasticsearch.delEnterprise(body);
     }
 
+    /**
+     * 中国企业-五大类-新增
+     * @param body
+     * @param enterpriseId
+     * @return
+     */
+    @ApiIgnore
+    @ApiOperation("新增单个企业")
+    @PostMapping("addChinaCategory")
+    public ResultData addChinaCategory(@RequestBody String body,
+                                       @RequestParam(name = "enterpriseId") String enterpriseId) {
+        return null;
+//        return qcc.addChinaCategory(body, enterpriseId);
+    }
+
     //todo 用户权限管理
+
+
 }

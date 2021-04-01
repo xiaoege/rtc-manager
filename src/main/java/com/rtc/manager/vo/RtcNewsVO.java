@@ -1,42 +1,49 @@
 package com.rtc.manager.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.time.LocalDateTime;
 
 /**
  * @author ChenHang
  */
+@ApiModel(value = "新闻列表")
 public class RtcNewsVO {
     private String uuid;
-
+    @ApiModelProperty(value = "作者")
     private String author;
-
+    @ApiModelProperty(value = "标题")
     private String title;
-
+    @ApiModelProperty(value = "来源")
     private String source;
-
+    @ApiModelProperty(value = "国家")
     private String country;
-
+    @JsonIgnore
     private Integer sequence;
-
+    @ApiModelProperty(value = "描述")
     private String description;
-
+    @ApiModelProperty(value = "预览图")
     private String preview;
-
+    @ApiModelProperty(value = "预览图的宽(像素)")
     private Integer weight;
-
+    @ApiModelProperty(value = "预览图的高(像素)")
     private Integer height;
 
+    @ApiModelProperty(value = "创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime gmtCreate;
 
+    @ApiModelProperty(value = "修改时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime gmtModified;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "用户所在时区的时间和新闻发布所在时区的时间比较，1小时内显示分钟差，其次显示小时，时间，超过maxDay(当前3天)显示年月日时分秒")
     private String intervalTime;
 
+    @ApiModelProperty(value = "浏览数，非即时更新")
     private Integer views;
 
     public String getUuid() {

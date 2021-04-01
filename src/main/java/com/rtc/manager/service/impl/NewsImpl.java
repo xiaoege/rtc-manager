@@ -6,7 +6,7 @@ import com.rtc.manager.dao.RtcNewsDetailMapper;
 import com.rtc.manager.dao.RtcNewsMapper;
 import com.rtc.manager.service.News;
 import com.rtc.manager.util.CommonUtils;
-import com.rtc.manager.vo.RtcNewsDetatilVO;
+import com.rtc.manager.vo.RtcNewsDetailVO;
 import com.rtc.manager.vo.RtcNewsVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +15,6 @@ import org.springframework.util.ObjectUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,10 +39,21 @@ public class NewsImpl implements News {
     @Value("${rtc.timezone}")
     private List<String> timezone;
 
+    /**
+     * 查询新闻列表
+     *
+     * @param startDate 按创建日期查询新闻-起始日期，参数类型：yyyy-MM-dd 或 yyyy-MM-dd HH:mm:ss
+     * @param endDate   按创建日期查询新闻-结束日期，参数类型：yyyy-MM-dd 或 yyyy-MM-dd HH:mm:ss
+     * @param pageNum   当前页数
+     * @param pageSize  当前页面展示数量
+     * @param timeZone  时区，参数示例：8或者-8, 范围: -18 to 18 的整数
+     * @return
+     */
     @Override
-    public PageInfo<RtcNewsVO> listNews(String startDate, String endDate, int pageNum, int pageSize, Integer sequence, String timeZone) throws Exception {
+    public PageInfo<RtcNewsVO> listNews(String startDate, String endDate, int pageNum, int pageSize, String timeZone) throws Exception {
         PageHelper.startPage(pageNum, pageSize);
-        List<RtcNewsVO> list = rtcNewsMapper.listNews(startDate, endDate, pageNum, pageSize, sequence);
+        List<RtcNewsVO> list = rtcNewsMapper.listNews(startDate, endDate, pageNum, pageSize);
+        PageHelper.clearPage();
         if (!ObjectUtils.isEmpty(list)) {
             for (int i = 0; i < list.size(); i++) {
                 RtcNewsVO rtcNewsVO = list.get(i);
@@ -54,6 +64,7 @@ public class NewsImpl implements News {
                     if (url != null && !url.startsWith(this.url)) {
                         if (url.length() > 12) {
                             // http://192.168.1.125/chinadaily/2020-07/14/1594717677-8073.jpeg
+                            // 12 = /work/images
                             url = this.url + url.substring(12);
                             BufferedImage sourceImg = ImageIO.read(new URL(url).openStream());
                             // 单位：像素
@@ -103,10 +114,17 @@ public class NewsImpl implements News {
         return author;
     }
 
-
+    /**
+     * 查询新闻详情
+     *
+     * @param newsId   新闻id
+     * @param timeZone 时区，参数示例：8或者-8, 范围: -18 to 18 的整数
+     * @return RtcNewsDetatilVO
+     * @throws Exception
+     */
     @Override
-    public RtcNewsDetatilVO getNews(String newsId, String timeZone) throws Exception {
-        RtcNewsDetatilVO newsDetail = rtcNewsDetailMapper.getNewsDetail(newsId);
+    public RtcNewsDetailVO getNews(String newsId, String timeZone) throws Exception {
+        RtcNewsDetailVO newsDetail = rtcNewsDetailMapper.getNewsDetail(newsId);
         if (newsDetail == null) {
             return null;
         }
@@ -133,6 +151,7 @@ public class NewsImpl implements News {
                     if (p.contains("figcaption") || p.contains("<img")) {
                         url = p.substring(p.indexOf("'") + 1, p.indexOf("'", p.indexOf("'") + 1));
                         //                        "http://192.168.1.125/chinadaily/2020-07/14/1594717677-8073.jpeg"
+                        // 12 = /work/images
                         if (null != url && url.length() > 12) {
                             url = this.url + url.substring(12);
                         }
