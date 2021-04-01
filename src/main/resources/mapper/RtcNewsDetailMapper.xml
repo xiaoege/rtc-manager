@@ -176,6 +176,7 @@
     <result column="author" property="author" jdbcType="VARCHAR"/>
     <result column="title" property="title" jdbcType="VARCHAR"/>
     <result column="source" property="source" jdbcType="VARCHAR"/>
+    <result column="source_url" property="sourceUrl" jdbcType="VARCHAR"/>
     <result column="country" property="country" jdbcType="VARCHAR"/>
     <result column="gmt_create" property="gmtCreate" jdbcType="VARCHAR"/>
     <result column="views" property="views" jdbcType="VARCHAR"/>
@@ -189,6 +190,7 @@
         rtc_news.author,
         rtc_news.title,
         rtc_news.source,
+        rtc_news.source_url,
         rtc_news.country,
         rtc_news.gmt_create,
         rtc_news_detail.content,

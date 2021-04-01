@@ -13,6 +13,8 @@ public class RtcNews {
 
     private String source;
 
+    private String sourceUrl;
+
     private String country;
 
     private Integer sequence;
@@ -101,5 +103,13 @@ public class RtcNews {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getSourceUrl() {
+        return sourceUrl;
+    }
+
+    public void setSourceUrl(String sourceUrl) {
+        this.sourceUrl = sourceUrl;
     }
 }

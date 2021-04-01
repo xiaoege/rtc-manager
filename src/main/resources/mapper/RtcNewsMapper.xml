@@ -7,6 +7,7 @@
     <result column="author" jdbcType="VARCHAR" property="author" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="source" jdbcType="VARCHAR" property="source" />
+    <result column="source_url" jdbcType="VARCHAR" property="sourceUrl" />
     <result column="country" jdbcType="VARCHAR" property="country" />
     <result column="sequence" jdbcType="INTEGER" property="sequence" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
@@ -14,7 +15,7 @@
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, uuid, author, title, source, country, sequence, gmt_create, gmt_modified, status
+    id, uuid, author, title, source, source_url, country, sequence, gmt_create, gmt_modified, status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -28,11 +29,11 @@
   </delete>
   <insert id="insert" parameterType="com.rtc.manager.entity.RtcNews">
     insert into rtc_news (id, uuid, author, 
-      title, source, country, 
+      title, source, source_url, country,
       sequence, gmt_create, gmt_modified,
       status)
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, 
-      #{title,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, #{sourceUrl,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR},
       #{sequence,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP},
       #{status,jdbcType=INTEGER})
   </insert>
@@ -53,6 +54,9 @@
       </if>
       <if test="source != null">
         source,
+      </if>
+      <if test="sourceUrl != null">
+        source_url,
       </if>
       <if test="country != null">
         country,
@@ -86,6 +90,9 @@
       <if test="source != null">
         #{source,jdbcType=VARCHAR},
       </if>
+      <if test="sourceUrl != null">
+        #{sourceUrl,jdbcType=VARCHAR},
+      </if>
       <if test="country != null">
         #{country,jdbcType=VARCHAR},
       </if>
@@ -118,6 +125,9 @@
       <if test="source != null">
         source = #{source,jdbcType=VARCHAR},
       </if>
+      <if test="sourceUrl != null">
+        source_url = #{sourceUrl,jdbcType=VARCHAR},
+      </if>
       <if test="country != null">
         country = #{country,jdbcType=VARCHAR},
       </if>
@@ -142,6 +152,7 @@
       author = #{author,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
       source = #{source,jdbcType=VARCHAR},
+      source_url = #{sourceUrl,jdbcType=VARCHAR},
       country = #{country,jdbcType=VARCHAR},
       sequence = #{sequence,jdbcType=INTEGER},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
@@ -156,6 +167,7 @@
         rtc_news.author,
         rtc_news.title,
         rtc_news.source,
+        rtc_news.source_url sourceUrl,
         rtc_news.country,
         rtc_news.description,
         rtc_news.preview,

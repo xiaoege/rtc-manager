@@ -46,6 +46,9 @@ public class RtcNewsVO {
     @ApiModelProperty(value = "浏览数，非即时更新")
     private Integer views;
 
+    @ApiModelProperty(value = "来源url")
+    private String sourceUrl;
+
     public String getUuid() {
         return uuid;
     }
@@ -152,6 +155,14 @@ public class RtcNewsVO {
 
     public Integer getViews() {
         return views;
+    }
+
+    public String getSourceUrl() {
+        return sourceUrl;
+    }
+
+    public void setSourceUrl(String sourceUrl) {
+        this.sourceUrl = sourceUrl;
     }
 
     public void setViews(Integer views) {
