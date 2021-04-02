@@ -243,13 +243,13 @@ public class ElasticsearchImpl implements Elasticsearch {
     }
 
     /**
-     * 每周三下午2点（UTC+8）
+     * 每天下午2点
      * 清除Redis的bulletin,从es中随机选择5000加入到Redis的bulletin中
      *
      * @return
      */
     @Override
-    @Scheduled(cron = "0 0 14 ? * WED")
+    @Scheduled(cron = "0 0 14 ? * *")
     public ResultData initBulletin() {
         if (stringRedisTemplate.hasKey("bulletin")) {
             stringRedisTemplate.delete("bulletin");
