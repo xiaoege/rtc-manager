@@ -204,7 +204,6 @@ public class UserController {
                     "    \"country\": \"国家\",\n" +
                     "    \"enterprise\": \"公司\",\n" +
                     "    \"address\": \"地址\",\n" +
-                    "    \"portrait\": \"头像地址\"\n" +
                     "}", paramType = "body", required = true)
     })
     @ApiResponses({

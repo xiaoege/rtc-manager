@@ -824,6 +824,9 @@ public class QccImpl implements Qcc {
         if (!timezone.contains(timeZone)) {
             timeZone = "0";
         }
+        if (!timeZone.startsWith("-") && !timeZone.startsWith("+")) {
+            timeZone = "+" + timeZone;
+        }
         if (!CollectionUtils.isEmpty(commentList)) {
             for (int i = 0; i < commentList.size(); i++) {
                 RtcUserCommentVO vo = commentList.get(i);
@@ -939,6 +942,9 @@ public class QccImpl implements Qcc {
                                 }
                             }
                             // todo es
+//                            elasticsearch.addEnterprise("India", "cin", basic.getId(),
+//                                    basic.getEnterpriseId(), basic.getCompanyName(), basic.getRegisteredAddress(),
+//                                    basic.getDateOfIncorporation(), basic.getCin(), null, createTime, "india-cin");
                         }
                     }
                     break;
@@ -1059,6 +1065,10 @@ public class QccImpl implements Qcc {
                                 qccShareholderMapper.insertSelective(shareholder);
                             }
                         }
+                        // todo
+//                        elasticsearch.addEnterprise("India", "cin", basic.getId(),
+//                                basic.getEnterpriseId(), basic.getCompanyName(), basic.getRegisteredAddress(),
+//                                basic.getDateOfIncorporation(), basic.getCin(), null, createTime, "india-cin");
                     }
                     break;
                 case "cin":
