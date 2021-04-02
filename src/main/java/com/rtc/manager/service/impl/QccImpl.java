@@ -891,7 +891,10 @@ public class QccImpl implements Qcc {
         SearchHit[] hits = searchResponse.getHits().getHits();
         List<SearchEnterpriseListVO> dataList = new ArrayList<>();
         for (SearchHit hit : hits) {
-            dataList.add(objectMapper.readValue(hit.getSourceAsString(), SearchEnterpriseListVO.class));
+            SearchEnterpriseListVO vo = objectMapper.readValue(hit.getSourceAsString(), SearchEnterpriseListVO.class);
+            vo.setEsId(hit.getId());
+            vo.setIdx(hit.getIndex());
+            dataList.add(vo);
         }
 
         return ResultData.SUCCESS(dataList);

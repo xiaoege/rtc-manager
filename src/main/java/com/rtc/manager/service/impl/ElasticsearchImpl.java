@@ -11,6 +11,7 @@ import com.rtc.manager.util.CommonUtils;
 import com.rtc.manager.util.ElasticsearchUtils;
 import com.rtc.manager.vo.QccListVO;
 import com.rtc.manager.vo.ResultData;
+import com.rtc.manager.vo.SearchEnterpriseListVO;
 import org.apache.http.HttpStatus;
 import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.delete.DeleteRequest;
@@ -50,7 +51,10 @@ import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.*;
 
 /**
@@ -239,13 +243,17 @@ public class ElasticsearchImpl implements Elasticsearch {
     }
 
     /**
-     * 每周三下午2点（UTC+8）从es中随机选择5000加入到Redis的bulletin中，之后随机删除掉bulletin 3/4的数据
+     * 每周三下午2点（UTC+8）
+     * 清除Redis的bulletin,从es中随机选择5000加入到Redis的bulletin中
      *
      * @return
      */
     @Override
     @Scheduled(cron = "0 0 14 ? * WED")
     public ResultData initBulletin() {
+        if (stringRedisTemplate.hasKey("bulletin")) {
+            stringRedisTemplate.delete("bulletin");
+        }
         String[] esIndices = elasticsearchUtils.getEsIndices();
         SearchRequest searchRequest = new SearchRequest(esIndices);
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -256,13 +264,21 @@ public class ElasticsearchImpl implements Elasticsearch {
         ScriptSortBuilder scriptSortBuilder = new ScriptSortBuilder(script, ScriptSortBuilder.ScriptSortType.NUMBER);
         searchSourceBuilder.sort(scriptSortBuilder);
         searchRequest.source(searchSourceBuilder);
+        ObjectMapper objectMapper = new ObjectMapper();
         try {
             SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
             SearchHit[] hits = searchResponse.getHits().getHits();
-            Arrays.stream(hits).forEach(k -> stringRedisTemplate.opsForSet().add("bulletin", k.getSourceAsString()));
-            if (hits.length > 0) {
-                stringRedisTemplate.opsForSet().pop("bulletin", Math.round(hits.length * 0.75));
+            for (SearchHit hit : hits) {
+                SearchEnterpriseListVO vo = objectMapper.readValue(hit.getSourceAsString(), SearchEnterpriseListVO.class);
+                vo.setEsId(hit.getId());
+                vo.setIdx(hit.getIndex());
+                stringRedisTemplate.opsForSet().add("bulletin", objectMapper.writeValueAsString(vo));
             }
+
+            // 随机删除掉bulletin 3/4的数据
+//            if (hits.length > 0) {
+//                stringRedisTemplate.opsForSet().pop("bulletin", Math.round(hits.length * 0.75));
+//            }
             logger.info("bulletin配置成功");
         } catch (IOException e) {
             e.printStackTrace();
