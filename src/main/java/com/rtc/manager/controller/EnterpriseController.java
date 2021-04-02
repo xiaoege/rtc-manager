@@ -103,7 +103,7 @@ public class EnterpriseController {
     }
 
     /**
-     * 查询企业列表-Bulletin，用于app主页企业列表展示
+     * 查询企业列表-Bulletin，用于app主页企业列表展示,返回的数据从redis的bulletin池里获得
      *
      * @return 默认每次返回10个企业
      */

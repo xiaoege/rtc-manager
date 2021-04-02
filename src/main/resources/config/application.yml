@@ -84,7 +84,8 @@ rtc:
     /home/work/portrait
   #  对外暴露位置
   portraitURI:
-    http://192.168.1.123/portrait
+#    http://192.168.1.123/portrait
+    384051d027.eicp.vip/portrait
   # 评论长度限制
   commitLength:
     1000
