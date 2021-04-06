@@ -17,7 +17,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,8 +40,8 @@ public class NewsImpl implements News {
     @Value("${rtc.timezone}")
     private List<String> timezone;
 
-    @Value("${rtc.portraitPath}")
-    private String portraitPath;
+    @Value("${rtc.news-image-path}")
+    private String newsImagePath;
 
     /**
      * 查询新闻列表
@@ -67,7 +66,7 @@ public class NewsImpl implements News {
                     rtcNewsVO.setDescription(rtcNewsVO.getDescription().replaceAll("<[^>]*>", ""));
                     String url = rtcNewsVO.getPreview();
                     if (url != null && !url.startsWith(this.url)) {
-                        if (url.length() > portraitPath.length()) {
+                        if (url.length() > newsImagePath.length()) {
                             // http://192.168.1.123/chinadaily/2020-07/14/1594717677-8073.jpeg
 //                            BufferedImage sourceImg = ImageIO.read(new URL("file://" + url).openStream());
                             BufferedImage sourceImg = ImageIO.read(new FileInputStream(new File(url)));
@@ -76,7 +75,7 @@ public class NewsImpl implements News {
                             int height = sourceImg.getHeight();
                             rtcNewsVO.setWeight(width);
                             rtcNewsVO.setHeight(height);
-                            url = this.url + url.substring(portraitPath.length());
+                            url = this.url + url.substring(newsImagePath.length());
                             rtcNewsVO.setPreview(url);
                         }
                     }
@@ -160,7 +159,7 @@ public class NewsImpl implements News {
                         // 12 = /work/images
                         int width = 0;
                         int height = 0;
-                        if (null != url && url.length() > portraitPath.length()) {
+                        if (null != url && url.length() > newsImagePath.length()) {
 //                            BufferedImage sourceImg = ImageIO.read(new URL("file://" + url).openStream());
                             BufferedImage sourceImg = ImageIO.read(new FileInputStream(new File(url)));
                             // 单位：像素
@@ -169,7 +168,7 @@ public class NewsImpl implements News {
                         }
                         map.put("data", p.replaceAll("<[^>]*>", ""));
                         map.put("type", "img");
-                        url = this.url + url.substring(portraitPath.length());
+                        url = this.url + url.substring(newsImagePath.length());
                         map.put("url", url);
                         map.put("width", width);
                         map.put("height", height);
@@ -197,7 +196,7 @@ public class NewsImpl implements News {
                         map.put("data", p.replaceAll("<[^>]*>", ""));
                         map.put("type", "em");
                         resultList.add(map);
-                    } else {
+                    } else if (!p.contains("<")){
                         map.put("data", p);
                         map.put("type", "content");
                         resultList.add(map);
