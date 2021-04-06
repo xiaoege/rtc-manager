@@ -358,28 +358,28 @@ public class ElasticsearchImpl implements Elasticsearch {
     }
 
     /**
-     * @param nation              国家
-     * @param eType               类型(国家次一级)
-     * @param pid                 mysql-id
-     * @param enterpriseId        内部id
-     * @param name                企业名
-     * @param address             地址
-     * @param establishmentDate   成立日期
-     * @param enterpriseCode      企业编号
-     * @param legalRepresentative 法人代表
-     * @param createTime          创建时间-pattern:yyyy-MM-dd HH:mm:ss
-     * @param idx                 es-index
+     * @param nation            国家
+     * @param eType             类型(国家次一级)
+     * @param pid               mysql-id
+     * @param enterpriseId      内部id
+     * @param name              企业名
+     * @param address           地址
+     * @param establishmentDate 成立日期
+     * @param enterpriseCode    企业编号
+     *                          //     * @param legalRepresentative 法人代表
+     * @param createTime        创建时间-pattern:yyyy-MM-dd HH:mm:ss
+     * @param idx               es-index
      * @return
      * @throws Exception
      */
     @Override
     public int addEnterprise(String nation, String eType, Integer pid, String enterpriseId,
                              String name, String address, String establishmentDate,
-                             String enterpriseCode, String legalRepresentative, String createTime, String idx) throws Exception {
+                             String enterpriseCode, String createTime, String idx) throws Exception {
         if (ElasticsearchUtils.indexExists(idx)) {
             SearchEnterpriseListDTO dto = new SearchEnterpriseListDTO(nation, eType, pid, enterpriseId,
                     name, address, establishmentDate,
-                    enterpriseCode, legalRepresentative, createTime);
+                    enterpriseCode, createTime);
             ObjectMapper objectMapper = new ObjectMapper();
             IndexRequest indexRequest = new IndexRequest(idx);
             indexRequest.source(objectMapper.writeValueAsString(dto), XContentType.JSON);
@@ -396,11 +396,11 @@ public class ElasticsearchImpl implements Elasticsearch {
     @Override
     public int modifyEnterprise(String nation, String eType, Integer pid, String enterpriseId,
                                 String name, String address, String establishmentDate,
-                                String enterpriseCode, String legalRepresentative, String createTime, String idx, String esId) throws Exception {
+                                String enterpriseCode, String createTime, String idx, String esId) throws Exception {
         if (ElasticsearchUtils.indexExists(idx)) {
             SearchEnterpriseListDTO dto = new SearchEnterpriseListDTO(nation, eType, pid, enterpriseId,
                     name, address, establishmentDate,
-                    enterpriseCode, legalRepresentative, createTime);
+                    enterpriseCode, createTime);
             ObjectMapper objectMapper = new ObjectMapper();
             IndexRequest indexRequest = new IndexRequest(idx);
             UpdateRequest request = new UpdateRequest(idx, esId);

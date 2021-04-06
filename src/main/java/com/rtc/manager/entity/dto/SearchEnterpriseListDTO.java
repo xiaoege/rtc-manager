@@ -35,6 +35,8 @@ public class SearchEnterpriseListDTO {
     /**
      * 法人代表
      */
+    @Deprecated
+    @JsonIgnore
     @JsonAlias("legal_representative")
     private String legalRepresentative;
 
@@ -86,18 +88,17 @@ public class SearchEnterpriseListDTO {
      * @param address             地址
      * @param establishmentDate   成立日期
      * @param enterpriseCode      企业编号
-     * @param legalRepresentative 法人代表
+//     * @param legalRepresentative 法人代表
      * @param createTime          创建时间-pattern:yyyy-MM-dd HH:mm:ss
      */
     public SearchEnterpriseListDTO(String nation, String eType, Integer pid, String enterpriseId,
                                    String eName, String address, String establishmentDate,
-                                   String enterpriseCode, String legalRepresentative, String createTime) {
+                                   String enterpriseCode, String createTime) {
         this.eType = eType;
         this.eName = eName;
         this.nation = nation;
         this.pid = pid;
         this.enterpriseId = enterpriseId;
-        this.legalRepresentative = legalRepresentative;
         this.establishmentDate = establishmentDate;
         this.address = address;
         this.createTime = createTime;

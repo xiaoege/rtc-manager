@@ -1,6 +1,7 @@
 package com.rtc.manager.vo;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import io.swagger.annotations.ApiModel;
@@ -40,6 +41,8 @@ public class SearchEnterpriseListVO {
     /**
      * 法人代表
      */
+    @Deprecated
+    @JsonIgnore
     @JsonAlias("legal_representative")
     @ApiModelProperty(value = "法人代表")
     private String legalRepresentative;

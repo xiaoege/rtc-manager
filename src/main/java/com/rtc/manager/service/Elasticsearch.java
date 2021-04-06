@@ -39,7 +39,7 @@ public interface Elasticsearch {
      * @param address             地址
      * @param establishmentDate   成立日期
      * @param enterpriseCode      企业编号
-     * @param legalRepresentative 法人代表
+//     * @param legalRepresentative 法人代表
      * @param createTime          创建时间-pattern:yyyy-MM-dd HH:mm:ss
      * @param idx                 es-index
      * @return
@@ -47,9 +47,9 @@ public interface Elasticsearch {
      */
     int addEnterprise(String nation, String eType, Integer pid, String enterpriseId,
                       String name, String address, String establishmentDate,
-                      String enterpriseCode, String legalRepresentative, String createTime, String idx) throws Exception;
+                      String enterpriseCode, String createTime, String idx) throws Exception;
 
     int modifyEnterprise(String nation, String eType, Integer pid, String enterpriseId,
                          String name, String address, String establishmentDate,
-                         String enterpriseCode, String legalRepresentative, String createTime, String idx, String esId) throws Exception;
+                         String enterpriseCode, String createTime, String idx, String esId) throws Exception;
 }

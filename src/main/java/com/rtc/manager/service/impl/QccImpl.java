@@ -930,9 +930,11 @@ public class QccImpl implements Qcc {
                         qcc.setEnterpriseId(enterpriseId);
                         if (qccMapper.insertSelective(qcc) > 0) {
                             QccBusinessInformation businessInformation = qccDTO.getBusinessInformation();
+                            String establishmentDate = null;
                             if (setFieldNull(businessInformation) && CommonUtils.checkJsonField(businessInformation)) {
                                 businessInformation.setEnterpriseId(enterpriseId);
                                 qccBusinessInformationMapper.insertSelective(businessInformation);
+                                establishmentDate = businessInformation.getEstablishmentDate();
                             }
                             List<QccShareholder> shareholderList = qccDTO.getShareholderList();
                             for (QccShareholder shareholder : shareholderList) {
@@ -942,9 +944,9 @@ public class QccImpl implements Qcc {
                                 }
                             }
                             // todo es
-//                            elasticsearch.addEnterprise("India", "cin", basic.getId(),
-//                                    basic.getEnterpriseId(), basic.getCompanyName(), basic.getRegisteredAddress(),
-//                                    basic.getDateOfIncorporation(), basic.getCin(), null, createTime, "india-cin");
+                            elasticsearch.addEnterprise("China", "China", qcc.getId(),
+                                    qcc.getEnterpriseId(), qcc.getName(), qcc.getAddress(),
+                                    establishmentDate, null, createTime, "india-cin");
                         }
                     }
                     break;
@@ -976,7 +978,7 @@ public class QccImpl implements Qcc {
                             }));
                             elasticsearch.addEnterprise("India", "cin", basic.getId(),
                                     basic.getEnterpriseId(), basic.getCompanyName(), basic.getRegisteredAddress(),
-                                    basic.getDateOfIncorporation(), basic.getCin(), null, createTime, "india-cin");
+                                    basic.getDateOfIncorporation(), basic.getCin(), createTime, "india-cin");
                         }
                     }
                     break;
@@ -1008,7 +1010,7 @@ public class QccImpl implements Qcc {
                             }));
                             elasticsearch.addEnterprise("India", "cin", basic.getId(),
                                     basic.getEnterpriseId(), basic.getLlpName(), basic.getRegistratedAddress(),
-                                    basic.getDateOfIncorporation(), basic.getLlpin(), null, createTime, "india-llpin");
+                                    basic.getDateOfIncorporation(), basic.getLlpin(), createTime, "india-llpin");
                         }
                     }
                     break;
@@ -1109,7 +1111,7 @@ public class QccImpl implements Qcc {
 
                         elasticsearch.modifyEnterprise("India", "cin", oldCinBasic.getId(),
                                 oldCinBasic.getEnterpriseId(), cinBasic.getCompanyName(), cinBasic.getRegisteredAddress(),
-                                cinBasic.getDateOfIncorporation(), cinBasic.getCin(), null, createTime, "india-cin", esId);
+                                cinBasic.getDateOfIncorporation(), cinBasic.getCin(), createTime, "india-cin", esId);
                     }
                     break;
                 case "llpin":
@@ -1148,7 +1150,7 @@ public class QccImpl implements Qcc {
                         }));
                         elasticsearch.modifyEnterprise("India", "llpin", basic.getId(),
                                 basic.getEnterpriseId(), basic.getLlpName(), basic.getRegistratedAddress(),
-                                basic.getDateOfIncorporation(), basic.getLlpin(), null, createTime, "india-llpin", esId);
+                                basic.getDateOfIncorporation(), basic.getLlpin(), createTime, "india-llpin", esId);
                     }
                     break;
                 case "Vietnam":
