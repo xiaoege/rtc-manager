@@ -79,15 +79,16 @@ public class NewsImpl implements News {
                             url = this.url + url.substring(portraitPath.length());
                             rtcNewsVO.setPreview(url);
                         }
-                    } else {
-                        BufferedImage sourceImg = ImageIO.read(new URL(url).openStream());
+                    }
+                    /*else {
+                        BufferedImage sourceImg = ImageIO.read(new FileInputStream(new File(url)));
                         // 单位：像素
                         int width = sourceImg.getWidth();
                         int height = sourceImg.getHeight();
                         rtcNewsVO.setWeight(width);
                         rtcNewsVO.setHeight(height);
                         rtcNewsVO.setPreview(url);
-                    }
+                    }*/
                 }
                 String author = rtcNewsVO.getAuthor();
                 rtcNewsVO.setAuthor(modifyAuthor(author));
@@ -173,7 +174,8 @@ public class NewsImpl implements News {
                         map.put("width", width);
                         map.put("height", height);
                         resultList.add(map);
-                    } else if (p.startsWith(this.url)) {
+                    }
+                    /*else if (p.startsWith(this.url)) {
 //                            File picture = new File(p);
                         //                        BufferedImage sourceImg = ImageIO.read(new FileInputStream(picture));
                         BufferedImage sourceImg = ImageIO.read(new URL(p).openStream());
@@ -186,7 +188,8 @@ public class NewsImpl implements News {
                         map.put("width", width);
                         map.put("height", height);
                         resultList.add(map);
-                    } else if (p.contains("<strong>")) {
+                    } */
+                    else if (p.contains("<strong>")) {
                         map.put("data", p.replaceAll("<[^>]*>", ""));
                         map.put("type", "title");
                         resultList.add(map);
