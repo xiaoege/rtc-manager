@@ -15,6 +15,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -476,6 +477,7 @@ public final class CommonUtils {
 
     /**
      * 打印Map的key
+     *
      * @param map
      */
     public static void printMapKey(Map map) {
@@ -496,6 +498,7 @@ public final class CommonUtils {
 
     /**
      * 获得enterpriseId
+     *
      * @return
      */
     public static String getUUID() {
@@ -513,6 +516,31 @@ public final class CommonUtils {
                     declaredField.setAccessible(true);
                     if (!StringUtils.isEmpty(declaredField.get(object))) {
                         return true;
+                    }
+                    declaredField.setAccessible(false);
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 新增/修改企业时，校验object的field是否全为无效数据(not null & not "")
+     * 只校验field是java.lang.String或java.lang.Integer的情况
+     */
+    public static boolean checkJsonFieldNotSub(Object object) {
+        if (object != null) {
+            try {
+                Field[] declaredFields = object.getClass().getDeclaredFields();
+                for (Field declaredField : declaredFields) {
+                    declaredField.setAccessible(true);
+                    String fieldTypeName = declaredField.getType().getName();
+                    if ("java.lang.String".equals(fieldTypeName) || "java.lang.Integer".equals(fieldTypeName)) {
+                        if (!StringUtils.isEmpty(declaredField.get(object))) {
+                            return true;
+                        }
                     }
                     declaredField.setAccessible(false);
                 }

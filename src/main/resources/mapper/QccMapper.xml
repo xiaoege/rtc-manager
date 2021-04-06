@@ -42,6 +42,9 @@
       #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.rtc.manager.entity.Qcc">
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+        SELECT LAST_INSERT_ID() AS id
+    </selectKey>
     insert into qcc
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

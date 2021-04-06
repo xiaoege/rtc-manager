@@ -924,17 +924,20 @@ public class QccImpl implements Qcc {
                 case "China":
                     // 中国企业基本信息：基本信息qcc + 工商信息qcc_business_information + 股东qcc_shareholder
                     QccDTO qccDTO = objectMapper.readValue(body, QccDTO.class);
-                    if (CommonUtils.checkJsonField(qccDTO)) {
+                    if (CommonUtils.checkJsonFieldNotSub(qccDTO)) {
                         com.rtc.manager.entity.Qcc qcc = new com.rtc.manager.entity.Qcc();
                         BeanUtils.copyProperties(qccDTO, qcc);
                         qcc.setEnterpriseId(enterpriseId);
                         if (qccMapper.insertSelective(qcc) > 0) {
                             QccBusinessInformation businessInformation = qccDTO.getBusinessInformation();
                             String establishmentDate = null;
+                            // 统一社会信用代码
+                            String unifiedSocialCreditCode = null;
                             if (setFieldNull(businessInformation) && CommonUtils.checkJsonField(businessInformation)) {
                                 businessInformation.setEnterpriseId(enterpriseId);
                                 qccBusinessInformationMapper.insertSelective(businessInformation);
                                 establishmentDate = businessInformation.getEstablishmentDate();
+                                unifiedSocialCreditCode = businessInformation.getUnifiedSocialCreditCode();
                             }
                             List<QccShareholder> shareholderList = qccDTO.getShareholderList();
                             for (QccShareholder shareholder : shareholderList) {
@@ -946,7 +949,8 @@ public class QccImpl implements Qcc {
                             // todo es
                             elasticsearch.addEnterprise("China", "China", qcc.getId(),
                                     qcc.getEnterpriseId(), qcc.getName(), qcc.getAddress(),
-                                    establishmentDate, null, createTime, "india-cin");
+                                    establishmentDate, unifiedSocialCreditCode, createTime, "china");
+                            return ResultData.SUCCESS(null, "新增" + eType + "成功");
                         }
                     }
                     break;
@@ -979,6 +983,7 @@ public class QccImpl implements Qcc {
                             elasticsearch.addEnterprise("India", "cin", basic.getId(),
                                     basic.getEnterpriseId(), basic.getCompanyName(), basic.getRegisteredAddress(),
                                     basic.getDateOfIncorporation(), basic.getCin(), createTime, "india-cin");
+                            return ResultData.SUCCESS(null, "新增" + eType + "成功");
                         }
                     }
                     break;
@@ -1011,6 +1016,7 @@ public class QccImpl implements Qcc {
                             elasticsearch.addEnterprise("India", "cin", basic.getId(),
                                     basic.getEnterpriseId(), basic.getLlpName(), basic.getRegistratedAddress(),
                                     basic.getDateOfIncorporation(), basic.getLlpin(), createTime, "india-llpin");
+                            return ResultData.SUCCESS(null, "新增" + eType + "成功");
                         }
                     }
                     break;
@@ -1025,7 +1031,7 @@ public class QccImpl implements Qcc {
 
             }
         }
-        return ResultData.SUCCESS(null, "新增" + eType + "成功");
+        return ResultData.SUCCESS(null, "新增" + eType + "失败");
     }
 
 
@@ -1049,7 +1055,7 @@ public class QccImpl implements Qcc {
                 case "China":
                     // 中国企业基本信息：基本信息qcc + 工商信息qcc_business_information + 股东qcc_shareholder
                     QccDTO qccDTO = objectMapper.readValue(body, QccDTO.class);
-                    if (CommonUtils.checkJsonField(qccDTO)) {
+                    if (CommonUtils.checkJsonFieldNotSub(qccDTO)) {
                         com.rtc.manager.entity.Qcc qcc = new com.rtc.manager.entity.Qcc();
                         BeanUtils.copyProperties(qccDTO, qcc);
                         QccVO oldQcc = (QccVO) getEnterprise(enterpriseId, nation, eType, timezone);
@@ -1071,6 +1077,7 @@ public class QccImpl implements Qcc {
 //                        elasticsearch.addEnterprise("India", "cin", basic.getId(),
 //                                basic.getEnterpriseId(), basic.getCompanyName(), basic.getRegisteredAddress(),
 //                                basic.getDateOfIncorporation(), basic.getCin(), null, createTime, "india-cin");
+                        return ResultData.SUCCESS(null, "esId:" + esId + "修改成功");
                     }
                     break;
                 case "cin":
@@ -1112,6 +1119,7 @@ public class QccImpl implements Qcc {
                         elasticsearch.modifyEnterprise("India", "cin", oldCinBasic.getId(),
                                 oldCinBasic.getEnterpriseId(), cinBasic.getCompanyName(), cinBasic.getRegisteredAddress(),
                                 cinBasic.getDateOfIncorporation(), cinBasic.getCin(), createTime, "india-cin", esId);
+                        return ResultData.SUCCESS(null, "esId:" + esId + "修改成功");
                     }
                     break;
                 case "llpin":
@@ -1151,6 +1159,7 @@ public class QccImpl implements Qcc {
                         elasticsearch.modifyEnterprise("India", "llpin", basic.getId(),
                                 basic.getEnterpriseId(), basic.getLlpName(), basic.getRegistratedAddress(),
                                 basic.getDateOfIncorporation(), basic.getLlpin(), createTime, "india-llpin", esId);
+                        return ResultData.SUCCESS(null, "esId:" + esId + "修改成功");
                     }
                     break;
                 case "Vietnam":
@@ -1164,7 +1173,7 @@ public class QccImpl implements Qcc {
 
             }
         }
-        return null;
+        return ResultData.SUCCESS(null, "esId:" + esId + "修改失败");
     }
 
     /**
