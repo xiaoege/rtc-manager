@@ -946,11 +946,14 @@ public class QccImpl implements Qcc {
                                     qccShareholderMapper.insertSelective(shareholder);
                                 }
                             }
-                            // todo es
-                            elasticsearch.addEnterprise("China", "China", qcc.getId(),
+                            int flag = elasticsearch.addEnterprise("China", "China", qcc.getId(),
                                     qcc.getEnterpriseId(), qcc.getName(), qcc.getAddress(),
                                     establishmentDate, unifiedSocialCreditCode, createTime, "china");
-                            return ResultData.SUCCESS(null, "新增" + eType + "成功");
+                            if (flag > 0) {
+                                return ResultData.SUCCESS(null, "新增" + eType + "成功");
+                            } else {
+                                throw new RuntimeException();
+                            }
                         }
                     }
                     break;
@@ -980,10 +983,14 @@ public class QccImpl implements Qcc {
                                     indiaSignatoryMapper.insertSelective(indiaSignatory);
                                 }
                             }));
-                            elasticsearch.addEnterprise("India", "cin", basic.getId(),
+                            int flag = elasticsearch.addEnterprise("India", "cin", basic.getId(),
                                     basic.getEnterpriseId(), basic.getCompanyName(), basic.getRegisteredAddress(),
                                     basic.getDateOfIncorporation(), basic.getCin(), createTime, "india-cin");
-                            return ResultData.SUCCESS(null, "新增" + eType + "成功");
+                            if (flag > 0) {
+                                return ResultData.SUCCESS(null, "新增" + eType + "成功");
+                            } else {
+                                throw new RuntimeException();
+                            }
                         }
                     }
                     break;
@@ -1013,10 +1020,14 @@ public class QccImpl implements Qcc {
                                     indiaSignatoryMapper.insertSelective(indiaSignatory);
                                 }
                             }));
-                            elasticsearch.addEnterprise("India", "cin", basic.getId(),
+                            int flag = elasticsearch.addEnterprise("India", "cin", basic.getId(),
                                     basic.getEnterpriseId(), basic.getLlpName(), basic.getRegistratedAddress(),
                                     basic.getDateOfIncorporation(), basic.getLlpin(), createTime, "india-llpin");
-                            return ResultData.SUCCESS(null, "新增" + eType + "成功");
+                            if (flag > 0) {
+                                return ResultData.SUCCESS(null, "新增" + eType + "成功");
+                            } else {
+                                throw new RuntimeException();
+                            }
                         }
                     }
                     break;
@@ -1061,6 +1072,11 @@ public class QccImpl implements Qcc {
                         QccVO oldQcc = (QccVO) getEnterprise(enterpriseId, nation, eType, timezone);
                         qcc.setId(oldQcc.getId());
                         qccMapper.updateByPrimaryKeySelective(qcc);
+                        String establishmentDate = null;
+                        // 统一社会信用代码
+                        String unifiedSocialCreditCode = null;
+//                        establishmentDate = businessInformation.getEstablishmentDate();
+//                        unifiedSocialCreditCode = businessInformation.getUnifiedSocialCreditCode();
                         QccBusinessInformation businessInformation = qccDTO.getBusinessInformation();
                         if (setFieldNull(businessInformation) && CommonUtils.checkJsonField(businessInformation)) {
                             businessInformation.setEnterpriseId(enterpriseId);
@@ -1073,11 +1089,14 @@ public class QccImpl implements Qcc {
                                 qccShareholderMapper.insertSelective(shareholder);
                             }
                         }
-                        // todo
-//                        elasticsearch.addEnterprise("India", "cin", basic.getId(),
-//                                basic.getEnterpriseId(), basic.getCompanyName(), basic.getRegisteredAddress(),
-//                                basic.getDateOfIncorporation(), basic.getCin(), null, createTime, "india-cin");
-                        return ResultData.SUCCESS(null, "esId:" + esId + "修改成功");
+                        int flag = elasticsearch.modifyEnterprise("China", "China", qcc.getId(),
+                                qcc.getEnterpriseId(), qcc.getName(), qcc.getAddress(),
+                                establishmentDate, unifiedSocialCreditCode, createTime, "china", esId);
+                        if (flag > 0) {
+                            return ResultData.SUCCESS(null, "esId:" + esId + "修改成功");
+                        } else {
+                            throw new RuntimeException();
+                        }
                     }
                     break;
                 case "cin":
@@ -1116,10 +1135,14 @@ public class QccImpl implements Qcc {
                             }
                         }));
 
-                        elasticsearch.modifyEnterprise("India", "cin", oldCinBasic.getId(),
+                        int flag = elasticsearch.modifyEnterprise("India", "cin", oldCinBasic.getId(),
                                 oldCinBasic.getEnterpriseId(), cinBasic.getCompanyName(), cinBasic.getRegisteredAddress(),
                                 cinBasic.getDateOfIncorporation(), cinBasic.getCin(), createTime, "india-cin", esId);
-                        return ResultData.SUCCESS(null, "esId:" + esId + "修改成功");
+                        if (flag > 0) {
+                            return ResultData.SUCCESS(null, "esId:" + esId + "修改成功");
+                        } else {
+                            throw new RuntimeException();
+                        }
                     }
                     break;
                 case "llpin":
@@ -1156,10 +1179,14 @@ public class QccImpl implements Qcc {
                                 indiaSignatoryMapper.insertSelective(indiaSignatory);
                             }
                         }));
-                        elasticsearch.modifyEnterprise("India", "llpin", basic.getId(),
+                        int flag = elasticsearch.modifyEnterprise("India", "llpin", basic.getId(),
                                 basic.getEnterpriseId(), basic.getLlpName(), basic.getRegistratedAddress(),
                                 basic.getDateOfIncorporation(), basic.getLlpin(), createTime, "india-llpin", esId);
-                        return ResultData.SUCCESS(null, "esId:" + esId + "修改成功");
+                        if (flag > 0) {
+                            return ResultData.SUCCESS(null, "esId:" + esId + "修改成功");
+                        } else {
+                            throw new RuntimeException();
+                        }
                     }
                     break;
                 case "Vietnam":
