@@ -87,7 +87,7 @@ rtc:
   portraitURI:
 #    http://192.168.1.123/portrait
     384051d027.eicp.vip/portrait
-  portraitPath:
+  news-image-path:
     /work/images
 #    /Users/chenhang/work/images
   # 评论长度限制
