@@ -75,7 +75,8 @@ swagger:
   enable: true
 
 rtc:
-  url: http://192.168.1.123
+#  url: http://192.168.1.123
+  url: http://384051d027.eicp.vip
   mail:
     redisEmailLimt: 1000
   portrait:
@@ -86,6 +87,9 @@ rtc:
   portraitURI:
 #    http://192.168.1.123/portrait
     384051d027.eicp.vip/portrait
+  portraitPath:
+    /work/images
+#    /Users/chenhang/work/images
   # 评论长度限制
   commitLength:
     1000
