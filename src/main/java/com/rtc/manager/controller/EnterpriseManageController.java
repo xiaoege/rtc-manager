@@ -6,10 +6,7 @@ import com.rtc.manager.service.Qcc;
 import com.rtc.manager.util.CommonUtils;
 import com.rtc.manager.vo.ResultData;
 import com.rtc.manager.vo.SearchEnterpriseListVO;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,8 +70,8 @@ public class EnterpriseManageController {
      * 新增单个企业-es/mysql
      *
      * @param body
-     * @param nation   国家
-     * @param eType    地区
+     * @param nation 国家
+     * @param eType  地区
      * @return
      */
     @ApiIgnore
@@ -92,6 +89,9 @@ public class EnterpriseManageController {
     @ApiIgnore
     @ApiOperation("修改单个企业")
     @PostMapping("modifyEnterprise")
+    @ApiResponses({
+            @ApiResponse(code = 1101, message = "修改企业时该enterpriseId不存在")
+    })
     public ResultData modifyEnterprise(@RequestBody String body,
                                        @RequestParam(name = "nation") String nation,
                                        @RequestParam(name = "e_type") String eType, String esId,
@@ -121,6 +121,7 @@ public class EnterpriseManageController {
 
     /**
      * 中国企业-五大类-新增
+     *
      * @param body
      * @param enterpriseId
      * @return

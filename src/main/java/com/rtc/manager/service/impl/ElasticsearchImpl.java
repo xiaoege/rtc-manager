@@ -401,6 +401,7 @@ public class ElasticsearchImpl implements Elasticsearch {
             SearchEnterpriseListDTO dto = new SearchEnterpriseListDTO(nation, eType, pid, enterpriseId,
                     name, address, establishmentDate,
                     enterpriseCode, createTime);
+            dto.setDocLastModified(Instant.now().toString());
             ObjectMapper objectMapper = new ObjectMapper();
             IndexRequest indexRequest = new IndexRequest(idx);
             UpdateRequest request = new UpdateRequest(idx, esId);

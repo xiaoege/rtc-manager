@@ -1070,7 +1070,11 @@ public class QccImpl implements Qcc {
                         com.rtc.manager.entity.Qcc qcc = new com.rtc.manager.entity.Qcc();
                         BeanUtils.copyProperties(qccDTO, qcc);
                         QccVO oldQcc = (QccVO) getEnterprise(enterpriseId, nation, eType, timezone);
+                        if (oldQcc == null) {
+                            return ResultData.FAIL(null, 1101);
+                        }
                         qcc.setId(oldQcc.getId());
+                        qcc.setEnterpriseId(oldQcc.getEnterpriseId());
                         qccMapper.updateByPrimaryKeySelective(qcc);
                         String establishmentDate = null;
                         // 统一社会信用代码
@@ -1078,11 +1082,15 @@ public class QccImpl implements Qcc {
 //                        establishmentDate = businessInformation.getEstablishmentDate();
 //                        unifiedSocialCreditCode = businessInformation.getUnifiedSocialCreditCode();
                         QccBusinessInformation businessInformation = qccDTO.getBusinessInformation();
+                        int id = qccBusinessInformationMapper.selectIdByEnterpriseId(enterpriseId);
+                        qccBusinessInformationMapper.deleteByPrimaryKey(id);
                         if (setFieldNull(businessInformation) && CommonUtils.checkJsonField(businessInformation)) {
                             businessInformation.setEnterpriseId(enterpriseId);
                             qccBusinessInformationMapper.insertSelective(businessInformation);
                         }
                         List<QccShareholder> shareholderList = qccDTO.getShareholderList();
+                        List<QccShareholderVO> oldQccShareholderList = oldQcc.getShareholderList();
+                        Optional.ofNullable(oldQccShareholderList).ifPresent(j -> j.forEach(k -> qccShareholderMapper.deleteByPrimaryKey(k.getId())));
                         for (QccShareholder shareholder : shareholderList) {
                             if (setFieldNull(shareholder) && CommonUtils.checkJsonField(shareholder)) {
                                 shareholder.setEnterpriseId(enterpriseId);
@@ -1100,8 +1108,11 @@ public class QccImpl implements Qcc {
                     }
                     break;
                 case "cin":
-                    IndiaCinDTO newCin = objectMapper.readValue(body, IndiaCinDTO.class);
                     IndiaCinEnterpriseVO oldCin = (IndiaCinEnterpriseVO) getEnterprise(enterpriseId, nation, eType, timezone);
+                    if (oldCin == null) {
+                        return ResultData.FAIL(null, 1101);
+                    }
+                    IndiaCinDTO newCin = objectMapper.readValue(body, IndiaCinDTO.class);
                     IndiaCinVO oldCinBasic = oldCin.getIndiaCin();
                     IndiaCinBasicDTO newBasicDTO = newCin.getBasic();
 
@@ -1110,8 +1121,11 @@ public class QccImpl implements Qcc {
                         BeanUtils.copyProperties(newBasicDTO, cinBasic);
                         cinBasic.setId(oldCinBasic.getId());
                         indiaCinMapper.updateByPrimaryKeySelective(cinBasic);
-                        for (IndiaChargeVO indiaChargeVO : oldCin.getChargeList()) {
-                            indiaChargeMapper.deleteByPrimaryKey(indiaChargeVO.getId());
+                        List<IndiaChargeVO> chargeList = oldCin.getChargeList();
+                        if (chargeList != null) {
+                            for (IndiaChargeVO indiaChargeVO : chargeList) {
+                                indiaChargeMapper.deleteByPrimaryKey(indiaChargeVO.getId());
+                            }
                         }
                         List<IndiaChargeDTO> charges = newCin.getCharges();
                         Optional.ofNullable(charges).ifPresent(k -> k.stream().forEach(j -> {
@@ -1122,8 +1136,11 @@ public class QccImpl implements Qcc {
                                 indiaChargeMapper.insertSelective(indiaCharge);
                             }
                         }));
-                        for (IndiaSignatoryVO indiaSignatoryVO : oldCin.getSignatoryList()) {
-                            indiaSignatoryMapper.deleteByPrimaryKey(indiaSignatoryVO.getId());
+                        List<IndiaSignatoryVO> signatoryList = oldCin.getSignatoryList();
+                        if (signatoryList != null) {
+                            for (IndiaSignatoryVO indiaSignatoryVO : signatoryList) {
+                                indiaSignatoryMapper.deleteByPrimaryKey(indiaSignatoryVO.getId());
+                            }
                         }
                         List<IndiaSignatoryDTO> signatory = newCin.getSignatory();
                         Optional.ofNullable(signatory).ifPresent(k -> k.stream().forEach(j -> {
@@ -1147,6 +1164,9 @@ public class QccImpl implements Qcc {
                     break;
                 case "llpin":
                     IndiaLlpinEnterpriseVO oldLlpin = (IndiaLlpinEnterpriseVO) getEnterprise(enterpriseId, nation, eType, timezone);
+                    if (oldLlpin == null) {
+                        return ResultData.FAIL(null, 1101);
+                    }
                     IndiaLlpinVO oldLlpinBasic = oldLlpin.getIndiaLlpinVO();
                     IndiaLlpinDTO newLlpin = objectMapper.readValue(body, IndiaLlpinDTO.class);
                     IndiaLlpinBasicDTO newLlpinBasic = newLlpin.getBasic();
@@ -1155,8 +1175,11 @@ public class QccImpl implements Qcc {
                         BeanUtils.copyProperties(newLlpinBasic, basic);
                         basic.setId(oldLlpinBasic.getId());
                         indiaLlpinMapper.updateByPrimaryKeySelective(basic);
-                        for (IndiaChargeVO indiaChargeVO : oldLlpin.getChargeList()) {
-                            indiaChargeMapper.deleteByPrimaryKey(indiaChargeVO.getId());
+                        List<IndiaChargeVO> chargeList = oldLlpin.getChargeList();
+                        if (chargeList != null) {
+                            for (IndiaChargeVO indiaChargeVO : chargeList) {
+                                indiaChargeMapper.deleteByPrimaryKey(indiaChargeVO.getId());
+                            }
                         }
                         List<IndiaChargeDTO> charges = newLlpin.getCharges();
                         Optional.ofNullable(charges).ifPresent(k -> k.stream().forEach(j -> {
@@ -1167,9 +1190,13 @@ public class QccImpl implements Qcc {
                                 indiaChargeMapper.insertSelective(indiaCharge);
                             }
                         }));
-                        for (IndiaSignatoryVO indiaSignatoryVO : oldLlpin.getSignatoryList()) {
-                            indiaSignatoryMapper.deleteByPrimaryKey(indiaSignatoryVO.getId());
+                        List<IndiaSignatoryVO> signatoryList = oldLlpin.getSignatoryList();
+                        if (signatoryList != null) {
+                            for (IndiaSignatoryVO indiaSignatoryVO : signatoryList) {
+                                indiaSignatoryMapper.deleteByPrimaryKey(indiaSignatoryVO.getId());
+                            }
                         }
+
                         List<IndiaSignatoryDTO> signatory = newLlpin.getSignatory();
                         Optional.ofNullable(signatory).ifPresent(k -> k.stream().forEach(j -> {
                             if (CommonUtils.checkJsonField(j)) {

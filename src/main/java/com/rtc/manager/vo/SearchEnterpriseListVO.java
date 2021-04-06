@@ -74,6 +74,13 @@ public class SearchEnterpriseListVO {
     private String docCreateTime;
 
     /**
+     * 文档修改时间-es
+     */
+    @JsonAlias("last_modified")
+    @ApiModelProperty(value = "该数据修改时间，内部系统查看，非用户查看")
+    private String docLastModified;
+
+    /**
      * 企业编号
      */
     @JsonAlias("enterprise_code")
@@ -156,14 +163,6 @@ public class SearchEnterpriseListVO {
         this.enterpriseId = enterpriseId;
     }
 
-    public String getLegalRepresentative() {
-        return legalRepresentative;
-    }
-
-    public void setLegalRepresentative(String legalRepresentative) {
-        this.legalRepresentative = legalRepresentative;
-    }
-
     public String getEstablishmentDate() {
         return establishmentDate;
     }
@@ -218,5 +217,21 @@ public class SearchEnterpriseListVO {
 
     public void setDocCreateTime(String docCreateTime) {
         this.docCreateTime = docCreateTime;
+    }
+
+    public String getLegalRepresentative() {
+        return legalRepresentative;
+    }
+
+    public void setLegalRepresentative(String legalRepresentative) {
+        this.legalRepresentative = legalRepresentative;
+    }
+
+    public String getDocLastModified() {
+        return docLastModified;
+    }
+
+    public void setDocLastModified(String docLastModified) {
+        this.docLastModified = docLastModified;
     }
 }

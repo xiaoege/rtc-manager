@@ -353,4 +353,10 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectIdByEnterpriseId" resultType="java.lang.Integer">
+    SELECT id FROM qcc_business_information
+    WHERE enterprise_id = #{enterpriseId,jdbcType=VARCHAR}
+          AND status = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+  </select>
 </mapper>

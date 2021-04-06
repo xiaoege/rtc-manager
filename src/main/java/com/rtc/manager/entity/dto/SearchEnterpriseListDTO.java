@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * @author ChenHang
@@ -63,6 +64,13 @@ public class SearchEnterpriseListDTO {
     @JsonIgnore
     @JsonAlias("timestamp")
     private String docCreateTime;
+
+    /**
+     * 文档修改时间-es
+     */
+    @JsonAlias("last_modified")
+    @ApiModelProperty(value = "该数据修改时间，内部系统查看，非用户查看")
+    private String docLastModified;
 
     /**
      * 企业编号
@@ -154,14 +162,6 @@ public class SearchEnterpriseListDTO {
         this.enterpriseId = enterpriseId;
     }
 
-    public String getLegalRepresentative() {
-        return legalRepresentative;
-    }
-    @JsonSetter("legal_representative")
-    public void setLegalRepresentative(String legalRepresentative) {
-        this.legalRepresentative = legalRepresentative;
-    }
-
     public String getEstablishmentDate() {
         return establishmentDate;
     }
@@ -208,5 +208,21 @@ public class SearchEnterpriseListDTO {
 
     public void setIdx(String idx) {
         this.idx = idx;
+    }
+
+    public String getLegalRepresentative() {
+        return legalRepresentative;
+    }
+
+    public void setLegalRepresentative(String legalRepresentative) {
+        this.legalRepresentative = legalRepresentative;
+    }
+
+    public String getDocLastModified() {
+        return docLastModified;
+    }
+    @JsonSetter("last_modified")
+    public void setDocLastModified(String docLastModified) {
+        this.docLastModified = docLastModified;
     }
 }

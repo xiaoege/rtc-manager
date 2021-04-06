@@ -14,4 +14,6 @@ public interface QccBusinessInformationMapper {
     int updateByPrimaryKeySelective(QccBusinessInformation record);
 
     int updateByPrimaryKey(QccBusinessInformation record);
+
+    int selectIdByEnterpriseId(String enterpriseId);
 }
