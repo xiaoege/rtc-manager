@@ -175,6 +175,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/check4ForgetEmailPassword").permitAll()
                 // 忘记密码-邮箱-修改密码
                 .antMatchers("/user/forgetEmailPassword").permitAll()
+                // google
+                .antMatchers("/google/*").permitAll()
                 // druid
                 .antMatchers("/druid/**").permitAll()
                 .anyRequest().authenticated()
