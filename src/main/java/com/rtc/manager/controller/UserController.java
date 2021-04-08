@@ -361,7 +361,7 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
             @ApiImplicitParam(name = "user", value = "{\n" +
-                    "    \"phone\":\"手机号\",\n" +
+                    "    \"phone\":\"新手机号\",\n" +
                     "    \"countryCode\":\"手机号国家代码\"" +
                     "\n}", paramType = "body", required = true)
     })
@@ -374,7 +374,7 @@ public class UserController {
             @ApiResponse(code = 702, message = "验证码发送次数过多，请15分钟稍后再试"),
             @ApiResponse(code = 703, message = "验证码发送失败"),
             @ApiResponse(code = 801, message = "该手机号已注册"),
-            @ApiResponse(code = 805, message = "新手机号不能和原来一样")
+            @ApiResponse(code = 807, message = "新手机号不能和原来一样")
     })
     @PostMapping("send4ChangePhone")
     public ResultData send4ChangePhone(@RequestBody HashMap<String, String> user) {
@@ -392,7 +392,7 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
             @ApiImplicitParam(name = "user", value = "{\n" +
-                    "    \"phone\": \"手机号\",\n" +
+                    "    \"phone\": \"新手机号\",\n" +
                     "    \"countryCode\": \"手机号国家代码\",\n" +
                     "    \"verificationCode\": \"验证码\"\n" +
                     "}", paramType = "body", required = true)
@@ -401,7 +401,7 @@ public class UserController {
             @ApiResponse(code = 707, message = "验证码错误"),
             @ApiResponse(code = 801, message = "手机号已注册"),
             @ApiResponse(code = 804, message = "该手机号尚未发送验证码"),
-            @ApiResponse(code = 805, message = "新手机号不能和原来一样")
+            @ApiResponse(code = 807, message = "新手机号不能和原来一样")
     })
     @PostMapping("changePhone")
     public ResultData changePhone(@RequestBody String user) {

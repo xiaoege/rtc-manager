@@ -116,6 +116,7 @@ public class UserServiceImpl implements UserService {
     private static final String PHONE_CODE_803 = "国家代码与手机号不符";
     private static final String PHONE_CODE_804 = "该手机号尚未发送验证码";
     private static final String PHONE_CODE_805 = "该手机号尚未注册";
+    private static final String PHONE_CODE_807 = "新手机号不能和原来一样";
 
 
     @Value("${rtc.mail.redisEmailLimt}")
@@ -690,7 +691,7 @@ public class UserServiceImpl implements UserService {
             return ResultData.FAIL(user, 400, "数据有误");
         }
         if (oldPhone != null && oldPhone.equals(newPhone)) {
-            return ResultData.FAIL(user, 805, PHONE_CODE_805);
+            return ResultData.FAIL(user, 807, PHONE_CODE_807);
         }
 
         if (rtcUserMapper.checkPhoneRegistered(newPhone) != null) {
@@ -719,7 +720,7 @@ public class UserServiceImpl implements UserService {
     /**
      * 更换手机号-通过手机号发送验证码
      *
-     * @param phone
+     * @param phone 要更换的新手机号
      * @param countryCode
      * @return
      */
@@ -733,7 +734,7 @@ public class UserServiceImpl implements UserService {
         RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(userDetails.getUsername());
         String oldPhone = rtcUserDTO.getPhone();
         if (phone.equals(oldPhone)) {
-            return ResultData.FAIL(null, 805, PHONE_CODE_805);
+            return ResultData.FAIL(null, 807, PHONE_CODE_807);
         }
         // 该手机号已注册
         if (rtcUserMapper.checkPhoneRegistered(phone) != null) {
