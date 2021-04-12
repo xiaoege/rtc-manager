@@ -23,6 +23,7 @@ public class RtcUserDTO {
     private String country;
     private String enterprise;
     private String uuid;
+    private String portrait;
 
     public Integer getId() {
         return id;
@@ -118,5 +119,13 @@ public class RtcUserDTO {
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+
+    public String getPortrait() {
+        return portrait;
+    }
+
+    public void setPortrait(String portrait) {
+        this.portrait = portrait;
     }
 }

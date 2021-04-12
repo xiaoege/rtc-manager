@@ -18,10 +18,11 @@
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="portrait" jdbcType="VARCHAR" property="portrait" />
   </resultMap>
   <sql id="Base_Column_List">
     id, nickname, password, phone, country_code, email, salt, role_id, synopsis, country, 
-    enterprise, address, gmt_create, gmt_modified, status
+    enterprise, address, gmt_create, gmt_modified, status, portrait
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -38,13 +39,14 @@
       phone, country_code, email, 
       salt, role_id, synopsis, 
       country, enterprise, address, 
-      gmt_create, gmt_modified, status
+      gmt_create, gmt_modified, status, portrait
       )
     values (#{id,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{countryCode,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{salt,jdbcType=VARCHAR}, #{roleId,jdbcType=INTEGER}, #{synopsis,jdbcType=VARCHAR}, 
       #{country,jdbcType=VARCHAR}, #{enterprise,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER},
+            #{portrait,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.rtc.manager.entity.RtcUser">
@@ -98,6 +100,9 @@
       <if test="status != null">
         status,
       </if>
+      <if test="portrait != null">
+            portrait,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -147,6 +152,9 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
+      </if>
+      <if test="portrait != null">
+        #{portrait,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -216,7 +224,8 @@
       address = #{address,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER}
+      status = #{status,jdbcType=INTEGER},
+    portrait =  #{portrait,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
@@ -236,7 +245,8 @@
             rtc_user.uuid,
             rtc_user.phone,
             rtc_user.country_code countryCode,
-            rtc_user.email
+            rtc_user.email,
+            rtc_user.portrait
         FROM
             rtc_user
             LEFT JOIN rtc_user_role ON rtc_user.role_id = rtc_user_role.id
@@ -251,7 +261,8 @@
             rtc_user.uuid,
             rtc_user.phone,
             rtc_user.country_code countryCode,
-            rtc_user.email
+            rtc_user.email,
+            rtc_user.portrait
         FROM
             rtc_user
             LEFT JOIN rtc_user_role ON rtc_user.role_id = rtc_user_role.id
@@ -266,7 +277,8 @@
             rtc_user.uuid,
             rtc_user.phone,
             rtc_user.country_code countryCode,
-            rtc_user.email
+            rtc_user.email,
+            rtc_user.portrait
         FROM
             rtc_user
             LEFT JOIN rtc_user_role ON rtc_user.role_id = rtc_user_role.id
@@ -281,7 +293,8 @@
             rtc_user.uuid,
             rtc_user.phone,
             rtc_user.country_code countryCode,
-            rtc_user.email
+            rtc_user.email,
+            rtc_user.portrait
         FROM
             rtc_user
                 LEFT JOIN rtc_user_role ON rtc_user.role_id = rtc_user_role.id
