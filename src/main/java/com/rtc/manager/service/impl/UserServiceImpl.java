@@ -126,7 +126,7 @@ public class UserServiceImpl implements UserService {
     private String PORTRAIT_URI;
 
     @Value("${rtc.comment-stars}")
-    private List<String> commentStars;
+    private List<BigDecimal> commentStars;
 
     @Autowired
     private ElasticsearchUtils elasticsearchUtils;
@@ -964,7 +964,7 @@ public class UserServiceImpl implements UserService {
         try {
             commentDTO = objectMapper.readValue(body, UserCommentDTO.class);
             comment = commentDTO.getComment();
-            String stars = commentDTO.getStars();
+            BigDecimal stars = commentDTO.getStars();
             if (!commentStars.contains(stars)) {
                 return ResultData.FAIL(null, 400, "数据有误");
             }
