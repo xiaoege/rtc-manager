@@ -636,7 +636,7 @@ public class UserController {
                     "    \"nation\":\"国家\",\n" +
                     "    \"e_type\":\"地区\"\n" +
                     "    \"stars\":\"评星\"\n" +
-                    "} , stars数据类型:string, 参数取值:[0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5]", paramType = "body", required = true)
+                    "} , stars数据类型:string, 参数取值:[0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0]", paramType = "body", required = true)
     })
     @ApiResponses({
             @ApiResponse(code = 200, message = "{\n" +

@@ -9,7 +9,7 @@
     <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
     <result column="nation" jdbcType="VARCHAR" property="nation" />
     <result column="e_type" jdbcType="VARCHAR" property="eType" />
-    <result column="stars" jdbcType="VARCHAR" property="stars" />
+    <result column="stars" jdbcType="DECIMAL" property="stars" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="status" jdbcType="INTEGER" property="status" />
@@ -37,7 +37,7 @@
       status)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{comment,jdbcType=VARCHAR}, 
       #{examination,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{nation,jdbcType=VARCHAR}, 
-      #{eType,jdbcType=VARCHAR}, #{stars,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP},
+      #{eType,jdbcType=VARCHAR}, #{stars,jdbcType=DECIMAL}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP},
       #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.rtc.manager.entity.RtcUserComment">
@@ -100,7 +100,7 @@
         #{eType,jdbcType=VARCHAR},
       </if>
       <if test="stars != null">
-        #{stars,jdbcType=VARCHAR},
+        #{stars,jdbcType=DECIMAL},
       </if>
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
@@ -135,7 +135,7 @@
         e_type = #{eType,jdbcType=VARCHAR},
       </if>
       <if test="stars != null">
-        stars = #{stars,jdbcType=VARCHAR},
+        stars = #{stars,jdbcType=DECIMAL},
       </if>
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
@@ -157,7 +157,7 @@
       enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
       nation = #{nation,jdbcType=VARCHAR},
       e_type = #{eType,jdbcType=VARCHAR},
-      stars = #{stars,jdbcType=VARCHAR},
+      stars = #{stars,jdbcType=DECIMAL},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER}

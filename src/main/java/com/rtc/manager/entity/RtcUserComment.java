@@ -1,5 +1,6 @@
 package com.rtc.manager.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class RtcUserComment {
@@ -23,7 +24,7 @@ public class RtcUserComment {
 
     private Integer status;
 
-    private String stars;
+    private BigDecimal stars;
 
     public Integer getId() {
         return id;
@@ -105,11 +106,11 @@ public class RtcUserComment {
         this.status = status;
     }
 
-    public String getStars() {
+    public BigDecimal getStars() {
         return stars;
     }
 
-    public void setStars(String stars) {
+    public void setStars(BigDecimal stars) {
         this.stars = stars;
     }
 }

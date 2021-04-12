@@ -19,7 +19,7 @@ public class UserCommentDTO {
     @JsonAlias("e_type")
     private String eType;
 
-    private String stars;
+    private BigDecimal stars;
 
     public String getComment() {
         return comment;
@@ -53,11 +53,11 @@ public class UserCommentDTO {
         this.eType = eType;
     }
 
-    public String getStars() {
+    public BigDecimal getStars() {
         return stars;
     }
 
-    public void setStars(String stars) {
+    public void setStars(BigDecimal stars) {
         this.stars = stars;
     }
 }
