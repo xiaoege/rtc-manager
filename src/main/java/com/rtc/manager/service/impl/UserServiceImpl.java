@@ -48,12 +48,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.LinkOption;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.attribute.BasicFileAttributeView;
-import java.nio.file.attribute.BasicFileAttributes;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -389,11 +384,10 @@ public class UserServiceImpl implements UserService {
         String nickname = rtcUser.getNickname();
         String portrait = rtcUser.getPortrait();
 
-        String authHeader = request.getHeader("Authorization");
-        String account = stringRedisTemplate.opsForValue().get(authHeader);
-        RtcUserVO rtcUserVO = rtcUserMapper.selectByPhoneOrAccount2RtcUserVO(account);
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        RtcUserVO rtcUserVO = rtcUserMapper.selectByPhoneOrAccount2RtcUserVO(userDetails.getUsername());
         String oldNickname = rtcUserVO.getNickname();
-        String nicknameToken = authHeader;
+
         String oldPortrait = rtcUserVO.getPortrait();
 
         if (nickname != null) {
@@ -407,45 +401,6 @@ public class UserServiceImpl implements UserService {
             }
         }
 
-        // 删除原来头像文件，把临时头像文件夹里的文件放进头像文件夹，然后删除临时文件夹头像
-        String uuid = rtcUserVO.getUuid();
-        File tempFilePath = new File(PORTRAIT + "/temp/" + uuid);
-        if (tempFilePath.exists() && tempFilePath.listFiles() != null && tempFilePath.listFiles().length > 0) {
-            File tempFile = tempFilePath.listFiles()[0];
-            if (oldPortrait != null && new File(PORTRAIT + "/" + uuid) != null) {
-                File[] oldFiles = new File(PORTRAIT + "/" + uuid).listFiles();
-                for (File oldFile : oldFiles) {
-                    oldFile.delete();
-                }
-            } else {
-                new File(PORTRAIT + "/" + uuid).mkdirs();
-            }
-            String portraitPath = PORTRAIT + "/" + uuid + "/" + tempFile.getName();
-            String portraitURI = PORTRAIT_URI + "/" + uuid + "/" + tempFile.getName();
-            BufferedInputStream in = null;
-            try {
-                in = new BufferedInputStream(new FileInputStream(tempFile));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                return ResultData.FAIL(null, 906, "请重新上传头像");
-            }
-            BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(portraitPath));
-            byte[] bytes = new byte[1024 * 2];
-            while (in.read(bytes) > 0) {
-                out.write(bytes);
-            }
-            out.flush();
-            out.close();
-            in.close();
-            // 删除临时头像
-            for (File localTempFile : tempFilePath.listFiles()) {
-                localTempFile.delete();
-            }
-            tempFilePath.delete();
-
-            rtcUser.setPortrait(portraitURI);
-        }
-
         rtcUser.setId(rtcUserVO.getId());
         rtcUser.setPassword(null);
         rtcUser.setPhone(null);
@@ -453,7 +408,6 @@ public class UserServiceImpl implements UserService {
         rtcUserMapper.updateByPrimaryKeySelective(rtcUser);
 
         RtcUserVO vo = rtcUserMapper.selectByPhoneOrAccount2RtcUserVO(nickname == null ? oldNickname : nickname);
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
         ArrayList<SimpleGrantedAuthority> authoritieList = new ArrayList(authorities);
         SimpleGrantedAuthority simpleGrantedAuthority = authoritieList.get(0);
@@ -794,16 +748,53 @@ public class UserServiceImpl implements UserService {
         }
         temp.mkdirs();
 
-        // 删除上一次上传的临时头像
-        File[] files = temp.listFiles();
-        if (files.length == 1) {
-            files[0].delete();
-        }
-
         File portraitFile = File.createTempFile(LocalDate.now() + "-", "." + suffString, temp);
         file.transferTo(portraitFile);
 
-        return ResultData.SUCCESS(null, 200, "上传头像成功");
+        // 删除原来头像文件，把临时头像文件夹里的文件放进头像文件夹，然后删除临时文件夹头像
+        String oldPortrait = rtcUserDTO.getPortrait();
+        File tempFilePath = new File(PORTRAIT + "/temp/" + uuid);
+        if (tempFilePath.exists() && tempFilePath.listFiles() != null && tempFilePath.listFiles().length > 0) {
+            File tempFile = tempFilePath.listFiles()[0];
+            if (oldPortrait != null && new File(PORTRAIT + "/" + uuid) != null) {
+                File[] oldFiles = new File(PORTRAIT + "/" + uuid).listFiles();
+                for (File oldFile : oldFiles) {
+                    oldFile.delete();
+                }
+            } else {
+                new File(PORTRAIT + "/" + uuid).mkdirs();
+            }
+            String portraitFilePath = PORTRAIT + "/" + uuid + "/" + tempFile.getName();
+            String portraitURI = PORTRAIT_URI + "/" + uuid + "/" + tempFile.getName();
+            BufferedInputStream in = null;
+            try {
+                in = new BufferedInputStream(new FileInputStream(tempFile));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                return ResultData.FAIL(null, 906, "请重新上传头像");
+            }
+            BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(portraitFilePath));
+            byte[] bytes = new byte[1024 * 2];
+            while (in.read(bytes) > 0) {
+                out.write(bytes);
+            }
+            out.flush();
+            out.close();
+            in.close();
+            // 删除临时头像
+            for (File localTempFile : tempFilePath.listFiles()) {
+                localTempFile.delete();
+            }
+            tempFilePath.delete();
+            RtcUser rtcUser = new RtcUser();
+            rtcUser.setId(rtcUserDTO.getId());
+            rtcUser.setPortrait(portraitURI);
+            if (rtcUserMapper.updateByPrimaryKeySelective(rtcUser) > 0) {
+                return ResultData.SUCCESS(null, 200, "上传头像成功");
+            }
+        }
+
+        return ResultData.FAIL(null, 500, "上传头像失败");
     }
 
     /**

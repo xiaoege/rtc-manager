@@ -208,8 +208,7 @@ public class UserController {
     })
     @ApiResponses({
             @ApiResponse(code = 901, message = "昵称格式错误"),
-            @ApiResponse(code = 902, message = "昵称已存在"),
-            @ApiResponse(code = 906, message = "请重新上传头像")
+            @ApiResponse(code = 902, message = "昵称已存在")
     })
     @PutMapping("updateUser")
     public ResultData updateUser(@RequestBody String user, HttpServletRequest request) throws Exception {
@@ -409,9 +408,9 @@ public class UserController {
     }
 
     /**
-     * 上传头像,保存在临时文件夹
+     * 上传头像
      */
-    @ApiOperation(value = "上传头像,保存在临时文件夹")
+    @ApiOperation(value = "上传头像")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
             @ApiImplicitParam(name = "file", value = "后缀名是jpg,jpeg,png,bmp格式的图片,大小在2MB以内", paramType = "form", dataType = "__file", required = true)
@@ -422,7 +421,8 @@ public class UserController {
                     "    \"data\": null,\n" +
                     "    \"code\": 200\n" +
                     "}"),
-            @ApiResponse(code = 905, message = "头像文件格式错误")
+            @ApiResponse(code = 905, message = "头像文件格式错误"),
+            @ApiResponse(code = 906, message = "请重新上传头像")
     })
     @PostMapping("uploadPortrait")
     public ResultData uploadPortrait(@RequestParam(name = "file", required = true) MultipartFile file) throws Exception {
