@@ -1,5 +1,6 @@
 package com.rtc.manager.controller;
 
+import com.rtc.manager.config.SwaggerConfig;
 import com.rtc.manager.service.Elasticsearch;
 import com.rtc.manager.service.EnterpriseManage;
 import com.rtc.manager.service.Qcc;
@@ -37,7 +38,7 @@ public class EnterpriseManageController {
      */
     @ApiOperation(value = "搜索企业-列表", tags = "此接口的查询不限制必须查name，如果不传入name或者name为\"\"时，改为查所有")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
             @ApiImplicitParam(name = "name", value = "企业名", required = true),
             @ApiImplicitParam(name = "idx", value = "选择特定搜索国别，参数实例：[\"china\",\"india-cin\",\"india-llpin\",\"vietnam\"]", required = false),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false, defaultValue = "1"),
@@ -105,7 +106,7 @@ public class EnterpriseManageController {
     @ApiIgnore
     @ApiOperation("企业删除")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
             @ApiImplicitParam(name = "body", value = "参数示例：[\n" +
                     "    {\n" +
                     "        \"esId\": \"esId\",\n" +

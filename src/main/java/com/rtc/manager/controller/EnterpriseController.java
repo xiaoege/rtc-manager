@@ -1,6 +1,7 @@
 package com.rtc.manager.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.rtc.manager.config.SwaggerConfig;
 import com.rtc.manager.service.Elasticsearch;
 import com.rtc.manager.service.India;
 import com.rtc.manager.service.Qcc;
@@ -44,7 +45,7 @@ public class EnterpriseController {
      */
     @ApiOperation(value = "搜索企业-列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
             @ApiImplicitParam(name = "name", value = "企业名", required = true),
             @ApiImplicitParam(name = "idx", value = "选择特定搜索国别，参数实例：[\"china\",\"india-cin\",\"india-llpin\",\"vietnam\"]", required = false),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false, defaultValue = "1"),
@@ -80,7 +81,7 @@ public class EnterpriseController {
      */
     @ApiOperation("企业详情")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
             @ApiImplicitParam(name = "enterpriseId", value = "企业id", required = true),
             @ApiImplicitParam(name = "nation", value = "国家：China / India / Vietnam", required = true),
             @ApiImplicitParam(name = "e_type", value = "企业类型，对应国家：China.China / India.[cin, llpin] / Vietnam.Vietnam", required = true),
@@ -109,7 +110,7 @@ public class EnterpriseController {
      */
     @ApiOperation("查询企业列表-Bulletin，用于app主页企业列表展示")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
             @ApiImplicitParam(name = "size", value = "每次返回个数", defaultValue = "10", paramType = "query")
     })
     @GetMapping("listEnterprise4Bulletin")
@@ -128,7 +129,7 @@ public class EnterpriseController {
      */
     @ApiOperation("China企业：五大类-列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
             @ApiImplicitParam(name = "name", value = "类别", required = true),
             @ApiImplicitParam(name = "enterpriseId", value = "企业id", required = true),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false),
@@ -177,7 +178,7 @@ public class EnterpriseController {
      */
     @ApiOperation("China企业：五大类-详情")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
             @ApiImplicitParam(name = "name", value = "类别，参数示例请看文档", required = true),
             @ApiImplicitParam(name = "pid", value = "详情id", required = false),
             @ApiImplicitParam(name = "enterpriseId", value = "企业id", required = false),
@@ -208,7 +209,7 @@ public class EnterpriseController {
      */
     @ApiOperation("查看企业的所有评论")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
             @ApiImplicitParam(name = "enterpriseId", value = "企业id", required = true),
             @ApiImplicitParam(name = "timeZone", value = "时区，参数示例：8或者-8, 范围: -18 to 18 的整数", required = false),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false, defaultValue = "1"),
@@ -245,7 +246,7 @@ public class EnterpriseController {
      */
     @ApiOperation(value = "搜索企业-企业推荐", notes = "根据指定企业名来推荐相关其他的企业，默认返回10个")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
             @ApiImplicitParam(name = "name", value = "企业名", required = true),
             @ApiImplicitParam(name = "pageSize", value = "当前页大小", required = false, defaultValue = "10")
     })
@@ -269,7 +270,7 @@ public class EnterpriseController {
      */
     @ApiOperation(value = "NewlyAdded", notes = "获得最近在es中新增的企业，默认10个")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false, defaultValue = "1"),
             @ApiImplicitParam(name = "pageSize", value = "当前页大小", required = false, defaultValue = "10")
     })

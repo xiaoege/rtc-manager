@@ -1,6 +1,7 @@
 package com.rtc.manager.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.rtc.manager.config.SwaggerConfig;
 import com.rtc.manager.service.News;
 import com.rtc.manager.vo.ResultData;
 import com.rtc.manager.vo.RtcNewsDetailVO;
@@ -41,7 +42,7 @@ public class NewsController {
     @GetMapping("listNews")
     @ApiOperation("查询新闻列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
             @ApiImplicitParam(name = "startDate", value = "按创建日期查询新闻-起始日期，参数类型：yyyy-MM-dd 或 yyyy-MM-dd HH:mm:ss", required = false),
             @ApiImplicitParam(name = "endDate", value = "按创建日期查询新闻-结束日期，参数类型：yyyy-MM-dd 或 yyyy-MM-dd HH:mm:ss", required = false),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false, defaultValue = "1"),
@@ -70,7 +71,7 @@ public class NewsController {
     @GetMapping("getNews")
     @ApiOperation(value = "查询新闻详情", notes = "所有新闻详情页必须著名来源，来源链接，原作者，原标题")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
             @ApiImplicitParam(name = "newsId", value = "新闻id", required = true),
             @ApiImplicitParam(name = "timeZone", value = "时区，参数示例：8或者-8, 范围: -18 to 18 的整数", required = false)
     })

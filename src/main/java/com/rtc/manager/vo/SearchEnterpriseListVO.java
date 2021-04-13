@@ -91,6 +91,12 @@ public class SearchEnterpriseListVO {
      */
     private String idx;
 
+    private String logo;
+
+    private String logoName;
+
+    private String logoColor;
+
     public SearchEnterpriseListVO() {
     }
 
@@ -233,5 +239,29 @@ public class SearchEnterpriseListVO {
 
     public void setDocLastModified(String docLastModified) {
         this.docLastModified = docLastModified;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
+
+    public String getLogoName() {
+        return logoName;
+    }
+
+    public void setLogoName(String logoName) {
+        this.logoName = logoName;
+    }
+
+    public String getLogoColor() {
+        return logoColor;
+    }
+
+    public void setLogoColor(String logoColor) {
+        this.logoColor = logoColor;
     }
 }

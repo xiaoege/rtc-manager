@@ -1,5 +1,6 @@
 package com.rtc.manager.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.rtc.manager.util.CommonUtils;
 import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.slf4j.Logger;
@@ -38,6 +39,10 @@ public class ExceptionController {
 
         if (e instanceof MaxUploadSizeExceededException) {
             map.put("message", "文件大小超出限制");
+        } else if (e instanceof IllegalArgumentException || e instanceof JsonProcessingException) {
+            map.put("message", "参数格式错误");
+        } else if (e instanceof IOException) {
+            map.put("message", "网络异常");
         }
         return map;
     }

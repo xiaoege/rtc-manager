@@ -162,6 +162,7 @@ public class QccImpl implements Qcc {
                         SearchEnterpriseListVO vo = objectMapper.readValue(hit.getSourceAsString(), SearchEnterpriseListVO.class);
                         vo.setEsId(hit.getId());
                         vo.setIdx(hit.getIndex());
+                        CommonUtils.setLogoNameAndColor(vo);
                         resultList.add(vo);
                     }
                 }
@@ -354,13 +355,15 @@ public class QccImpl implements Qcc {
                         for (int i = 0; i < shareholderVOList.size(); i++) {
                             QccShareholderVO qccShareholderVO = shareholderVOList.get(i);
 //                            name = CommonUtils.translate(qccShareholderVO.getName(), "zh", "en");
-                            name = CommonUtils.nameFormat(name);
-                            qccShareholderVO.setName(name);
+                            qccShareholderVO.setName(CommonUtils.nameFormat(qccShareholderVO.getName()));
                         }
                     }
                     if (qccMapper.checkFavouriteQcc(userId, enterpriseId) != null) {
                         qccVO.setFavourite(1);
                     }
+
+                    CommonUtils.setLogoNameAndColor(qccVO);
+
                     o = qccVO;
                 }
                 return o;
@@ -895,6 +898,7 @@ public class QccImpl implements Qcc {
         List<SearchEnterpriseListVO> dataList = new ArrayList<>();
         for (SearchHit hit : hits) {
             SearchEnterpriseListVO vo = objectMapper.readValue(hit.getSourceAsString(), SearchEnterpriseListVO.class);
+            CommonUtils.setLogoNameAndColor(vo);
             vo.setEsId(hit.getId());
             vo.setIdx(hit.getIndex());
             dataList.add(vo);
@@ -1260,6 +1264,7 @@ public class QccImpl implements Qcc {
                 for (int i = 0; i < hits.length; i++) {
                     SearchHit hit = hits[i];
                     SearchEnterpriseListVO vo = objectMapper.readValue(hit.getSourceAsString(), SearchEnterpriseListVO.class);
+                    CommonUtils.setLogoNameAndColor(vo);
                     vo.setEsId(hit.getId());
                     vo.setIdx(hit.getIndex());
                     resultList.add(vo);

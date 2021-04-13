@@ -45,6 +45,12 @@ public class UserCommentVO {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime gmtCreate;
 
+    private String logo;
+
+    private String logoName;
+
+    private String logoColor;
+
     public String geteType() {
         return eType;
     }
@@ -115,5 +121,29 @@ public class UserCommentVO {
 
     public void setGmtCreate(LocalDateTime gmtCreate) {
         this.gmtCreate = gmtCreate;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
+
+    public String getLogoName() {
+        return logoName;
+    }
+
+    public void setLogoName(String logoName) {
+        this.logoName = logoName;
+    }
+
+    public String getLogoColor() {
+        return logoColor;
+    }
+
+    public void setLogoColor(String logoColor) {
+        this.logoColor = logoColor;
     }
 }

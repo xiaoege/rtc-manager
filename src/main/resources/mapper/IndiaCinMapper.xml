@@ -26,13 +26,14 @@
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="logo" jdbcType="VARCHAR" property="logo" />
   </resultMap>
   <sql id="Base_Column_List">
     id, enterprise_id, cin, company_name, roc_code, registration_number, company_category, 
     company_sub_category, class_of_company, authorised_capital, paid_up_capital, number_of_members, 
     date_of_incorporation, email_id, whether_listed_or_not, active_compliant, suspended_at_stock_exchange, 
     date_of_last_agm, date_of_balance_sheet, company_status, registered_address, gmt_create, 
-    gmt_modified, status
+    gmt_modified, status, logo
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -53,7 +54,7 @@
       active_compliant, suspended_at_stock_exchange, 
       date_of_last_agm, date_of_balance_sheet, company_status, 
       registered_address, gmt_create, gmt_modified,
-      status)
+      status, logo)
     values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{cin,jdbcType=VARCHAR}, 
       #{companyName,jdbcType=VARCHAR}, #{rocCode,jdbcType=VARCHAR}, #{registrationNumber,jdbcType=VARCHAR}, 
       #{companyCategory,jdbcType=VARCHAR}, #{companySubCategory,jdbcType=VARCHAR}, #{classOfCompany,jdbcType=VARCHAR}, 
@@ -62,7 +63,7 @@
       #{activeCompliant,jdbcType=VARCHAR}, #{suspendedAtStockExchange,jdbcType=VARCHAR}, 
       #{dateOfLastAgm,jdbcType=VARCHAR}, #{dateOfBalanceSheet,jdbcType=VARCHAR}, #{companyStatus,jdbcType=VARCHAR}, 
       #{registeredAddress,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP},
-      #{status,jdbcType=INTEGER})
+      #{status,jdbcType=INTEGER}), #{logo,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.rtc.manager.entity.india.IndiaCin">
     <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
@@ -142,6 +143,9 @@
       <if test="status != null">
         status,
       </if>
+      <if test="logo != null">
+        logo,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -216,6 +220,9 @@
       <if test="status != null">
         #{status,jdbcType=INTEGER},
       </if>
+      <if test="logo != null">
+        #{logo,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.india.IndiaCin">
@@ -281,6 +288,9 @@
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
       </if>
+      <if test="logo != null">
+        logo = #{logo,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -308,7 +318,8 @@
       registered_address = #{registeredAddress,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER}
+      status = #{status,jdbcType=INTEGER},
+        logo = #{logo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
@@ -337,6 +348,7 @@
       <result column="cin_date_of_balance_sheet" property="dateOfBalanceSheet" jdbcType="VARCHAR" />
       <result column="cin_company_status" property="companyStatus" jdbcType="VARCHAR" />
       <result column="cin_registered_address" property="registeredAddress" jdbcType="VARCHAR" />
+      <result column="logo" property="logo" jdbcType="VARCHAR" />
     </association>
     <collection property="chargeList" ofType="com.rtc.manager.vo.india.IndiaChargeVO">
       <id column="charge_id" property="id" jdbcType="INTEGER" />
@@ -384,6 +396,7 @@
       india_cin.date_of_balance_sheet cin_date_of_balance_sheet,
       india_cin.company_status cin_company_status,
       india_cin.registered_address cin_registered_address,
+      india_cin.logo,
       india_charge.id charge_id,
       india_charge.enterprise_id charge_enterprise_id,
       india_charge.srn charge_srn,

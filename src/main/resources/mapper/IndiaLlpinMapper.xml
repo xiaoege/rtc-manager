@@ -22,12 +22,13 @@
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="logo" jdbcType="VARCHAR" property="logo" />
   </resultMap>
   <sql id="Base_Column_List">
     id, enterprise_id, llpin, llp_name, number_of_partners, number_of_designated_partners, 
     roc_code, date_of_incorporation, registrated_address, email_id, previous_firm, total_obligation_of_contribution, 
     main_division_of_business, description_of_main_division, statement_date, annual_date, 
-    llp_status, gmt_create, gmt_modified, status
+    llp_status, gmt_create, gmt_modified, status,logo
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -46,7 +47,7 @@
       email_id, previous_firm, total_obligation_of_contribution, 
       main_division_of_business, description_of_main_division, 
       statement_date, annual_date, llp_status, 
-      gmt_create, gmt_modified, status
+      gmt_create, gmt_modified, status,logo
       )
     values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{llpin,jdbcType=VARCHAR}, 
       #{llpName,jdbcType=VARCHAR}, #{numberOfPartners,jdbcType=VARCHAR}, #{numberOfDesignatedPartners,jdbcType=VARCHAR}, 
@@ -54,7 +55,7 @@
       #{emailId,jdbcType=VARCHAR}, #{previousFirm,jdbcType=VARCHAR}, #{totalObligationOfContribution,jdbcType=VARCHAR}, 
       #{mainDivisionOfBusiness,jdbcType=VARCHAR}, #{descriptionOfMainDivision,jdbcType=VARCHAR}, 
       #{statementDate,jdbcType=VARCHAR}, #{annualDate,jdbcType=VARCHAR}, #{llpStatus,jdbcType=VARCHAR}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{logo,jdbcType=VARCHAR})
       )
   </insert>
   <insert id="insertSelective" parameterType="com.rtc.manager.entity.india.IndiaLlpin">
@@ -123,6 +124,9 @@
       <if test="status != null">
         status,
       </if>
+      <if test="logo != null">
+        logo,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -184,6 +188,9 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
+      </if>
+      <if test="logo != null">
+        #{logo,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -247,6 +254,9 @@
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
       </if>
+      <if test="logo != null">
+        logo = #{logo,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -270,7 +280,8 @@
       llp_status = #{llpStatus,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER}
+      status = #{status,jdbcType=INTEGER},
+        logo = #{logo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
@@ -295,6 +306,7 @@
       <result column="llpin_statement_date" property="statementDate" jdbcType="VARCHAR" />
       <result column="llpin_annual_date" property="annualDate" jdbcType="VARCHAR" />
       <result column="llpin_llp_status" property="llpStatus" jdbcType="VARCHAR" />
+      <result column="logo" property="logo" jdbcType="VARCHAR" />
     </association>
     <collection property="chargeList" ofType="com.rtc.manager.vo.india.IndiaChargeVO">
       <id column="charge_id" property="id" jdbcType="INTEGER" />
@@ -338,6 +350,7 @@
       india_llpin.statement_date llpin_statement_date,
       india_llpin.annual_date llpin_annual_date,
       india_llpin.llp_status llpin_llp_status,
+      india_llpin.logo,
       india_charge.id charge_id,
       india_charge.enterprise_id charge_enterprise_id,
       india_charge.srn charge_srn,

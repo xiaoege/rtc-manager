@@ -18,6 +18,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @ConditionalOnProperty(name = "swagger.enable", havingValue = "true")
 @EnableSwagger2
 public class SwaggerConfig {
+
+    public static final String BEARER_TOKEN = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZWM1MWIzNy0wNjQ3LTQxYmItOWEyZi0zYWUxNzZhZmFjNTQiLCJpc3MiOiJydGMiLCJpYXQiOjE2MTgyMDQyMDR9.p8RDo-4Z-0MAkHmj05HB4ZKos0FDyIX3WVPR0PMjGoE";
+
     @Bean
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -27,13 +30,14 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build().apiInfo(new ApiInfoBuilder()
                         .title("接口文档")
-                        .description("自定义错误码：{702:验证码发送次数过多，请15分钟稍后再试,703:调用短信服务商接口失败, 705:数据有误, 706:翻译所传参数有误, 707:验证码错误, 708:翻译失败" +
+                        .description("自定义错误码：{702:验证码发送次数过多，请15分钟稍后再试,703:调用短信服务商接口失败, 705:数据有误, 706:翻译所传参数有误, 707:验证码错误, 708:翻译失败," +
                                 "800:手机号格式错误, 801:手机号已注册, 803:国家代码与手机号不符, 804:该手机号尚未发送验证码, " +
-                                "805:新手机号不能和原来一样, 806:输入的手机号和原始手机号不一致, 807:新手机号不能和原来一样" +
-                                "850:邮箱格式错误, 851:邮箱已注册, 852:该邮箱尚未发送验证码, 853:邮箱验证失败, 854:邮箱注册失败, 855:邮箱不能与原来相同" +
+                                "805:新手机号不能和原来一样, 806:输入的手机号和原始手机号不一致, 807:新手机号不能和原来一样," +
+                                "850:邮箱格式错误, 851:邮箱已注册, 852:该邮箱尚未发送验证码, 853:邮箱验证失败, 854:邮箱注册失败, 855:邮箱不能与原来相同," +
                                 "901:昵称格式错误, 902:昵称已存在, 903:密码格式错误, 904:新密码不能和原密码相同, " +
-                                "905:头像文件格式错误, 906:请重新上传头像" +
-                                "1001:未登录, 1002:该账号不存在, 1003:密码错误, 1004:原始密码错误" +
+                                "905:头像文件格式错误, 906:请重新上传头像," +
+                                "1001:未登录, 1002:该账号不存在, 1003:密码错误, 1004:原始密码错误, 1005:无效token, 1006:当前账号已绑定其他第三方账号," +
+                                "1007:该第三方已绑定其他账号" +
                                 "1101:修改企业时该enterpriseId不存在}" + "\n" +
                                 "参数位置：{query:url里, header:请求头里, body:请求体里}" + "\n" +
                                  "用户角色：role:{ROLE_USER, ROLE_VIP}" + "\n" +

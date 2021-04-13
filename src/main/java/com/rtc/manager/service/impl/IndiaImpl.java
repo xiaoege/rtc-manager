@@ -119,6 +119,7 @@ public class IndiaImpl implements India {
                 if (indiaCinMapper.checkFavouriteIndiaCin(enterpriseId, userId) != null) {
                     indiaCinEnterpriseVO.getIndiaCin().setFavourite(1);
                 }
+                CommonUtils.setLogoNameAndColor(indiaCinEnterpriseVO);
                 o = indiaCinEnterpriseVO;
             }
         } else if ("llpin".equals(eType)) {
@@ -134,6 +135,7 @@ public class IndiaImpl implements India {
                 if (indiaLlpinMapper.checkFavouriteIndiaLlpin(enterpriseId, userId) != null) {
                     indiaLlpinEnterpriseVO.getIndiaLlpinVO().setFavourite(1);
                 }
+                CommonUtils.setLogoNameAndColor(indiaLlpinEnterpriseVO);
                 o = indiaLlpinEnterpriseVO;
             }
 
