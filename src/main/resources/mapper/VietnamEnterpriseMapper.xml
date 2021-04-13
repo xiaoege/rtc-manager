@@ -16,11 +16,12 @@
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="logo" jdbcType="VARCHAR" property="logo" />
   </resultMap>
   <sql id="Base_Column_List">
     id, enterprise_id, enterprise_name, enterprise_name_in_foreign_language, enterprise_short_name, 
     enterpirse_status, enterprise_code, legal_type, founding_date, representative_first_name, 
-    head_office_address, gmt_create, gmt_modified, status
+    head_office_address, gmt_create, gmt_modified, status, logo
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -38,13 +39,13 @@
       enterpirse_status, enterprise_code, legal_type, 
       founding_date, representative_first_name, 
       head_office_address, gmt_create, gmt_modified, 
-      status)
+      status, logo)
     values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{enterpriseName,jdbcType=VARCHAR}, 
       #{enterpriseNameInForeignLanguage,jdbcType=VARCHAR}, #{enterpriseShortName,jdbcType=VARCHAR}, 
       #{enterpirseStatus,jdbcType=VARCHAR}, #{enterpriseCode,jdbcType=VARCHAR}, #{legalType,jdbcType=VARCHAR}, 
       #{foundingDate,jdbcType=VARCHAR}, #{representativeFirstName,jdbcType=VARCHAR}, 
       #{headOfficeAddress,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=INTEGER})
+      #{status,jdbcType=INTEGER}, #{logo,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.rtc.manager.entity.vietnam.VietnamEnterprise">
     insert into vietnam_enterprise
@@ -91,6 +92,9 @@
       <if test="status != null">
         status,
       </if>
+      <if test="logo != null">
+        logo,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -134,6 +138,9 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
+      </if>
+      <if test="logo != null">
+        #{logo,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -179,6 +186,9 @@
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
       </if>
+      <if test="logo != null">
+        logo = #{logo,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -196,11 +206,12 @@
       head_office_address = #{headOfficeAddress,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER}
+      status = #{status,jdbcType=INTEGER},
+        #{logo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <resultMap id="selectIndiaEnterpriseMap" type="com.rtc.manager.vo.vietnam.VietnamEnterpriseVO">
+  <resultMap id="selectVietnamEnterpriseMap" type="com.rtc.manager.vo.vietnam.VietnamEnterpriseVO">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
     <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName" />
@@ -212,6 +223,7 @@
     <result column="founding_date" jdbcType="VARCHAR" property="foundingDate" />
     <result column="representative_first_name" jdbcType="VARCHAR" property="representativeFirstName" />
     <result column="head_office_address" jdbcType="VARCHAR" property="headOfficeAddress" />
+    <result column="logo" jdbcType="VARCHAR" property="logo" />
     <collection property="vsciList" ofType="com.rtc.manager.vo.vietnam.VietnamBusinessActivitiesVO">
       <id column="vba_id" jdbcType="INTEGER" property="id" />
       <result column="vba_enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
@@ -220,7 +232,7 @@
     </collection>
   </resultMap>
 
-  <select id="selectIndiaEnterprise" resultMap="selectIndiaEnterpriseMap">
+  <select id="selectVietnamEnterprise" resultMap="selectVietnamEnterpriseMap">
         SELECT
             vietnam_enterprise.id,
             vietnam_enterprise.enterprise_id,
@@ -233,6 +245,7 @@
             vietnam_enterprise.founding_date,
             vietnam_enterprise.representative_first_name,
             vietnam_enterprise.head_office_address,
+            vietnam_enterprise.logo,
             vietnam_business_activities.id AS vba_id,
             vietnam_business_activities.enterprise_id AS vba_enterprise_id,
             vietnam_business_activities.`code` AS vba_code,

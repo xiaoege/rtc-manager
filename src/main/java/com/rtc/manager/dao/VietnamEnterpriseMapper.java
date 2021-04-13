@@ -17,7 +17,7 @@ public interface VietnamEnterpriseMapper {
 
     int updateByPrimaryKey(VietnamEnterprise record);
 
-    VietnamEnterpriseVO selectIndiaEnterprise(String enterpriseId);
+    VietnamEnterpriseVO selectVietnamEnterprise(String enterpriseId);
 
     String checkFavouriteVietnam(@Param("enterpriseId") String enterpriseId, @Param("userId") String userId);
 }

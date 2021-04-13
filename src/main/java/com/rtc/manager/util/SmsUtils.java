@@ -37,7 +37,7 @@ public class SmsUtils {
      * @param verificationCode 验证码
      */
     public static void sendSms(String phoneNumbers, String verificationCode) {
-        HashMap<String, String> accessKeyMap = utilsService.getAccessKey("");
+        HashMap<String, String> accessKeyMap = utilsService.getAccessKey("aliyun-sms");
         String accessKey = accessKeyMap.get("accessKey");
         String secret = accessKeyMap.get("secret");
 

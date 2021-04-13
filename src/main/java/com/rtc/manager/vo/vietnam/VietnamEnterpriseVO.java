@@ -31,6 +31,12 @@ public class VietnamEnterpriseVO {
 
     private int favourite;
 
+    private String logo;
+
+    private String logoName;
+
+    private String logoColor;
+
     public Integer getId() {
         return id;
     }
@@ -137,5 +143,29 @@ public class VietnamEnterpriseVO {
 
     public void setFavourite(int favourite) {
         this.favourite = favourite;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
+
+    public String getLogoName() {
+        return logoName;
+    }
+
+    public void setLogoName(String logoName) {
+        this.logoName = logoName;
+    }
+
+    public String getLogoColor() {
+        return logoColor;
+    }
+
+    public void setLogoColor(String logoColor) {
+        this.logoColor = logoColor;
     }
 }

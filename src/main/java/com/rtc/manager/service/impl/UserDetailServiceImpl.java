@@ -2,22 +2,22 @@ package com.rtc.manager.service.impl;
 
 import com.rtc.manager.dao.RtcUserMapper;
 import com.rtc.manager.entity.dto.RtcUserDTO;
-import com.rtc.manager.util.CommonUtils;
-import com.rtc.manager.util.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * spring security专用
@@ -33,6 +33,11 @@ public class UserDetailServiceImpl implements UserDetailsService {
     @Autowired
     StringRedisTemplate stringRedisTemplate;
 
+    /**
+     * @param account uuid/phone/email/nickname
+     * @return
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String account) throws UsernameNotFoundException {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
@@ -40,6 +45,10 @@ public class UserDetailServiceImpl implements UserDetailsService {
         if (rtcUser == null) {
             throw new InternalAuthenticationServiceException("该账号不存在");
         }
+//        else if (new BCryptPasswordEncoder().matches("rtc", rtcUser.getPassword())) {
+//            throw new InternalAuthenticationServiceException("该账号为社交账号注册，请先设置密码");
+//        }
+
 //        String uuid = rtcUser.getUuid();
 //        if (!stringRedisTemplate.hasKey(UserUtils.getToken(uuid))) {
 //            stringRedisTemplate.opsForValue().set(UserUtils.getToken(uuid), uuid, 30, TimeUnit.DAYS);

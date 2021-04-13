@@ -175,8 +175,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/check4ForgetEmailPassword").permitAll()
                 // 忘记密码-邮箱-修改密码
                 .antMatchers("/user/forgetEmailPassword").permitAll()
-                // google
-                .antMatchers("/google/*").permitAll()
+                // 第三方
+                .antMatchers("/socialLink/checkToken","/socialLink/linkAccount").permitAll()
+                // 新闻-允许不登录访问是为了分享功能
+                .antMatchers("/news/**").permitAll()
                 // druid
                 .antMatchers("/druid/**").permitAll()
                 .anyRequest().authenticated()
@@ -189,9 +191,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     UserDetails principal = (UserDetails) authentication.getPrincipal();
                     Map data = new HashMap();
                     data.put("account", principal.getUsername());
-                    data.put("Authorization", UserUtils.getToken(principal.getUsername()));
+//                    data.put("Authorization", UserUtils.getToken(principal.getUsername()));
+                    // 设置token
+                    RtcUserVO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount2RtcUserVO(principal.getUsername());
+                    String uuid = rtcUserDTO.getUuid();
+                    data.put("Authorization", "Bearer " + UserUtils.getJWT(uuid));
                     map.put("data", data);
-                    response.setHeader("Authorization", "cat");
+//                    response.setHeader("Authorization", "cat");
                     response.setContentType("application/json;charset=utf-8");
                     PrintWriter out = response.getWriter();
                     out.write(objectMapper.writeValueAsString(map));
@@ -215,11 +221,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     Map map = new HashMap<>();
                     String authHeader = request.getHeader("Authorization");
                     if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                        // 废弃原JWT
+                        stringRedisTemplate.opsForSet().add("jwt-blacklist", authHeader.substring("Bearer ".length()));
 //                authHeader = authHeader.substring("Bearer ".length());
-                        if (stringRedisTemplate.hasKey(authHeader)) {
-//                            map.put("message", stringRedisTemplate.opsForValue().get(authHeader) + "登出成功");
-                            stringRedisTemplate.delete(authHeader);
-                        }
+//                        if (stringRedisTemplate.hasKey(authHeader)) {
+////                            map.put("message", stringRedisTemplate.opsForValue().get(authHeader) + "登出成功");
+//                            stringRedisTemplate.delete(authHeader);
+//                        }
                     }
                     response.setStatus(HttpServletResponse.SC_OK);
                     response.setContentType("application/json;charset=utf-8");
@@ -268,20 +276,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             // 设置token
             String uuid = rtcUserDTO.getUuid();
 
-            if (!stringRedisTemplate.hasKey(UserUtils.getToken(uuid))) {
-                stringRedisTemplate.opsForValue().set(UserUtils.getToken(uuid), uuid, 30, TimeUnit.DAYS);
-            } else {
-                stringRedisTemplate.expire(UserUtils.getToken(uuid), 30, TimeUnit.DAYS);
-            }
-
-            data.put("Authorization", UserUtils.getToken(rtcUserDTO.getUuid()));
+//            if (!stringRedisTemplate.hasKey(UserUtils.getToken(uuid))) {
+//                stringRedisTemplate.opsForValue().set(UserUtils.getToken(uuid), uuid, 30, TimeUnit.DAYS);
+//            } else {
+//                stringRedisTemplate.expire(UserUtils.getToken(uuid), 30, TimeUnit.DAYS);
+//            }
+//            data.put("Authorization", UserUtils.getToken(rtcUserDTO.getUuid()));
+            data.put("Authorization", "Bearer " + UserUtils.getJWT(uuid));
             data.put("user", rtcUserDTO);
             Collection<? extends GrantedAuthority> authorities = principal.getAuthorities();
             ArrayList<SimpleGrantedAuthority> authoritieList = new ArrayList(authorities);
             SimpleGrantedAuthority simpleGrantedAuthority = authoritieList.get(0);
             data.put("role", simpleGrantedAuthority.getAuthority());
             map.put("data", data);
-            response.setHeader("Authorization", "cat");
+//            response.setHeader("Authorization", "cat");
             response.setContentType("application/json;charset=utf-8");
             PrintWriter out = response.getWriter();
             out.write(objectMapper.writeValueAsString(map));

@@ -898,12 +898,16 @@
 <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
 <!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
 <!--        </table>-->
-        <table tableName="rtc_ref_country" domainObjectName="RtcRefCountry" enableCountByExample="false"
+<!--        <table tableName="rtc_ref_country" domainObjectName="RtcRefCountry" enableCountByExample="false"-->
+<!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
+<!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+<!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
+<!--        </table>-->
+        <table tableName="rtc_user_oauth" domainObjectName="RtcUserOauth" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>
             <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>
         </table>
-
     </context>
 
 </generatorConfiguration>

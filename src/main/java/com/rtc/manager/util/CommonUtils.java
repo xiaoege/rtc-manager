@@ -10,6 +10,7 @@ import com.rtc.manager.vo.india.IndiaCinEnterpriseVO;
 import com.rtc.manager.vo.india.IndiaCinVO;
 import com.rtc.manager.vo.india.IndiaLlpinEnterpriseVO;
 import com.rtc.manager.vo.india.IndiaLlpinVO;
+import com.rtc.manager.vo.vietnam.VietnamEnterpriseVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
@@ -657,6 +658,26 @@ public final class CommonUtils {
                         ((IndiaLlpinVO) object).setLogoName(firstLetter);
                     }
                     ((IndiaLlpinVO) object).setLogoColor(LOGO_COLOR_LIST.get(random.nextInt(LOGO_COLOR_LIST.size())));
+                }
+            }
+        } else if (object instanceof VietnamEnterpriseVO) {
+            String name = ((VietnamEnterpriseVO) object).getEnterpriseName();
+            if (StringUtils.isEmpty(((VietnamEnterpriseVO) object).getLogo())) {
+                if (!StringUtils.isEmpty(name)) {
+                    Random random = new Random();
+                    String firstLetter = name.substring(0, 1);
+                    Matcher matcher = PATTERN_ENGLISH.matcher(firstLetter);
+                    // 如果是英文字母开头
+                    if (matcher.matches()) {
+                        ((VietnamEnterpriseVO) object).setLogoName(firstLetter);
+                        // 如果不是英文字母开头
+                    } else if (name.length() > 3) {
+                        ((VietnamEnterpriseVO) object).setLogoName(name.substring(0, 4));
+                        // 如果不是英文字母开头
+                    } else {
+                        ((VietnamEnterpriseVO) object).setLogoName(firstLetter);
+                    }
+                    ((VietnamEnterpriseVO) object).setLogoColor(LOGO_COLOR_LIST.get(random.nextInt(LOGO_COLOR_LIST.size())));
                 }
             }
         }

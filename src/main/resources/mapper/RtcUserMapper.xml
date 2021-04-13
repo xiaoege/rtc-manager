@@ -313,21 +313,45 @@
         AND rtc_user.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
   </select>
 
-  <select id="selectByPhoneOrAccount2RtcUserVO" resultType="com.rtc.manager.vo.RtcUserVO">
+    <resultMap id="selectUserVOMap" type="com.rtc.manager.vo.RtcUserVO">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+        <result column="phone" jdbcType="VARCHAR" property="phone" />
+        <result column="country_code" jdbcType="VARCHAR" property="countryCode" />
+        <result column="email" jdbcType="VARCHAR" property="email" />
+        <result column="synopsis" jdbcType="VARCHAR" property="synopsis" />
+        <result column="country" jdbcType="VARCHAR" property="country" />
+        <result column="enterprise" jdbcType="VARCHAR" property="enterprise" />
+        <result column="address" jdbcType="VARCHAR" property="address" />
+        <result column="uuid" jdbcType="VARCHAR" property="uuid" />
+        <result column="portrait" jdbcType="VARCHAR" property="portrait" />
+        <collection property="oauthList" ofType="com.rtc.manager.entity.RtcUserOauth">
+            <id column="ruoId" jdbcType="INTEGER" property="id"/>
+            <result column="ruoUserId" jdbcType="VARCHAR" property="userId"/>
+            <result column="ruoOpenId" jdbcType="VARCHAR" property="openId"/>
+            <result column="ruoSource" jdbcType="VARCHAR" property="source"/>
+        </collection>
+    </resultMap>
+  <select id="selectByPhoneOrAccount2RtcUserVO" resultMap="selectUserVOMap">
         SELECT
             rtc_user.id,
             rtc_user.nickname,
             rtc_user.phone,
-            rtc_user.country_code countryCode,
+            rtc_user.country_code,
             rtc_user.email,
             rtc_user.synopsis,
             rtc_user.country,
             rtc_user.enterprise,
             rtc_user.address,
             rtc_user.uuid,
-            rtc_user.portrait
+            rtc_user.portrait,
+            rtc_user_oauth.id ruoId,
+            rtc_user_oauth.user_id ruoUserId,
+            rtc_user_oauth.open_id ruoOpenId,
+            rtc_user_oauth.source ruoSource
         FROM
             rtc_user
+                left join rtc_user_oauth  on rtc_user.uuid = rtc_user_oauth.user_id
         WHERE
             rtc_user.phone = #{account, jdbcType=VARCHAR}
             AND rtc_user.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
@@ -343,9 +367,14 @@
             rtc_user.enterprise,
             rtc_user.address,
             rtc_user.uuid,
-            rtc_user.portrait
+            rtc_user.portrait,
+            rtc_user_oauth.id ruoId,
+            rtc_user_oauth.user_id ruoUserId,
+            rtc_user_oauth.open_id ruoOpenId,
+            rtc_user_oauth.source ruoSource
         FROM
             rtc_user
+                left join rtc_user_oauth  on rtc_user.uuid = rtc_user_oauth.user_id
         WHERE
             rtc_user.nickname = #{account, jdbcType=VARCHAR}
             AND rtc_user.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
@@ -361,9 +390,14 @@
             rtc_user.enterprise,
             rtc_user.address,
             rtc_user.uuid,
-            rtc_user.portrait
+            rtc_user.portrait,
+            rtc_user_oauth.id ruoId,
+            rtc_user_oauth.user_id ruoUserId,
+            rtc_user_oauth.open_id ruoOpenId,
+            rtc_user_oauth.source ruoSource
         FROM
             rtc_user
+                left join rtc_user_oauth  on rtc_user.uuid = rtc_user_oauth.user_id
         WHERE
             rtc_user.uuid = #{account, jdbcType=VARCHAR}
             AND rtc_user.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
@@ -379,9 +413,14 @@
             rtc_user.enterprise,
             rtc_user.address,
             rtc_user.uuid,
-            rtc_user.portrait
+            rtc_user.portrait,
+            rtc_user_oauth.id ruoId,
+            rtc_user_oauth.user_id ruoUserId,
+            rtc_user_oauth.open_id ruoOpenId,
+            rtc_user_oauth.source ruoSource
         FROM
             rtc_user
+                left join rtc_user_oauth  on rtc_user.uuid = rtc_user_oauth.user_id
         WHERE
             rtc_user.email = #{account, jdbcType=VARCHAR}
           AND rtc_user.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}

@@ -230,11 +230,12 @@ public class UserServiceImpl implements UserService {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
             RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(uuid);
-            String token = UserUtils.getToken(rtcUserDTO.getUuid());
-            stringRedisTemplate.opsForValue().set(token, rtcUserDTO.getUuid(), loginTokenTTL, TimeUnit.DAYS);
+//            String token = UserUtils.getToken(rtcUserDTO.getUuid());
+//            stringRedisTemplate.opsForValue().set(token, rtcUserDTO.getUuid(), loginTokenTTL, TimeUnit.DAYS);
+            String token = UserUtils.getJWT(rtcUserDTO.getUuid());
             Map map = new HashMap();
             map.put("account", email);
-            map.put("Authorization", token);
+            map.put("Authorization", "Bearer " + token);
             return ResultData.SUCCESS(map, "注册成功");
         }
 
@@ -361,11 +362,12 @@ public class UserServiceImpl implements UserService {
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         RtcUserDTO rtcUserDTO = rtcUserMapper.selectByPhoneOrAccount(uuid);
-        String token = UserUtils.getToken(rtcUserDTO.getUuid());
-        stringRedisTemplate.opsForValue().set(token, rtcUserDTO.getUuid(), loginTokenTTL, TimeUnit.DAYS);
+//        String token = UserUtils.getToken(rtcUserDTO.getUuid());
+//        stringRedisTemplate.opsForValue().set(token, rtcUserDTO.getUuid(), loginTokenTTL, TimeUnit.DAYS);
+        String token = UserUtils.getJWT(rtcUserDTO.getUuid());
         Map map = new HashMap();
         map.put("account", phone);
-        map.put("Authorization", token);
+        map.put("Authorization", "Bearer " + token);
         return ResultData.SUCCESS(map, "注册成功");
     }
 
@@ -425,10 +427,11 @@ public class UserServiceImpl implements UserService {
      * @param oldPassword
      * @param newPassword
      * @param retypePassword
+     * @return 修改密码后生成新的JWT，废弃原JWT
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public ResultData updatePassword(String user) {
+    public ResultData updatePassword(String user, HttpServletRequest request) {
         logger.info("updatePassword():{}", user);
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, String> map = null;
@@ -457,7 +460,10 @@ public class UserServiceImpl implements UserService {
         rtcUser.setId(rtcUserDTO.getId());
         rtcUser.setPassword(UserUtils.hexBCryptPassword(newPassword));
         rtcUserMapper.updateByPrimaryKeySelective(rtcUser);
-        return ResultData.SUCCESS(null);
+        // 修改密码后生成新的JWT，废弃原JWT
+        String bearer = "Bearer ";
+        stringRedisTemplate.opsForSet().add("jwt-blacklist", request.getHeader("Authorization").substring(bearer.length()));
+        return ResultData.SUCCESS(bearer + UserUtils.getJWT(rtcUserDTO.getUuid()));
     }
 
     /**
@@ -543,19 +549,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResultData getUserInformation(HttpServletRequest request) {
         String authHeader = request.getHeader("Authorization");
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            if (stringRedisTemplate.hasKey(authHeader)) {
-                String uuid = stringRedisTemplate.opsForValue().get(authHeader);
-                RtcUserVO rtcUserVO = rtcUserMapper.selectByPhoneOrAccount2RtcUserVO(uuid);
-                UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-                Collection<? extends GrantedAuthority> authorities = principal.getAuthorities();
-                ArrayList<SimpleGrantedAuthority> authoritieList = new ArrayList(authorities);
-                SimpleGrantedAuthority simpleGrantedAuthority = authoritieList.get(0);
-                Map map = new HashMap();
-                map.put("role", simpleGrantedAuthority.getAuthority());
-                map.put("user", rtcUserVO);
-                return ResultData.SUCCESS(map);
-            }
+        String bearer = "Bearer ";
+        if (authHeader != null && authHeader.startsWith(bearer)) {
+            String jwt = authHeader.substring(bearer.length());
+            String userId = UserUtils.verifyJWT(jwt);
+            UserDetails userDetails = userDetailService.loadUserByUsername(userId);
+            RtcUserVO rtcUserVO = rtcUserMapper.selectByPhoneOrAccount2RtcUserVO(userId);
+            UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            Collection<? extends GrantedAuthority> authorities = principal.getAuthorities();
+            ArrayList<SimpleGrantedAuthority> authoritieList = new ArrayList(authorities);
+            SimpleGrantedAuthority simpleGrantedAuthority = authoritieList.get(0);
+            Map map = new HashMap();
+            map.put("role", simpleGrantedAuthority.getAuthority());
+            map.put("user", rtcUserVO);
+            // todo 获得绑定第三方信息
+            return ResultData.SUCCESS(map);
         }
         return ResultData.FAIL("查询失败", 400);
 
@@ -674,7 +682,7 @@ public class UserServiceImpl implements UserService {
     /**
      * 更换手机号-通过手机号发送验证码
      *
-     * @param phone 要更换的新手机号
+     * @param phone       要更换的新手机号
      * @param countryCode
      * @return
      */
@@ -880,6 +888,7 @@ public class UserServiceImpl implements UserService {
                     SearchHit[] hits = searchResponse.getHits().getHits();
                     if (!ObjectUtils.isEmpty(hits)) {
                         UserCommentVO userCommentVO = objectMapper.readValue(hits[0].getSourceAsString(), UserCommentVO.class);
+                        CommonUtils.setLogoNameAndColor(userCommentVO);
                         userCommentVO.setPid(rtcUserFavourite.getId());
                         userCommentVO.setGmtCreate(rtcUserFavourite.getGmtCreate());
                         voList.add(userCommentVO);

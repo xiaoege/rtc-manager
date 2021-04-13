@@ -1,8 +1,10 @@
 package com.rtc.manager.controller;
 
+import com.rtc.manager.config.SwaggerConfig;
 import com.rtc.manager.entity.dto.PhoneRegisterDTO;
 import com.rtc.manager.service.UserService;
 import com.rtc.manager.vo.ResultData;
+import com.rtc.manager.vo.RtcUserVO;
 import com.rtc.manager.vo.SearchEnterpriseListVO;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,7 +86,7 @@ public class UserController {
      */
     @ApiOperation(value = "更换邮箱-通过邮箱发送验证码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
             @ApiImplicitParam(name = "user", paramType = "body", value = "{\n" +
                     "\"email\":\"邮箱\"" +
                     "\n}", required = true)
@@ -114,7 +116,7 @@ public class UserController {
      */
     @ApiOperation(value = "更换邮箱-更换成功后删除验证码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
             @ApiImplicitParam(name = "body", value = "{\n" +
                     "    \"email\": \"邮箱\",\n" +
                     "    \"verificationCode\": \"验证码\"" +
@@ -197,7 +199,7 @@ public class UserController {
      */
     @ApiOperation(value = "修改用户基本信息", notes = "成功后返回该用户的最新信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
             @ApiImplicitParam(name = "user", value = "{\n" +
                     "    \"nickname\": \"昵称\",\n" +
                     "    \"synopsis\": \"简介\",\n" +
@@ -221,11 +223,11 @@ public class UserController {
      * @param oldPassword    oldPassword
      * @param newPassword    newPassword
      * @param retypePassword retypePassword
-     * @return
+     * @return 修改密码后生成新的JWT，废弃原JWT
      */
-    @ApiOperation(value = "根据原始密码修改密码")
+    @ApiOperation(value = "根据原始密码修改密码", notes = "修改密码后生成新的token，废弃原token")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
             @ApiImplicitParam(name = "user", value = "{\n" +
                     "    \"oldPassword\":\"原密码\",\n" +
                     "    \"newPassword\":\"新密码\",\n" +
@@ -233,12 +235,13 @@ public class UserController {
                     "}", paramType = "body", required = true)
     })
     @ApiResponses({
+            @ApiResponse(code = 200, message = "{Bearer xxxxxxxxxxx}"),
             @ApiResponse(code = 903, message = "密码格式错误"),
             @ApiResponse(code = 1004, message = "原始密码错误")
     })
     @PutMapping("updatePassword")
-    public ResultData updatePassword(@RequestBody String user) throws Exception {
-        return userService.updatePassword(user);
+    public ResultData updatePassword(@RequestBody String user, HttpServletRequest request) throws Exception {
+        return userService.updatePassword(user, request);
     }
 
     /**
@@ -358,7 +361,7 @@ public class UserController {
      */
     @ApiOperation(value = "更换手机号-通过手机号发送验证码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
             @ApiImplicitParam(name = "user", value = "{\n" +
                     "    \"phone\":\"新手机号\",\n" +
                     "    \"countryCode\":\"手机号国家代码\"" +
@@ -389,7 +392,7 @@ public class UserController {
      */
     @ApiOperation(value = "更换手机号,更换成功后删除验证码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
             @ApiImplicitParam(name = "user", value = "{\n" +
                     "    \"phone\": \"新手机号\",\n" +
                     "    \"countryCode\": \"手机号国家代码\",\n" +
@@ -412,7 +415,7 @@ public class UserController {
      */
     @ApiOperation(value = "上传头像")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
             @ApiImplicitParam(name = "file", value = "后缀名是jpg,jpeg,png,bmp格式的图片,大小在2MB以内", paramType = "form", dataType = "__file", required = true)
     })
     @ApiResponses({
@@ -467,7 +470,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "登出，此文档仅供参考，不可在swagger里调用，调用请使用/logout路径", notes = "参数放在header里")
-    @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c")
+    @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN)
     @ApiResponses(
             @ApiResponse(code = 200, message = "{\n" +
                     "    \"code\": 200,\n" +
@@ -486,7 +489,7 @@ public class UserController {
      * @return
      */
     @ApiOperation(value = "查询用户信息", notes = "参数在header里")
-    @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c")
+    @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN)
     @ApiResponses({
             @ApiResponse(code = 200, message = "{\n" +
                     "    \"message\": \"请求成功\",\n" +
@@ -503,13 +506,19 @@ public class UserController {
                     "            \"address\": \"地址\",\n" +
                     "            \"pid\": pid,\n" +
                     "            \"portrait\": \"头像url\",\n" +
+                    "           \"oauthList\": [\n" +
+                    "                {\n" +
+                    "                    \"id\": 第三方mysql的id,\n" +
+                    "                    \"source\": \"来源\"\n" +
+                    "                }\n" +
+                    "            ]" +
                     "        }\n" +
                     "    },\n" +
                     "    \"code\": 200\n" +
                     "}")
     })
     @GetMapping("getUserInformation")
-    public ResultData getUserInformation(HttpServletRequest request) {
+    public ResultData<RtcUserVO> getUserInformation(HttpServletRequest request) {
         return userService.getUserInformation(request);
     }
 
@@ -521,7 +530,7 @@ public class UserController {
      */
     @ApiOperation(value = "添加到收藏夹/从收藏夹移除(公司页面)")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
             @ApiImplicitParam(name = "body", value = "{\n" +
                     "    \"enterpriseId\":\"公司ID（内部）\",\n" +
                     "    \"nation\":\"国家\",\n" +
@@ -553,7 +562,7 @@ public class UserController {
      */
     @ApiOperation(value = "我的收藏-移除收藏")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
             @ApiImplicitParam(name = "body", value = "参数示例：{\n" +
                     "    \"pidArray\": [\n" +
                     "        11,14,15\n" +
@@ -579,7 +588,7 @@ public class UserController {
      */
     @ApiOperation(value = "查看收藏夹列表，默认查看20个")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
             @ApiImplicitParam(name = "sort", value = "默认根据添加时间倒序排列，在此基础上可以选择国家排列，字母排列不依照时间倒序。参数示例：nation：根据国家排列。e_name：根据字母排列"),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false, defaultValue = "1"),
             @ApiImplicitParam(name = "pageSize", value = "当前页大小", required = false, defaultValue = "20")
@@ -629,7 +638,7 @@ public class UserController {
      */
     @ApiOperation(value = "新增评论")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
             @ApiImplicitParam(name = "body", value = "{\n" +
                     "    \"comment\":\"评论内容\",\n" +
                     "    \"enterpriseId\":\"公司ID（内部）\",\n" +
@@ -659,7 +668,7 @@ public class UserController {
      */
     @ApiOperation(value = "翻译评论")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
             @ApiImplicitParam(name = "commentId", value = "参数示例：86", paramType = "query", required = true)
     })
     @ApiResponses({
@@ -691,7 +700,7 @@ public class UserController {
      */
     @ApiOperation(value = "忘记密码-邮箱-发送验证码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
             @ApiImplicitParam(name = "email", value = "参数示例：xxx@qq.com", paramType = "query", required = true)
     })
     @ApiResponses({
@@ -718,7 +727,7 @@ public class UserController {
      */
     @ApiOperation(value = "忘记密码-邮箱-校验验证码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
             @ApiImplicitParam(name = "body", value = "{\n" +
                     "    \"email\": \"邮箱\",\n" +
                     "    \"verificationCode\": \"验证码\"\n" +
@@ -745,7 +754,7 @@ public class UserController {
      */
     @ApiOperation(value = "忘记密码-邮箱-修改密码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer c699ffecd5ce5afc2efc849b4bad0d6c", paramType = "header", required = true, example = "Bearer c699ffecd5ce5afc2efc849b4bad0d6c"),
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
             @ApiImplicitParam(name = "body", value = "{\n" +
                     "    \"email\": \"邮箱\",\n" +
                     "    \"verificationCode\": \"验证码\",\n" +

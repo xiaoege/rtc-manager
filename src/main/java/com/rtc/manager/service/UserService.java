@@ -56,12 +56,15 @@ public interface UserService {
 
     /**
      * 修改密码
+     *
      * @param user
+     * @return 修改密码后生成新的JWT，废弃原JWT
      */
-    ResultData updatePassword(String user) throws Exception;
+    ResultData updatePassword(String user, HttpServletRequest request) throws Exception;
 
     /**
      * 忘记密码，通过手机号发送验证码
+     *
      * @param phone
      * @param countryCode
      */
@@ -69,6 +72,7 @@ public interface UserService {
 
     /**
      * 检验手机号相对应的验证码
+     *
      * @param phone
      * @param countryCode
      * @param verificationCode
@@ -78,13 +82,15 @@ public interface UserService {
 
     /**
      * 查询用户信息，从header里读取用户账号
-     * @return
+     *
      * @param request
+     * @return
      */
     ResultData getUserInformation(HttpServletRequest request);
 
     /**
      * 忘记密码-修改密码
+     *
      * @param user
      * @return
      */
@@ -92,6 +98,7 @@ public interface UserService {
 
     /**
      * 更换手机号
+     *
      * @param user
      * @return
      */
@@ -99,6 +106,7 @@ public interface UserService {
 
     /**
      * 更换手机号-通过手机号发送验证码
+     *
      * @param phone
      * @param countryCode
      * @return
@@ -107,6 +115,7 @@ public interface UserService {
 
     /**
      * 上传头像,保存在临时文件夹
+     *
      * @param file
      * @return
      */
@@ -114,6 +123,7 @@ public interface UserService {
 
     /**
      * 添加到收藏夹/从收藏夹移除
+     *
      * @param body
      * @return
      */
@@ -129,6 +139,7 @@ public interface UserService {
 
     /**
      * 我的收藏-移除收藏
+     *
      * @param body
      * @return
      */
@@ -136,6 +147,7 @@ public interface UserService {
 
     /**
      * 新增评论
+     *
      * @param body
      * @return
      */
@@ -143,6 +155,7 @@ public interface UserService {
 
     /**
      * 翻译评论
+     *
      * @param commentId
      * @return
      */
@@ -150,6 +163,7 @@ public interface UserService {
 
     /**
      * 更换邮箱-通过邮箱发送验证码
+     *
      * @param email
      * @return
      */
@@ -157,6 +171,7 @@ public interface UserService {
 
     /**
      * 更换邮箱-更换成功后删除验证码
+     *
      * @param body
      * @return
      */
@@ -164,6 +179,7 @@ public interface UserService {
 
     /**
      * 忘记密码-邮箱-发送验证码
+     *
      * @param email
      * @return
      */
@@ -171,6 +187,7 @@ public interface UserService {
 
     /**
      * 忘记密码-邮箱-校验验证码
+     *
      * @param body
      * @return
      */
@@ -178,6 +195,7 @@ public interface UserService {
 
     /**
      * 忘记密码-邮箱-修改密码
+     *
      * @param body
      * @return
      */

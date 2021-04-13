@@ -1,8 +1,18 @@
 package com.rtc.manager.util;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.SignatureVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,6 +24,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -25,6 +36,7 @@ import java.util.regex.Pattern;
  */
 public class UserUtils {
 
+    private static final Logger logger = LoggerFactory.getLogger(UserUtils.class);
 
     /**
      * 验证是否为邮箱
@@ -42,6 +54,11 @@ public class UserUtils {
     private final static Pattern PATTERN_PASSWORD = Pattern.compile("^[A-Za-z][A-Za-z0-9]{4,14}$");
 
     private static JavaMailSenderImpl JAVA_MAIL_SENDER;
+
+    /**
+     * JWT签名
+     */
+    private static final Algorithm ALGORITHM = Algorithm.HMAC256("RTC-REF-ComChec");
 
     static {
         JAVA_MAIL_SENDER = new JavaMailSenderImpl();
@@ -74,7 +91,7 @@ public class UserUtils {
             text = "<p style='font-size=16px'>Welcome to register.</p>" +
                     "<p style='font-size=16px'>Your verification code is  <b>" + verificationCode + "</b>  ,please use within 15 minutes.</p>";
             helper.setText(text, true);
-
+            logger.info("发送邮件给:{}", email);
             JAVA_MAIL_SENDER.send(message);
 
         } catch (Exception e) {
@@ -215,5 +232,41 @@ public class UserUtils {
             e.printStackTrace();
         }
         return flag;
+    }
+
+    /**
+     * 根据UserId生成JWT
+     *
+     * @param userId
+     * @return
+     */
+    public static String getJWT(String userId) throws JWTCreationException {
+        return JWT.create()
+                .withIssuer("rtc")
+                .withSubject(userId)
+                .withIssuedAt(new Date())
+                .sign(ALGORITHM);
+    }
+
+    /**
+     * 校验JWT
+     *
+     * @param jwt
+     * @return
+     */
+    public static String verifyJWT(String jwt) {
+        String userId = null;
+        try {
+            DecodedJWT decodedJWT = JWT.decode(jwt);
+            ALGORITHM.verify(decodedJWT);
+            userId = decodedJWT.getSubject();
+        } catch (JWTDecodeException e) {
+            e.printStackTrace();
+            logger.info("JWT解析失败:{}", CommonUtils.getExceptionInfo(e));
+        } catch (SignatureVerificationException e) {
+            e.printStackTrace();
+            logger.info("JWT签名校验失败:{}", CommonUtils.getExceptionInfo(e));
+        }
+        return userId;
     }
 }

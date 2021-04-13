@@ -4,28 +4,46 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.rtc.manager.entity.RtcUserOauth;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author ChenHang
  */
+@ApiModel("用户信息")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RtcUserVO {
     private Integer id;
+    @ApiModelProperty("昵称")
     private String nickname;
+    @ApiModelProperty("手机号")
     private String phone;
+    @ApiModelProperty("手机号国家代码")
     @JsonAlias("country_code")
     private String countryCode;
+    @ApiModelProperty("邮箱")
     private String email;
+    @ApiModelProperty("简介")
     private String synopsis;
+    @ApiModelProperty("国家")
     private String country;
+    @ApiModelProperty("公司")
     private String enterprise;
+    @ApiModelProperty("地址")
     private String address;
 //    @JsonSetter("Authorization")
 //    private String authorization;
     @JsonIgnore
     private String uuid;
 
+    @ApiModelProperty("头像url")
     private String portrait;
+    @ApiModelProperty("第三方")
+    private List<RtcUserOauth> oauthList;
 
     public Integer getId() {
         return id;
@@ -113,5 +131,13 @@ public class RtcUserVO {
 
     public void setPortrait(String portrait) {
         this.portrait = portrait;
+    }
+
+    public List<RtcUserOauth> getOauthList() {
+        return oauthList;
+    }
+
+    public void setOauthList(List<RtcUserOauth> oauthList) {
+        this.oauthList = oauthList;
     }
 }
