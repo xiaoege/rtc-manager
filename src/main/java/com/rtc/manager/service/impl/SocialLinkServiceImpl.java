@@ -73,7 +73,7 @@ public class SocialLinkServiceImpl implements SocialLinkService {
     public ResultData<Boolean> checkToken(String body, String state) throws Exception {
         switch (state) {
             case "Google":
-                String CLIENT_ID = (String) utilsService.getAccessKey("google").get("accessKey");
+                String CLIENT_ID = (String) utilsService.getAccessKey("google-android").get("accessKey");
                 GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
                         .setAudience(Collections.singletonList(CLIENT_ID)).build();
                 HashMap<String, String> map = (HashMap<String, String>) objectMapper.readValue(body, Map.class);
@@ -102,7 +102,7 @@ public class SocialLinkServiceImpl implements SocialLinkService {
     public ResultData linkAccount(String body, String state, HttpServletRequest request) throws Exception {
         switch (state) {
             case "Google":
-                String CLIENT_ID = (String) utilsService.getAccessKey("google").get("accessKey");
+                String CLIENT_ID = (String) utilsService.getAccessKey("google-android").get("accessKey");
                 GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
                         .setAudience(Collections.singletonList(CLIENT_ID)).build();
                 HashMap<String, String> map = (HashMap<String, String>) objectMapper.readValue(body, Map.class);
@@ -174,7 +174,7 @@ public class SocialLinkServiceImpl implements SocialLinkService {
         }
         switch (state) {
             case "Google":
-                String CLIENT_ID = (String) utilsService.getAccessKey("google").get("accessKey");
+                String CLIENT_ID = (String) utilsService.getAccessKey("google-android").get("accessKey");
                 GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
                         .setAudience(Collections.singletonList(CLIENT_ID)).build();
                 HashMap<String, String> map = (HashMap<String, String>) objectMapper.readValue(body, Map.class);
