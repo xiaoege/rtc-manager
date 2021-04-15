@@ -86,6 +86,9 @@ public class UserServiceImpl implements UserService {
     @Value("${rtc.loginTokenTTL}")
     private Long loginTokenTTL;
 
+    @Value("${rtc.img-type}")
+    private List<String> imgType;
+
     private final RestHighLevelClient client = ElasticsearchUtils.getClient();
 
     Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
@@ -733,9 +736,8 @@ public class UserServiceImpl implements UserService {
         logger.info("uploadPortrait():{}", file);
         String name = file.getName();
         String originalFilename = file.getOriginalFilename();
-        List<String> suffList = List.of("jpg", "jpeg", "png", "bmp");
         String suffString = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
-        if (!suffList.contains(suffString)) {
+        if (!imgType.contains(suffString)) {
             return ResultData.FAIL(null, 905, "头像文件格式错误");
         }
 

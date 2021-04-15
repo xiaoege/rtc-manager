@@ -4,7 +4,7 @@ import com.rtc.manager.entity.RtcNewsDetail;
 import com.rtc.manager.vo.RtcNewsDetailVO;
 
 public interface RtcNewsDetailMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(String newId);
 
     int insert(RtcNewsDetail record);
 
@@ -24,4 +24,6 @@ public interface RtcNewsDetailMapper {
      * @return
      */
     RtcNewsDetailVO getNewsDetail(String newsId);
+
+    int deleteNewsDetail(String newsId);
 }

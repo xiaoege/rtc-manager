@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
  */
 @ApiModel(value = "新闻列表")
 public class RtcNewsVO {
+    private Integer id;
     private String uuid;
     @ApiModelProperty(value = "作者")
     private String author;
@@ -167,5 +168,13 @@ public class RtcNewsVO {
 
     public void setViews(Integer views) {
         this.views = views;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

@@ -1,5 +1,6 @@
 package com.rtc.manager.entity;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class RtcNews {
@@ -17,13 +18,19 @@ public class RtcNews {
 
     private String country;
 
+    private String preview;
+
     private Integer sequence;
 
     private Date gmtCreate;
 
-    private Date gmtModified;
+    private LocalDateTime gmtModified;
 
     private Integer status;
+
+    private Integer examination;
+
+    private String description;
 
     public Integer getId() {
         return id;
@@ -65,12 +72,28 @@ public class RtcNews {
         this.source = source == null ? null : source.trim();
     }
 
+    public String getSourceUrl() {
+        return sourceUrl;
+    }
+
+    public void setSourceUrl(String sourceUrl) {
+        this.sourceUrl = sourceUrl == null ? null : sourceUrl.trim();
+    }
+
     public String getCountry() {
         return country;
     }
 
     public void setCountry(String country) {
         this.country = country == null ? null : country.trim();
+    }
+
+    public String getPreview() {
+        return preview;
+    }
+
+    public void setPreview(String preview) {
+        this.preview = preview == null ? null : preview.trim();
     }
 
     public Integer getSequence() {
@@ -89,11 +112,11 @@ public class RtcNews {
         this.gmtCreate = gmtCreate;
     }
 
-    public Date getGmtModified() {
+    public LocalDateTime getGmtModified() {
         return gmtModified;
     }
 
-    public void setGmtModified(Date gmtModified) {
+    public void setGmtModified(LocalDateTime gmtModified) {
         this.gmtModified = gmtModified;
     }
 
@@ -105,11 +128,19 @@ public class RtcNews {
         this.status = status;
     }
 
-    public String getSourceUrl() {
-        return sourceUrl;
+    public Integer getExamination() {
+        return examination;
     }
 
-    public void setSourceUrl(String sourceUrl) {
-        this.sourceUrl = sourceUrl;
+    public void setExamination(Integer examination) {
+        this.examination = examination;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description == null ? null : description.trim();
     }
 }

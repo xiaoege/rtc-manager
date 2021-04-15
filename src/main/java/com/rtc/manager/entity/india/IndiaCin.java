@@ -55,6 +55,8 @@ public class IndiaCin {
 
     private Integer status;
 
+    private String logo;
+
     public Integer getId() {
         return id;
     }
@@ -245,5 +247,13 @@ public class IndiaCin {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
 }

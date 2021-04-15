@@ -90,6 +90,9 @@ rtc:
   news-image-path:
     /work/images
 #    /Users/chenhang/work/images
+  news-examination: 0, 1, 2
+  img-source: chinadaily
+  img-type: jpg, jpeg, png, bmp
   # 评论长度限制
   commitLength:
     1000

@@ -35,6 +35,7 @@ public class IndiaLlpinBasicDTO {
     private String annualDate;
     @JsonAlias("LLP Status")
     private String llpStatus;
+    private String logo;
 
     public String getLlpin() {
         return llpin;
@@ -154,5 +155,13 @@ public class IndiaLlpinBasicDTO {
 
     public void setLlpStatus(String llpStatus) {
         this.llpStatus = llpStatus;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
 }

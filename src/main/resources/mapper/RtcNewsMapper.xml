@@ -9,17 +9,28 @@
     <result column="source" jdbcType="VARCHAR" property="source" />
     <result column="source_url" jdbcType="VARCHAR" property="sourceUrl" />
     <result column="country" jdbcType="VARCHAR" property="country" />
+    <result column="preview" jdbcType="VARCHAR" property="preview" />
     <result column="sequence" jdbcType="INTEGER" property="sequence" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="examination" jdbcType="INTEGER" property="examination" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.rtc.manager.entity.RtcNews">
+    <result column="description" jdbcType="LONGVARCHAR" property="description" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, uuid, author, title, source, source_url, country, sequence, gmt_create, gmt_modified, status
+    id, uuid, author, title, source, source_url, country, preview, sequence, gmt_create, 
+    gmt_modified, status, examination
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <sql id="Blob_Column_List">
+    description
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from rtc_news
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -29,13 +40,17 @@
   </delete>
   <insert id="insert" parameterType="com.rtc.manager.entity.RtcNews">
     insert into rtc_news (id, uuid, author, 
-      title, source, source_url, country,
-      sequence, gmt_create, gmt_modified,
-      status)
+      title, source, source_url, 
+      country, preview, sequence, 
+      gmt_create, gmt_modified, 
+      status, examination, description
+      )
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, 
-      #{title,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, #{sourceUrl,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR},
-      #{sequence,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP},
-      #{status,jdbcType=INTEGER})
+      #{title,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, #{sourceUrl,jdbcType=VARCHAR}, 
+      #{country,jdbcType=VARCHAR}, #{preview,jdbcType=VARCHAR}, #{sequence,jdbcType=INTEGER}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER}, #{examination,jdbcType=INTEGER}, #{description,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.rtc.manager.entity.RtcNews">
     insert into rtc_news
@@ -61,6 +76,9 @@
       <if test="country != null">
         country,
       </if>
+      <if test="preview != null">
+        preview,
+      </if>
       <if test="sequence != null">
         sequence,
       </if>
@@ -72,6 +90,12 @@
       </if>
       <if test="status != null">
         status,
+      </if>
+      <if test="examination != null">
+        examination,
+      </if>
+      <if test="description != null">
+        description,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -96,6 +120,9 @@
       <if test="country != null">
         #{country,jdbcType=VARCHAR},
       </if>
+      <if test="preview != null">
+        #{preview,jdbcType=VARCHAR},
+      </if>
       <if test="sequence != null">
         #{sequence,jdbcType=INTEGER},
       </if>
@@ -108,14 +135,17 @@
       <if test="status != null">
         #{status,jdbcType=INTEGER},
       </if>
+      <if test="examination != null">
+        #{examination,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.RtcNews">
     update rtc_news
     <set>
-      <if test="uuid != null">
-        uuid = #{uuid,jdbcType=VARCHAR},
-      </if>
       <if test="author != null">
         author = #{author,jdbcType=VARCHAR},
       </if>
@@ -131,19 +161,36 @@
       <if test="country != null">
         country = #{country,jdbcType=VARCHAR},
       </if>
+      <if test="preview != null">
+        preview = #{preview,jdbcType=VARCHAR},
+      </if>
       <if test="sequence != null">
         sequence = #{sequence,jdbcType=INTEGER},
       </if>
-      <if test="gmtCreate != null">
-        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      <if test="examination != null">
+        examination = #{examination,jdbcType=INTEGER},
       </if>
-      <if test="gmtModified != null">
-        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=INTEGER},
+      <if test="description != null">
+        description = #{description,jdbcType=LONGVARCHAR},
       </if>
     </set>
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.rtc.manager.entity.RtcNews">
+    update rtc_news
+    set uuid = #{uuid,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      source = #{source,jdbcType=VARCHAR},
+      source_url = #{sourceUrl,jdbcType=VARCHAR},
+      country = #{country,jdbcType=VARCHAR},
+      preview = #{preview,jdbcType=VARCHAR},
+      sequence = #{sequence,jdbcType=INTEGER},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      examination = #{examination,jdbcType=INTEGER},
+      description = #{description,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.RtcNews">
@@ -154,32 +201,35 @@
       source = #{source,jdbcType=VARCHAR},
       source_url = #{sourceUrl,jdbcType=VARCHAR},
       country = #{country,jdbcType=VARCHAR},
+      preview = #{preview,jdbcType=VARCHAR},
       sequence = #{sequence,jdbcType=INTEGER},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER}
+      status = #{status,jdbcType=INTEGER},
+      examination = #{examination,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
   <select id="listNews" resultType="com.rtc.manager.vo.RtcNewsVO">
     SELECT
-        rtc_news.uuid,
-        rtc_news.author,
-        rtc_news.title,
-        rtc_news.source,
-        rtc_news.source_url sourceUrl,
-        rtc_news.country,
-        rtc_news.description,
-        rtc_news.preview,
-        rtc_news.sequence,
-        rtc_news.gmt_create gmtCreate,
-        rtc_news.gmt_modified gmtModified,
-        rtc_news_config.views
+    rtc_news.id,
+    rtc_news.uuid,
+    rtc_news.author,
+    rtc_news.title,
+    rtc_news.source,
+    rtc_news.source_url sourceUrl,
+    rtc_news.country,
+    rtc_news.description,
+    rtc_news.preview,
+    rtc_news.sequence,
+    rtc_news.gmt_create gmtCreate,
+    rtc_news.gmt_modified gmtModified,
+    rtc_news_config.views
     FROM
-        rtc_news
-        LEFT JOIN rtc_news_config ON rtc_news.uuid = rtc_news_config.news_id
+    rtc_news
+    LEFT JOIN rtc_news_config ON rtc_news.uuid = rtc_news_config.news_id
     WHERE
-        rtc_news.STATUS = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+    rtc_news.STATUS = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
     <if test="startDate != null and startDate !=''">
       AND rtc_news.gmt_create >= STR_TO_DATE(#{startDate,jdbcType=TIMESTAMP},'%Y-%m-%d %T')
     </if>
@@ -187,6 +237,11 @@
       AND rtc_news.gmt_create &lt; DATE_ADD(STR_TO_DATE(#{endDate,jdbcType=TIMESTAMP},'%Y-%m-%d %T') ,INTERVAL  1 DAY)
     </if>
     order by
-        rtc_news.gmt_create desc
+    rtc_news.gmt_create desc
   </select>
+
+  <update id="deleteNews">
+    UPDATE rtc_news SET status = ${@com.rtc.manager.util.CommonConst@STATUS_NOT_USED}
+    WHERE uuid = #{newsId,jdbcType=VARCHAR}
+  </update>
 </mapper>

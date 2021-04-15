@@ -2,6 +2,7 @@ package com.rtc.manager.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rtc.manager.service.EnterpriseManage;
+import com.rtc.manager.util.CommonUtils;
 import com.rtc.manager.util.ElasticsearchUtils;
 import com.rtc.manager.vo.ResultData;
 import com.rtc.manager.vo.SearchEnterpriseListVO;
@@ -88,6 +89,7 @@ public class EnterpriseManageImpl implements EnterpriseManage {
                 for (int i = 0; i < hits.length; i++) {
                     SearchHit hit = hits[i];
                     SearchEnterpriseListVO vo = objectMapper.readValue(hit.getSourceAsString(), SearchEnterpriseListVO.class);
+                    CommonUtils.setLogoNameAndColor(vo);
                     vo.setEsId(hit.getId());
                     vo.setIdx(hit.getIndex());
                     resultList.add(vo);

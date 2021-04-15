@@ -63,6 +63,8 @@ public class Qcc {
 
     private String nation;
 
+    private String logo;
+
     public Integer getId() {
         return id;
     }
@@ -221,5 +223,13 @@ public class Qcc {
 
     public void setNation(String nation) {
         this.nation = nation;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
 }

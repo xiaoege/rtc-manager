@@ -30,4 +30,5 @@ public interface RtcNewsMapper {
     List<RtcNewsVO> listNews(@Param("startDate") String startDate, @Param("endDate") String endDate,
                              @Param("pageNum") int pageNum, @Param("pageSize") int pageSize);
 
+    int deleteNews(String newsId);
 }

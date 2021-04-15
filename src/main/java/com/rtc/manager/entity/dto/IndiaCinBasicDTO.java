@@ -46,6 +46,8 @@ public class IndiaCinBasicDTO {
     @JsonAlias("Registered Address")
     private String registeredAddress;
 
+    private String logo;
+
     public String getCin() {
         return cin;
     }
@@ -196,5 +198,13 @@ public class IndiaCinBasicDTO {
 
     public void setRegisteredAddress(String registeredAddress) {
         this.registeredAddress = registeredAddress;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
 }

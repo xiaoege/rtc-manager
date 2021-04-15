@@ -23,6 +23,8 @@ public class RtcNewsDetail {
 
     private String content;
 
+    private String type;
+
     public Integer getId() {
         return id;
     }
@@ -101,5 +103,13 @@ public class RtcNewsDetail {
 
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

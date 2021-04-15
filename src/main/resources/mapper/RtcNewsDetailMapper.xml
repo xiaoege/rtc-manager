@@ -29,9 +29,10 @@
     from rtc_news_detail
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from rtc_news_detail
-    where id = #{id,jdbcType=INTEGER}
+    where news_id = #{newsId,jdbcType=VARCHAR}
+      AND id &gt; 0
   </delete>
   <insert id="insert" parameterType="com.rtc.manager.entity.RtcNewsDetail">
     insert into rtc_news_detail (id, news_id, author, 
@@ -178,7 +179,8 @@
     <result column="source" property="source" jdbcType="VARCHAR"/>
     <result column="source_url" property="sourceUrl" jdbcType="VARCHAR"/>
     <result column="country" property="country" jdbcType="VARCHAR"/>
-    <result column="gmt_create" property="gmtCreate" jdbcType="VARCHAR"/>
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
     <result column="views" property="views" jdbcType="VARCHAR"/>
     <collection property="content" ofType="String">
         <result column="content" property="content" jdbcType="VARCHAR"/>
@@ -193,6 +195,7 @@
         rtc_news.source_url,
         rtc_news.country,
         rtc_news.gmt_create,
+        rtc_news.gmt_modified,
         rtc_news_detail.content,
         rtc_news_config.views
     FROM
@@ -204,4 +207,9 @@
         and rtc_news_detail.news_id = #{newsId,jdbcType=VARCHAR}
         order by rtc_news_detail.id asc
   </select>
+
+  <update id="deleteNewsDetail">
+    UPDATE rtc_news_detail SET status = ${@com.rtc.manager.util.CommonConst@STATUS_NOT_USED}
+    WHERE news_id = #{newsId,jdbcType=VARCHAR}
+  </update>
 </mapper>

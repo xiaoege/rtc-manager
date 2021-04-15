@@ -35,6 +35,8 @@ public class QccDTO {
 
     private List<QccShareholder> shareholderList;
 
+    private String logo;
+
     public QccDTO() {
         this.businessInformation = new QccBusinessInformation();
         this.shareholderList = new ArrayList<>();
@@ -134,5 +136,13 @@ public class QccDTO {
 
     public void setShareholderList(List<QccShareholder> shareholderList) {
         this.shareholderList = shareholderList;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
 }

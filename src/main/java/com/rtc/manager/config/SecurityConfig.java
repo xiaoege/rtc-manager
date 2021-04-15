@@ -176,9 +176,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 忘记密码-邮箱-修改密码
                 .antMatchers("/user/forgetEmailPassword").permitAll()
                 // 第三方
-                .antMatchers("/socialLink/checkToken","/socialLink/linkAccount").permitAll()
+                .antMatchers("/socialLink/checkToken", "/socialLink/linkAccount").permitAll()
                 // 新闻-允许不登录访问是为了分享功能
-                .antMatchers("/news/**").permitAll()
+                .antMatchers("/news/listNews", "/news/getNews").permitAll()
                 // druid
                 .antMatchers("/druid/**").permitAll()
                 .anyRequest().authenticated()
