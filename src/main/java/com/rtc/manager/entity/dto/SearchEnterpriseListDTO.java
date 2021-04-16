@@ -84,6 +84,8 @@ public class SearchEnterpriseListDTO {
     @JsonIgnore
     private String idx;
 
+    private String logo;
+
     public SearchEnterpriseListDTO() {
     }
 
@@ -97,11 +99,12 @@ public class SearchEnterpriseListDTO {
      * @param establishmentDate   成立日期
      * @param enterpriseCode      企业编号
 //     * @param legalRepresentative 法人代表
+     * @param logo              logo本地地址
      * @param createTime          创建时间-pattern:yyyy-MM-dd HH:mm:ss
      */
     public SearchEnterpriseListDTO(String nation, String eType, Integer pid, String enterpriseId,
                                    String eName, String address, String establishmentDate,
-                                   String enterpriseCode, String createTime) {
+                                   String enterpriseCode,String logo, String createTime) {
         this.eType = eType;
         this.eName = eName;
         this.nation = nation;
@@ -111,6 +114,7 @@ public class SearchEnterpriseListDTO {
         this.address = address;
         this.createTime = createTime;
         this.enterpriseCode = enterpriseCode;
+        this.logo = logo;
     }
 
     public String geteType() {
@@ -224,5 +228,13 @@ public class SearchEnterpriseListDTO {
     @JsonSetter("last_modified")
     public void setDocLastModified(String docLastModified) {
         this.docLastModified = docLastModified;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
 }

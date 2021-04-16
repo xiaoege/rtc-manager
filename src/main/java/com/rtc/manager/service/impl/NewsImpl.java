@@ -52,8 +52,8 @@ public class NewsImpl implements News {
     @Value("${rtc.timezone}")
     private List<String> timezone;
 
-    @Value("${rtc.news-image-path}")
-    private String newsImagePath;
+    @Value("${rtc.image-path}")
+    private String imagePath;
 
     @Value("${rtc.img-type}")
     private List<String> imgType;
@@ -88,7 +88,7 @@ public class NewsImpl implements News {
                 }
                 String url = rtcNewsVO.getPreview();
                 if (url != null && !url.startsWith(this.url)) {
-                    if (url.length() > newsImagePath.length()) {
+                    if (url.length() > imagePath.length()) {
                         // http://192.168.1.123/chinadaily/2020-07/14/1594717677-8073.jpeg
 //                            BufferedImage sourceImg = ImageIO.read(new URL("file://" + url).openStream());
                         BufferedImage sourceImg = ImageIO.read(new FileInputStream(new File(url)));
@@ -97,7 +97,7 @@ public class NewsImpl implements News {
                         int height = sourceImg.getHeight();
                         rtcNewsVO.setWeight(width);
                         rtcNewsVO.setHeight(height);
-                        url = this.url + url.substring(newsImagePath.length());
+                        url = this.url + url.substring(imagePath.length());
                         rtcNewsVO.setPreview(url);
                     }
                 }
@@ -171,7 +171,7 @@ public class NewsImpl implements News {
                         // 12 = /work/images
                         int width = 0;
                         int height = 0;
-                        if (null != url && url.length() > newsImagePath.length()) {
+                        if (null != url && url.length() > imagePath.length()) {
 //                            BufferedImage sourceImg = ImageIO.read(new URL("file://" + url).openStream());
                             BufferedImage sourceImg = ImageIO.read(new FileInputStream(new File(url)));
                             // 单位：像素
@@ -180,7 +180,7 @@ public class NewsImpl implements News {
                         }
                         map.put("data", p.replaceAll("<[^>]*>", ""));
                         map.put("type", "img");
-                        url = this.url + url.substring(newsImagePath.length());
+                        url = this.url + url.substring(imagePath.length());
                         map.put("url", url);
                         map.put("width", width);
                         map.put("height", height);
@@ -369,7 +369,7 @@ public class NewsImpl implements News {
         int dayOfMonth = localDateTime.getDayOfMonth();
         long epochSecond = localDateTime.toEpochSecond(ZoneOffset.of("+8"));
         String sourcePath = "/" + source;
-        String tempDirPath = newsImagePath + sourcePath + "/" + year + "-" + String.format("%02d", month) + "/" + dayOfMonth + "/";
+        String tempDirPath = imagePath + sourcePath + "/" + year + "-" + String.format("%02d", month) + "/" + dayOfMonth + "/";
         File tempDir = new File(tempDirPath);
         if (!tempDir.exists()) {
             tempDir.mkdirs();
@@ -380,7 +380,7 @@ public class NewsImpl implements News {
         file.transferTo(new File(tempFilePath));
 
         // 将本地路径转换为网络路径
-        tempFilePath = url + tempFilePath.substring(newsImagePath.length());
+        tempFilePath = url + tempFilePath.substring(imagePath.length());
 
         return ResultData.SUCCESS(tempFilePath);
     }
@@ -415,7 +415,7 @@ public class NewsImpl implements News {
     String fileUrl2Location(String url, String source) {
         if (!StringUtils.isEmpty(url)) {
             try {
-                url = newsImagePath + url.substring(this.url.length());
+                url = imagePath + url.substring(this.url.length());
             } catch (Exception e) {
                 e.printStackTrace();
                 logger.info("图片temp地址转换为实际地址异常:{},{}", CommonUtils.getExceptionInfo(e), url);

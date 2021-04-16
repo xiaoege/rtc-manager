@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
 /**
@@ -81,7 +82,7 @@ public class EnterpriseManageController {
     public ResultData addEnterprise(@RequestBody String body,
                                     @RequestParam(name = "nation") String nation,
                                     @RequestParam(name = "e_type") String eType) throws Exception {
-        return qcc.addEnterprise(body, nation, eType);
+        return enterpriseManage.addEnterprise(body, nation, eType);
     }
 
     /**
@@ -97,7 +98,7 @@ public class EnterpriseManageController {
                                        @RequestParam(name = "nation") String nation,
                                        @RequestParam(name = "e_type") String eType, String esId,
                                        String enterpriseId, String timezone) throws Exception {
-        return qcc.modifyEnterprise(body, nation, eType, esId, enterpriseId, timezone);
+        return enterpriseManage.modifyEnterprise(body, nation, eType, esId, enterpriseId, timezone);
     }
 
     /**
@@ -127,7 +128,6 @@ public class EnterpriseManageController {
      * @param enterpriseId
      * @return
      */
-    @ApiIgnore
     @ApiOperation("新增单个企业")
     @PostMapping("addChinaCategory")
     public ResultData addChinaCategory(@RequestBody String body,
@@ -136,7 +136,14 @@ public class EnterpriseManageController {
 //        return qcc.addChinaCategory(body, enterpriseId);
     }
 
-    //todo 用户权限管理
-
+    /**
+     * 上传logo图片
+     *
+     * @return 可访问的临时地址
+     */
+    @PostMapping("uploadLogo")
+    public ResultData uploadLogo(@RequestParam MultipartFile file) throws Exception{
+        return enterpriseManage.uploadLogo(file);
+    }
 
 }

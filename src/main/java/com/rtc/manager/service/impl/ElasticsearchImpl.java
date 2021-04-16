@@ -367,6 +367,7 @@ public class ElasticsearchImpl implements Elasticsearch {
      * @param establishmentDate 成立日期
      * @param enterpriseCode    企业编号
      *                          //     * @param legalRepresentative 法人代表
+     * @param logo              logo本地地址
      * @param createTime        创建时间-pattern:yyyy-MM-dd HH:mm:ss
      * @param idx               es-index
      * @return
@@ -375,11 +376,11 @@ public class ElasticsearchImpl implements Elasticsearch {
     @Override
     public int addEnterprise(String nation, String eType, Integer pid, String enterpriseId,
                              String name, String address, String establishmentDate,
-                             String enterpriseCode, String createTime, String idx) throws Exception {
+                             String enterpriseCode, String logo, String createTime, String idx) throws Exception {
         if (ElasticsearchUtils.indexExists(idx)) {
             SearchEnterpriseListDTO dto = new SearchEnterpriseListDTO(nation, eType, pid, enterpriseId,
                     name, address, establishmentDate,
-                    enterpriseCode, createTime);
+                    enterpriseCode, logo, createTime);
             ObjectMapper objectMapper = new ObjectMapper();
             IndexRequest indexRequest = new IndexRequest(idx);
             indexRequest.source(objectMapper.writeValueAsString(dto), XContentType.JSON);
@@ -396,11 +397,11 @@ public class ElasticsearchImpl implements Elasticsearch {
     @Override
     public int modifyEnterprise(String nation, String eType, Integer pid, String enterpriseId,
                                 String name, String address, String establishmentDate,
-                                String enterpriseCode, String createTime, String idx, String esId) throws Exception {
+                                String enterpriseCode, String createTime, String logo, String idx, String esId) throws Exception {
         if (ElasticsearchUtils.indexExists(idx)) {
             SearchEnterpriseListDTO dto = new SearchEnterpriseListDTO(nation, eType, pid, enterpriseId,
                     name, address, establishmentDate,
-                    enterpriseCode, createTime);
+                    enterpriseCode, logo, createTime);
             dto.setDocLastModified(Instant.now().toString());
             ObjectMapper objectMapper = new ObjectMapper();
             IndexRequest indexRequest = new IndexRequest(idx);
