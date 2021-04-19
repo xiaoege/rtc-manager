@@ -231,7 +231,7 @@
     WHERE
     rtc_news.STATUS = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
     <if test="startDate != null and startDate !=''">
-      AND rtc_news.gmt_create >= STR_TO_DATE(#{startDate,jdbcType=TIMESTAMP},'%Y-%m-%d %T')
+      AND rtc_news.gmt_create &gt;= STR_TO_DATE(#{startDate,jdbcType=TIMESTAMP},'%Y-%m-%d %T')
     </if>
     <if test="endDate != null and endDate != ''">
       AND rtc_news.gmt_create &lt; DATE_ADD(STR_TO_DATE(#{endDate,jdbcType=TIMESTAMP},'%Y-%m-%d %T') ,INTERVAL  1 DAY)
