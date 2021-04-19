@@ -2,6 +2,7 @@ package com.rtc.manager.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,6 +18,7 @@ import com.rtc.manager.dao.america.colorado.AmericaColoradoMapper;
 import com.rtc.manager.dao.america.connecticut.AmericaConnecticutMapper;
 import com.rtc.manager.dao.america.connecticut.AmericaConnecticutPrincipalDetailMapper;
 import com.rtc.manager.dao.america.utah.AmericaUtahMapper;
+import com.rtc.manager.dao.america.vermount.AmericaVermountMapper;
 import com.rtc.manager.dao.china.ChinaEcMapper;
 import com.rtc.manager.dao.america.delaware.AmericaDelawareMapper;
 import com.rtc.manager.dao.america.florida.AmericaFloridaAnnualReportFieldMapper;
@@ -71,6 +73,7 @@ import com.rtc.manager.entity.america.colorado.AmericaColorado;
 import com.rtc.manager.entity.america.connecticut.AmericaConnecticut;
 import com.rtc.manager.entity.america.connecticut.AmericaConnecticutPrincipalDetail;
 import com.rtc.manager.entity.america.utah.AmericaUtah;
+import com.rtc.manager.entity.america.vermount.AmericaVermount;
 import com.rtc.manager.entity.china.ChinaEc;
 import com.rtc.manager.entity.america.delaware.AmericaDelaware;
 import com.rtc.manager.entity.america.florida.AmericaFlorida;
@@ -524,6 +527,9 @@ public class SaveJsonImpl implements SaveJson {
 
     @Autowired
     private AmericaUtahMapper americaUtahMapper;
+
+    @Autowired
+    private AmericaVermountMapper americaVermountMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -3239,6 +3245,78 @@ public class SaveJsonImpl implements SaveJson {
             logger.info("json文件导入成功，文件是{}", file.getName());
             reader.close();
             bis.close();
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveJsonAmerica4Vermount(File fileDirPath) throws Exception {
+        List<String> fileList = new ArrayList();
+        CommonUtils.readJsonFiles(fileDirPath, fileList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (int z = 0; z < fileList.size(); z++) {
+            File file = new File(fileList.get(z));
+
+            // 忽略mac的隐藏文件
+            if (file.getName().contains(".DS_Store")) {
+                continue;
+            }
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
+
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
+
+            StringBuilder sb = new StringBuilder();
+            while (reader.ready()) {
+                sb.append((char) reader.read());
+            }
+            String sss = sb.toString();
+            sss = sss.replace("\\\"", "").replace("\\n", " ");
+            List<AmericaVermountDTO> list = null;
+            try {
+                list = Optional.ofNullable(objectMapper.readValue(sss, new TypeReference<List<AmericaVermountDTO>>() {
+                })).orElseGet(() -> new ArrayList<>());
+                for (int i = 0; i < list.size(); i++) {
+                    AmericaVermountDTO dto = list.get(i);
+                    AmericaVermount americaVermount = new AmericaVermount(objectMapper.writeValueAsString(dto.getPrincipal()),
+                            objectMapper.writeValueAsString(dto.getApplicant()),
+                            objectMapper.writeValueAsString(dto.getRegistrant()),
+                            objectMapper.writeValueAsString(dto.getRegisteredAgent()),
+                            objectMapper.writeValueAsString(dto.getIndividualRegistrant()),
+                            objectMapper.writeValueAsString(dto.getOtherAddress()),
+                            objectMapper.writeValueAsString(dto.getBusinessPoint()),
+                            objectMapper.writeValueAsString(dto.getAssumedBusiness()));
+                    americaVermount.setEnterpriseId(CommonUtils.getUUID());
+                    BeanUtils.copyProperties(dto, americaVermount);
+                    americaVermountMapper.insertSelective(americaVermount);
+                }
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                logger.info("json序列化出现问题:{}", file.getName());
+                logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
+                throw e;
+            }
+
+            logger.info("json文件导入成功，文件是{}", file.getName());
+            reader.close();
+            bis.close();
+        }
+    }
+
+    /**
+     * 打印json字段
+     *
+     * @param list
+     */
+    private void extracted(List<LinkedHashMap> list) {
+        LinkedHashMap linkedHashMap = list.get(0);
+        Set<Map.Entry> set = linkedHashMap.entrySet();
+        for (Map.Entry entry : set) {
+            if (entry instanceof Map.Entry) {
+                System.out.println(entry.getKey());
+            } else {
+
+            }
         }
     }
 

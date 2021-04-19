@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.america.vermount.AmericaVermountMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.america.vermount.AmericaVermount">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="business_id" jdbcType="VARCHAR" property="businessId" />
+    <result column="business_type" jdbcType="VARCHAR" property="businessType" />
+    <result column="business_status" jdbcType="VARCHAR" property="businessStatus" />
+    <result column="expiration_date" jdbcType="VARCHAR" property="expirationDate" />
+    <result column="registration_date" jdbcType="VARCHAR" property="registrationDate" />
+    <result column="naics_code" jdbcType="VARCHAR" property="naicsCode" />
+    <result column="naics_sub_code" jdbcType="VARCHAR" property="naicsSubCode" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="mailing_address" jdbcType="VARCHAR" property="mailingAddress" />
+    <result column="citizenship" jdbcType="VARCHAR" property="citizenship" />
+    <result column="principal" jdbcType="VARCHAR" property="principal" />
+    <result column="applicant" jdbcType="VARCHAR" property="applicant" />
+    <result column="registrant" jdbcType="VARCHAR" property="registrant" />
+    <result column="registered_agent" jdbcType="VARCHAR" property="registeredAgent" />
+    <result column="individual_registrant" jdbcType="VARCHAR" property="individualRegistrant" />
+    <result column="other_address" jdbcType="VARCHAR" property="otherAddress" />
+    <result column="business_point" jdbcType="VARCHAR" property="businessPoint" />
+    <result column="assumed_business" jdbcType="VARCHAR" property="assumedBusiness" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, name, business_id, business_type, business_status, expiration_date, 
+    registration_date, naics_code, naics_sub_code, address, mailing_address, citizenship, 
+    principal, applicant, registrant, registered_agent, individual_registrant, other_address, 
+    business_point, assumed_business, gmt_create, gmt_modified, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from america_vermount
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from america_vermount
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rtc.manager.entity.america.vermount.AmericaVermount">
+    insert into america_vermount (id, enterprise_id, name, 
+      business_id, business_type, business_status, 
+      expiration_date, registration_date, naics_code, 
+      naics_sub_code, address, mailing_address, 
+      citizenship, principal, applicant, 
+      registrant, registered_agent, individual_registrant, 
+      other_address, business_point, assumed_business, 
+      gmt_create, gmt_modified, status
+      )
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{businessId,jdbcType=VARCHAR}, #{businessType,jdbcType=VARCHAR}, #{businessStatus,jdbcType=VARCHAR}, 
+      #{expirationDate,jdbcType=VARCHAR}, #{registrationDate,jdbcType=VARCHAR}, #{naicsCode,jdbcType=VARCHAR}, 
+      #{naicsSubCode,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{mailingAddress,jdbcType=VARCHAR}, 
+      #{citizenship,jdbcType=VARCHAR}, #{principal,jdbcType=VARCHAR}, #{applicant,jdbcType=VARCHAR}, 
+      #{registrant,jdbcType=VARCHAR}, #{registeredAgent,jdbcType=VARCHAR}, #{individualRegistrant,jdbcType=VARCHAR}, 
+      #{otherAddress,jdbcType=VARCHAR}, #{businessPoint,jdbcType=VARCHAR}, #{assumedBusiness,jdbcType=VARCHAR}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.america.vermount.AmericaVermount">
+    insert into america_vermount
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="businessId != null">
+        business_id,
+      </if>
+      <if test="businessType != null">
+        business_type,
+      </if>
+      <if test="businessStatus != null">
+        business_status,
+      </if>
+      <if test="expirationDate != null">
+        expiration_date,
+      </if>
+      <if test="registrationDate != null">
+        registration_date,
+      </if>
+      <if test="naicsCode != null">
+        naics_code,
+      </if>
+      <if test="naicsSubCode != null">
+        naics_sub_code,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="mailingAddress != null">
+        mailing_address,
+      </if>
+      <if test="citizenship != null">
+        citizenship,
+      </if>
+      <if test="principal != null">
+        principal,
+      </if>
+      <if test="applicant != null">
+        applicant,
+      </if>
+      <if test="registrant != null">
+        registrant,
+      </if>
+      <if test="registeredAgent != null">
+        registered_agent,
+      </if>
+      <if test="individualRegistrant != null">
+        individual_registrant,
+      </if>
+      <if test="otherAddress != null">
+        other_address,
+      </if>
+      <if test="businessPoint != null">
+        business_point,
+      </if>
+      <if test="assumedBusiness != null">
+        assumed_business,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="businessId != null">
+        #{businessId,jdbcType=VARCHAR},
+      </if>
+      <if test="businessType != null">
+        #{businessType,jdbcType=VARCHAR},
+      </if>
+      <if test="businessStatus != null">
+        #{businessStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="expirationDate != null">
+        #{expirationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="registrationDate != null">
+        #{registrationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="naicsCode != null">
+        #{naicsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="naicsSubCode != null">
+        #{naicsSubCode,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="mailingAddress != null">
+        #{mailingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="citizenship != null">
+        #{citizenship,jdbcType=VARCHAR},
+      </if>
+      <if test="principal != null">
+        #{principal,jdbcType=VARCHAR},
+      </if>
+      <if test="applicant != null">
+        #{applicant,jdbcType=VARCHAR},
+      </if>
+      <if test="registrant != null">
+        #{registrant,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredAgent != null">
+        #{registeredAgent,jdbcType=VARCHAR},
+      </if>
+      <if test="individualRegistrant != null">
+        #{individualRegistrant,jdbcType=VARCHAR},
+      </if>
+      <if test="otherAddress != null">
+        #{otherAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="businessPoint != null">
+        #{businessPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="assumedBusiness != null">
+        #{assumedBusiness,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.america.vermount.AmericaVermount">
+    update america_vermount
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="businessId != null">
+        business_id = #{businessId,jdbcType=VARCHAR},
+      </if>
+      <if test="businessType != null">
+        business_type = #{businessType,jdbcType=VARCHAR},
+      </if>
+      <if test="businessStatus != null">
+        business_status = #{businessStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="expirationDate != null">
+        expiration_date = #{expirationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="registrationDate != null">
+        registration_date = #{registrationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="naicsCode != null">
+        naics_code = #{naicsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="naicsSubCode != null">
+        naics_sub_code = #{naicsSubCode,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="mailingAddress != null">
+        mailing_address = #{mailingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="citizenship != null">
+        citizenship = #{citizenship,jdbcType=VARCHAR},
+      </if>
+      <if test="principal != null">
+        principal = #{principal,jdbcType=VARCHAR},
+      </if>
+      <if test="applicant != null">
+        applicant = #{applicant,jdbcType=VARCHAR},
+      </if>
+      <if test="registrant != null">
+        registrant = #{registrant,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredAgent != null">
+        registered_agent = #{registeredAgent,jdbcType=VARCHAR},
+      </if>
+      <if test="individualRegistrant != null">
+        individual_registrant = #{individualRegistrant,jdbcType=VARCHAR},
+      </if>
+      <if test="otherAddress != null">
+        other_address = #{otherAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="businessPoint != null">
+        business_point = #{businessPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="assumedBusiness != null">
+        assumed_business = #{assumedBusiness,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.america.vermount.AmericaVermount">
+    update america_vermount
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      business_id = #{businessId,jdbcType=VARCHAR},
+      business_type = #{businessType,jdbcType=VARCHAR},
+      business_status = #{businessStatus,jdbcType=VARCHAR},
+      expiration_date = #{expirationDate,jdbcType=VARCHAR},
+      registration_date = #{registrationDate,jdbcType=VARCHAR},
+      naics_code = #{naicsCode,jdbcType=VARCHAR},
+      naics_sub_code = #{naicsSubCode,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      mailing_address = #{mailingAddress,jdbcType=VARCHAR},
+      citizenship = #{citizenship,jdbcType=VARCHAR},
+      principal = #{principal,jdbcType=VARCHAR},
+      applicant = #{applicant,jdbcType=VARCHAR},
+      registrant = #{registrant,jdbcType=VARCHAR},
+      registered_agent = #{registeredAgent,jdbcType=VARCHAR},
+      individual_registrant = #{individualRegistrant,jdbcType=VARCHAR},
+      other_address = #{otherAddress,jdbcType=VARCHAR},
+      business_point = #{businessPoint,jdbcType=VARCHAR},
+      assumed_business = #{assumedBusiness,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
