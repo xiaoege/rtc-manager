@@ -16,6 +16,7 @@ import com.rtc.manager.dao.america.california.AmericaCaliforniaMapper;
 import com.rtc.manager.dao.america.colorado.AmericaColoradoMapper;
 import com.rtc.manager.dao.america.connecticut.AmericaConnecticutMapper;
 import com.rtc.manager.dao.america.connecticut.AmericaConnecticutPrincipalDetailMapper;
+import com.rtc.manager.dao.america.utah.AmericaUtahMapper;
 import com.rtc.manager.dao.china.ChinaEcMapper;
 import com.rtc.manager.dao.america.delaware.AmericaDelawareMapper;
 import com.rtc.manager.dao.america.florida.AmericaFloridaAnnualReportFieldMapper;
@@ -69,6 +70,7 @@ import com.rtc.manager.entity.america.california.AmericaCalifornia;
 import com.rtc.manager.entity.america.colorado.AmericaColorado;
 import com.rtc.manager.entity.america.connecticut.AmericaConnecticut;
 import com.rtc.manager.entity.america.connecticut.AmericaConnecticutPrincipalDetail;
+import com.rtc.manager.entity.america.utah.AmericaUtah;
 import com.rtc.manager.entity.china.ChinaEc;
 import com.rtc.manager.entity.america.delaware.AmericaDelaware;
 import com.rtc.manager.entity.america.florida.AmericaFlorida;
@@ -519,6 +521,9 @@ public class SaveJsonImpl implements SaveJson {
 
     @Autowired
     private AmericaArkansasMapper americaArkansasMapper;
+
+    @Autowired
+    private AmericaUtahMapper americaUtahMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -3175,6 +3180,54 @@ public class SaveJsonImpl implements SaveJson {
                     BeanUtils.copyProperties(list.get(i), americaArkansas);
                     americaArkansas.setEnterpriseId(CommonUtils.getUUID());
                     americaArkansasMapper.insertSelective(americaArkansas);
+                }
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                logger.info("json序列化出现问题:{}", file.getName());
+                logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
+                throw e;
+            }
+
+            logger.info("json文件导入成功，文件是{}", file.getName());
+            reader.close();
+            bis.close();
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveJsonAmerica4Utah(File fileDirPath) throws Exception {
+        List<String> fileList = new ArrayList();
+        CommonUtils.readJsonFiles(fileDirPath, fileList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (int z = 0; z < fileList.size(); z++) {
+            File file = new File(fileList.get(z));
+
+            // 忽略mac的隐藏文件
+            if (file.getName().contains(".DS_Store")) {
+                continue;
+            }
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
+
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
+
+            StringBuilder sb = new StringBuilder();
+            while (reader.ready()) {
+                sb.append((char) reader.read());
+            }
+            String sss = sb.toString();
+            sss = sss.replace("\\\"", "").replace("\\n", " ");
+            List<AmericaUtahDTO> list = null;
+            try {
+                list = Optional.ofNullable(objectMapper.readValue(sss, new TypeReference<List<AmericaUtahDTO>>() {
+                })).orElseGet(() -> new ArrayList<>());
+                for (int i = 0; i < list.size(); i++) {
+                    AmericaUtahDTO dto = list.get(i);
+                    AmericaUtah americaUtah = new AmericaUtah();
+                    BeanUtils.copyProperties(dto, americaUtah);
+                    americaUtah.setEnterpriseId(CommonUtils.getUUID());
+                    americaUtahMapper.insertSelective(americaUtah);
                 }
             } catch (JsonProcessingException e) {
                 e.printStackTrace();

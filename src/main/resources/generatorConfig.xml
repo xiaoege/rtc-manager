@@ -31,7 +31,7 @@
 
         <!-- targetPackage：生成的实体类所在的包 -->
         <!-- targetProject：生成的实体类所在的硬盘位置 -->
-        <javaModelGenerator targetPackage="com.rtc.manager.entity"
+        <javaModelGenerator targetPackage="com.rtc.manager.entity.america.utah"
                             targetProject="src/main/java">
             <!-- 是否允许子包 -->
             <property name="enableSubPackages" value="false"/>
@@ -50,7 +50,7 @@
         </sqlMapGenerator>
         <!-- targetPackage 和 targetProject：生成的 interface 文件的包和位置 -->
         <javaClientGenerator type="XMLMAPPER"
-                             targetPackage="com.rtc.manager.dao" targetProject="src/main/java">
+                             targetPackage="com.rtc.manager.dao.america.utah" targetProject="src/main/java">
             <!-- 针对 oracle 数据库的一个配置，是否把 schema 作为字包名 -->
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
@@ -171,13 +171,13 @@
         <!--               enableCountByExample="false" enableUpdateByExample="false"-->
         <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--               selectByExampleQueryId="false"></table>-->
-                    <table tableName="rtc_news" domainObjectName="RtcNews"
-                       enableCountByExample="false" enableUpdateByExample="false"
-                       enableDeleteByExample="false" enableSelectByExample="false"
-                       selectByExampleQueryId="false">
-                        <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>
-                        <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>
-                    </table>
+<!--                    <table tableName="rtc_news" domainObjectName="RtcNews"-->
+<!--                       enableCountByExample="false" enableUpdateByExample="false"-->
+<!--                       enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--                       selectByExampleQueryId="false">-->
+<!--                        <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+<!--                        <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
+<!--                    </table>-->
         <!--        <table tableName="rtc_news_detail" domainObjectName="RtcNewsDetail"-->
         <!--               enableCountByExample="false" enableUpdateByExample="false"-->
         <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
@@ -911,6 +911,17 @@
 <!--            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
 <!--            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
 <!--        </table>-->
+
+<!--        <table tableName="america_utah" domainObjectName="AmericaUtah" enableCountByExample="false"-->
+<!--                       enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
+<!--                    <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+<!--                    <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
+<!--                </table>-->
+        <table tableName="" domainObjectName="" enableCountByExample="false"
+                       enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                    <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>
+                    <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>
+                </table>
     </context>
 
 </generatorConfiguration>

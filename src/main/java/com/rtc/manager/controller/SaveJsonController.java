@@ -205,6 +205,9 @@ public class SaveJsonController {
                 if ("Arkansas".equals(type)) {
                     saveJson.saveJsonAmerica4Arkansas(fileDirPath);
                 }
+                if ("Utah".equals(type)) {
+                    saveJson.saveJsonAmerica4Utah(fileDirPath);
+                }
             } else {
                 return "路径错误";
             }
