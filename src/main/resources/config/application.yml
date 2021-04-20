@@ -61,7 +61,9 @@ logging:
   level:
     com.rtc.manager: info
   file:
+    #该文件路径必须存在才会生成日志文件
     path: /work/log
+#    path: /Users/chenhang/work/log
 #  config: src/main/resources/config/logback.xml
 
 
