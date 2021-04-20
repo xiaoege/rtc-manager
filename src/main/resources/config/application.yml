@@ -89,7 +89,7 @@ rtc:
   portraitURI:
 #    http://192.168.1.123/portrait
     http://384051d027.eicp.vip/portrait
-  news-image-path:
+  image-path:
     /work/images
 #    /Users/chenhang/work/images
   news-examination: 0, 1, 2
