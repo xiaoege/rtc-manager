@@ -179,6 +179,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/socialLink/checkToken", "/socialLink/linkAccount").permitAll()
                 // 新闻-允许不登录访问是为了分享功能
                 .antMatchers("/news/listNews", "/news/getNews").permitAll()
+                // todo 企业查询
+                .antMatchers("/enterprise/**").permitAll()
                 // druid
                 .antMatchers("/druid/**").permitAll()
                 .anyRequest().authenticated()
