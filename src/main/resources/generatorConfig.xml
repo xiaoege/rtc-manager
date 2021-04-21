@@ -31,7 +31,7 @@
 
         <!-- targetPackage：生成的实体类所在的包 -->
         <!-- targetProject：生成的实体类所在的硬盘位置 -->
-        <javaModelGenerator targetPackage="com.rtc.manager.entity.america.vermount"
+        <javaModelGenerator targetPackage="com.rtc.manager.entity.america.virginia"
                             targetProject="src/main/java">
             <!-- 是否允许子包 -->
             <property name="enableSubPackages" value="false"/>
@@ -50,7 +50,7 @@
         </sqlMapGenerator>
         <!-- targetPackage 和 targetProject：生成的 interface 文件的包和位置 -->
         <javaClientGenerator type="XMLMAPPER"
-                             targetPackage="com.rtc.manager.dao.america.vermount" targetProject="src/main/java">
+                             targetPackage="com.rtc.manager.dao.america.virginia" targetProject="src/main/java">
             <!-- 针对 oracle 数据库的一个配置，是否把 schema 作为字包名 -->
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
@@ -917,19 +917,29 @@
 <!--                    <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
 <!--                    <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
 <!--                </table>-->
-        <table tableName="america_vermount" domainObjectName="AmericaVermount" enableCountByExample="false"
-                       enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-                    <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>
-                    <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>
-                    <columnOverride column="principal" javaType="java.lang.String" property="principal" jdbcType="VARCHAR"/>
-                    <columnOverride column="applicant" javaType="java.lang.String" property="applicant" jdbcType="VARCHAR"/>
-                    <columnOverride column="registrant" javaType="java.lang.String" property="registrant" jdbcType="VARCHAR"/>
-                    <columnOverride column="registered_agent" javaType="java.lang.String" property="registeredAgent" jdbcType="VARCHAR"/>
-                    <columnOverride column="individual_registrant" javaType="java.lang.String" property="individualRegistrant" jdbcType="VARCHAR"/>
-                    <columnOverride column="other_address" javaType="java.lang.String" property="otherAddress" jdbcType="VARCHAR"/>
-                    <columnOverride column="business_point" javaType="java.lang.String" property="businessPoint" jdbcType="VARCHAR"/>
-                    <columnOverride column="assumed_business" javaType="java.lang.String" property="assumedBusiness" jdbcType="VARCHAR"/>
-                </table>
+<!--        <table tableName="america_vermount" domainObjectName="AmericaVermount" enableCountByExample="false"-->
+<!--                       enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
+<!--                    <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>-->
+<!--                    <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>-->
+<!--                    <columnOverride column="principal" javaType="java.lang.String" property="principal" jdbcType="VARCHAR"/>-->
+<!--                    <columnOverride column="applicant" javaType="java.lang.String" property="applicant" jdbcType="VARCHAR"/>-->
+<!--                    <columnOverride column="registrant" javaType="java.lang.String" property="registrant" jdbcType="VARCHAR"/>-->
+<!--                    <columnOverride column="registered_agent" javaType="java.lang.String" property="registeredAgent" jdbcType="VARCHAR"/>-->
+<!--                    <columnOverride column="individual_registrant" javaType="java.lang.String" property="individualRegistrant" jdbcType="VARCHAR"/>-->
+<!--                    <columnOverride column="other_address" javaType="java.lang.String" property="otherAddress" jdbcType="VARCHAR"/>-->
+<!--                    <columnOverride column="business_point" javaType="java.lang.String" property="businessPoint" jdbcType="VARCHAR"/>-->
+<!--                    <columnOverride column="assumed_business" javaType="java.lang.String" property="assumedBusiness" jdbcType="VARCHAR"/>-->
+<!--                </table>-->
+        <table tableName="america_virginia" domainObjectName="AmericaVirginia" enableCountByExample="false"
+                               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>
+                            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>
+                        </table>
+        <table tableName="america_virginia_principal" domainObjectName="AmericaVirginiaPrincipal" enableCountByExample="false"
+                               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+                            <columnOverride column="gmt_create" property="gmtCreate" javaType="java.time.LocalDateTime"/>
+                            <columnOverride column="gmt_modified" property="gmtModified" javaType="java.time.LocalDateTime"/>
+                        </table>
     </context>
 
 </generatorConfiguration>

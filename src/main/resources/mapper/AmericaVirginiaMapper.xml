@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.america.virginia.AmericaVirginiaMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.america.virginia.AmericaVirginia">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="entity_id" jdbcType="VARCHAR" property="entityId" />
+    <result column="entity_type" jdbcType="VARCHAR" property="entityType" />
+    <result column="entity_status" jdbcType="VARCHAR" property="entityStatus" />
+    <result column="formation_date" jdbcType="VARCHAR" property="formationDate" />
+    <result column="status_reason" jdbcType="VARCHAR" property="statusReason" />
+    <result column="va_qualification_date" jdbcType="VARCHAR" property="vaQualificationDate" />
+    <result column="status_date" jdbcType="VARCHAR" property="statusDate" />
+    <result column="industry_code" jdbcType="VARCHAR" property="industryCode" />
+    <result column="period_of_duration" jdbcType="VARCHAR" property="periodOfDuration" />
+    <result column="jurisdiction" jdbcType="VARCHAR" property="jurisdiction" />
+    <result column="annual_report_due_date" jdbcType="VARCHAR" property="annualReportDueDate" />
+    <result column="registration_fee_due_date" jdbcType="VARCHAR" property="registrationFeeDueDate" />
+    <result column="charter_fee" jdbcType="VARCHAR" property="charterFee" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="contact_number" jdbcType="VARCHAR" property="contactNumber" />
+    <result column="ra_type" jdbcType="VARCHAR" property="raType" />
+    <result column="ra_locality" jdbcType="VARCHAR" property="raLocality" />
+    <result column="ra_qualification" jdbcType="VARCHAR" property="raQualification" />
+    <result column="ra_name" jdbcType="VARCHAR" property="raName" />
+    <result column="ra_address" jdbcType="VARCHAR" property="raAddress" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="share" jdbcType="VARCHAR" property="share" />
+    <result column="mailing_address" jdbcType="VARCHAR" property="mailingAddress" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, name, entity_id, entity_type, entity_status, formation_date, status_reason, 
+    va_qualification_date, status_date, industry_code, period_of_duration, jurisdiction, 
+    annual_report_due_date, registration_fee_due_date, charter_fee, email, contact_number, 
+    ra_type, ra_locality, ra_qualification, ra_name, ra_address, address, share, mailing_address, 
+    gmt_create, gmt_modified, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from america_virginia
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from america_virginia
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rtc.manager.entity.america.virginia.AmericaVirginia">
+    insert into america_virginia (id, enterprise_id, name, 
+      entity_id, entity_type, entity_status, 
+      formation_date, status_reason, va_qualification_date, 
+      status_date, industry_code, period_of_duration, 
+      jurisdiction, annual_report_due_date, registration_fee_due_date, 
+      charter_fee, email, contact_number, 
+      ra_type, ra_locality, ra_qualification, 
+      ra_name, ra_address, address, 
+      share, mailing_address, gmt_create, 
+      gmt_modified, status)
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{entityId,jdbcType=VARCHAR}, #{entityType,jdbcType=VARCHAR}, #{entityStatus,jdbcType=VARCHAR}, 
+      #{formationDate,jdbcType=VARCHAR}, #{statusReason,jdbcType=VARCHAR}, #{vaQualificationDate,jdbcType=VARCHAR}, 
+      #{statusDate,jdbcType=VARCHAR}, #{industryCode,jdbcType=VARCHAR}, #{periodOfDuration,jdbcType=VARCHAR}, 
+      #{jurisdiction,jdbcType=VARCHAR}, #{annualReportDueDate,jdbcType=VARCHAR}, #{registrationFeeDueDate,jdbcType=VARCHAR}, 
+      #{charterFee,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{contactNumber,jdbcType=VARCHAR}, 
+      #{raType,jdbcType=VARCHAR}, #{raLocality,jdbcType=VARCHAR}, #{raQualification,jdbcType=VARCHAR}, 
+      #{raName,jdbcType=VARCHAR}, #{raAddress,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{share,jdbcType=VARCHAR}, #{mailingAddress,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.america.virginia.AmericaVirginia">
+    insert into america_virginia
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="entityId != null">
+        entity_id,
+      </if>
+      <if test="entityType != null">
+        entity_type,
+      </if>
+      <if test="entityStatus != null">
+        entity_status,
+      </if>
+      <if test="formationDate != null">
+        formation_date,
+      </if>
+      <if test="statusReason != null">
+        status_reason,
+      </if>
+      <if test="vaQualificationDate != null">
+        va_qualification_date,
+      </if>
+      <if test="statusDate != null">
+        status_date,
+      </if>
+      <if test="industryCode != null">
+        industry_code,
+      </if>
+      <if test="periodOfDuration != null">
+        period_of_duration,
+      </if>
+      <if test="jurisdiction != null">
+        jurisdiction,
+      </if>
+      <if test="annualReportDueDate != null">
+        annual_report_due_date,
+      </if>
+      <if test="registrationFeeDueDate != null">
+        registration_fee_due_date,
+      </if>
+      <if test="charterFee != null">
+        charter_fee,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="contactNumber != null">
+        contact_number,
+      </if>
+      <if test="raType != null">
+        ra_type,
+      </if>
+      <if test="raLocality != null">
+        ra_locality,
+      </if>
+      <if test="raQualification != null">
+        ra_qualification,
+      </if>
+      <if test="raName != null">
+        ra_name,
+      </if>
+      <if test="raAddress != null">
+        ra_address,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="share != null">
+        share,
+      </if>
+      <if test="mailingAddress != null">
+        mailing_address,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="entityId != null">
+        #{entityId,jdbcType=VARCHAR},
+      </if>
+      <if test="entityType != null">
+        #{entityType,jdbcType=VARCHAR},
+      </if>
+      <if test="entityStatus != null">
+        #{entityStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="formationDate != null">
+        #{formationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="statusReason != null">
+        #{statusReason,jdbcType=VARCHAR},
+      </if>
+      <if test="vaQualificationDate != null">
+        #{vaQualificationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="statusDate != null">
+        #{statusDate,jdbcType=VARCHAR},
+      </if>
+      <if test="industryCode != null">
+        #{industryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="periodOfDuration != null">
+        #{periodOfDuration,jdbcType=VARCHAR},
+      </if>
+      <if test="jurisdiction != null">
+        #{jurisdiction,jdbcType=VARCHAR},
+      </if>
+      <if test="annualReportDueDate != null">
+        #{annualReportDueDate,jdbcType=VARCHAR},
+      </if>
+      <if test="registrationFeeDueDate != null">
+        #{registrationFeeDueDate,jdbcType=VARCHAR},
+      </if>
+      <if test="charterFee != null">
+        #{charterFee,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="contactNumber != null">
+        #{contactNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="raType != null">
+        #{raType,jdbcType=VARCHAR},
+      </if>
+      <if test="raLocality != null">
+        #{raLocality,jdbcType=VARCHAR},
+      </if>
+      <if test="raQualification != null">
+        #{raQualification,jdbcType=VARCHAR},
+      </if>
+      <if test="raName != null">
+        #{raName,jdbcType=VARCHAR},
+      </if>
+      <if test="raAddress != null">
+        #{raAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="share != null">
+        #{share,jdbcType=VARCHAR},
+      </if>
+      <if test="mailingAddress != null">
+        #{mailingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.america.virginia.AmericaVirginia">
+    update america_virginia
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="entityId != null">
+        entity_id = #{entityId,jdbcType=VARCHAR},
+      </if>
+      <if test="entityType != null">
+        entity_type = #{entityType,jdbcType=VARCHAR},
+      </if>
+      <if test="entityStatus != null">
+        entity_status = #{entityStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="formationDate != null">
+        formation_date = #{formationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="statusReason != null">
+        status_reason = #{statusReason,jdbcType=VARCHAR},
+      </if>
+      <if test="vaQualificationDate != null">
+        va_qualification_date = #{vaQualificationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="statusDate != null">
+        status_date = #{statusDate,jdbcType=VARCHAR},
+      </if>
+      <if test="industryCode != null">
+        industry_code = #{industryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="periodOfDuration != null">
+        period_of_duration = #{periodOfDuration,jdbcType=VARCHAR},
+      </if>
+      <if test="jurisdiction != null">
+        jurisdiction = #{jurisdiction,jdbcType=VARCHAR},
+      </if>
+      <if test="annualReportDueDate != null">
+        annual_report_due_date = #{annualReportDueDate,jdbcType=VARCHAR},
+      </if>
+      <if test="registrationFeeDueDate != null">
+        registration_fee_due_date = #{registrationFeeDueDate,jdbcType=VARCHAR},
+      </if>
+      <if test="charterFee != null">
+        charter_fee = #{charterFee,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="contactNumber != null">
+        contact_number = #{contactNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="raType != null">
+        ra_type = #{raType,jdbcType=VARCHAR},
+      </if>
+      <if test="raLocality != null">
+        ra_locality = #{raLocality,jdbcType=VARCHAR},
+      </if>
+      <if test="raQualification != null">
+        ra_qualification = #{raQualification,jdbcType=VARCHAR},
+      </if>
+      <if test="raName != null">
+        ra_name = #{raName,jdbcType=VARCHAR},
+      </if>
+      <if test="raAddress != null">
+        ra_address = #{raAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="share != null">
+        share = #{share,jdbcType=VARCHAR},
+      </if>
+      <if test="mailingAddress != null">
+        mailing_address = #{mailingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.america.virginia.AmericaVirginia">
+    update america_virginia
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      entity_id = #{entityId,jdbcType=VARCHAR},
+      entity_type = #{entityType,jdbcType=VARCHAR},
+      entity_status = #{entityStatus,jdbcType=VARCHAR},
+      formation_date = #{formationDate,jdbcType=VARCHAR},
+      status_reason = #{statusReason,jdbcType=VARCHAR},
+      va_qualification_date = #{vaQualificationDate,jdbcType=VARCHAR},
+      status_date = #{statusDate,jdbcType=VARCHAR},
+      industry_code = #{industryCode,jdbcType=VARCHAR},
+      period_of_duration = #{periodOfDuration,jdbcType=VARCHAR},
+      jurisdiction = #{jurisdiction,jdbcType=VARCHAR},
+      annual_report_due_date = #{annualReportDueDate,jdbcType=VARCHAR},
+      registration_fee_due_date = #{registrationFeeDueDate,jdbcType=VARCHAR},
+      charter_fee = #{charterFee,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      contact_number = #{contactNumber,jdbcType=VARCHAR},
+      ra_type = #{raType,jdbcType=VARCHAR},
+      ra_locality = #{raLocality,jdbcType=VARCHAR},
+      ra_qualification = #{raQualification,jdbcType=VARCHAR},
+      ra_name = #{raName,jdbcType=VARCHAR},
+      ra_address = #{raAddress,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      share = #{share,jdbcType=VARCHAR},
+      mailing_address = #{mailingAddress,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

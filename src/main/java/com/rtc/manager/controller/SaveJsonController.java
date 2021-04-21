@@ -211,6 +211,9 @@ public class SaveJsonController {
                 if ("Vermount".equals(type)) {
                     saveJson.saveJsonAmerica4Vermount(fileDirPath);
                 }
+                if ("Virginia".equals(type)) {
+                    saveJson.saveJsonAmerica4Virginia(fileDirPath);
+                }
             } else {
                 return "路径错误";
             }

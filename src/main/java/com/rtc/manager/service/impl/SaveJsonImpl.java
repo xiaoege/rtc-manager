@@ -19,6 +19,8 @@ import com.rtc.manager.dao.america.connecticut.AmericaConnecticutMapper;
 import com.rtc.manager.dao.america.connecticut.AmericaConnecticutPrincipalDetailMapper;
 import com.rtc.manager.dao.america.utah.AmericaUtahMapper;
 import com.rtc.manager.dao.america.vermount.AmericaVermountMapper;
+import com.rtc.manager.dao.america.virginia.AmericaVirginiaMapper;
+import com.rtc.manager.dao.america.virginia.AmericaVirginiaPrincipalMapper;
 import com.rtc.manager.dao.china.ChinaEcMapper;
 import com.rtc.manager.dao.america.delaware.AmericaDelawareMapper;
 import com.rtc.manager.dao.america.florida.AmericaFloridaAnnualReportFieldMapper;
@@ -74,6 +76,8 @@ import com.rtc.manager.entity.america.connecticut.AmericaConnecticut;
 import com.rtc.manager.entity.america.connecticut.AmericaConnecticutPrincipalDetail;
 import com.rtc.manager.entity.america.utah.AmericaUtah;
 import com.rtc.manager.entity.america.vermount.AmericaVermount;
+import com.rtc.manager.entity.america.virginia.AmericaVirginia;
+import com.rtc.manager.entity.america.virginia.AmericaVirginiaPrincipal;
 import com.rtc.manager.entity.china.ChinaEc;
 import com.rtc.manager.entity.america.delaware.AmericaDelaware;
 import com.rtc.manager.entity.america.florida.AmericaFlorida;
@@ -530,6 +534,12 @@ public class SaveJsonImpl implements SaveJson {
 
     @Autowired
     private AmericaVermountMapper americaVermountMapper;
+
+    @Autowired
+    private AmericaVirginiaMapper americaVirginiaMapper;
+
+    @Autowired
+    private AmericaVirginiaPrincipalMapper americaVirginiaPrincipalMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -3289,6 +3299,70 @@ public class SaveJsonImpl implements SaveJson {
                     americaVermount.setEnterpriseId(CommonUtils.getUUID());
                     BeanUtils.copyProperties(dto, americaVermount);
                     americaVermountMapper.insertSelective(americaVermount);
+                }
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                logger.info("json序列化出现问题:{}", file.getName());
+                logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
+                throw e;
+            }
+
+            logger.info("json文件导入成功，文件是{}", file.getName());
+            reader.close();
+            bis.close();
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveJsonAmerica4Virginia(File fileDirPath) throws Exception {
+        List<String> fileList = new ArrayList();
+        CommonUtils.readJsonFiles(fileDirPath, fileList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (int z = 0; z < fileList.size(); z++) {
+            File file = new File(fileList.get(z));
+
+            // 忽略mac的隐藏文件
+            if (file.getName().contains(".DS_Store")) {
+                continue;
+            }
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
+
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
+
+            StringBuilder sb = new StringBuilder();
+            while (reader.ready()) {
+                sb.append((char) reader.read());
+            }
+            String sss = sb.toString();
+            sss = sss.replace("\\\"", "").replace("\\n", " ");
+            List<AmericaVirginiaDTO> list = null;
+            try {
+                list = Optional.ofNullable(objectMapper.readValue(sss, new TypeReference<List<AmericaVirginiaDTO>>() {
+                })).orElseGet(() -> new ArrayList<>());
+                for (int i = 0; i < list.size(); i++) {
+                    AmericaVirginiaDTO dto = list.get(i);
+                    AmericaVirginiaEntityInformationDTO entityInformation = dto.getEntityInformation();
+                    AmericaVirginiaRegisteredAgentInformationDTO registeredAgentInformation = dto.getRegisteredAgentInformation();
+                    HashMap<String, String> principalOfficeAddress = dto.getPrincipalOfficeAddress();
+                    HashMap<String, String> curentShares = dto.getCurentShares();
+                    HashMap<String, String> mailingAddressForserviceOfProcess = dto.getMailingAddressForserviceOfProcess();
+
+                    AmericaVirginia americaVirginia = new AmericaVirginia(entityInformation,
+                            registeredAgentInformation,
+                            principalOfficeAddress.get("Address:"),
+                            curentShares.get("Total Shares:"),
+                            mailingAddressForserviceOfProcess.get("Address:"));
+                    String enterpriseId = CommonUtils.getUUID();
+                    americaVirginia.setEnterpriseId(enterpriseId);
+                    if (americaVirginiaMapper.insertSelective(americaVirginia) > 0) {
+                        List<AmericaVirginiaPrincipal> principalInformation = dto.getPrincipalInformation();
+                        for (AmericaVirginiaPrincipal principal : principalInformation) {
+                            principal.setEnterpriseId(enterpriseId);
+                            americaVirginiaPrincipalMapper.insertSelective(principal);
+                        }
+                    }
                 }
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
