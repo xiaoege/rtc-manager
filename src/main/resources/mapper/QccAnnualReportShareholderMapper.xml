@@ -186,4 +186,11 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <delete id="deleteByAnnualReportUuid">
+    DELETE FROM qcc_annual_report_shareholder
+    WHERE
+        annual_report_uuid = #{annualReportUuid,jdbcType=VARCHAR}
+        AND id > 0
+  </delete>
 </mapper>

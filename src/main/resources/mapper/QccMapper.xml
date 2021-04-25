@@ -937,4 +937,10 @@
         WHERE
             id = #{pid,jdbcType=INTEGER}
     </update>
+
+    <delete id="deleteCategory">
+        DELETE FROM ${tb}
+        WHERE
+              id = #{pid,jdbcType=INTEGER}
+    </delete>
 </mapper>

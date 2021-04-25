@@ -5,18 +5,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.rtc.manager.dao.*;
-import com.rtc.manager.entity.QccBusinessInformation;
-import com.rtc.manager.entity.QccShareholder;
-import com.rtc.manager.entity.dto.*;
-import com.rtc.manager.entity.india.IndiaCharge;
-import com.rtc.manager.entity.india.IndiaCin;
-import com.rtc.manager.entity.india.IndiaLlpin;
-import com.rtc.manager.entity.india.IndiaSignatory;
+import com.rtc.manager.entity.QccAnnualReport;
+import com.rtc.manager.entity.QccJudgmentDocument;
+import com.rtc.manager.entity.dto.RtcUserDTO;
 import com.rtc.manager.service.*;
 import com.rtc.manager.util.CommonUtils;
 import com.rtc.manager.util.ElasticsearchUtils;
+import com.rtc.manager.util.QccCategoryEnum;
 import com.rtc.manager.vo.*;
-import com.rtc.manager.vo.india.*;
+import com.rtc.manager.vo.india.IndiaCinListVO;
+import com.rtc.manager.vo.india.IndiaLlpinLIstVO;
 import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.search.MultiSearchRequest;
 import org.elasticsearch.action.search.MultiSearchResponse;
@@ -34,7 +32,6 @@ import org.elasticsearch.search.sort.ScriptSortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -49,8 +46,6 @@ import org.springframework.util.StringUtils;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -125,6 +120,123 @@ public class QccImpl implements Qcc {
 
     @Autowired
     private QccShareholderMapper qccShareholderMapper;
+
+    @Autowired
+    private QccKeymanMapper qccKeymanMapper;
+
+    @Autowired
+    private QccJudgmentDocumentMapper qccJudgmentDocumentMapper;
+
+    @Autowired
+    private QccAdministrativeLicenseMapper qccAdministrativeLicenseMapper;
+
+    @Autowired
+    private QccTaxCreditMapper qccTaxCreditMapper;
+
+    @Autowired
+    private QccImportExportCreditMapper qccImportExportCreditMapper;
+
+    @Autowired
+    private QccGeneralTaxpayerMapper qccGeneralTaxpayerMapper;
+
+    @Autowired
+    private QccQualificationCertificateMapper qccQualificationCertificateMapper;
+
+    @Autowired
+    private QccWebsiteInformationMapper qccWebsiteInformationMapper;
+
+    @Autowired
+    private QccAnnualReportMapper qccAnnualReportMapper;
+
+    @Autowired
+    private QccAnnualReportShareholderMapper qccAnnualReportShareholderMapper;
+
+    @Autowired
+    private QccBiddingMapper qccBiddingMapper;
+
+    @Autowired
+    private QccLandPurchaseInformationMapper qccLandPurchaseInformationMapper;
+
+    @Autowired
+    private QccSupplierMapper qccSupplierMapper;
+
+    @Autowired
+    private QccAdministrativeSanctionMapper qccAdministrativeSanctionMapper;
+
+    @Autowired
+    private QccFinancingConsultationMapper qccFinancingConsultationMapper;
+
+    @Autowired
+    private QccAppMapper qccAppMapper;
+
+    @Autowired
+    private QccAppletMapper qccAppletMapper;
+
+    @Autowired
+    private QccWechatMapper qccWechatMapper;
+
+    @Autowired
+    private QccWeiboMapper qccWeiboMapper;
+
+    @Autowired
+    private QccSoftwareCopyrightMapper qccSoftwareCopyrightMapper;
+
+    @Autowired
+    private QccRemoveExceptionMapper qccRemoveExceptionMapper;
+
+    @Autowired
+    private QccSaveExceptionMapper qccSaveExceptionMapper;
+
+    @Autowired
+    private QccClientMapper qccClientMapper;
+
+    @Autowired
+    private QccShareholderThreeMapper qccShareholderThreeMapper;
+
+    @Autowired
+    private QccQualificationMapper qccQualificationMapper;
+
+    @Autowired
+    private QccOutInvestmentMapper qccOutInvestmentMapper;
+
+    @Autowired
+    private QccShareholderInvestmentMapper qccShareholderInvestmentMapper;
+
+    @Autowired
+    private QccEquityChangeMapper qccEquityChangeMapper;
+
+    @Autowired
+    private QccChangeRecordMapper qccChangeRecordMapper;
+
+    @Autowired
+    private QccCourtNoticeMapper qccCourtNoticeMapper;
+
+    @Autowired
+    private QccFilingInformationMapper qccFilingInformationMapper;
+
+    @Autowired
+    private QccAdministrativeLicenseChinaMapper qccAdministrativeLicenseChinaMapper;
+
+    @Autowired
+    private QccSpotCheckMapper qccSpotCheckMapper;
+
+    @Autowired
+    private QccEquityPledgeMapper qccEquityPledgeMapper;
+
+    @Autowired
+    private QccTaxArrearsNoticeMapper qccTaxArrearsNoticeMapper;
+
+    @Autowired
+    private QccJudicialAuctionMapper qccJudicialAuctionMapper;
+
+    @Autowired
+    private QccTaxViolationMapper qccTaxViolationMapper;
+
+    @Autowired
+    private QccEnvironmentalPunishmentMapper qccEnvironmentalPunishmentMapper;
+
+    @Autowired
+    private QccEquityOutPledgeMapper qccEquityOutPledgeMapper;
 
     @Override
     public ResultData listEnterprise(String name, String idx, int pageNum, int pageSize) throws Exception {
@@ -956,7 +1068,63 @@ public class QccImpl implements Qcc {
     }
 
     /**
-     * 将对象的id,gmtCreate,gmtModified,status设为NULL
+     * 中国企业-五大类-新增
+     *
+     * @param body         五大类详情数据
+     * @param category     五大类栏目
+     * @param enterpriseId 企业id
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ResultData addChinaCategory(String body, String category, String enterpriseId) throws Exception {
+//        objectMapper.registerModule(new JavaTimeModule());
+        switch (category) {
+            case "judgmentDocument":
+                QccJudgmentDocument judgmentDocument = objectMapper.readValue(body, QccJudgmentDocument.class);
+                setFieldNull(judgmentDocument);
+                judgmentDocument.setEnterpriseId(enterpriseId);
+                if (qccJudgmentDocumentMapper.insertSelective(judgmentDocument) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            case "":
+                break;
+            default:
+        }
+        return null;
+    }
+
+    /**
+     * 中国企业-五大类-删除
+     * 根据五大类的id来删除
+     *
+     * @param body     id的数组
+     * @param category 五大类栏目
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ResultData delChinaCategory(String body, String category) throws Exception {
+        List<Integer> pidList = objectMapper.readValue(body, List.class);
+        // 如果category是ANNUALREPORT，则删除qcc_annual_report以及相应的qcc_annual_report_shareholder
+        // 如果category是ABNORMALOPERATION(经营异常)，查询时参数为abnormalOperation，显示经营异常（移入）和经营异常（移出），删除时则分开为qcc_save_exception和qcc_remove_exception
+        String tableName = QccCategoryEnum.getTableName(category);
+        if (tableName == null) {
+            throw new IllegalArgumentException();
+        }
+        for (Integer pid : pidList) {
+            if ("qcc_annual_report".equals(tableName)) {
+                QccAnnualReport qccAnnualReport = qccAnnualReportMapper.selectByPrimaryKey(pid);
+                qccAnnualReportShareholderMapper.deleteByAnnualReportUuid(qccAnnualReport.getUuid());
+            }
+            qccMapper.deleteCategory(tableName, pid);
+        }
+        return ResultData.SUCCESS(null);
+    }
+
+    /**
+     * 将对象的id,enterpriseId,gmtCreate,gmtModified,status设为NULL
      *
      * @param obj
      * @return
@@ -972,6 +1140,9 @@ public class QccImpl implements Qcc {
                     case "setId":
                         declaredMethod.invoke(obj, nullData);
                         break;
+//                    case "setEnterpriseId":
+//                        declaredMethod.invoke(obj, nullData);
+//                        break;
                     case "setGmtCreate":
                         declaredMethod.invoke(obj, nullData);
                         break;
@@ -992,3 +1163,4 @@ public class QccImpl implements Qcc {
     }
 
 }
+

@@ -14,4 +14,6 @@ public interface QccAnnualReportShareholderMapper {
     int updateByPrimaryKeySelective(QccAnnualReportShareholder record);
 
     int updateByPrimaryKey(QccAnnualReportShareholder record);
+
+    void deleteByAnnualReportUuid(String uuid);
 }

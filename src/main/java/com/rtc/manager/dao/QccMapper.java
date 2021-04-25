@@ -74,4 +74,5 @@ public interface QccMapper {
 
     void deleteEnterprise(String tb, @Param("pid") Integer pid);
 
+    int deleteCategory(String tb, @Param("pid") Integer pid);
 }

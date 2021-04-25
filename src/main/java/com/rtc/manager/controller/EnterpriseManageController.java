@@ -124,16 +124,51 @@ public class EnterpriseManageController {
     /**
      * 中国企业-五大类-新增
      *
-     * @param body
-     * @param enterpriseId
+     * @param body         五大类详情数据
+     * @param category     五大类栏目
+     * @param enterpriseId 企业id
      * @return
      */
-    @ApiOperation("新增单个企业")
+    @ApiOperation("中国企业-五大类-新增")
     @PostMapping("addChinaCategory")
     public ResultData addChinaCategory(@RequestBody String body,
-                                       @RequestParam(name = "enterpriseId") String enterpriseId) {
+                                       @RequestParam(name = "category") String category,
+                                       @RequestParam(name = "enterpriseId") String enterpriseId) throws Exception {
+        return qcc.addChinaCategory(body, category, enterpriseId);
+    }
+
+    /**
+     * 中国企业-五大类-修改
+     *
+     * @param body         五大类详情新数据
+     * @param category     五大类栏目
+     * @param enterpriseId 企业id
+     * @param id           五大类id
+     * @return
+     */
+    @ApiOperation("中国企业-五大类-修改")
+    @PostMapping("modifyChinaCategory")
+    public ResultData modifyChinaCategory(@RequestBody String body,
+                                          @RequestParam(name = "category") String category,
+                                          @RequestParam(name = "enterpriseId") String enterpriseId,
+                                          @RequestParam(name = "pid") Integer id) throws Exception {
+        // todo
         return null;
-//        return qcc.addChinaCategory(body, enterpriseId);
+    }
+
+    /**
+     * 中国企业-五大类-删除
+     * 根据五大类的id来删除
+     *
+     * @param body     id的数组
+     * @param category 五大类栏目
+     * @return
+     */
+    @ApiOperation("中国企业-五大类-删除")
+    @PostMapping("delChinaCategory")
+    public ResultData delChinaCategory(@RequestBody String body,
+                                       @RequestParam(name = "category") String category) throws Exception {
+        return qcc.delChinaCategory(body, category);
     }
 
     /**
@@ -142,7 +177,7 @@ public class EnterpriseManageController {
      * @return 可访问的临时地址
      */
     @PostMapping("uploadLogo")
-    public ResultData uploadLogo(@RequestParam MultipartFile file) throws Exception{
+    public ResultData uploadLogo(@RequestParam MultipartFile file) throws Exception {
         return enterpriseManage.uploadLogo(file);
     }
 

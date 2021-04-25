@@ -12,6 +12,7 @@ import java.util.List;
 public interface Qcc {
     /**
      * 搜索企业-列表
+     *
      * @param name 企业名
      * @return
      */
@@ -27,6 +28,7 @@ public interface Qcc {
 
     /**
      * 查看企业的所有评论
+     *
      * @param enterpriseId
      * @param timeZone
      * @param pageNum
@@ -37,8 +39,9 @@ public interface Qcc {
 
     /**
      * 查询企业列表-Bulletin，用于app主页企业列表展示
-     * @return 每次返回10个
+     *
      * @param size
+     * @return 每次返回10个
      */
     ResultData<SearchEnterpriseListVO> listEnterprise4Bulletin(int size);
 
@@ -52,9 +55,30 @@ public interface Qcc {
 
     /**
      * 获得最近在es中新增的企业名，默认10个
+     *
      * @param pageNum
      * @param pageSize
      * @return
      */
     ResultData listNewlyAdded(int pageNum, int pageSize) throws Exception;
+
+    /**
+     * 中国企业-五大类-新增
+     *
+     * @param body         五大类详情数据
+     * @param category     五大类栏目
+     * @param enterpriseId 企业id
+     * @return
+     */
+    ResultData addChinaCategory(String body, String category, String enterpriseId) throws Exception;
+
+    /**
+     * 中国企业-五大类-删除
+     * 根据五大类的id来删除
+     *
+     * @param body     id的数组
+     * @param category 五大类栏目
+     * @return
+     */
+    ResultData delChinaCategory(String body, String category) throws Exception;
 }
