@@ -3,7 +3,7 @@
 <mapper namespace="com.rtc.manager.dao.QccSubDetailMapper">
     <select id="getQccJudgmentDocumentVO" resultType="com.rtc.manager.vo.QccJudgmentDocumentVO">
         select id, enterprise_id enterpriseId, title, reason, release_date releaseDate, case_code caseCode, case_status caseStatus,
-         court_name courtName
+         court_name courtName, litigant, amount, `result`, judgment_date judgmentDate
         from qcc_judgment_document where id = #{id, jdbcType=INTEGER}
          and `status`= ${@com.rtc.manager.util.CommonConst@STATUS_USED}
     </select>

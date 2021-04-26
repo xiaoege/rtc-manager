@@ -19,6 +19,14 @@ public class QccJudgmentDocumentVO {
 
     private String courtName;
 
+    private String litigant;
+
+    private String amount;
+
+    private String result;
+
+    private String judgmentDate;
+
     public Integer getId() {
         return id;
     }
@@ -81,5 +89,37 @@ public class QccJudgmentDocumentVO {
 
     public void setCourtName(String courtName) {
         this.courtName = courtName;
+    }
+
+    public String getLitigant() {
+        return litigant;
+    }
+
+    public void setLitigant(String litigant) {
+        this.litigant = litigant;
+    }
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+    public String getJudgmentDate() {
+        return judgmentDate;
+    }
+
+    public void setJudgmentDate(String judgmentDate) {
+        this.judgmentDate = judgmentDate;
     }
 }
