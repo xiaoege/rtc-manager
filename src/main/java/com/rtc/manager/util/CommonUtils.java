@@ -25,11 +25,9 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -78,6 +76,10 @@ public final class CommonUtils {
             "#e9a57b",
             "#702f96",
             "#c74433");
+
+    private static final DateTimeFormatter FORMATTER_0 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter FORMATTER_1 = DateTimeFormatter.ofPattern("yyyy-M-d");
+    private static final DateTimeFormatter FORMATTER_2 = DateTimeFormatter.ofPattern("d/M/yyyy");
 
     /**
      * 获得exception的堆栈信息
@@ -705,5 +707,24 @@ public final class CommonUtils {
 
     }
 
+    /**
+     * 格式化日期
+     *
+     * @param var0
+     * @return dd/MM/yyyy 类型的日期字符串
+     */
+    public static String dateFormat(String var0) {
+        if (!StringUtils.isEmpty(var0)) {
+            try {
+                var0 = LocalDate.parse(var0, FORMATTER_2).format(FORMATTER_0);
+            } catch (DateTimeParseException e0) {
+                try {
+                    var0 = LocalDate.parse(var0, FORMATTER_1).format(FORMATTER_0);
+                } catch (DateTimeParseException e1) {
+                    logger.info("非法日期:{}", var0);
+                }
+            }
+        }
+        return var0;
     }
 }

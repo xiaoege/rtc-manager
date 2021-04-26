@@ -275,6 +275,7 @@ public class QccImpl implements Qcc {
                         vo.setEsId(hit.getId());
                         vo.setIdx(hit.getIndex());
                         CommonUtils.setLogoNameAndColor(vo);
+                        vo.setEstablishmentDate(CommonUtils.dateFormat(vo.getEstablishmentDate()));
                         resultList.add(vo);
                     }
                 }
