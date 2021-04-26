@@ -6,6 +6,7 @@ import com.rtc.manager.util.baidutranslate.TransApi;
 import com.rtc.manager.util.baidutranslate.TransResult;
 import com.rtc.manager.vo.QccVO;
 import com.rtc.manager.vo.SearchEnterpriseListVO;
+import com.rtc.manager.vo.UserCommentVO;
 import com.rtc.manager.vo.india.IndiaCinEnterpriseVO;
 import com.rtc.manager.vo.india.IndiaCinVO;
 import com.rtc.manager.vo.india.IndiaLlpinEnterpriseVO;
@@ -680,7 +681,29 @@ public final class CommonUtils {
                     ((VietnamEnterpriseVO) object).setLogoColor(LOGO_COLOR_LIST.get(random.nextInt(LOGO_COLOR_LIST.size())));
                 }
             }
+        } else if (object instanceof UserCommentVO) {
+            String name = ((UserCommentVO) object).geteName();
+            if (StringUtils.isEmpty(((UserCommentVO) object).getLogo())) {
+                if (!StringUtils.isEmpty(name)) {
+                    Random random = new Random();
+                    String firstLetter = name.substring(0, 1);
+                    Matcher matcher = PATTERN_ENGLISH.matcher(firstLetter);
+                    // 如果是英文字母开头
+                    if (matcher.matches()) {
+                        ((UserCommentVO) object).setLogoName(firstLetter);
+                        // 如果不是英文字母开头
+                    } else if (name.length() > 3) {
+                        ((UserCommentVO) object).setLogoName(name.substring(0, 4));
+                        // 如果不是英文字母开头
+                    } else {
+                        ((UserCommentVO) object).setLogoName(firstLetter);
+                    }
+                    ((UserCommentVO) object).setLogoColor(LOGO_COLOR_LIST.get(random.nextInt(LOGO_COLOR_LIST.size())));
+                }
+            }
         }
+
+    }
 
     }
 }
