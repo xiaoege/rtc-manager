@@ -893,6 +893,7 @@ public class UserServiceImpl implements UserService {
                         CommonUtils.setLogoNameAndColor(userCommentVO);
                         userCommentVO.setPid(rtcUserFavourite.getId());
                         userCommentVO.setGmtCreate(rtcUserFavourite.getGmtCreate());
+                        userCommentVO.setEstablishmentDate(CommonUtils.dateFormat(userCommentVO.getEstablishmentDate()));
                         voList.add(userCommentVO);
                     }
                 }

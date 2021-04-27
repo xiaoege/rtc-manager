@@ -82,6 +82,15 @@ public final class CommonUtils {
     private static final DateTimeFormatter FORMATTER_2 = DateTimeFormatter.ofPattern("d/M/yyyy");
 
     /**
+     * d/M/yyyy
+     */
+    private static final Pattern PATTERN_DATE_FORMAT_0 = Pattern.compile("\\d{1,2}/\\d{1,2}/\\d{4}");
+    /**
+     * yyyy-M-d
+     */
+    private static final Pattern PATTERN_DATE_FORMAT_1 = Pattern.compile("\\d{4}-\\d{1,2}-\\d{1,2}");
+
+    /**
      * 获得exception的堆栈信息
      *
      * @param e Exception
@@ -715,14 +724,12 @@ public final class CommonUtils {
      */
     public static String dateFormat(String var0) {
         if (!StringUtils.isEmpty(var0)) {
-            try {
-                var0 = LocalDate.parse(var0, FORMATTER_2).format(FORMATTER_0);
-            } catch (DateTimeParseException e0) {
-                try {
-                    var0 = LocalDate.parse(var0, FORMATTER_1).format(FORMATTER_0);
-                } catch (DateTimeParseException e1) {
-                    logger.info("非法日期:{}", var0);
-                }
+            Matcher matcher0 = PATTERN_DATE_FORMAT_0.matcher(var0);
+            Matcher matcher1 = PATTERN_DATE_FORMAT_1.matcher(var0);
+            if (matcher0.matches()) {
+                return var0;
+            } else if (matcher1.matches()) {
+                return LocalDate.parse(var0, FORMATTER_1).format(FORMATTER_0);
             }
         }
         return var0;

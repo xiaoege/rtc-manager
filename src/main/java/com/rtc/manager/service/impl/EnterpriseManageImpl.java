@@ -153,6 +153,7 @@ public class EnterpriseManageImpl implements EnterpriseManage {
                     CommonUtils.setLogoNameAndColor(vo);
                     vo.setEsId(hit.getId());
                     vo.setIdx(hit.getIndex());
+                    vo.setEstablishmentDate(CommonUtils.dateFormat(vo.getEstablishmentDate()));
                     resultList.add(vo);
                 }
             }

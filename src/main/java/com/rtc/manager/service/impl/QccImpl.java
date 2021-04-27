@@ -275,7 +275,7 @@ public class QccImpl implements Qcc {
                         vo.setEsId(hit.getId());
                         vo.setIdx(hit.getIndex());
                         CommonUtils.setLogoNameAndColor(vo);
-//                        vo.setEstablishmentDate(CommonUtils.dateFormat(vo.getEstablishmentDate()));
+                        vo.setEstablishmentDate(CommonUtils.dateFormat(vo.getEstablishmentDate()));
                         resultList.add(vo);
                     }
                 }
@@ -463,6 +463,7 @@ public class QccImpl implements Qcc {
                     qccVO.setLegalRepresentative(legalRepresentative);
 //                    qccVO.setSynopsis(synopsis);
 //                    qccVO.setCountryRegion(countryRegion);
+                    qccVO.setEstablishmentDate(CommonUtils.dateFormat(qccVO.getEstablishmentDate()));
                     List<QccShareholderVO> shareholderVOList = qccVO.getShareholderList();
                     if (!CollectionUtils.isEmpty(shareholderVOList)) {
                         for (int i = 0; i < shareholderVOList.size(); i++) {
