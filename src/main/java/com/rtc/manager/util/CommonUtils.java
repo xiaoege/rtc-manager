@@ -77,9 +77,8 @@ public final class CommonUtils {
             "#702f96",
             "#c74433");
 
-    private static final DateTimeFormatter FORMATTER_0 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter FORMATTER_0 = DateTimeFormatter.ofPattern("MM/dd/yyyy");
     private static final DateTimeFormatter FORMATTER_1 = DateTimeFormatter.ofPattern("yyyy-M-d");
-    private static final DateTimeFormatter FORMATTER_2 = DateTimeFormatter.ofPattern("d/M/yyyy");
 
     /**
      * d/M/yyyy
@@ -720,7 +719,7 @@ public final class CommonUtils {
      * 格式化日期
      *
      * @param var0
-     * @return dd/MM/yyyy 类型的日期字符串
+     * @return MM/dd/yyyy 类型的日期字符串
      */
     public static String dateFormat(String var0) {
         if (!StringUtils.isEmpty(var0)) {
