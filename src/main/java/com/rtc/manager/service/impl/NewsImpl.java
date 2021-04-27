@@ -458,7 +458,7 @@ public class NewsImpl implements News {
      * 每周三下午3点，更新新闻阅读数
      */
     @Scheduled(cron = "0 0 15 ? * WED")
-    private void syncNewsRead() {
+    public void syncNewsRead() {
         logger.info("同步新闻阅读数-start");
         Cursor<Map.Entry<Object, Object>> scan = stringRedisTemplate.opsForHash().scan(this.NEWS_READ_KEY, ScanOptions.scanOptions().build());
         while (scan.hasNext()) {
