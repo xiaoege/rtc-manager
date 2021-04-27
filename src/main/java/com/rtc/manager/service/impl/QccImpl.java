@@ -991,6 +991,7 @@ public class QccImpl implements Qcc {
      */
     @Override
     public ResultData<SearchEnterpriseListVO> listRecommend(String name, int pageSize) throws Exception {
+        // 添加指定算法的企业
         // 使用es分词器对name进行分词获得token, 取前3
 //        AnalyzeRequest analyzeRequest = AnalyzeRequest.withGlobalAnalyzer("english", name);
 //        AnalyzeResponse analyzeResponse = client.indices().analyze(analyzeRequest, RequestOptions.DEFAULT);
@@ -1000,9 +1001,11 @@ public class QccImpl implements Qcc {
 //        }
 
         SearchRequest searchRequest = new SearchRequest(elasticsearchUtils.getEsIndices());
-        MatchQueryBuilder matchQueryBuilder = new MatchQueryBuilder("e_name", name);
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-        searchSourceBuilder.query(matchQueryBuilder);
+        if (!"".equals(name)) {
+            MatchQueryBuilder matchQueryBuilder = new MatchQueryBuilder("e_name", name);
+            searchSourceBuilder.query(matchQueryBuilder);
+        }
         searchSourceBuilder.size(pageSize);
         Script script = new Script("Math.random()");
         ScriptSortBuilder scriptSortBuilder = new ScriptSortBuilder(script, ScriptSortBuilder.ScriptSortType.NUMBER);
@@ -1019,7 +1022,6 @@ public class QccImpl implements Qcc {
             vo.setIdx(hit.getIndex());
             dataList.add(vo);
         }
-
         return ResultData.SUCCESS(dataList);
     }
 
