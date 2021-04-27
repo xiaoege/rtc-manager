@@ -212,4 +212,23 @@
     UPDATE rtc_news_detail SET status = ${@com.rtc.manager.util.CommonConst@STATUS_NOT_USED}
     WHERE news_id = #{newsId,jdbcType=VARCHAR}
   </update>
+
+  <select id="getNewsRead" resultType="java.lang.Integer">
+    SELECT
+      rtc_news_config.views
+    FROM
+      rtc_news_config
+        INNER JOIN rtc_news ON rtc_news_config.news_id = rtc_news.uuid
+    WHERE
+        rtc_news_config.news_id = #{newsId,jdbcType=VARCHAR}
+        AND rtc_news.status = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
+  </select>
+
+  <update id="updateNewsRead">
+    UPDATE
+      rtc_news_config
+    SET views = #{newsRead,jdbcType=INTEGER}
+    WHERE
+      news_id = #{newsId,jdbcType=VARCHAR}
+  </update>
 </mapper>

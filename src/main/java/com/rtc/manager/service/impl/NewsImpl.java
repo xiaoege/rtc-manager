@@ -18,6 +18,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.Cursor;
+import org.springframework.data.redis.core.ScanOptions;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
@@ -28,6 +32,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.*;
@@ -63,6 +68,14 @@ public class NewsImpl implements News {
 
     @Value("${rtc.news-examination}")
     private List<String> newsExamination;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
+    /**
+     * redis-新闻阅读数量hash的key
+     */
+    private static final String NEWS_READ_KEY = "news-read:";
 
     /**
      * 查询新闻列表
@@ -226,6 +239,23 @@ public class NewsImpl implements News {
             }
             String intervalTime = CommonUtils.compareTime(timeZone, newsDetail.getGmtCreate());
             newsDetail.setIntervalTime(intervalTime);
+        }
+
+        String limitKey = "news:" + newsId;
+        Object redisNewsRead = stringRedisTemplate.opsForHash().get(NEWS_READ_KEY, newsId);
+        if (redisNewsRead != null) {
+            newsDetail.setViews(Integer.valueOf(redisNewsRead.toString()));
+        } else {
+            int newsRead = rtcNewsDetailMapper.getNewsRead(newsId);
+            newsDetail.setViews(newsRead);
+            stringRedisTemplate.opsForHash().put(NEWS_READ_KEY, newsId, String.valueOf(newsRead));
+        }
+        // 在1分钟内查看新闻点击量不增加
+        if (!stringRedisTemplate.hasKey(limitKey)) {
+            stringRedisTemplate.opsForValue().increment(limitKey);
+            stringRedisTemplate.expire(limitKey, Duration.ofSeconds(60));
+            stringRedisTemplate.opsForHash().increment(NEWS_READ_KEY, newsId, 1);
+            newsDetail.setViews(newsDetail.getViews() + 1);
         }
 
         return newsDetail;
@@ -422,5 +452,24 @@ public class NewsImpl implements News {
             }
         }
         return url;
+    }
+
+    /**
+     * 每周三下午3点，更新新闻阅读数
+     */
+    @Scheduled(cron = "0 0 15 ? * WED")
+    private void syncNewsRead() {
+        logger.info("同步新闻阅读数-start");
+        Cursor<Map.Entry<Object, Object>> scan = stringRedisTemplate.opsForHash().scan(this.NEWS_READ_KEY, ScanOptions.scanOptions().build());
+        while (scan.hasNext()) {
+            Map.Entry<Object, Object> next = scan.next();
+            rtcNewsDetailMapper.updateNewsRead(next.getKey().toString(), Integer.valueOf(next.getValue().toString()));
+        }
+        try {
+            scan.close();
+        } catch (Exception e) {
+            logger.info("同步新闻阅读数错误:{}", CommonUtils.getExceptionInfo(e));
+        }
+        logger.info("同步新闻阅读数-end");
     }
 }
