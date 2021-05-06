@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rtc.manager.dao.america.iowa.AmericaIowaMapper">
+  <resultMap id="BaseResultMap" type="com.rtc.manager.entity.america.iowa.AmericaIowa">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="business_no" jdbcType="VARCHAR" property="businessNo" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="enterprise_status" jdbcType="VARCHAR" property="enterpriseStatus" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="inc_state" jdbcType="VARCHAR" property="incState" />
+    <result column="modified" jdbcType="VARCHAR" property="modified" />
+    <result column="expiration_date" jdbcType="VARCHAR" property="expirationDate" />
+    <result column="effective_date" jdbcType="VARCHAR" property="effectiveDate" />
+    <result column="filing_date" jdbcType="VARCHAR" property="filingDate" />
+    <result column="chapter" jdbcType="VARCHAR" property="chapter" />
+    <result column="agent_full_name" jdbcType="VARCHAR" property="agentFullName" />
+    <result column="agent_address" jdbcType="VARCHAR" property="agentAddress" />
+    <result column="agent_spare_address" jdbcType="VARCHAR" property="agentSpareAddress" />
+    <result column="agent_city" jdbcType="VARCHAR" property="agentCity" />
+    <result column="agent_state" jdbcType="VARCHAR" property="agentState" />
+    <result column="agent_zip" jdbcType="VARCHAR" property="agentZip" />
+    <result column="office_full_name" jdbcType="VARCHAR" property="officeFullName" />
+    <result column="office_address" jdbcType="VARCHAR" property="officeAddress" />
+    <result column="office_spare_address" jdbcType="VARCHAR" property="officeSpareAddress" />
+    <result column="office_city" jdbcType="VARCHAR" property="officeCity" />
+    <result column="office_state" jdbcType="VARCHAR" property="officeState" />
+    <result column="office_zip" jdbcType="VARCHAR" property="officeZip" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.rtc.manager.entity.america.iowa.AmericaIowa">
+    <result column="names" jdbcType="LONGVARCHAR" property="names" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, business_no, name, enterprise_status, type, inc_state, modified, 
+    expiration_date, effective_date, filing_date, chapter, agent_full_name, agent_address, 
+    agent_spare_address, agent_city, agent_state, agent_zip, office_full_name, office_address, 
+    office_spare_address, office_city, office_state, office_zip, gmt_create, gmt_modified, 
+    status
+  </sql>
+  <sql id="Blob_Column_List">
+    names
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from america_iowa
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from america_iowa
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rtc.manager.entity.america.iowa.AmericaIowa">
+    insert into america_iowa (id, enterprise_id, business_no, 
+      name, enterprise_status, type, 
+      inc_state, modified, expiration_date, 
+      effective_date, filing_date, chapter, 
+      agent_full_name, agent_address, agent_spare_address, 
+      agent_city, agent_state, agent_zip, 
+      office_full_name, office_address, office_spare_address, 
+      office_city, office_state, office_zip, 
+      gmt_create, gmt_modified, status, 
+      names)
+    values (#{id,jdbcType=INTEGER}, #{enterpriseId,jdbcType=VARCHAR}, #{businessNo,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{enterpriseStatus,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{incState,jdbcType=VARCHAR}, #{modified,jdbcType=VARCHAR}, #{expirationDate,jdbcType=VARCHAR}, 
+      #{effectiveDate,jdbcType=VARCHAR}, #{filingDate,jdbcType=VARCHAR}, #{chapter,jdbcType=VARCHAR}, 
+      #{agentFullName,jdbcType=VARCHAR}, #{agentAddress,jdbcType=VARCHAR}, #{agentSpareAddress,jdbcType=VARCHAR}, 
+      #{agentCity,jdbcType=VARCHAR}, #{agentState,jdbcType=VARCHAR}, #{agentZip,jdbcType=VARCHAR}, 
+      #{officeFullName,jdbcType=VARCHAR}, #{officeAddress,jdbcType=VARCHAR}, #{officeSpareAddress,jdbcType=VARCHAR}, 
+      #{officeCity,jdbcType=VARCHAR}, #{officeState,jdbcType=VARCHAR}, #{officeZip,jdbcType=VARCHAR}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
+      #{names,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rtc.manager.entity.america.iowa.AmericaIowa">
+    insert into america_iowa
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="businessNo != null">
+        business_no,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="enterpriseStatus != null">
+        enterprise_status,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="incState != null">
+        inc_state,
+      </if>
+      <if test="modified != null">
+        modified,
+      </if>
+      <if test="expirationDate != null">
+        expiration_date,
+      </if>
+      <if test="effectiveDate != null">
+        effective_date,
+      </if>
+      <if test="filingDate != null">
+        filing_date,
+      </if>
+      <if test="chapter != null">
+        chapter,
+      </if>
+      <if test="agentFullName != null">
+        agent_full_name,
+      </if>
+      <if test="agentAddress != null">
+        agent_address,
+      </if>
+      <if test="agentSpareAddress != null">
+        agent_spare_address,
+      </if>
+      <if test="agentCity != null">
+        agent_city,
+      </if>
+      <if test="agentState != null">
+        agent_state,
+      </if>
+      <if test="agentZip != null">
+        agent_zip,
+      </if>
+      <if test="officeFullName != null">
+        office_full_name,
+      </if>
+      <if test="officeAddress != null">
+        office_address,
+      </if>
+      <if test="officeSpareAddress != null">
+        office_spare_address,
+      </if>
+      <if test="officeCity != null">
+        office_city,
+      </if>
+      <if test="officeState != null">
+        office_state,
+      </if>
+      <if test="officeZip != null">
+        office_zip,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="names != null">
+        names,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="businessNo != null">
+        #{businessNo,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseStatus != null">
+        #{enterpriseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="incState != null">
+        #{incState,jdbcType=VARCHAR},
+      </if>
+      <if test="modified != null">
+        #{modified,jdbcType=VARCHAR},
+      </if>
+      <if test="expirationDate != null">
+        #{expirationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="effectiveDate != null">
+        #{effectiveDate,jdbcType=VARCHAR},
+      </if>
+      <if test="filingDate != null">
+        #{filingDate,jdbcType=VARCHAR},
+      </if>
+      <if test="chapter != null">
+        #{chapter,jdbcType=VARCHAR},
+      </if>
+      <if test="agentFullName != null">
+        #{agentFullName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentAddress != null">
+        #{agentAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="agentSpareAddress != null">
+        #{agentSpareAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="agentCity != null">
+        #{agentCity,jdbcType=VARCHAR},
+      </if>
+      <if test="agentState != null">
+        #{agentState,jdbcType=VARCHAR},
+      </if>
+      <if test="agentZip != null">
+        #{agentZip,jdbcType=VARCHAR},
+      </if>
+      <if test="officeFullName != null">
+        #{officeFullName,jdbcType=VARCHAR},
+      </if>
+      <if test="officeAddress != null">
+        #{officeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="officeSpareAddress != null">
+        #{officeSpareAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="officeCity != null">
+        #{officeCity,jdbcType=VARCHAR},
+      </if>
+      <if test="officeState != null">
+        #{officeState,jdbcType=VARCHAR},
+      </if>
+      <if test="officeZip != null">
+        #{officeZip,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="names != null">
+        #{names,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rtc.manager.entity.america.iowa.AmericaIowa">
+    update america_iowa
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="businessNo != null">
+        business_no = #{businessNo,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseStatus != null">
+        enterprise_status = #{enterpriseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="incState != null">
+        inc_state = #{incState,jdbcType=VARCHAR},
+      </if>
+      <if test="modified != null">
+        modified = #{modified,jdbcType=VARCHAR},
+      </if>
+      <if test="expirationDate != null">
+        expiration_date = #{expirationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="effectiveDate != null">
+        effective_date = #{effectiveDate,jdbcType=VARCHAR},
+      </if>
+      <if test="filingDate != null">
+        filing_date = #{filingDate,jdbcType=VARCHAR},
+      </if>
+      <if test="chapter != null">
+        chapter = #{chapter,jdbcType=VARCHAR},
+      </if>
+      <if test="agentFullName != null">
+        agent_full_name = #{agentFullName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentAddress != null">
+        agent_address = #{agentAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="agentSpareAddress != null">
+        agent_spare_address = #{agentSpareAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="agentCity != null">
+        agent_city = #{agentCity,jdbcType=VARCHAR},
+      </if>
+      <if test="agentState != null">
+        agent_state = #{agentState,jdbcType=VARCHAR},
+      </if>
+      <if test="agentZip != null">
+        agent_zip = #{agentZip,jdbcType=VARCHAR},
+      </if>
+      <if test="officeFullName != null">
+        office_full_name = #{officeFullName,jdbcType=VARCHAR},
+      </if>
+      <if test="officeAddress != null">
+        office_address = #{officeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="officeSpareAddress != null">
+        office_spare_address = #{officeSpareAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="officeCity != null">
+        office_city = #{officeCity,jdbcType=VARCHAR},
+      </if>
+      <if test="officeState != null">
+        office_state = #{officeState,jdbcType=VARCHAR},
+      </if>
+      <if test="officeZip != null">
+        office_zip = #{officeZip,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="names != null">
+        names = #{names,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.rtc.manager.entity.america.iowa.AmericaIowa">
+    update america_iowa
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      business_no = #{businessNo,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      enterprise_status = #{enterpriseStatus,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      inc_state = #{incState,jdbcType=VARCHAR},
+      modified = #{modified,jdbcType=VARCHAR},
+      expiration_date = #{expirationDate,jdbcType=VARCHAR},
+      effective_date = #{effectiveDate,jdbcType=VARCHAR},
+      filing_date = #{filingDate,jdbcType=VARCHAR},
+      chapter = #{chapter,jdbcType=VARCHAR},
+      agent_full_name = #{agentFullName,jdbcType=VARCHAR},
+      agent_address = #{agentAddress,jdbcType=VARCHAR},
+      agent_spare_address = #{agentSpareAddress,jdbcType=VARCHAR},
+      agent_city = #{agentCity,jdbcType=VARCHAR},
+      agent_state = #{agentState,jdbcType=VARCHAR},
+      agent_zip = #{agentZip,jdbcType=VARCHAR},
+      office_full_name = #{officeFullName,jdbcType=VARCHAR},
+      office_address = #{officeAddress,jdbcType=VARCHAR},
+      office_spare_address = #{officeSpareAddress,jdbcType=VARCHAR},
+      office_city = #{officeCity,jdbcType=VARCHAR},
+      office_state = #{officeState,jdbcType=VARCHAR},
+      office_zip = #{officeZip,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      names = #{names,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rtc.manager.entity.america.iowa.AmericaIowa">
+    update america_iowa
+    set enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      business_no = #{businessNo,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      enterprise_status = #{enterpriseStatus,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      inc_state = #{incState,jdbcType=VARCHAR},
+      modified = #{modified,jdbcType=VARCHAR},
+      expiration_date = #{expirationDate,jdbcType=VARCHAR},
+      effective_date = #{effectiveDate,jdbcType=VARCHAR},
+      filing_date = #{filingDate,jdbcType=VARCHAR},
+      chapter = #{chapter,jdbcType=VARCHAR},
+      agent_full_name = #{agentFullName,jdbcType=VARCHAR},
+      agent_address = #{agentAddress,jdbcType=VARCHAR},
+      agent_spare_address = #{agentSpareAddress,jdbcType=VARCHAR},
+      agent_city = #{agentCity,jdbcType=VARCHAR},
+      agent_state = #{agentState,jdbcType=VARCHAR},
+      agent_zip = #{agentZip,jdbcType=VARCHAR},
+      office_full_name = #{officeFullName,jdbcType=VARCHAR},
+      office_address = #{officeAddress,jdbcType=VARCHAR},
+      office_spare_address = #{officeSpareAddress,jdbcType=VARCHAR},
+      office_city = #{officeCity,jdbcType=VARCHAR},
+      office_state = #{officeState,jdbcType=VARCHAR},
+      office_zip = #{officeZip,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

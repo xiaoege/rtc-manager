@@ -2,7 +2,6 @@ package com.rtc.manager.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,6 +16,8 @@ import com.rtc.manager.dao.america.california.AmericaCaliforniaMapper;
 import com.rtc.manager.dao.america.colorado.AmericaColoradoMapper;
 import com.rtc.manager.dao.america.connecticut.AmericaConnecticutMapper;
 import com.rtc.manager.dao.america.connecticut.AmericaConnecticutPrincipalDetailMapper;
+import com.rtc.manager.dao.america.iowa.AmericaIowaMapper;
+import com.rtc.manager.dao.america.iowa.AmericaIowaOfficerMapper;
 import com.rtc.manager.dao.america.louisiana.AmericaLouisianaMapper;
 import com.rtc.manager.dao.america.louisiana.AmericaLouisianaOfficerMapper;
 import com.rtc.manager.dao.america.louisiana.AmericaLouisianaRegisteredAgentMapper;
@@ -79,6 +80,8 @@ import com.rtc.manager.entity.america.california.AmericaCalifornia;
 import com.rtc.manager.entity.america.colorado.AmericaColorado;
 import com.rtc.manager.entity.america.connecticut.AmericaConnecticut;
 import com.rtc.manager.entity.america.connecticut.AmericaConnecticutPrincipalDetail;
+import com.rtc.manager.entity.america.iowa.AmericaIowa;
+import com.rtc.manager.entity.america.iowa.AmericaIowaOfficer;
 import com.rtc.manager.entity.america.louisiana.AmericaLouisiana;
 import com.rtc.manager.entity.america.utah.AmericaUtah;
 import com.rtc.manager.entity.america.vermount.AmericaVermount;
@@ -145,8 +148,6 @@ import org.springframework.util.ObjectUtils;
 
 import java.io.*;
 import java.util.*;
-
-import static java.util.UUID.randomUUID;
 
 /**
  * @author ChenHang
@@ -563,6 +564,12 @@ public class SaveJsonImpl implements SaveJson {
 
     @Autowired
     private AmericaLouisianaOfficerMapper americaLouisianaOfficerMapper;
+
+    @Autowired
+    private AmericaIowaMapper americaIowaMapper;
+
+    @Autowired
+    private AmericaIowaOfficerMapper americaIowaOfficerMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -3510,6 +3517,64 @@ public class SaveJsonImpl implements SaveJson {
                         Optional.ofNullable(dto.getOfficers()).ifPresent(j -> j.forEach(k -> {
                             k.setEnterpriseId(enterpriseId);
                             americaLouisianaOfficerMapper.insertSelective(k);
+                        }));
+                    }
+                }
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                logger.info("json序列化出现问题:{}", file.getName());
+                logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
+                throw e;
+            }
+
+            logger.info("json文件导入成功，文件是{}", file.getName());
+            reader.close();
+            bis.close();
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveJsonAmerica4Iowa(File fileDirPath) throws Exception {
+        List<String> fileList = new ArrayList();
+        CommonUtils.readJsonFiles(fileDirPath, fileList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (int z = 0; z < fileList.size(); z++) {
+            File file = new File(fileList.get(z));
+
+            // 忽略mac的隐藏文件
+            if (file.getName().contains(".DS_Store")) {
+                continue;
+            }
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
+
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
+
+            StringBuilder sb = new StringBuilder();
+            while (reader.ready()) {
+                sb.append((char) reader.read());
+            }
+            String sss = sb.toString();
+            sss = sss.replace("\\\"", "").replace("\\n", " ");
+            List<AmericaIowaDTO> list = null;
+            try {
+                list = Optional.ofNullable(objectMapper.readValue(sss, new TypeReference<List<AmericaIowaDTO>>() {
+                })).orElseGet(() -> new ArrayList<>());
+                for (int i = 0; i < list.size(); i++) {
+                    AmericaIowaDTO dto = list.get(i);
+                    AmericaIowa americaIowa = new AmericaIowa();
+                    BeanUtils.copyProperties(dto.getBasic(), americaIowa);
+                    BeanUtils.copyProperties(dto.getRegisteredAgent(), americaIowa);
+                    BeanUtils.copyProperties(dto.getHomeOffice(), americaIowa);
+                    String enterpriseId = CommonUtils.getUUID();
+                    americaIowa.setEnterpriseId(enterpriseId);
+                    americaIowa.setNames(objectMapper.writeValueAsString(dto.getNames()));
+                    if(americaIowaMapper.insertSelective(americaIowa) > 0) {
+                        List<AmericaIowaOfficer> officers = dto.getOfficers();
+                        Optional.ofNullable(officers).ifPresent(j -> j.forEach(k -> {
+                            k.setEnterpriseId(enterpriseId);
+                            americaIowaOfficerMapper.insertSelective(k);
                         }));
                     }
                 }
