@@ -17,6 +17,9 @@ import com.rtc.manager.dao.america.california.AmericaCaliforniaMapper;
 import com.rtc.manager.dao.america.colorado.AmericaColoradoMapper;
 import com.rtc.manager.dao.america.connecticut.AmericaConnecticutMapper;
 import com.rtc.manager.dao.america.connecticut.AmericaConnecticutPrincipalDetailMapper;
+import com.rtc.manager.dao.america.louisiana.AmericaLouisianaMapper;
+import com.rtc.manager.dao.america.louisiana.AmericaLouisianaOfficerMapper;
+import com.rtc.manager.dao.america.louisiana.AmericaLouisianaRegisteredAgentMapper;
 import com.rtc.manager.dao.america.utah.AmericaUtahMapper;
 import com.rtc.manager.dao.america.vermount.AmericaVermountMapper;
 import com.rtc.manager.dao.america.virginia.AmericaVirginiaMapper;
@@ -76,6 +79,7 @@ import com.rtc.manager.entity.america.california.AmericaCalifornia;
 import com.rtc.manager.entity.america.colorado.AmericaColorado;
 import com.rtc.manager.entity.america.connecticut.AmericaConnecticut;
 import com.rtc.manager.entity.america.connecticut.AmericaConnecticutPrincipalDetail;
+import com.rtc.manager.entity.america.louisiana.AmericaLouisiana;
 import com.rtc.manager.entity.america.utah.AmericaUtah;
 import com.rtc.manager.entity.america.vermount.AmericaVermount;
 import com.rtc.manager.entity.america.virginia.AmericaVirginia;
@@ -550,6 +554,15 @@ public class SaveJsonImpl implements SaveJson {
 
     @Autowired
     private AmericaWashingtonGovernorMapper americaWashingtonGovernorMapper;
+
+    @Autowired
+    private AmericaLouisianaMapper americaLouisianaMapper;
+
+    @Autowired
+    private AmericaLouisianaRegisteredAgentMapper americaLouisianaRegisteredAgentMapper;
+
+    @Autowired
+    private AmericaLouisianaOfficerMapper americaLouisianaOfficerMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -3431,6 +3444,73 @@ public class SaveJsonImpl implements SaveJson {
                             governor.setEnterpriseId(enterpriseId);
                             americaWashingtonGovernorMapper.insertSelective(governor);
                         }
+                    }
+                }
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                logger.info("json序列化出现问题:{}", file.getName());
+                logger.info("exception:{}", CommonUtils.getExceptionInfo(e));
+                throw e;
+            }
+
+            logger.info("json文件导入成功，文件是{}", file.getName());
+            reader.close();
+            bis.close();
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveJsonAmerica4Louisiana(File fileDirPath) throws Exception {
+        List<String> fileList = new ArrayList();
+        CommonUtils.readJsonFiles(fileDirPath, fileList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (int z = 0; z < fileList.size(); z++) {
+            File file = new File(fileList.get(z));
+
+            // 忽略mac的隐藏文件
+            if (file.getName().contains(".DS_Store")) {
+                continue;
+            }
+            logger.info("开始解析json文件，文件是{}，总文件{}个,正在处理第{}个", file.getPath(), fileList.size(), z + 1);
+
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
+
+            StringBuilder sb = new StringBuilder();
+            while (reader.ready()) {
+                sb.append((char) reader.read());
+            }
+            String sss = sb.toString();
+            sss = sss.replace("\\\"", "").replace("\\n", " ");
+            List<AmericaLouisianaDTO> list = null;
+            try {
+                list = Optional.ofNullable(objectMapper.readValue(sss, new TypeReference<List<AmericaLouisianaDTO>>() {
+                })).orElseGet(() -> new ArrayList<>());
+                for (int i = 0; i < list.size(); i++) {
+                    AmericaLouisianaDTO dto = list.get(i);
+                    HashMap<String, String> map = dto.getStatus();
+                    dto.setEnterpriseStatus(map.get("Status"));
+                    dto.setInactiveReason(map.get("Inactive Reason"));
+                    dto.setFileDate(map.get("File Date"));
+                    dto.setLastReportFile(map.get("Last Report Filed"));
+                    dto.setEnterpriseType(map.get("Type"));
+                    AmericaLouisiana americaLouisiana = new AmericaLouisiana();
+                    BeanUtils.copyProperties(dto, americaLouisiana);
+                    if (dto.getPreviousNames() != null) {
+                        americaLouisiana.setPrevious(objectMapper.writeValueAsString(dto.getPreviousNames()));
+                    }
+                    String enterpriseId = CommonUtils.getUUID();
+                    americaLouisiana.setEnterpriseId(enterpriseId);
+                    if (americaLouisianaMapper.insertSelective(americaLouisiana) > 0) {
+                        Optional.ofNullable(dto.getRegisteredAgent()).ifPresent(j -> j.forEach(k -> {
+                            k.setEnterpriseId(enterpriseId);
+                            americaLouisianaRegisteredAgentMapper.insertSelective(k);
+                        }));
+                        Optional.ofNullable(dto.getOfficers()).ifPresent(j -> j.forEach(k -> {
+                            k.setEnterpriseId(enterpriseId);
+                            americaLouisianaOfficerMapper.insertSelective(k);
+                        }));
                     }
                 }
             } catch (JsonProcessingException e) {

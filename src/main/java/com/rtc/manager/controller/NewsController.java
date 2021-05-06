@@ -61,6 +61,8 @@ public class NewsController {
 
     /**
      * 查询新闻详情
+     * 同一用户，每分钟内重复点击不增加新闻查看数
+     * 新闻每周三下午3点更新到mysql
      *
      * @param newsId   新闻id
      * @param timeZone 时区，参数示例：8或者-8, 范围: -18 to 18 的整数

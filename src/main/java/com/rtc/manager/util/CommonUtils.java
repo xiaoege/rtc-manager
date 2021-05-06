@@ -89,6 +89,8 @@ public final class CommonUtils {
      */
     private static final Pattern PATTERN_DATE_FORMAT_1 = Pattern.compile("\\d{4}-\\d{1,2}-\\d{1,2}");
 
+    private static ObjectMapper OBJECTMAPPER = new ObjectMapper();
+
     /**
      * 获得exception的堆栈信息
      *
@@ -732,5 +734,9 @@ public final class CommonUtils {
             }
         }
         return "-";
+    }
+
+    public static ObjectMapper getObjectMapper() {
+        return OBJECTMAPPER;
     }
 }
