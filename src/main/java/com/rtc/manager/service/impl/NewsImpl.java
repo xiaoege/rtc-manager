@@ -124,6 +124,17 @@ public class NewsImpl implements News {
                 }
                 String intervalTime = CommonUtils.compareTime(timeZone, rtcNewsVO.getGmtCreate());
                 rtcNewsVO.setIntervalTime(intervalTime);
+
+                String newsId = rtcNewsVO.getUuid();
+                Object redisNewsRead = stringRedisTemplate.opsForHash().get(NEWS_READ_KEY, newsId);
+                if (redisNewsRead != null) {
+                    rtcNewsVO.setViews(Integer.valueOf(redisNewsRead.toString()));
+                } else {
+                    int newsRead = rtcNewsDetailMapper.getNewsRead(newsId);
+                    rtcNewsVO.setViews(newsRead);
+                    stringRedisTemplate.opsForHash().put(NEWS_READ_KEY, newsId, String.valueOf(newsRead));
+                }
+
             }
         }
 
