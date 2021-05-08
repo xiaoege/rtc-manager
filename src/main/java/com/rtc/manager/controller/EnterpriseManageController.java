@@ -18,7 +18,7 @@ import springfox.documentation.annotations.ApiIgnore;
 /**
  * @author ChenHang
  */
-//@ApiIgnore
+@ApiIgnore
 @Api(tags = "企业后台管理")
 @RestController
 @RequestMapping(("enterpriseManage"))
