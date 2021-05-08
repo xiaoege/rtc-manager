@@ -18,8 +18,8 @@ import springfox.documentation.annotations.ApiIgnore;
 /**
  * @author ChenHang
  */
+//@ApiIgnore
 @Api(tags = "企业后台管理")
-@ApiIgnore
 @RestController
 @RequestMapping(("enterpriseManage"))
 public class EnterpriseManageController {
@@ -37,7 +37,7 @@ public class EnterpriseManageController {
     /**
      * 搜索企业-列表，此接口的查询不限制必须查name，如果不传入name或者name为""时，改为查所有
      */
-    @ApiOperation(value = "搜索企业-列表", tags = "此接口的查询不限制必须查name，如果不传入name或者name为\"\"时，改为查所有")
+    @ApiOperation(value = "搜索企业-列表", notes = "此接口的查询不限制必须查name，如果不传入name或者name为\"\"时，改为查所有")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
             @ApiImplicitParam(name = "name", value = "企业名", required = true),
@@ -76,8 +76,13 @@ public class EnterpriseManageController {
      * @param eType  地区
      * @return
      */
-    @ApiIgnore
     @ApiOperation("新增单个企业")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
+            @ApiImplicitParam(name = "body", value = "企业数据请看文档", paramType = "body", required = true),
+            @ApiImplicitParam(name = "nation", value = SwaggerConfig.NATION, paramType = "query", required = true),
+            @ApiImplicitParam(name = "e_type", value = SwaggerConfig.E_TYPE, paramType = "query", required = true),
+    })
     @PostMapping("addEnterprise")
     public ResultData addEnterprise(@RequestBody String body,
                                     @RequestParam(name = "nation") String nation,
@@ -88,23 +93,32 @@ public class EnterpriseManageController {
     /**
      * 单个企业修改-es/mysql
      */
-    @ApiIgnore
     @ApiOperation("修改单个企业")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
+            @ApiImplicitParam(name = "body", value = "企业数据请看文档", paramType = "body", required = true),
+            @ApiImplicitParam(name = "nation", value = SwaggerConfig.NATION, paramType = "query", required = true),
+            @ApiImplicitParam(name = "e_type", value = SwaggerConfig.E_TYPE, paramType = "query", required = true),
+            @ApiImplicitParam(name = "esId", value = "esId", paramType = "query", required = true),
+            @ApiImplicitParam(name = "enterpriseId", value = "enterpriseId", paramType = "query", required = true),
+            @ApiImplicitParam(name = "timezone", value = "时区，参数示例：8或者-8, 范围: -18 to 18 的整数", paramType = "query", required = false),
+    })
     @PostMapping("modifyEnterprise")
     @ApiResponses({
             @ApiResponse(code = 1101, message = "修改企业时该enterpriseId不存在")
     })
     public ResultData modifyEnterprise(@RequestBody String body,
                                        @RequestParam(name = "nation") String nation,
-                                       @RequestParam(name = "e_type") String eType, String esId,
-                                       String enterpriseId, String timezone) throws Exception {
+                                       @RequestParam(name = "e_type") String eType,
+                                       @RequestParam(name = "esId") String esId,
+                                       @RequestParam(name = "enterpriseId") String enterpriseId,
+                                       String timezone) throws Exception {
         return enterpriseManage.modifyEnterprise(body, nation, eType, esId, enterpriseId, timezone);
     }
 
     /**
      * 企业删除-es/mysql-多个
      */
-    @ApiIgnore
     @ApiOperation("企业删除")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
@@ -130,6 +144,12 @@ public class EnterpriseManageController {
      * @return
      */
     @ApiOperation("中国企业-五大类-新增")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
+            @ApiImplicitParam(name = "body", value = "企业数据请看文档", paramType = "body", required = true),
+            @ApiImplicitParam(name = "category", value = "五大类栏目,请看文档", paramType = "query", required = true),
+            @ApiImplicitParam(name = "enterpriseId", value = "enterpriseId", paramType = "query", required = true),
+    })
     @PostMapping("addChinaCategory")
     public ResultData addChinaCategory(@RequestBody String body,
                                        @RequestParam(name = "category") String category,
@@ -147,13 +167,19 @@ public class EnterpriseManageController {
      * @return
      */
     @ApiOperation("中国企业-五大类-修改")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
+            @ApiImplicitParam(name = "body", value = "企业数据请看文档", paramType = "body", required = true),
+            @ApiImplicitParam(name = "category", value = "五大类栏目,请看文档", paramType = "query", required = true),
+            @ApiImplicitParam(name = "enterpriseId", value = "enterpriseId", paramType = "query", required = true),
+            @ApiImplicitParam(name = "pid", value = "pid", paramType = "query", required = true),
+    })
     @PostMapping("modifyChinaCategory")
     public ResultData modifyChinaCategory(@RequestBody String body,
                                           @RequestParam(name = "category") String category,
                                           @RequestParam(name = "enterpriseId") String enterpriseId,
                                           @RequestParam(name = "pid") Integer id) throws Exception {
-        // todo
-        return null;
+        return qcc.modifyChinaCategory(body, category, enterpriseId, id);
     }
 
     /**
@@ -165,6 +191,11 @@ public class EnterpriseManageController {
      * @return
      */
     @ApiOperation("中国企业-五大类-删除")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
+            @ApiImplicitParam(name = "body", value = "五大类pid的数组", paramType = "body", required = true),
+            @ApiImplicitParam(name = "category", value = "五大类栏目,请看文档", paramType = "query", required = true),
+    })
     @PostMapping("delChinaCategory")
     public ResultData delChinaCategory(@RequestBody String body,
                                        @RequestParam(name = "category") String category) throws Exception {
@@ -176,7 +207,15 @@ public class EnterpriseManageController {
      *
      * @return 可访问的临时地址
      */
+    @ApiOperation("上传logo图片")
     @PostMapping("uploadLogo")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
+            @ApiImplicitParam(name = "file", value = "后缀名是jpg,jpeg,png,bmp格式的图片,大小在2MB以内", paramType = "form", dataType = "__file", required = true),
+    })
+    @ApiResponses({
+            @ApiResponse(code = 905, message = "文件格式错误")
+    })
     public ResultData uploadLogo(@RequestParam MultipartFile file) throws Exception {
         return enterpriseManage.uploadLogo(file);
     }

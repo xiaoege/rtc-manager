@@ -83,8 +83,8 @@ public class EnterpriseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
             @ApiImplicitParam(name = "enterpriseId", value = "企业id", required = true),
-            @ApiImplicitParam(name = "nation", value = "国家：China / India / Vietnam", required = true),
-            @ApiImplicitParam(name = "e_type", value = "企业类型，对应国家：China.China / India.[cin, llpin] / Vietnam.Vietnam", required = true),
+            @ApiImplicitParam(name = "nation", value = SwaggerConfig.NATION, required = true),
+            @ApiImplicitParam(name = "e_type", value = SwaggerConfig.E_TYPE, required = true),
             @ApiImplicitParam(name = "timeZone", value = "时区，参数示例：8或者-8, 范围: -18 to 18 的整数", required = false)
     })
     @GetMapping("getEnterprise")
@@ -134,8 +134,8 @@ public class EnterpriseController {
             @ApiImplicitParam(name = "enterpriseId", value = "企业id", required = true),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false),
             @ApiImplicitParam(name = "pageSize", value = "当前页大小", required = false),
-            @ApiImplicitParam(name = "nation", value = "国家：China", required = false),
-            @ApiImplicitParam(name = "e_type", value = "企业类型，对应国家：China.China", required = false)
+            @ApiImplicitParam(name = "nation", value = SwaggerConfig.NATION, required = false),
+            @ApiImplicitParam(name = "e_type", value = SwaggerConfig.E_TYPE, required = false)
     })
     @GetMapping("getEnterpriseDetail")
     public ResultData<Object> getEnterpriseDetail(@RequestParam(name = "name", required = true) String name,
@@ -184,8 +184,8 @@ public class EnterpriseController {
             @ApiImplicitParam(name = "enterpriseId", value = "企业id", required = false),
             @ApiImplicitParam(name = "pageNum", value = "当前页数，此接口的pageNum从1开始", required = false),
             @ApiImplicitParam(name = "pageSize", value = "当前页大小", required = false),
-            @ApiImplicitParam(name = "nation", value = "国家：China", required = false),
-            @ApiImplicitParam(name = "e_type", value = "企业类型，对应国家：China.China", required = false)
+            @ApiImplicitParam(name = "nation", value = SwaggerConfig.NATION, required = false),
+            @ApiImplicitParam(name = "e_type", value = SwaggerConfig.E_TYPE, required = false)
     })
     @GetMapping("getEnterpriseSubDetailMuti")
     public ResultData<Object> getEnterpriseSubDetailMuti(@RequestParam(name = "name", required = true) String name,

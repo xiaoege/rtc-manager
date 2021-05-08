@@ -5,9 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.rtc.manager.dao.*;
-import com.rtc.manager.entity.QccAnnualReport;
-import com.rtc.manager.entity.QccJudgmentDocument;
+import com.rtc.manager.entity.*;
+import com.rtc.manager.entity.dto.QccAnnualReportDTO;
 import com.rtc.manager.entity.dto.RtcUserDTO;
+import com.rtc.manager.service.Qcc;
 import com.rtc.manager.service.*;
 import com.rtc.manager.util.CommonUtils;
 import com.rtc.manager.util.ElasticsearchUtils;
@@ -32,6 +33,7 @@ import org.elasticsearch.search.sort.ScriptSortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -1082,8 +1084,9 @@ public class QccImpl implements Qcc {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultData addChinaCategory(String body, String category, String enterpriseId) throws Exception {
-//        objectMapper.registerModule(new JavaTimeModule());
         switch (category) {
+            // ============= 法律诉讼 =============
+            // 裁判文书
             case "judgmentDocument":
                 QccJudgmentDocument judgmentDocument = objectMapper.readValue(body, QccJudgmentDocument.class);
                 setFieldNull(judgmentDocument);
@@ -1092,11 +1095,327 @@ public class QccImpl implements Qcc {
                     return ResultData.SUCCESS("新增成功");
                 }
                 break;
-            case "":
+            // 开庭公告
+            case "courtNotice":
+                QccCourtNotice courtNotice = objectMapper.readValue(body, QccCourtNotice.class);
+                setFieldNull(courtNotice);
+                courtNotice.setEnterpriseId(enterpriseId);
+                if (qccCourtNoticeMapper.insertSelective(courtNotice) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
                 break;
+            // 立案信息
+            case "filingInformation":
+                QccFilingInformation filingInformation = objectMapper.readValue(body, QccFilingInformation.class);
+                setFieldNull(filingInformation);
+                filingInformation.setEnterpriseId(enterpriseId);
+                if (qccFilingInformationMapper.insertSelective(filingInformation) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // ============= 法律诉讼 =============
+            // ============= 经营状况 =============
+            // 行政许可
+            case "administrativeLicense":
+                QccAdministrativeLicense administrativeLicense = objectMapper.readValue(body, QccAdministrativeLicense.class);
+                setFieldNull(administrativeLicense);
+                administrativeLicense.setEnterpriseId(enterpriseId);
+                if (qccAdministrativeLicenseMapper.insertSelective(administrativeLicense) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // 税务信用
+            case "taxCredit":
+                QccTaxCredit taxCredit = objectMapper.readValue(body, QccTaxCredit.class);
+                setFieldNull(taxCredit);
+                taxCredit.setEnterpriseId(enterpriseId);
+                if (qccTaxCreditMapper.insertSelective(taxCredit) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // 招投标
+            case "bidding":
+                QccBidding bidding = objectMapper.readValue(body, QccBidding.class);
+                setFieldNull(bidding);
+                bidding.setEnterpriseId(enterpriseId);
+                if (qccBiddingMapper.insertSelective(bidding) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // 进出口信用
+            case "importExportCredit":
+                QccImportExportCredit importExportCredit = objectMapper.readValue(body, QccImportExportCredit.class);
+                setFieldNull(importExportCredit);
+                importExportCredit.setEnterpriseId(enterpriseId);
+                if (qccImportExportCreditMapper.insertSelective(importExportCredit) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // 购地信息
+            case "landPurchaseInformation":
+                QccLandPurchaseInformation landPurchaseInformation = objectMapper.readValue(body, QccLandPurchaseInformation.class);
+                setFieldNull(landPurchaseInformation);
+                landPurchaseInformation.setEnterpriseId(enterpriseId);
+                if (qccLandPurchaseInformationMapper.insertSelective(landPurchaseInformation) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // 供应商
+            case "supplier":
+                QccSupplier supplier = objectMapper.readValue(body, QccSupplier.class);
+                setFieldNull(supplier);
+                supplier.setEnterpriseId(enterpriseId);
+                if (qccSupplierMapper.insertSelective(supplier) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // 客户
+            case "client":
+                QccClient client = objectMapper.readValue(body, QccClient.class);
+                setFieldNull(client);
+                client.setEnterpriseId(enterpriseId);
+                if (qccClientMapper.insertSelective(client) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // 一般纳税人
+            case "generalTaxpayer":
+                QccGeneralTaxpayer generalTaxpayer = objectMapper.readValue(body, QccGeneralTaxpayer.class);
+                setFieldNull(generalTaxpayer);
+                generalTaxpayer.setEnterpriseId(enterpriseId);
+                if (qccGeneralTaxpayerMapper.insertSelective(generalTaxpayer) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // 行政许可 [信用中国]
+            case "administrativeLicenseChina":
+                QccAdministrativeLicenseChina administrativeLicenseChina = objectMapper.readValue(body, QccAdministrativeLicenseChina.class);
+                setFieldNull(administrativeLicenseChina);
+                administrativeLicenseChina.setEnterpriseId(enterpriseId);
+                if (qccAdministrativeLicenseChinaMapper.insertSelective(administrativeLicenseChina) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // 抽查检查
+            case "spotCheck":
+                QccSpotCheck spotCheck = objectMapper.readValue(body, QccSpotCheck.class);
+                setFieldNull(spotCheck);
+                spotCheck.setEnterpriseId(enterpriseId);
+                if (qccSpotCheckMapper.insertSelective(spotCheck) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // ========== 经营状况 ==========
+            // ========== 经营风险 ==========
+            // 经营异常（移入）
+            case "qcc_save_exception":
+                QccSaveException saveException = objectMapper.readValue(body, QccSaveException.class);
+                setFieldNull(saveException);
+                saveException.setEnterpriseId(enterpriseId);
+                if (qccSaveExceptionMapper.insertSelective(saveException) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // 经营异常（移出）
+            case "qcc_remove_exception":
+                QccRemoveException removeException = objectMapper.readValue(body, QccRemoveException.class);
+                setFieldNull(removeException);
+                removeException.setEnterpriseId(enterpriseId);
+                if (qccRemoveExceptionMapper.insertSelective(removeException) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // 行政处罚
+            case "administrativeSanction":
+                QccAdministrativeSanction administrativeSanction = objectMapper.readValue(body, QccAdministrativeSanction.class);
+                setFieldNull(administrativeSanction);
+                administrativeSanction.setEnterpriseId(enterpriseId);
+                if (qccAdministrativeSanctionMapper.insertSelective(administrativeSanction) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // 环保处罚
+            case "environmentalPunishment":
+                QccEnvironmentalPunishment environmentalPunishment = objectMapper.readValue(body, QccEnvironmentalPunishment.class);
+                setFieldNull(environmentalPunishment);
+                environmentalPunishment.setEnterpriseId(enterpriseId);
+                if (qccEnvironmentalPunishmentMapper.insertSelective(environmentalPunishment) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // 税收违法
+            case "taxViolation":
+                QccTaxViolation taxViolation = objectMapper.readValue(body, QccTaxViolation.class);
+                setFieldNull(taxViolation);
+                taxViolation.setEnterpriseId(enterpriseId);
+                if (qccTaxViolationMapper.insertSelective(taxViolation) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // 股权质押
+            case "equityPledge":
+                QccEquityPledge equityPledge = objectMapper.readValue(body, QccEquityPledge.class);
+                setFieldNull(equityPledge);
+                equityPledge.setEnterpriseId(enterpriseId);
+                if (qccEquityPledgeMapper.insertSelective(equityPledge) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // 欠税公告
+            case "taxArrearsNotice":
+                QccTaxArrearsNotice taxArrearsNotice = objectMapper.readValue(body, QccTaxArrearsNotice.class);
+                setFieldNull(taxArrearsNotice);
+                taxArrearsNotice.setEnterpriseId(enterpriseId);
+                if (qccTaxArrearsNoticeMapper.insertSelective(taxArrearsNotice) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // 司法拍卖
+            case "judicialAuction":
+                QccJudicialAuction judicialAuction = objectMapper.readValue(body, QccJudicialAuction.class);
+                setFieldNull(judicialAuction);
+                judicialAuction.setEnterpriseId(enterpriseId);
+                if (qccJudicialAuctionMapper.insertSelective(judicialAuction) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // 股权出质
+            case "equityOutPledge":
+                QccEquityOutPledge equityOutPledge = objectMapper.readValue(body, QccEquityOutPledge.class);
+                setFieldNull(equityOutPledge);
+                equityOutPledge.setEnterpriseId(enterpriseId);
+                if (qccEquityOutPledgeMapper.insertSelective(equityOutPledge) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // ========== 经营风险 ==========
+            // ========== 企业发展 ==========
+            // 企业年报,包含qcc_annual_report_shareholder
+            case "annualReport":
+                QccAnnualReportDTO annualReportDTO = objectMapper.readValue(body, QccAnnualReportDTO.class);
+                QccAnnualReport qccAnnualReport = new QccAnnualReport();
+                BeanUtils.copyProperties(annualReportDTO, qccAnnualReport);
+                qccAnnualReport.setEnterpriseId(enterpriseId);
+                String annualReportUuid = CommonUtils.getUUID();
+                qccAnnualReport.setUuid(annualReportUuid);
+                if (qccAnnualReportMapper.insertSelective(qccAnnualReport) > 0) {
+                    List<QccAnnualReportShareholder> shareholderList = annualReportDTO.getShareholderList();
+                    if (shareholderList != null) {
+                        for (QccAnnualReportShareholder shareholder : shareholderList) {
+                            shareholder.setEnterpriseId(enterpriseId);
+                            shareholder.setAnnualReportUuid(annualReportUuid);
+                            qccAnnualReportShareholderMapper.insertSelective(shareholder);
+                        }
+                    }
+                }
+                break;
+            // 融资信息
+            case "financingConsultation":
+                QccFinancingConsultation financingConsultation = objectMapper.readValue(body, QccFinancingConsultation.class);
+                setFieldNull(financingConsultation);
+                financingConsultation.setEnterpriseId(enterpriseId);
+                if (qccFinancingConsultationMapper.insertSelective(financingConsultation) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // 核心人员
+            case "keyman":
+                QccKeyman keyman = objectMapper.readValue(body, QccKeyman.class);
+                setFieldNull(keyman);
+                keyman.setEnterpriseId(enterpriseId);
+                if (qccKeymanMapper.insertSelective(keyman) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // ========== 企业发展 ==========
+            // ========== 知识产权 ==========
+            // 资质证书
+            case "qualificationCertificate":
+                QccQualificationCertificate qualificationCertificate = objectMapper.readValue(body, QccQualificationCertificate.class);
+                setFieldNull(qualificationCertificate);
+                qualificationCertificate.setEnterpriseId(enterpriseId);
+                if (qccQualificationCertificateMapper.insertSelective(qualificationCertificate) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // 软件著作权
+            case "softwareCopyright":
+                QccSoftwareCopyright softwareCopyright = objectMapper.readValue(body, QccSoftwareCopyright.class);
+                setFieldNull(softwareCopyright);
+                softwareCopyright.setEnterpriseId(enterpriseId);
+                if (qccSoftwareCopyrightMapper.insertSelective(softwareCopyright) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // 网站信息
+            case "websiteInformation":
+                QccWebsiteInformation websiteInformation = objectMapper.readValue(body, QccWebsiteInformation.class);
+                setFieldNull(websiteInformation);
+                websiteInformation.setEnterpriseId(enterpriseId);
+                if (qccWebsiteInformationMapper.insertSelective(websiteInformation) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // ========== 知识产权 ==========
+            // ========== case "ohter" =========:break;
+            // 股东信息3
+            case "shareholderThree":
+                QccShareholderThree shareholderThree = objectMapper.readValue(body, QccShareholderThree.class);
+                setFieldNull(shareholderThree);
+                shareholderThree.setEnterpriseId(enterpriseId);
+                if (qccShareholderThreeMapper.insertSelective(shareholderThree) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // 资质资格
+            case "qualification":
+                QccQualification qualification = objectMapper.readValue(body, QccQualification.class);
+                setFieldNull(qualification);
+                qualification.setEnterpriseId(enterpriseId);
+                if (qccQualificationMapper.insertSelective(qualification) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // 对外投资
+            case "outInvestment":
+                QccOutInvestment outInvestment = objectMapper.readValue(body, QccOutInvestment.class);
+                setFieldNull(outInvestment);
+                outInvestment.setEnterpriseId(enterpriseId);
+                if (qccOutInvestmentMapper.insertSelective(outInvestment) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // 股东及出资信息
+            case "shareholderInvestment":
+                QccShareholderInvestment shareholderInvestment = objectMapper.readValue(body, QccShareholderInvestment.class);
+                setFieldNull(shareholderInvestment);
+                shareholderInvestment.setEnterpriseId(enterpriseId);
+                if (qccShareholderInvestmentMapper.insertSelective(shareholderInvestment) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // 股权变更信息
+            case "equityChange":
+                QccEquityChange equityChange = objectMapper.readValue(body, QccEquityChange.class);
+                setFieldNull(equityChange);
+                equityChange.setEnterpriseId(enterpriseId);
+                if (qccEquityChangeMapper.insertSelective(equityChange) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // 变更记录
+            case "changeRecord":
+                QccChangeRecord changeRecord = objectMapper.readValue(body, QccChangeRecord.class);
+                setFieldNull(changeRecord);
+                changeRecord.setEnterpriseId(enterpriseId);
+                if (qccChangeRecordMapper.insertSelective(changeRecord) > 0) {
+                    return ResultData.SUCCESS("新增成功");
+                }
+                break;
+            // ========== ohter ==========
             default:
         }
-        return null;
+        return ResultData.FAIL(null, 500);
     }
 
     /**
@@ -1125,6 +1444,310 @@ public class QccImpl implements Qcc {
             qccMapper.deleteCategory(tableName, pid);
         }
         return ResultData.SUCCESS(null);
+    }
+
+    /**
+     * 中国企业-五大类-修改
+     *
+     * @param body         五大类详情数据
+     * @param category     五大类栏目
+     * @param enterpriseId 企业id
+     * @param id           五大类id
+     * @return
+     */
+    @Override
+    public ResultData modifyChinaCategory(String body, String category, String enterpriseId, Integer id) throws Exception {
+        switch (category) {
+            // ============= 法律诉讼 =============
+            // 裁判文书
+            case "judgmentDocument":
+                QccJudgmentDocument judgmentDocument = objectMapper.readValue(body, QccJudgmentDocument.class);
+                setFieldNull2(judgmentDocument);
+                if (qccJudgmentDocumentMapper.updateByPrimaryKeySelective(judgmentDocument) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // 开庭公告
+            case "courtNotice":
+                QccCourtNotice courtNotice = objectMapper.readValue(body, QccCourtNotice.class);
+                setFieldNull2(courtNotice);
+                if (qccCourtNoticeMapper.updateByPrimaryKeySelective(courtNotice) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // 立案信息
+            case "filingInformation":
+                QccFilingInformation filingInformation = objectMapper.readValue(body, QccFilingInformation.class);
+                setFieldNull2(filingInformation);
+                if (qccFilingInformationMapper.updateByPrimaryKeySelective(filingInformation) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // ============= 法律诉讼 =============
+            // ============= 经营状况 =============
+            // 行政许可
+            case "administrativeLicense":
+                QccAdministrativeLicense administrativeLicense = objectMapper.readValue(body, QccAdministrativeLicense.class);
+                setFieldNull2(administrativeLicense);
+                if (qccAdministrativeLicenseMapper.updateByPrimaryKeySelective(administrativeLicense) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // 税务信用
+            case "taxCredit":
+                QccTaxCredit taxCredit = objectMapper.readValue(body, QccTaxCredit.class);
+                setFieldNull2(taxCredit);
+                if (qccTaxCreditMapper.updateByPrimaryKeySelective(taxCredit) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // 招投标
+            case "bidding":
+                QccBidding bidding = objectMapper.readValue(body, QccBidding.class);
+                setFieldNull2(bidding);
+                if (qccBiddingMapper.updateByPrimaryKeySelective(bidding) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // 进出口信用
+            case "importExportCredit":
+                QccImportExportCredit importExportCredit = objectMapper.readValue(body, QccImportExportCredit.class);
+                setFieldNull2(importExportCredit);
+                if (qccImportExportCreditMapper.updateByPrimaryKeySelective(importExportCredit) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // 购地信息
+            case "landPurchaseInformation":
+                QccLandPurchaseInformation landPurchaseInformation = objectMapper.readValue(body, QccLandPurchaseInformation.class);
+                setFieldNull2(landPurchaseInformation);
+                if (qccLandPurchaseInformationMapper.updateByPrimaryKeySelective(landPurchaseInformation) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // 供应商
+            case "supplier":
+                QccSupplier supplier = objectMapper.readValue(body, QccSupplier.class);
+                setFieldNull2(supplier);
+                if (qccSupplierMapper.updateByPrimaryKeySelective(supplier) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // 客户
+            case "client":
+                QccClient client = objectMapper.readValue(body, QccClient.class);
+                setFieldNull2(client);
+                if (qccClientMapper.updateByPrimaryKeySelective(client) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // 一般纳税人
+            case "generalTaxpayer":
+                QccGeneralTaxpayer generalTaxpayer = objectMapper.readValue(body, QccGeneralTaxpayer.class);
+                setFieldNull2(generalTaxpayer);
+                if (qccGeneralTaxpayerMapper.updateByPrimaryKeySelective(generalTaxpayer) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // 行政许可 [信用中国]
+            case "administrativeLicenseChina":
+                QccAdministrativeLicenseChina administrativeLicenseChina = objectMapper.readValue(body, QccAdministrativeLicenseChina.class);
+                setFieldNull2(administrativeLicenseChina);
+                if (qccAdministrativeLicenseChinaMapper.updateByPrimaryKeySelective(administrativeLicenseChina) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // 抽查检查
+            case "spotCheck":
+                QccSpotCheck spotCheck = objectMapper.readValue(body, QccSpotCheck.class);
+                setFieldNull2(spotCheck);
+                if (qccSpotCheckMapper.updateByPrimaryKeySelective(spotCheck) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // ========== 经营状况 ==========
+            // ========== 经营风险 ==========
+            // 经营异常（移入）
+            case "qcc_save_exception":
+                QccSaveException saveException = objectMapper.readValue(body, QccSaveException.class);
+                setFieldNull2(saveException);
+                if (qccSaveExceptionMapper.updateByPrimaryKeySelective(saveException) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // 经营异常（移出）
+            case "qcc_remove_exception":
+                QccRemoveException removeException = objectMapper.readValue(body, QccRemoveException.class);
+                setFieldNull2(removeException);
+                if (qccRemoveExceptionMapper.updateByPrimaryKeySelective(removeException) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // 行政处罚
+            case "administrativeSanction":
+                QccAdministrativeSanction administrativeSanction = objectMapper.readValue(body, QccAdministrativeSanction.class);
+                setFieldNull2(administrativeSanction);
+                if (qccAdministrativeSanctionMapper.updateByPrimaryKeySelective(administrativeSanction) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // 环保处罚
+            case "environmentalPunishment":
+                QccEnvironmentalPunishment environmentalPunishment = objectMapper.readValue(body, QccEnvironmentalPunishment.class);
+                setFieldNull2(environmentalPunishment);
+                if (qccEnvironmentalPunishmentMapper.updateByPrimaryKeySelective(environmentalPunishment) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // 税收违法
+            case "taxViolation":
+                QccTaxViolation taxViolation = objectMapper.readValue(body, QccTaxViolation.class);
+                setFieldNull2(taxViolation);
+                if (qccTaxViolationMapper.updateByPrimaryKeySelective(taxViolation) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // 股权质押
+            case "equityPledge":
+                QccEquityPledge equityPledge = objectMapper.readValue(body, QccEquityPledge.class);
+                setFieldNull2(equityPledge);
+                if (qccEquityPledgeMapper.updateByPrimaryKeySelective(equityPledge) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // 欠税公告
+            case "taxArrearsNotice":
+                QccTaxArrearsNotice taxArrearsNotice = objectMapper.readValue(body, QccTaxArrearsNotice.class);
+                setFieldNull2(taxArrearsNotice);
+                if (qccTaxArrearsNoticeMapper.updateByPrimaryKeySelective(taxArrearsNotice) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // 司法拍卖
+            case "judicialAuction":
+                QccJudicialAuction judicialAuction = objectMapper.readValue(body, QccJudicialAuction.class);
+                setFieldNull2(judicialAuction);
+                if (qccJudicialAuctionMapper.updateByPrimaryKeySelective(judicialAuction) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // 股权出质
+            case "equityOutPledge":
+                QccEquityOutPledge equityOutPledge = objectMapper.readValue(body, QccEquityOutPledge.class);
+                setFieldNull2(equityOutPledge);
+                if (qccEquityOutPledgeMapper.updateByPrimaryKeySelective(equityOutPledge) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // ========== 经营风险 ==========
+            // ========== 企业发展 ==========
+            // 企业年报,包含qcc_annual_report_shareholder
+            case "annualReport":
+                QccAnnualReportDTO annualReportDTO = objectMapper.readValue(body, QccAnnualReportDTO.class);
+                QccAnnualReport qccAnnualReport = new QccAnnualReport();
+                BeanUtils.copyProperties(annualReportDTO, qccAnnualReport);
+                if (qccAnnualReportMapper.updateByPrimaryKeySelective(qccAnnualReport) > 0) {
+                    List<QccAnnualReportShareholder> shareholderList = annualReportDTO.getShareholderList();
+                    Optional.ofNullable(shareholderList).ifPresent(
+                            j -> j.forEach(k -> qccAnnualReportShareholderMapper.updateByPrimaryKeySelective(k)));
+                }
+                break;
+            // 融资信息
+            case "financingConsultation":
+                QccFinancingConsultation financingConsultation = objectMapper.readValue(body, QccFinancingConsultation.class);
+                setFieldNull2(financingConsultation);
+                if (qccFinancingConsultationMapper.updateByPrimaryKeySelective(financingConsultation) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // 核心人员
+            case "keyman":
+                QccKeyman keyman = objectMapper.readValue(body, QccKeyman.class);
+                setFieldNull2(keyman);
+                if (qccKeymanMapper.updateByPrimaryKeySelective(keyman) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // ========== 企业发展 ==========
+            // ========== 知识产权 ==========
+            // 资质证书
+            case "qualificationCertificate":
+                QccQualificationCertificate qualificationCertificate = objectMapper.readValue(body, QccQualificationCertificate.class);
+                setFieldNull2(qualificationCertificate);
+                if (qccQualificationCertificateMapper.updateByPrimaryKeySelective(qualificationCertificate) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // 软件著作权
+            case "softwareCopyright":
+                QccSoftwareCopyright softwareCopyright = objectMapper.readValue(body, QccSoftwareCopyright.class);
+                setFieldNull2(softwareCopyright);
+                if (qccSoftwareCopyrightMapper.updateByPrimaryKeySelective(softwareCopyright) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // 网站信息
+            case "websiteInformation":
+                QccWebsiteInformation websiteInformation = objectMapper.readValue(body, QccWebsiteInformation.class);
+                setFieldNull2(websiteInformation);
+                if (qccWebsiteInformationMapper.updateByPrimaryKeySelective(websiteInformation) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // ========== 知识产权 ==========
+            // ========== case "ohter" =========:break;
+            // 股东信息3
+            case "shareholderThree":
+                QccShareholderThree shareholderThree = objectMapper.readValue(body, QccShareholderThree.class);
+                setFieldNull2(shareholderThree);
+                if (qccShareholderThreeMapper.updateByPrimaryKeySelective(shareholderThree) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // 资质资格
+            case "qualification":
+                QccQualification qualification = objectMapper.readValue(body, QccQualification.class);
+                setFieldNull2(qualification);
+                if (qccQualificationMapper.updateByPrimaryKeySelective(qualification) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // 对外投资
+            case "outInvestment":
+                QccOutInvestment outInvestment = objectMapper.readValue(body, QccOutInvestment.class);
+                setFieldNull2(outInvestment);
+                if (qccOutInvestmentMapper.updateByPrimaryKeySelective(outInvestment) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // 股东及出资信息
+            case "shareholderInvestment":
+                QccShareholderInvestment shareholderInvestment = objectMapper.readValue(body, QccShareholderInvestment.class);
+                setFieldNull2(shareholderInvestment);
+                if (qccShareholderInvestmentMapper.updateByPrimaryKeySelective(shareholderInvestment) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // 股权变更信息
+            case "equityChange":
+                QccEquityChange equityChange = objectMapper.readValue(body, QccEquityChange.class);
+                setFieldNull2(equityChange);
+                if (qccEquityChangeMapper.updateByPrimaryKeySelective(equityChange) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // 变更记录
+            case "changeRecord":
+                QccChangeRecord changeRecord = objectMapper.readValue(body, QccChangeRecord.class);
+                setFieldNull2(changeRecord);
+                if (qccChangeRecordMapper.updateByPrimaryKeySelective(changeRecord) > 0) {
+                    return ResultData.SUCCESS("修改成功");
+                }
+                break;
+            // ========== ohter ==========
+            default:
+        }
+        return ResultData.FAIL(null, 500);
     }
 
     /**
@@ -1166,5 +1789,40 @@ public class QccImpl implements Qcc {
         return true;
     }
 
+    /**
+     * 将对象的enterpriseId,gmtCreate,gmtModified,status设为NULL
+     *
+     * @param obj
+     * @return
+     */
+    private boolean setFieldNull2(Object obj) {
+        try {
+            Class clazz = obj.getClass();
+            Method[] declaredMethods = clazz.getDeclaredMethods();
+            Object nullData = null;
+            for (Method declaredMethod : declaredMethods) {
+                String methodName = declaredMethod.getName();
+                switch (methodName) {
+                    case "setEnterpriseId":
+                        declaredMethod.invoke(obj, nullData);
+                        break;
+                    case "setGmtCreate":
+                        declaredMethod.invoke(obj, nullData);
+                        break;
+                    case "setGmtModified":
+                        declaredMethod.invoke(obj, nullData);
+                        break;
+                    case "setStatus":
+                        declaredMethod.invoke(obj, nullData);
+                        break;
+                    default:
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 }
 

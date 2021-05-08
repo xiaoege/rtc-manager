@@ -81,4 +81,15 @@ public interface Qcc {
      * @return
      */
     ResultData delChinaCategory(String body, String category) throws Exception;
+
+    /**
+     * 中国企业-五大类-修改
+     *
+     * @param body         五大类详情数据
+     * @param category     五大类栏目
+     * @param enterpriseId 企业id
+     * @param id           五大类id
+     * @return
+     */
+    ResultData modifyChinaCategory(String body, String category, String enterpriseId, Integer id) throws Exception;
 }

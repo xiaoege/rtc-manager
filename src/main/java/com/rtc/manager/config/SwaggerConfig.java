@@ -20,6 +20,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig {
 
     public static final String BEARER_TOKEN = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZWM1MWIzNy0wNjQ3LTQxYmItOWEyZi0zYWUxNzZhZmFjNTQiLCJpc3MiOiJydGMiLCJpYXQiOjE2MTgyMDQyMDR9.p8RDo-4Z-0MAkHmj05HB4ZKos0FDyIX3WVPR0PMjGoE";
+    public static final String NATION = "国家：China / India / Vietnam";
+    public static final String E_TYPE = "企业类型，对应国家：China.China / India.[cin, llpin]";
 
     @Bean
     public Docket createRestApi() {
