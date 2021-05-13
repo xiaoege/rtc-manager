@@ -438,4 +438,38 @@
         AND
             rtc_user_favourite.`status` = ${@com.rtc.manager.util.CommonConst@STATUS_USED}
     </select>
+
+    <update id="authorizeUser">
+        UPDATE
+            rtc_user
+        SET
+            role_id = #{roleId, jdbcType=INTEGER}
+        WHERE
+            id in 
+            <foreach collection="pidList" open="(" close=")" separator="," item="pid">
+                #{pid}
+            </foreach>
+    </update>
+
+    <update id="freezeUser">
+        UPDATE
+            rtc_user
+        SET
+            `status` = ${@com.rtc.manager.util.CommonConst@STATUS_NOT_USED}
+        WHERE
+            id in
+            <foreach collection="pidList" open="(" close=")" separator="," item="pid">
+                #{pid}
+            </foreach>
+    </update>
+
+    <delete id="deleteUser">
+        DELETE FROM
+            rtc_user
+        WHERE
+            id in
+            <foreach collection="pidList" open="(" close=")" separator="," item="pid">
+                #{pid}
+            </foreach>
+    </delete>
 </mapper>

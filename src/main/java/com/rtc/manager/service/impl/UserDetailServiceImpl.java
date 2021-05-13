@@ -7,13 +7,10 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -45,29 +42,29 @@ public class UserDetailServiceImpl implements UserDetailsService {
         if (rtcUser == null) {
             throw new InternalAuthenticationServiceException("该账号不存在");
         }
-//        else if (new BCryptPasswordEncoder().matches("rtc", rtcUser.getPassword())) {
-//            throw new InternalAuthenticationServiceException("该账号为社交账号注册，请先设置密码");
-//        }
-
-//        String uuid = rtcUser.getUuid();
-//        if (!stringRedisTemplate.hasKey(UserUtils.getToken(uuid))) {
-//            stringRedisTemplate.opsForValue().set(UserUtils.getToken(uuid), uuid, 30, TimeUnit.DAYS);
-//        } else {
-//                stringRedisTemplate.expire(UserUtils.getToken(uuid), 30, TimeUnit.DAYS);
-//        }
         // 角色
-        if ("user".equals(rtcUser.getRoleName())) {
-            GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_USER");
-            grantedAuthorities.add(grantedAuthority);
-            return new User(account, rtcUser.getPassword(), grantedAuthorities);
-        } else if ("vip".equals(rtcUser.getRoleName())) {
-            GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_VIP");
+        String roleName = rtcUser.getRoleName();
+        if (roleName != null) {
+            GrantedAuthority grantedAuthority = null;
+            switch (roleName) {
+                case "user":
+                    grantedAuthority = new SimpleGrantedAuthority("ROLE_USER");
+                    break;
+                case "vip":
+                    grantedAuthority = new SimpleGrantedAuthority("ROLE_VIP");
+                    break;
+                case "rtc":
+                    grantedAuthority = new SimpleGrantedAuthority("ROLE_RTC");
+                    break;
+                case "root":
+                    grantedAuthority = new SimpleGrantedAuthority("ROLE_ROOT");
+                    break;
+                default:
+            }
             grantedAuthorities.add(grantedAuthority);
             return new User(account, rtcUser.getPassword(), grantedAuthorities);
         }
-
         return null;
     }
-
 
 }

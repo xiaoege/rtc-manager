@@ -776,4 +776,60 @@ public class UserController {
         return userService.forgetEmailPassword(body);
     }
 
+    /**
+     * 权限管理
+     *
+     * @return
+     */
+    @ApiIgnore
+    @ApiOperation(value = "权限管理")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
+            @ApiImplicitParam(name = "body", value = "参数示例：{\n" +
+                    "    \"pidList\": [28, 29],\n" +
+                    "    \"roleId\": 1" +
+                    "}", paramType = "body", required = true)
+    })
+    @PostMapping("authorizeUser")
+    public ResultData authorizeUser(@RequestBody String body) throws Exception {
+        return userService.authorizeUser(body);
+    }
+
+    /**
+     * 冻结用户
+     *
+     * @param body
+     * @throws Exception
+     */
+    @ApiIgnore
+    @ApiOperation(value = "冻结用户")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
+            @ApiImplicitParam(name = "body", value = "参数示例：{\n" +
+                    "    \"pidList\":[28]\n" +
+                    "}", paramType = "body", required = true)
+    })
+    @PostMapping("freezeUser")
+    public ResultData freezeUser(@RequestBody String body) throws Exception {
+        return userService.freezeUser(body);
+    }
+
+    /**
+     * 删除用户
+     *
+     * @param body
+     * @throws Exception
+     */
+    @ApiIgnore
+    @ApiOperation(value = "删除用户")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "参数示例：Bearer xxxxx", paramType = "header", required = true, example = SwaggerConfig.BEARER_TOKEN),
+            @ApiImplicitParam(name = "body", value = "参数示例：{\n" +
+                    "    \"pidList\":[28]\n" +
+                    "}", paramType = "body", required = true)
+    })
+    @PostMapping("deleteUser")
+    public ResultData deleteUser(@RequestBody String body) throws Exception {
+        return userService.deleteUser(body);
+    }
 }

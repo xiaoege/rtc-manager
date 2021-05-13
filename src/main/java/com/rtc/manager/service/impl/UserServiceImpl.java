@@ -126,6 +126,9 @@ public class UserServiceImpl implements UserService {
     @Value("${rtc.comment-stars}")
     private List<BigDecimal> commentStars;
 
+    @Value("${rtc.user.role-id}")
+    private List<Integer> roleIdList;
+
     @Autowired
     private ElasticsearchUtils elasticsearchUtils;
 
@@ -1253,6 +1256,72 @@ public class UserServiceImpl implements UserService {
             logger.info("forgetEmailPassword():{},{}", body, e);
         }
         return ResultData.SUCCESS(null);
+    }
+
+    /**
+     * 权限管理
+     *
+     * @param body
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ResultData authorizeUser(String body) throws Exception {
+        ObjectMapper objectMapper = CommonUtils.getObjectMapper();
+        AuthorizeUserDTO authorizeUserDTO = objectMapper.readValue(body, AuthorizeUserDTO.class);
+        Integer roleId = authorizeUserDTO.getRoleId();
+        if (!roleIdList.contains(roleId)) {
+            throw new IllegalArgumentException();
+        }
+        List<Integer> pidList = authorizeUserDTO.getPidList();
+        if (pidList != null && pidList.size() > 0) {
+            if (rtcUserMapper.authorizeUser(pidList, roleId) > 0) {
+                return ResultData.SUCCESS(null);
+            }
+        }
+        return ResultData.FAIL(null, 500);
+    }
+
+    /**
+     * 冻结用户
+     *
+     * @param body
+     * @return
+     * @throws Exception
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ResultData freezeUser(String body) throws Exception {
+        ObjectMapper objectMapper = CommonUtils.getObjectMapper();
+        FreezeUserDTO freezeUserDTO = objectMapper.readValue(body, FreezeUserDTO.class);
+        List<Integer> pidList = freezeUserDTO.getPidList();
+        if (pidList != null) {
+            if (rtcUserMapper.freezeUser(pidList) > 0) {
+                return ResultData.SUCCESS(pidList);
+            }
+        }
+        return ResultData.FAIL(null, 500);
+    }
+
+    /**
+     * 删除用户
+     *
+     * @param body
+     * @return
+     * @throws Exception
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ResultData deleteUser(String body) throws Exception {
+        ObjectMapper objectMapper = CommonUtils.getObjectMapper();
+        FreezeUserDTO freezeUserDTO = objectMapper.readValue(body, FreezeUserDTO.class);
+        List<Integer> pidList = freezeUserDTO.getPidList();
+        if (pidList != null) {
+            if (rtcUserMapper.deleteUser(pidList) > 0) {
+                return ResultData.SUCCESS(pidList);
+            }
+        }
+        return ResultData.FAIL(null, 500);
     }
 
     /**

@@ -6,6 +6,8 @@ import com.rtc.manager.vo.RtcUserVO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.List;
+
 public interface RtcUserMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -33,4 +35,10 @@ public interface RtcUserMapper {
     RtcUserVO selectByPhoneOrAccount2RtcUserVO(String account);
 
     Integer checkFavourite(@Param("uuid") String uuid, @Param("enterpriseId") String enterpriseId);
+
+    int authorizeUser(@Param("pidList") List<Integer> pidList, @Param("roleId") Integer roleId);
+
+    int freezeUser(@Param("pidList") List<Integer> pidList);
+
+    int deleteUser(@Param("pidList") List<Integer> pidList);
 }

@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author ChenHang
@@ -154,6 +153,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/**").permitAll()
 //                .antMatchers("/news/getNews").hasRole("VIP")
 //                .antMatchers("/news/listNews").hasRole("USER")
+                .antMatchers("/savejson/**").permitAll()
                 // 手机注册
                 .antMatchers("/user/phoneRegister").permitAll()
                 // 注册-校验手机，发送验证码
@@ -164,7 +164,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/checkVerificationCode").permitAll()
                 // 忘记密码-修改密码
                 .antMatchers("/user/forgetPassword").permitAll()
-                .antMatchers("/savejson/**").permitAll()
                 // 邮箱注册-发送验证码
                 .antMatchers("/user/checkEmailRegistered").permitAll()
                 // 邮箱注册-注册
@@ -175,14 +174,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/check4ForgetEmailPassword").permitAll()
                 // 忘记密码-邮箱-修改密码
                 .antMatchers("/user/forgetEmailPassword").permitAll()
+                // 权限管理&冻结用户
+                .antMatchers("/user/authorizeUser", "/user/freezeUser").hasAnyRole("RTC", "ROOT")
+                // 删除用户
+                .antMatchers("/user/deleteUser").hasRole("ROOT")
                 // 第三方
                 .antMatchers("/socialLink/checkToken", "/socialLink/linkAccount").permitAll()
                 // 新闻-允许不登录访问是为了分享功能
                 .antMatchers("/news/listNews", "/news/getNews").permitAll()
+                // 新闻管理
+                .antMatchers("/news/addNews", "/news/modifyNews", "/news/removeNews", "/news/uploadImg", "/news/examineNews").hasAnyRole("RTC", "ROOT")
                 // todo 企业查询
                 .antMatchers("/enterprise/**").permitAll()
                 // druid
                 .antMatchers("/druid/**").permitAll()
+                // 企业管理
+                .antMatchers("/enterpriseManage/**").hasAnyRole("RTC", "ROOT")
                 .anyRequest().authenticated()
                 .and().formLogin()//使用 spring security 默认登录页面
                 .successHandler((request, response, authentication) -> {

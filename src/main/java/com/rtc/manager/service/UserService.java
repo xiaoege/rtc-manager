@@ -200,4 +200,27 @@ public interface UserService {
      * @return
      */
     ResultData forgetEmailPassword(String body);
+
+    /**
+     * 权限管理
+     *
+     * @return
+     */
+    ResultData authorizeUser(String body) throws Exception;
+
+    /**
+     * 冻结用户
+     * @param body
+     * @return
+     * @throws Exception
+     */
+    ResultData freezeUser(String body) throws Exception;
+
+    /**
+     * 删除用户
+     * @param body
+     * @return
+     * @throws Exception
+     */
+    ResultData deleteUser(String body) throws Exception;
 }
