@@ -22,6 +22,7 @@ public class SwaggerConfig {
     public static final String BEARER_TOKEN = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZWM1MWIzNy0wNjQ3LTQxYmItOWEyZi0zYWUxNzZhZmFjNTQiLCJpc3MiOiJydGMiLCJpYXQiOjE2MTgyMDQyMDR9.p8RDo-4Z-0MAkHmj05HB4ZKos0FDyIX3WVPR0PMjGoE";
     public static final String NATION = "国家：China / India / Vietnam";
     public static final String E_TYPE = "企业类型，对应国家：China.China / India.[cin, llpin]";
+    public static final String ES_INDEX = "选择特定搜索国别，参数实例：[\"china\",\"india-cin\",\"india-llpin\",\"vietnam\"]";
 
     @Bean
     public Docket createRestApi() {
