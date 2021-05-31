@@ -27,7 +27,6 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -591,128 +590,132 @@ public final class CommonUtils {
      * @param object object instance of SearchEnterpriseListVO | QccVO | IndiaCinEnterpriseVO | IndiaLlpinEnterpriseVO
      */
     public static void setLogoNameAndColor(Object object) {
-        if (object instanceof SearchEnterpriseListVO) {
-            String name = ((SearchEnterpriseListVO) object).geteName();
-            if (StringUtils.isEmpty(((SearchEnterpriseListVO) object).getLogo())) {
-                if (!StringUtils.isEmpty(name)) {
-                    Random random = new Random();
-                    String firstLetter = name.substring(0, 1);
-                    Matcher matcher = PATTERN_ENGLISH.matcher(firstLetter);
-                    // 如果是英文字母开头
-                    if (matcher.matches()) {
-                        ((SearchEnterpriseListVO) object).setLogoName(firstLetter);
-                        // 如果不是英文字母开头
-                    } else if (name.length() > 3) {
-                        ((SearchEnterpriseListVO) object).setLogoName(name.substring(0, 4));
-                        // 如果不是英文字母开头
-                    } else {
-                        ((SearchEnterpriseListVO) object).setLogoName(firstLetter);
+        try {
+            if (object instanceof SearchEnterpriseListVO) {
+                String name = ((SearchEnterpriseListVO) object).geteName();
+                if (StringUtils.isEmpty(((SearchEnterpriseListVO) object).getLogo())) {
+                    if (!StringUtils.isEmpty(name)) {
+                        Random random = new Random();
+                        String firstLetter = name.substring(0, 1);
+                        Matcher matcher = PATTERN_ENGLISH.matcher(firstLetter);
+                        // 如果是英文字母开头
+                        if (matcher.matches()) {
+                            ((SearchEnterpriseListVO) object).setLogoName(firstLetter);
+                            // 如果不是英文字母开头
+                        } else if (name.length() > 3) {
+                            ((SearchEnterpriseListVO) object).setLogoName(name.substring(0, 4));
+                            // 如果不是英文字母开头
+                        } else {
+                            ((SearchEnterpriseListVO) object).setLogoName(firstLetter);
+                        }
+                        ((SearchEnterpriseListVO) object).setLogoColor(LOGO_COLOR_LIST.get(random.nextInt(LOGO_COLOR_LIST.size())));
                     }
-                    ((SearchEnterpriseListVO) object).setLogoColor(LOGO_COLOR_LIST.get(random.nextInt(LOGO_COLOR_LIST.size())));
+                }
+            } else if (object instanceof QccVO) {
+                String name = ((QccVO) object).getName();
+                if (StringUtils.isEmpty(((QccVO) object).getLogo())) {
+                    if (!StringUtils.isEmpty(name)) {
+                        Random random = new Random();
+                        String firstLetter = name.substring(0, 1);
+                        Matcher matcher = PATTERN_ENGLISH.matcher(firstLetter);
+                        // 如果是英文字母开头
+                        if (matcher.matches()) {
+                            ((QccVO) object).setLogoName(firstLetter);
+                            // 如果不是英文字母开头
+                        } else if (name.length() > 3) {
+                            ((QccVO) object).setLogoName(name.substring(0, 4));
+                            // 如果不是英文字母开头
+                        } else {
+                            ((QccVO) object).setLogoName(firstLetter);
+                        }
+                        ((QccVO) object).setLogoColor(LOGO_COLOR_LIST.get(random.nextInt(LOGO_COLOR_LIST.size())));
+                    }
+                }
+            } else if (object instanceof IndiaCinEnterpriseVO) {
+                IndiaCinVO indiaCin = ((IndiaCinEnterpriseVO) object).getIndiaCin();
+                String name = indiaCin.getCompanyName();
+                if (StringUtils.isEmpty(indiaCin.getLogo())) {
+                    if (!StringUtils.isEmpty(name)) {
+                        Random random = new Random();
+                        String firstLetter = name.substring(0, 1);
+                        Matcher matcher = PATTERN_ENGLISH.matcher(firstLetter);
+                        // 如果是英文字母开头
+                        if (matcher.matches()) {
+                            indiaCin.setLogoName(firstLetter);
+                            // 如果不是英文字母开头
+                        } else if (name.length() > 3) {
+                            indiaCin.setLogoName(name.substring(0, 4));
+                            // 如果不是英文字母开头
+                        } else {
+                            indiaCin.setLogoName(firstLetter);
+                        }
+                        indiaCin.setLogoColor(LOGO_COLOR_LIST.get(random.nextInt(LOGO_COLOR_LIST.size())));
+                    }
+                }
+            } else if (object instanceof IndiaLlpinEnterpriseVO) {
+                IndiaLlpinVO indiaLlpinVO = ((IndiaLlpinEnterpriseVO) object).getIndiaLlpinVO();
+                String name = indiaLlpinVO.getLlpName();
+                if (StringUtils.isEmpty(indiaLlpinVO.getLogo())) {
+                    if (!StringUtils.isEmpty(name)) {
+                        Random random = new Random();
+                        String firstLetter = name.substring(0, 1);
+                        Matcher matcher = PATTERN_ENGLISH.matcher(firstLetter);
+                        // 如果是英文字母开头
+                        if (matcher.matches()) {
+                            indiaLlpinVO.setLogoName(firstLetter);
+                            // 如果不是英文字母开头
+                        } else if (name.length() > 3) {
+                            indiaLlpinVO.setLogoName(name.substring(0, 4));
+                            // 如果不是英文字母开头
+                        } else {
+                            indiaLlpinVO.setLogoName(firstLetter);
+                        }
+                        indiaLlpinVO.setLogoColor(LOGO_COLOR_LIST.get(random.nextInt(LOGO_COLOR_LIST.size())));
+                    }
+                }
+            } else if (object instanceof VietnamEnterpriseVO) {
+                String name = ((VietnamEnterpriseVO) object).getEnterpriseName();
+                if (StringUtils.isEmpty(((VietnamEnterpriseVO) object).getLogo())) {
+                    if (!StringUtils.isEmpty(name)) {
+                        Random random = new Random();
+                        String firstLetter = name.substring(0, 1);
+                        Matcher matcher = PATTERN_ENGLISH.matcher(firstLetter);
+                        // 如果是英文字母开头
+                        if (matcher.matches()) {
+                            ((VietnamEnterpriseVO) object).setLogoName(firstLetter);
+                            // 如果不是英文字母开头
+                        } else if (name.length() > 3) {
+                            ((VietnamEnterpriseVO) object).setLogoName(name.substring(0, 4));
+                            // 如果不是英文字母开头
+                        } else {
+                            ((VietnamEnterpriseVO) object).setLogoName(firstLetter);
+                        }
+                        ((VietnamEnterpriseVO) object).setLogoColor(LOGO_COLOR_LIST.get(random.nextInt(LOGO_COLOR_LIST.size())));
+                    }
+                }
+            } else if (object instanceof UserCommentVO) {
+                String name = ((UserCommentVO) object).geteName();
+                if (StringUtils.isEmpty(((UserCommentVO) object).getLogo())) {
+                    if (!StringUtils.isEmpty(name)) {
+                        Random random = new Random();
+                        String firstLetter = name.substring(0, 1);
+                        Matcher matcher = PATTERN_ENGLISH.matcher(firstLetter);
+                        // 如果是英文字母开头
+                        if (matcher.matches()) {
+                            ((UserCommentVO) object).setLogoName(firstLetter);
+                            // 如果不是英文字母开头
+                        } else if (name.length() > 3) {
+                            ((UserCommentVO) object).setLogoName(name.substring(0, 4));
+                            // 如果不是英文字母开头
+                        } else {
+                            ((UserCommentVO) object).setLogoName(firstLetter);
+                        }
+                        ((UserCommentVO) object).setLogoColor(LOGO_COLOR_LIST.get(random.nextInt(LOGO_COLOR_LIST.size())));
+                    }
                 }
             }
-        } else if (object instanceof QccVO) {
-            String name = ((QccVO) object).getName();
-            if (StringUtils.isEmpty(((QccVO) object).getLogo())) {
-                if (!StringUtils.isEmpty(name)) {
-                    Random random = new Random();
-                    String firstLetter = name.substring(0, 1);
-                    Matcher matcher = PATTERN_ENGLISH.matcher(firstLetter);
-                    // 如果是英文字母开头
-                    if (matcher.matches()) {
-                        ((QccVO) object).setLogoName(firstLetter);
-                        // 如果不是英文字母开头
-                    } else if (name.length() > 3) {
-                        ((QccVO) object).setLogoName(name.substring(0, 4));
-                        // 如果不是英文字母开头
-                    } else {
-                        ((QccVO) object).setLogoName(firstLetter);
-                    }
-                    ((QccVO) object).setLogoColor(LOGO_COLOR_LIST.get(random.nextInt(LOGO_COLOR_LIST.size())));
-                }
-            }
-        } else if (object instanceof IndiaCinEnterpriseVO) {
-            IndiaCinVO indiaCin = ((IndiaCinEnterpriseVO) object).getIndiaCin();
-            String name = indiaCin.getCompanyName();
-            if (StringUtils.isEmpty(((IndiaCinVO) object).getLogo())) {
-                if (!StringUtils.isEmpty(name)) {
-                    Random random = new Random();
-                    String firstLetter = name.substring(0, 1);
-                    Matcher matcher = PATTERN_ENGLISH.matcher(firstLetter);
-                    // 如果是英文字母开头
-                    if (matcher.matches()) {
-                        ((IndiaCinVO) object).setLogoName(firstLetter);
-                        // 如果不是英文字母开头
-                    } else if (name.length() > 3) {
-                        ((IndiaCinVO) object).setLogoName(name.substring(0, 4));
-                        // 如果不是英文字母开头
-                    } else {
-                        ((IndiaCinVO) object).setLogoName(firstLetter);
-                    }
-                    ((IndiaCinVO) object).setLogoColor(LOGO_COLOR_LIST.get(random.nextInt(LOGO_COLOR_LIST.size())));
-                }
-            }
-        } else if (object instanceof IndiaLlpinEnterpriseVO) {
-            IndiaLlpinVO indiaLlpinVO = ((IndiaLlpinEnterpriseVO) object).getIndiaLlpinVO();
-            String name = indiaLlpinVO.getLlpName();
-            if (StringUtils.isEmpty(((IndiaLlpinVO) object).getLogo())) {
-                if (!StringUtils.isEmpty(name)) {
-                    Random random = new Random();
-                    String firstLetter = name.substring(0, 1);
-                    Matcher matcher = PATTERN_ENGLISH.matcher(firstLetter);
-                    // 如果是英文字母开头
-                    if (matcher.matches()) {
-                        ((IndiaLlpinVO) object).setLogoName(firstLetter);
-                        // 如果不是英文字母开头
-                    } else if (name.length() > 3) {
-                        ((IndiaLlpinVO) object).setLogoName(name.substring(0, 4));
-                        // 如果不是英文字母开头
-                    } else {
-                        ((IndiaLlpinVO) object).setLogoName(firstLetter);
-                    }
-                    ((IndiaLlpinVO) object).setLogoColor(LOGO_COLOR_LIST.get(random.nextInt(LOGO_COLOR_LIST.size())));
-                }
-            }
-        } else if (object instanceof VietnamEnterpriseVO) {
-            String name = ((VietnamEnterpriseVO) object).getEnterpriseName();
-            if (StringUtils.isEmpty(((VietnamEnterpriseVO) object).getLogo())) {
-                if (!StringUtils.isEmpty(name)) {
-                    Random random = new Random();
-                    String firstLetter = name.substring(0, 1);
-                    Matcher matcher = PATTERN_ENGLISH.matcher(firstLetter);
-                    // 如果是英文字母开头
-                    if (matcher.matches()) {
-                        ((VietnamEnterpriseVO) object).setLogoName(firstLetter);
-                        // 如果不是英文字母开头
-                    } else if (name.length() > 3) {
-                        ((VietnamEnterpriseVO) object).setLogoName(name.substring(0, 4));
-                        // 如果不是英文字母开头
-                    } else {
-                        ((VietnamEnterpriseVO) object).setLogoName(firstLetter);
-                    }
-                    ((VietnamEnterpriseVO) object).setLogoColor(LOGO_COLOR_LIST.get(random.nextInt(LOGO_COLOR_LIST.size())));
-                }
-            }
-        } else if (object instanceof UserCommentVO) {
-            String name = ((UserCommentVO) object).geteName();
-            if (StringUtils.isEmpty(((UserCommentVO) object).getLogo())) {
-                if (!StringUtils.isEmpty(name)) {
-                    Random random = new Random();
-                    String firstLetter = name.substring(0, 1);
-                    Matcher matcher = PATTERN_ENGLISH.matcher(firstLetter);
-                    // 如果是英文字母开头
-                    if (matcher.matches()) {
-                        ((UserCommentVO) object).setLogoName(firstLetter);
-                        // 如果不是英文字母开头
-                    } else if (name.length() > 3) {
-                        ((UserCommentVO) object).setLogoName(name.substring(0, 4));
-                        // 如果不是英文字母开头
-                    } else {
-                        ((UserCommentVO) object).setLogoName(firstLetter);
-                    }
-                    ((UserCommentVO) object).setLogoColor(LOGO_COLOR_LIST.get(random.nextInt(LOGO_COLOR_LIST.size())));
-                }
-            }
+        } catch (Exception e) {
+            logger.info("logo错误: {}", CommonUtils.getExceptionInfo(e));
         }
 
     }
