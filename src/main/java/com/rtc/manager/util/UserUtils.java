@@ -82,7 +82,7 @@ public class UserUtils {
             MimeMessage message = JAVA_MAIL_SENDER.createMimeMessage();
             message.addHeader("X-Mailer", "Microsoft Outlook Express 6.00.2900.2869");
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
-            helper.setFrom("c237113730@sina.com", "xiaoe");
+            helper.setFrom("email", "author");
             helper.setTo(email);
             // 主题
             helper.setSubject("测试邮件");
